@@ -1,1 +1,483 @@
-<h1>Moje portfolio</h1>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | Szymon Grzeszczak</title>
+  <!-- Import nowoczesnej czcionki Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #121212, #1e1e1e);
+      color: #e0e0e0;
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+    /* Flash overlay */
+    #flash-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2000;
+      transition: opacity 0.5s ease-out;
+    }
+    /* Canvas na cząsteczki (emoji) */
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -3;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      font-size: 24px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    header .title {
+      cursor: pointer;
+      line-height: 1.2;
+    }
+    header .title .sub-title {
+      display: block;
+      font-size: 14px;
+      font-weight: 400;
+      color: #e0e0e0;
+    }
+    header nav a {
+      color: #e0e0e0;
+      margin: 0 10px;
+      text-decoration: none;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+    header nav a:hover {
+      color: #ffffff;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 50px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .section {
+      background: rgba(30, 30, 30, 0.95);
+      padding: 50px;
+      margin: 40px 0;
+      border-radius: 15px;
+      transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    }
+    /* Animacja przybliżenia sekcji kontakt */
+    @keyframes popInOut {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .animate-contact {
+      animation: popInOut 0.5s ease-out;
+    }
+    /* Sekcja O mnie */
+    .about {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: left;
+    }
+    .about div {
+      flex: 1;
+      min-width: 250px;
+    }
+    .about img {
+      width: 300px;
+      border-radius: 15px;
+      margin-left: 30px;
+    }
+    /* Karuzela – kontener ukrywający nadmiar */
+    .carousel-container {
+      width: 960px; /* 3 zdjęcia x (300px + marginesy) */
+      margin: 20px auto;
+      overflow: hidden;
+    }
+    /* Karuzela – zawartość */
+    .carousel {
+      display: flex;
+      animation: scroll 30s linear infinite;
+    }
+    .carousel img {
+      width: 300px;
+      margin: 0 10px;
+      border-radius: 8px;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    /* Galeria wideo */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .gallery iframe {
+      width: 100%;
+      border-radius: 8px;
+      transition: transform 0.3s ease-in-out;
+    }
+    .gallery iframe:hover {
+      transform: scale(1.05);
+    }
+    /* Przyciski – wyśrodkowane i białe */
+    .buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .buttons a {
+      display: inline-block;
+      text-decoration: none;
+      color: #121212;
+      padding: 12px 24px;
+      background: #ffffff;
+      border-radius: 5px;
+      margin: 10px;
+      font-size: 18px;
+      transition: background 0.3s;
+      position: relative;
+      cursor: pointer;
+    }
+    .buttons a:hover {
+      background: #e0e0e0;
+    }
+    .buttons a:hover::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 8px red;
+    }
+    /* Formularz kontaktowy */
+    .contact-form input, 
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #2a2a2a;
+      border: 1px solid #555;
+      color: #e0e0e0;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    .contact-form button {
+      padding: 12px 24px;
+      margin-top: 20px;
+      background: #ffffff;
+      border: none;
+      color: #121212;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    .contact-form button:hover {
+      background: #e0e0e0;
+    }
+    /* Kursor – domyślny pozostaje, dodatkowy element – emoji kamery podążające za kursorem */
+    .cursor {
+      position: absolute;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+    }
+    .camera-follower {
+      position: fixed;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 900;
+      font-size: 30px; /* rozmiar emoji */
+      line-height: 1;
+    }
+    /* Efekt tła – prostokątny "kadr kamery" podążający za kursorem, dzielony na 9 równych części (2 pionowe + 2 poziome linie) */
+    .light-effect {
+      position: fixed;
+      width: 500px;
+      height: 300px;
+      background: white;
+      pointer-events: none;
+      z-index: -1;
+      border: 3px solid black;
+      /* Dodajemy 2 pionowe i 2 poziome linie przy użyciu background-image */
+      background-image: 
+        linear-gradient(to right, transparent calc(33.33% - 0.5px), black 33.33%, transparent calc(33.33% + 0.5px)),
+        linear-gradient(to right, transparent calc(66.66% - 0.5px), black 66.66%, transparent calc(66.66% + 0.5px)),
+        linear-gradient(to bottom, transparent calc(33.33% - 0.5px), black 33.33%, transparent calc(33.33% + 0.5px)),
+        linear-gradient(to bottom, transparent calc(66.66% - 0.5px), black 66.66%, transparent calc(66.66% + 0.5px));
+      background-size: 100% 100%;
+      opacity: 0.2;
+    }
+    /* Responsywność */
+    @media (max-width: 768px) {
+      .about {
+        flex-direction: column;
+        text-align: center;
+      }
+      .about img {
+        margin: 20px 0 0 0;
+      }
+      .carousel-container {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Flash overlay oraz dźwięk -->
+  <div id="flash-overlay"></div>
+  <audio id="flash-sound">
+    <source src="https://www.soundjay.com/button/beep-07.mp3" type="audio/mpeg">
+  </audio>
+  
+  <!-- Canvas na cząsteczki (emoji ludzi, samochodów, domów) -->
+  <canvas id="particles"></canvas>
+  
+  <!-- Elementy podążające za kursorem -->
+  <div class="cursor" id="cursor"></div>
+  <!-- Emoji kamery -->
+  <div class="camera-follower" id="camera">📷</div>
+  <div class="light-effect" id="light"></div>
+  
+  <header>
+    <div class="title" id="title">
+      Szymon Grzeszczak<br>
+      <span class="sub-title">Filmowca.top</span>
+    </div>
+    <nav>
+      <a href="#about">O mnie</a>
+      <a href="#portfolio">Portfolio</a>
+      <a id="contact-nav">Kontakt</a>
+    </nav>
+  </header>
+  
+  <section id="about" class="container section about">
+    <div>
+      <h2>O mnie</h2>
+      <p>[Tu wstaw tekst o sobie]</p>
+    </div>
+    <img src="profile.jpg" alt="Zdjęcie Szymona">
+  </section>
+  
+  <section id="portfolio" class="container section">
+    <h2>Portfolio</h2>
+    <h3>Fotografia</h3>
+    <div class="carousel-container">
+      <div class="carousel">
+        <!-- 9 zdjęć -->
+        <img src="example1.jpg" alt="Zdjęcie 1">
+        <img src="example2.jpg" alt="Zdjęcie 2">
+        <img src="example3.jpg" alt="Zdjęcie 3">
+        <img src="example4.jpg" alt="Zdjęcie 4">
+        <img src="example5.jpg" alt="Zdjęcie 5">
+        <img src="example6.jpg" alt="Zdjęcie 6">
+        <img src="example7.jpg" alt="Zdjęcie 7">
+        <img src="example8.jpg" alt="Zdjęcie 8">
+        <img src="example9.jpg" alt="Zdjęcie 9">
+        <!-- Duplikacja dla płynnego zapętlenia -->
+        <img src="example1.jpg" alt="Zdjęcie 1">
+        <img src="example2.jpg" alt="Zdjęcie 2">
+        <img src="example3.jpg" alt="Zdjęcie 3">
+        <img src="example4.jpg" alt="Zdjęcie 4">
+        <img src="example5.jpg" alt="Zdjęcie 5">
+        <img src="example6.jpg" alt="Zdjęcie 6">
+        <img src="example7.jpg" alt="Zdjęcie 7">
+        <img src="example8.jpg" alt="Zdjęcie 8">
+        <img src="example9.jpg" alt="Zdjęcie 9">
+      </div>
+    </div>
+    <h3>Wideo</h3>
+    <div class="gallery">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/EXAMPLE1" frameborder="0" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/EXAMPLE2" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div class="buttons">
+      <a href="#">Zobacz pełną galerię zdjęć</a>
+      <a href="#">Zobacz więcej wideo</a>
+    </div>
+  </section>
+  
+  <section id="contact" class="container section">
+    <h2>Skontaktuj się</h2>
+    <form class="contact-form" action="mailto:Owca1919@gmail.com" method="post" enctype="text/plain">
+      <input type="text" name="name" placeholder="Twoje imię" required>
+      <input type="email" name="email" placeholder="Twój e-mail" required>
+      <input type="text" name="location" placeholder="Lokalizacja">
+      <input type="date" name="date">
+      <textarea name="message" placeholder="Twoja wiadomość" rows="4" required></textarea>
+      <button type="submit">Wyślij</button>
+    </form>
+  </section>
+  
+  <script>
+    // Aktualizacja pozycji elementów podążających za kursorem
+    const cursor = document.getElementById('cursor');
+    const camera = document.getElementById('camera');
+    const light = document.getElementById('light');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.top = e.clientY + 'px';
+      cursor.style.left = e.clientX + 'px';
+      
+      camera.style.top = (e.clientY + 20) + 'px';
+      camera.style.left = (e.clientX + 20) + 'px';
+      
+      // Wyśrodkowanie light-effect (prostokąta) względem kursora:
+      light.style.top = (e.clientY - 150) + 'px';
+      light.style.left = (e.clientX - 250) + 'px';
+    });
+    
+    // Flash effect, dźwięk, kilka cykli flash oraz przewinięcie do sekcji kontakt z animacją przybliżenia dla tytułu
+    const title = document.getElementById('title');
+    const flashOverlay = document.getElementById('flash-overlay');
+    const flashSound = document.getElementById('flash-sound');
+    const contactSection = document.getElementById('contact');
+    
+    function doFlashAndScrollTitle() {
+      let flashCount = 0;
+      const maxFlashes = 3;
+      function flashCycle() {
+        flashOverlay.style.opacity = '1';
+        flashSound.currentTime = 0;
+        flashSound.play();
+        setTimeout(() => {
+          flashOverlay.style.opacity = '0';
+          flashCount++;
+          if(flashCount < maxFlashes) {
+            setTimeout(flashCycle, 200);
+          } else {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+              contactSection.classList.add('animate-contact');
+              setTimeout(() => {
+                contactSection.classList.remove('animate-contact');
+              }, 500);
+            }, 500);
+          }
+        }, 100);
+      }
+      flashCycle();
+    }
+    
+    title.addEventListener('click', doFlashAndScrollTitle);
+    
+    // Dla guzika "Kontakt" w nawigacji: tylko przewinięcie i animacja przybliżenia
+    const contactNav = document.getElementById('contact-nav');
+    contactNav.addEventListener('click', () => {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        contactSection.classList.add('animate-contact');
+        setTimeout(() => {
+          contactSection.classList.remove('animate-contact');
+        }, 500);
+      }, 300);
+    });
+    
+    // Particle effect: Emoji ludzi, samochodów, domów
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    let particlesArray = [];
+    const numberOfParticles = 100;
+    const emojis = ["👤", "👥", "🚗", "🏠"];
+    
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 20 + 10; // rozmiar emoji
+        this.speedX = (Math.random() * 1) - 0.5;
+        this.speedY = (Math.random() * 1) - 0.5;
+        this.emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      }
+      update() {
+        // Pobierz środek "kadr kamery"
+        const centerX = parseFloat(light.style.left) + 250;
+        const centerY = parseFloat(light.style.top) + 150;
+        // Sprawdź, czy cząsteczka jest wewnątrz prostokątnego kadru
+        if(this.x > centerX - 250 && this.x < centerX + 250 && this.y > centerY - 150 && this.y < centerY + 150) {
+          // Jeśli wewnątrz, przyspiesz – ustal prędkość na podstawie bieżącego kierunku
+          this.speedX = (this.speedX < 0 ? -1 : 1) * (Math.random() * 0.4 + 0.8); // zakres około 0.8-1.2
+          this.speedY = (this.speedY < 0 ? -1 : 1) * (Math.random() * 0.4 + 0.8);
+          // Odbijanie wewnątrz kadru – jeśli przekroczy granice, zmień znak prędkości
+          if(this.x < centerX - 250 || this.x > centerX + 250) this.speedX *= -1;
+          if(this.y < centerY - 150 || this.y > centerY + 150) this.speedY *= -1;
+        } else {
+          // Poza kadrem: minimalny ruch
+          this.speedX = this.speedX > 0 ? 0.1 : -0.1;
+          this.speedY = this.speedY > 0 ? 0.1 : -0.1;
+        }
+        this.x += this.speedX;
+        this.y += this.speedY;
+        // Dodatkowo: jeśli cząsteczka wychodzi poza ekran, odbij ją
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+      draw() {
+        ctx.font = this.size + "px Montserrat";
+        ctx.fillText(this.emoji, this.x, this.y);
+      }
+    }
+    
+    function initParticles() {
+      particlesArray = [];
+      for(let i = 0; i < numberOfParticles; i++) {
+        particlesArray.push(new Particle());
+      }
+    }
+    
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for(let particle of particlesArray) {
+        particle.update();
+        particle.draw();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    
+    initParticles();
+    animateParticles();
+    
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    });
+  </script>
+</body>
+</html>
+
+
