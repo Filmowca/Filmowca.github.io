@@ -116,25 +116,41 @@
     .about p span.large-text {
       font-size: 24px;
       display: block;
+      margin-bottom: 20px; /* Odstęp między "Nazywam się..." a resztą */
+    }
+    .about p {
+      line-height: 1.6; /* Większy odstęp między liniami */
     }
     .carousel-container {
       width: 100%;
       max-width: 960px;
       margin: 20px auto;
-      overflow: hidden;
+      overflow-x: auto;
+      scroll-behavior: smooth; /* Płynne przewijanie */
+      scrollbar-width: none; /* Ukrycie suwaka w Firefox */
+    }
+    .carousel-container::-webkit-scrollbar {
+      display: none; /* Ukrycie suwaka w Chrome/Safari */
+    }
+    .carousel-container:hover {
+      scrollbar-width: thin; /* Pokazanie suwaka po najechaniu w Firefox */
+    }
+    .carousel-container:hover::-webkit-scrollbar {
+      display: block; /* Pokazanie suwaka po najechaniu w Chrome/Safari */
     }
     .carousel {
       display: flex;
-      animation: scroll 30s linear infinite;
     }
     .carousel img {
-      width: 300px;
+      width: 200px;
+      height: 355px;
+      object-fit: cover;
       margin: 0 10px;
       border-radius: 8px;
     }
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    .carousel img.horizontal {
+      width: 355px;
+      height: 200px;
     }
     .gallery {
       display: grid;
@@ -144,6 +160,7 @@
     }
     .gallery iframe {
       width: 100%;
+      height: 315px; /* Stała wysokość dla iframe */
       border-radius: 8px;
       transition: transform 0.3s ease-in-out;
     }
@@ -211,6 +228,25 @@
     #portfolio h2 {
       margin-bottom: 40px;
     }
+    /* Belka z ikonami mediów społecznościowych */
+    .social-bar {
+      background-color: #ffeb3b; /* Żółte tło */
+      padding: 20px;
+      text-align: center;
+    }
+    .social-bar a {
+      margin: 0 15px;
+      text-decoration: none;
+    }
+    .social-bar img {
+      width: 40px;
+      height: 40px;
+      filter: grayscale(100%); /* Czarno-białe ikony */
+      transition: filter 0.3s;
+    }
+    .social-bar img:hover {
+      filter: grayscale(0%); /* Kolor po najechaniu */
+    }
   </style>
 </head>
 <body>
@@ -233,34 +269,30 @@
         <img src="Ja w wulkanie.jpeg" alt="To ja">
       </div>
     </section>
-       <section id="portfolio">
+    <section id="portfolio">
       <h2>Portfolio</h2>
       <h3>Fotografia</h3>
-      <div class="carousel-container" style="overflow-x: auto; white-space: nowrap;">
-  <div class="carousel" style="display: inline-block;">
-    <img src="zdj1.jpeg" alt="Zdjęcie 1" style="width: 200px; height: 355px; object-fit: cover; margin: 0 10px; display: inline-block; vertical-align: middle;">
-    <img src="zdj2.jpeg" alt="Zdjęcie 2" style="width: 355px; height: 200px; object-fit: cover; margin: 0 10px; display: inline-block; vertical-align: middle;">
-    <img src="zdj3.jpeg" alt="Zdjęcie 3" style="width: 200px; height: 355px; object-fit: cover; margin: 0 10px; display: inline-block; vertical-align: middle;">
-    <img src="zdj4.jpeg" alt="Zdjęcie 4" style="width: 200px; height: 355px; object-fit: cover; margin: 0 10px; display: inline-block; vertical-align: middle;">
-    <img src="zdj5.jpeg" alt="Zdjęcie 5" style="width: 200px; height: 355px; object-fit: cover; margin: 0 10px; display: inline-block; vertical-align: middle;">
-  </div>
-</div>
+      <div class="carousel-container">
+        <div class="carousel">
+          <img src="zdj1.jpeg" alt="Zdjęcie 1">
+          <img src="zdj2.jpeg" alt="Zdjęcie 2" class="horizontal">
+          <img src="zdj3.jpeg" alt="Zdjęcie 3">
+          <img src="zdj4.jpeg" alt="Zdjęcie 4">
+          <img src="zdj5.jpeg" alt="Zdjęcie 5">
+        </div>
       </div>
       <h3>Wideo</h3>
       <div class="gallery">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/EXAMPLE1" frameborder="0" allowfullscreen></iframe>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/EXAMPLE2" frameborder="0" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/EXAMPLE1" frameborder="0" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/EXAMPLE2" frameborder="0" allowfullscreen></iframe>
       </div>
-      Portfolio w Trakcie budowy ;)
+      <div>Portfolio w Trakcie budowy ;)</div>
     </section>
     <section id="contact">
       <h2>Kontakt</h2>
-      <!-- Kontener do wyśrodkowania formularza -->
       <div class="form-container">
         <form class="centered-form" action="https://formspree.io/f/xoveqnal" method="POST">
-          <!-- Pole honeypot dla antyspamu (ukryte) -->
           <input type="text" name="_gotcha" style="display:none;" />
-          
           <label>
             Twój email:
             <input type="email" name="email" required>
@@ -281,6 +313,14 @@
         </form>
       </div>
     </section>
+  </div>
+  <!-- Belka z ikonami mediów społecznościowych -->
+  <div class="social-bar">
+    <a href="https://facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook"></a>
+    <a href="https://instagram.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+    <a href="https://eyeem.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" alt="EyeEm"></a>
+    <a href="https://youtube.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+    <a href="https://tiktok.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046129.png" alt="TikTok"></a>
   </div>
   <div class="camera-follower" id="camera">📷</div>
   <script>
