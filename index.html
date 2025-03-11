@@ -18,9 +18,8 @@
       overflow-x: hidden;
       position: relative;
       text-align: center;
-      cursor: none; /* Ukrywa domyślny kursor */
+      cursor: none;
     }
-    /* Flash overlay (efekt flash przy przewijaniu do kontaktu) */
     #flash-overlay {
       position: fixed;
       top: 0;
@@ -33,7 +32,6 @@
       z-index: 2000;
       transition: opacity 0.5s ease-out;
     }
-    /* Particles – tło z białymi kółkami */
     #particles {
       position: fixed;
       top: 0;
@@ -42,7 +40,6 @@
       height: 100%;
       z-index: -3;
     }
-    /* Zdrapywalny overlay (canvas) */
     #scratchCanvas {
       position: fixed;
       top: 0;
@@ -62,7 +59,6 @@
       color: white;
       pointer-events: none;
     }
-    /* Nagłówek – wyśrodkowany, bliżej góry, z większymi odstępami */
     header {
       position: relative;
       z-index: 10;
@@ -78,17 +74,6 @@
       font-size: 16px;
       font-weight: 400;
     }
-    header nav a {
-      margin: 0 15px;
-      color: #e0e0e0;
-      text-decoration: none;
-      transition: color 0.3s;
-      cursor: pointer;
-    }
-    header nav a:hover {
-      color: #ffffff;
-    }
-    /* Kontener główny – wyśrodkowany */
     .container {
       max-width: 1200px;
       margin: 0 auto 60px;
@@ -103,32 +88,35 @@
       max-width: 800px;
       border-radius: 10px;
     }
-    /* Sekcja "O mnie" */
     .about {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .about h2 {
+      margin-bottom: 20px;
+    }
+    .about-content {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
       text-align: left;
-      margin-bottom: 60px;
     }
-    .about div {
+    .about-content div {
       flex: 1;
       padding: 10px;
     }
-    .about img {
-      width: 300px;
+    .about-content img {
+      width: 300px; /* Zmień, aby dostosować rozmiar */
+      height: 300px; /* Zmień, aby dostosować rozmiar */
+      object-fit: cover;
       margin: 10px;
       border-radius: 15px;
     }
-    .about p {
-      position: relative;
-    }
     .about p span.large-text {
-      font-size: 24px; /* Większy tekst dla "Nazywam się ..." */
+      font-size: 24px;
       display: block;
     }
-    /* Karuzela zdjęć */
     .carousel-container {
       width: 100%;
       max-width: 960px;
@@ -140,7 +128,7 @@
       animation: scroll 30s linear infinite;
     }
     .carousel img {
-      width: 300px;
+      width: 300px; /* Zmień, aby dostosować rozmiar */
       margin: 0 10px;
       border-radius: 8px;
     }
@@ -148,7 +136,6 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
-    /* Galeria wideo */
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -163,40 +150,6 @@
     .gallery iframe:hover {
       transform: scale(1.05);
     }
-    /* Przyciski */
-    .buttons {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .buttons a {
-      display: inline-block;
-      background: #ffffff;
-      color: #121212;
-      padding: 12px 24px;
-      margin: 10px;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 18px;
-      transition: background 0.3s;
-      cursor: pointer;
-      position: relative;
-    }
-    .buttons a:hover {
-      background: #e0e0e0;
-    }
-    .buttons a:hover::before {
-      content: "";
-      width: 12px;
-      height: 12px;
-      background: red;
-      border-radius: 50%;
-      position: absolute;
-      left: -20px;
-      top: 50%;
-      transform: translateY(-50%);
-      box-shadow: 0 0 8px red;
-    }
-    /* Formularz kontaktowy */
     .contact-form input,
     .contact-form textarea {
       width: 100%;
@@ -222,7 +175,6 @@
     .contact-form button:hover {
       background: #e0e0e0;
     }
-    /* Kamera podążająca za kursorem – emoji */
     .camera-follower {
       position: fixed;
       pointer-events: none;
@@ -231,7 +183,6 @@
       font-size: 30px;
       line-height: 1;
     }
-    /* Flash & scroll effect dla sekcji Kontakt */
     @keyframes popInOut {
       0% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.1); opacity: 0.8; }
@@ -240,43 +191,36 @@
     .animate-contact {
       animation: popInOut 0.5s ease-out;
     }
-    /* Styl dla odstępu między tytułem a "Fotografia" */
     #portfolio h2 {
-      margin-bottom: 40px; /* Oddalenie tytułu od "Fotografia" */
+      margin-bottom: 40px;
     }
   </style>
 </head>
 <body>
-  <!-- Particles background -->
   <canvas id="particles"></canvas>
-  
-  <!-- Zdrapywalny overlay -->
   <canvas id="scratchCanvas"></canvas>
   <div id="overlayText">Odkryj kreatywność</div>
-  
-  <!-- Nagłówek -->
   <header>
     <h1>Szymon Grzeszczak<br><span>Filmowca.top</span></h1>
   </header>
-  
-  <!-- Główna zawartość -->
   <div class="container">
     <section id="about" class="about">
       <h2>O mnie</h2>
-      <div>
-        <p>
-          <span class="large-text">Nazywam się Szymon, moja pasja do fotografii bla bla bla portfolio poniżej.</span>
-          To ja w wulkanie, jak widać po dłoni nie każdy rodzi się fotografem więc wybieraj mądrze--->
-        </p>
+      <div class="about-content">
+        <div>
+          <p>
+            <span class="large-text">Nazywam się Szymon, moja pasja do fotografii bla bla bla portfolio poniżej.</span>
+            To ja w wulkanie, jak widać po dłoni nie każdy rodzi się fotografem więc wybieraj mądrze--->
+          </p>
+        </div>
+        <img src="Ja w wulkanie.jpeg" alt="To ja">
       </div>
-      <img src="Ja w wulkanie.jpeg" alt="To ja">
     </section>
     <section id="portfolio">
       <h2>Portfolio</h2>
       <h3>Fotografia</h3>
       <div class="carousel-container">
         <div class="carousel">
-          <!-- 9 zdjęć -->
           <img src="zdj1.jpeg" alt="Zdjęcie 1">
           <img src="zdj2.jpeg" alt="Zdjęcie 2">
           <img src="zdj3.jpeg" alt="Zdjęcie 3">
@@ -293,23 +237,19 @@
     </section>
     <section id="contact">
       <h2>Kontakt</h2>
-      <form class="contact-form" action="mailto:Owca1919@gmail.com" method="post" enctype="text/plain">
-        <input type="text" name="hp" class="honeypot" style="display:none;">
+      <form class="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
+        <input type="text" name="_gotcha" style="display:none;" />
         <input type="text" name="name" placeholder="Twoje imię" required>
         <input type="email" name="email" placeholder="Twój e-mail" required>
         <input type="text" name="location" placeholder="Lokalizacja">
         <input type="date" name="date">
         <textarea name="message" placeholder="Twoja wiadomość" rows="4" required></textarea>
-        <button type="submit" id="sendButton">Wyślij</button>
+        <button type="submit">Wyślij</button>
       </form>
     </section>
   </div>
-  
-  <!-- Kamera podążająca za kursorem (emoji) -->
   <div class="camera-follower" id="camera">📷</div>
-  
   <script>
-    /* PART 1: Particles Background */
     const particlesCanvas = document.getElementById('particles');
     const pCtx = particlesCanvas.getContext('2d');
     particlesCanvas.width = window.innerWidth;
@@ -344,8 +284,6 @@
       particlesCanvas.width = window.innerWidth;
       particlesCanvas.height = window.innerHeight;
     });
-    
-    /* PART 2: Scratchable Overlay Effect */
     const scratchCanvas = document.getElementById('scratchCanvas');
     const sCtx = scratchCanvas.getContext('2d');
     scratchCanvas.width = window.innerWidth;
@@ -353,10 +291,7 @@
     sCtx.fillStyle = "black";
     sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
     sCtx.globalCompositeOperation = "destination-out";
-    
     const eraserRadius = 250;
-
-    // Obsługa myszki
     scratchCanvas.addEventListener('mousemove', (e) => {
       const rect = scratchCanvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -365,8 +300,6 @@
       sCtx.arc(x, y, eraserRadius, 0, Math.PI * 2);
       sCtx.fill();
     });
-
-    // Obsługa dotyku (smartfony)
     scratchCanvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
     });
@@ -380,7 +313,6 @@
       sCtx.arc(x, y, eraserRadius, 0, Math.PI * 2);
       sCtx.fill();
     });
-    
     let overlayFaded = false;
     function checkErasedPercentage() {
       const imageData = sCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
@@ -416,20 +348,12 @@
       sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
       sCtx.globalCompositeOperation = "destination-out";
     });
-    
-    /* PART 3: Camera Follower */
     const cameraElem = document.getElementById('camera');
     document.addEventListener('mousemove', (e) => {
       cameraElem.style.top = e.clientY + 'px';
       cameraElem.style.left = e.clientX + 'px';
     });
-    
-    /* PART 4: Flash & Scroll dla sekcji Kontakt */
     const contactSection = document.getElementById('contact');
-    
-    
   </script>
 </body>
 </html>
-
-
