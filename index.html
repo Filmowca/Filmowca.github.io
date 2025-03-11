@@ -412,7 +412,7 @@
     sCtx.fillStyle = "black";
     sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
     sCtx.globalCompositeOperation = "destination-out";
-    const eraserRadius = 250;
+    const eraserRadius = 130;
     scratchCanvas.addEventListener('mousemove', (e) => {
       const rect = scratchCanvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
