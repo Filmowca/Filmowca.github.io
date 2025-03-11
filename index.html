@@ -121,6 +121,13 @@
       margin: 10px;
       border-radius: 15px;
     }
+    .about p {
+      position: relative;
+    }
+    .about p span.large-text {
+      font-size: 24px; /* Większy tekst dla "Nazywam się ..." */
+      display: block;
+    }
     /* Karuzela zdjęć */
     .carousel-container {
       width: 100%;
@@ -233,15 +240,9 @@
     .animate-contact {
       animation: popInOut 0.5s ease-out;
     }
-    /* Scratchable overlay – pozostaje bez zmian */
-    #scratchCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 100;
-      cursor: crosshair;
+    /* Styl dla odstępu między tytułem a "Fotografia" */
+    #portfolio h2 {
+      margin-bottom: 40px; /* Oddalenie tytułu od "Fotografia" */
     }
   </style>
 </head>
@@ -256,16 +257,19 @@
   <!-- Nagłówek -->
   <header>
     <h1>Szymon Grzeszczak<br><span>Filmowca.top</span></h1>
-
   </header>
   
   <!-- Główna zawartość -->
   <div class="container">
-    <section id="about">
+    <section id="about" class="about">
       <h2>O mnie</h2>
-      <p>Nazywam się Szymon, moja pasja do fotografii bla bla bla portfolio poniżej.
-To ja w wulkanie, jak widać po dłoni nie każdy rodzi się fotografem więc wybieraj mądrze---></p>
-      <img src="profile.jpg" alt="Zdjęcie Szymona">
+      <div>
+        <p>
+          <span class="large-text">Nazywam się Szymon, moja pasja do fotografii bla bla bla portfolio poniżej.</span>
+          To ja w wulkanie, jak widać po dłoni nie każdy rodzi się fotografem więc wybieraj mądrze--->
+        </p>
+      </div>
+      <img src="Ja w wulkanie.jpeg" alt="To ja">
     </section>
     <section id="portfolio">
       <h2>Portfolio</h2>
@@ -299,14 +303,11 @@ To ja w wulkanie, jak widać po dłoni nie każdy rodzi się fotografem więc wy
         <iframe width="560" height="315" src="https://www.youtube.com/embed/EXAMPLE1" frameborder="0" allowfullscreen></iframe>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/EXAMPLE2" frameborder="0" allowfullscreen></iframe>
       </div>
-
-        Portfolio w Trakcie budowy ;)
-        
+      Portfolio w Trakcie budowy ;)
     </section>
     <section id="contact">
       <h2>Kontakt</h2>
       <form class="contact-form" action="mailto:Owca1919@gmail.com" method="post" enctype="text/plain">
-        <!-- Ukryty honeypot antyspamowy (jeśli nie chcesz, aby boty wypełniały formularz) -->
         <input type="text" name="hp" class="honeypot" style="display:none;">
         <input type="text" name="name" placeholder="Twoje imię" required>
         <input type="email" name="email" placeholder="Twój e-mail" required>
@@ -368,10 +369,27 @@ To ja w wulkanie, jak widać po dłoni nie każdy rodzi się fotografem więc wy
     sCtx.globalCompositeOperation = "destination-out";
     
     const eraserRadius = 250;
+
+    // Obsługa myszki
     scratchCanvas.addEventListener('mousemove', (e) => {
       const rect = scratchCanvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
+      sCtx.beginPath();
+      sCtx.arc(x, y, eraserRadius, 0, Math.PI * 2);
+      sCtx.fill();
+    });
+
+    // Obsługa dotyku (smartfony)
+    scratchCanvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+    });
+    scratchCanvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      const rect = scratchCanvas.getBoundingClientRect();
+      const touch = e.touches[0];
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
       sCtx.beginPath();
       sCtx.arc(x, y, eraserRadius, 0, Math.PI * 2);
       sCtx.fill();
@@ -416,43 +434,16 @@ To ja w wulkanie, jak widać po dłoni nie każdy rodzi się fotografem więc wy
     /* PART 3: Camera Follower */
     const cameraElem = document.getElementById('camera');
     document.addEventListener('mousemove', (e) => {
-      // Ustawienie emoji kamery dokładnie nad kursorem
       cameraElem.style.top = e.clientY + 'px';
       cameraElem.style.left = e.clientX + 'px';
     });
     
     /* PART 4: Flash & Scroll dla sekcji Kontakt */
-    const contactNav = document.getElementById('contact-nav');
-    const flashOverlay = document.getElementById('flash-overlay');
-    const flashSound = document.getElementById('flash-sound');
     const contactSection = document.getElementById('contact');
-    function doFlashAndScrollContact() {
-      let flashCount = 0;
-      const maxFlashes = 3;
-      function flashCycle() {
-        flashOverlay.style.opacity = '1';
-        flashSound.currentTime = 0;
-        flashSound.play();
-        setTimeout(() => {
-          flashOverlay.style.opacity = '0';
-          flashCount++;
-          if (flashCount < maxFlashes) {
-            setTimeout(flashCycle, 200);
-          } else {
-            contactSection.scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-              contactSection.classList.add('animate-contact');
-              setTimeout(() => {
-                contactSection.classList.remove('animate-contact');
-              }, 500);
-            }, 500);
-          }
-        }, 100);
-      }
-      flashCycle();
-    }
-    contactNav.addEventListener('click', doFlashAndScrollContact);
+    
+    
   </script>
 </body>
 </html>
+
 
