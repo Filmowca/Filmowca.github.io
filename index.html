@@ -107,8 +107,8 @@
       padding: 10px;
     }
     .about-content img {
-      width: 300px; /* Zmień, aby dostosować rozmiar */
-      height: 300px; /* Zmień, aby dostosować rozmiar */
+      width: 300px;
+      height: 300px;
       object-fit: cover;
       margin: 10px;
       border-radius: 15px;
@@ -128,7 +128,7 @@
       animation: scroll 30s linear infinite;
     }
     .carousel img {
-      width: 300px; /* Zmień, aby dostosować rozmiar */
+      width: 300px;
       margin: 0 10px;
       border-radius: 8px;
     }
@@ -150,18 +150,35 @@
     .gallery iframe:hover {
       transform: scale(1.05);
     }
-    .contact-form input,
-    .contact-form textarea {
+    /* Styl dla formularza kontaktowego */
+    .form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .centered-form {
+      width: 50%;
+      padding: 20px;
+      background-color: rgba(30,30,30,0.95);
+      border-radius: 5px;
+    }
+    .centered-form label {
+      display: block;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    .centered-form input,
+    .centered-form textarea {
       width: 100%;
       padding: 12px;
-      margin-top: 10px;
+      margin-top: 5px;
       background: #2a2a2a;
       border: 1px solid #555;
       color: #e0e0e0;
       font-size: 16px;
       border-radius: 5px;
     }
-    .contact-form button {
+    .centered-form button {
       padding: 12px 24px;
       margin-top: 20px;
       background: #ffffff;
@@ -172,7 +189,7 @@
       border-radius: 5px;
       transition: background 0.3s;
     }
-    .contact-form button:hover {
+    .centered-form button:hover {
       background: #e0e0e0;
     }
     .camera-follower {
@@ -237,15 +254,31 @@
     </section>
     <section id="contact">
       <h2>Kontakt</h2>
-      <form class="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
-        <input type="text" name="_gotcha" style="display:none;" />
-        <input type="text" name="name" placeholder="Twoje imię" required>
-        <input type="email" name="email" placeholder="Twój e-mail" required>
-        <input type="text" name="location" placeholder="Lokalizacja">
-        <input type="date" name="date">
-        <textarea name="message" placeholder="Twoja wiadomość" rows="4" required></textarea>
-        <button type="submit">Wyślij</button>
-      </form>
+      <!-- Kontener do wyśrodkowania formularza -->
+      <div class="form-container">
+        <form class="centered-form" action="https://formspree.io/f/xoveqnal" method="POST">
+          <!-- Pole honeypot dla antyspamu (ukryte) -->
+          <input type="text" name="_gotcha" style="display:none;" />
+          
+          <label>
+            Twój email:
+            <input type="email" name="email" required>
+          </label>
+          <label>
+            Twoja wiadomość:
+            <textarea name="message" required></textarea>
+          </label>
+          <label>
+            Data:
+            <input type="date" name="date" required>
+          </label>
+          <label>
+            Lokalizacja:
+            <input type="text" name="location" required>
+          </label>
+          <button type="submit">Wyślij</button>
+        </form>
+      </div>
     </section>
   </div>
   <div class="camera-follower" id="camera">📷</div>
