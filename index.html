@@ -81,8 +81,10 @@
       position: relative;
       z-index: 5;
     }
+    /* Zmienione tło sekcji na żółte z ciemnym tekstem */
     section {
-      background: rgba(30,30,30,0.95);
+      background: #ffeb3b;
+      color: #121212;
       padding: 30px;
       margin: 40px auto 60px;
       max-width: 800px;
@@ -110,6 +112,7 @@
       width: 300px;
       height: 300px;
       object-fit: cover;
+      object-position: center bottom; /* Przytnij zdjęcie, ucinając więcej góry */
       margin: 10px;
       border-radius: 15px;
     }
@@ -119,38 +122,43 @@
       margin-bottom: 20px; /* Odstęp między "Nazywam się..." a resztą */
     }
     .about p {
-      line-height: 1.6; /* Większy odstęp między liniami */
+      line-height: 1.6;
     }
     .carousel-container {
       width: 100%;
       max-width: 960px;
       margin: 20px auto;
       overflow-x: auto;
-      scroll-behavior: smooth; /* Płynne przewijanie */
-      scrollbar-width: none; /* Ukrycie suwaka w Firefox */
+      scroll-behavior: smooth;
+      scrollbar-width: none;
     }
     .carousel-container::-webkit-scrollbar {
-      display: none; /* Ukrycie suwaka w Chrome/Safari */
+      display: none;
     }
     .carousel-container:hover {
-      scrollbar-width: thin; /* Pokazanie suwaka po najechaniu w Firefox */
+      scrollbar-width: thin;
     }
     .carousel-container:hover::-webkit-scrollbar {
-      display: block; /* Pokazanie suwaka po najechaniu w Chrome/Safari */
+      display: block;
     }
     .carousel {
       display: flex;
     }
-    .carousel img {
+    /* Karuzela dla zdjęć pionowych */
+    .carousel.vertical img {
       width: 200px;
       height: 355px;
       object-fit: cover;
       margin: 0 10px;
       border-radius: 8px;
     }
-    .carousel img.horizontal {
+    /* Karuzela dla zdjęć poziomych */
+    .carousel.horizontal img {
       width: 355px;
       height: 200px;
+      object-fit: cover;
+      margin: 0 10px;
+      border-radius: 8px;
     }
     .gallery {
       display: grid;
@@ -160,7 +168,7 @@
     }
     .gallery iframe {
       width: 100%;
-      height: 315px; /* Stała wysokość dla iframe */
+      height: 315px;
       border-radius: 8px;
       transition: transform 0.3s ease-in-out;
     }
@@ -176,8 +184,9 @@
     .centered-form {
       width: 50%;
       padding: 20px;
-      background-color: rgba(30,30,30,0.95);
+      background-color: #ffeb3b;
       border-radius: 5px;
+      color: #121212;
     }
     .centered-form label {
       display: block;
@@ -189,9 +198,9 @@
       width: 100%;
       padding: 12px;
       margin-top: 5px;
-      background: #2a2a2a;
+      background: #fff;
       border: 1px solid #555;
-      color: #e0e0e0;
+      color: #121212;
       font-size: 16px;
       border-radius: 5px;
     }
@@ -230,7 +239,7 @@
     }
     /* Belka z ikonami mediów społecznościowych */
     .social-bar {
-      background-color: #ffeb3b; /* Żółte tło */
+      background-color: #ffeb3b;
       padding: 20px;
       text-align: center;
     }
@@ -241,12 +250,10 @@
     .social-bar img {
       width: 40px;
       height: 40px;
-      filter: grayscale(100%); /* Czarno-białe ikony */
+      filter: grayscale(100%); /* Utrzymanie czarno-białych ikon */
       transition: filter 0.3s;
     }
-    .social-bar img:hover {
-      filter: grayscale(0%); /* Kolor po najechaniu */
-    }
+    /* Usunięto efekt hover, aby ikony pozostały czarno-białe */
   </style>
 </head>
 <body>
@@ -263,7 +270,7 @@
         <div>
           <p>
             <span class="large-text">Nazywam się Szymon, moja pasja do fotografii bla bla bla portfolio poniżej.</span>
-            To ja w wulkanie, jak widać po dłoni nie każdy rodzi się fotografem więc wybieraj mądrze--->
+            To ja w wulkanie, jak widać po dłoni – nie każdy rodzi się fotografem, więc wybieraj mądrze!
           </p>
         </div>
         <img src="Ja w wulkanie.jpeg" alt="To ja">
@@ -271,14 +278,19 @@
     </section>
     <section id="portfolio">
       <h2>Portfolio</h2>
-      <h3>Fotografia</h3>
+      <h3>Fotografia - Pionowe</h3>
       <div class="carousel-container">
-        <div class="carousel">
+        <div class="carousel vertical">
           <img src="zdj1.jpeg" alt="Zdjęcie 1">
-          <img src="zdj2.jpeg" alt="Zdjęcie 2" class="horizontal">
           <img src="zdj3.jpeg" alt="Zdjęcie 3">
           <img src="zdj4.jpeg" alt="Zdjęcie 4">
           <img src="zdj5.jpeg" alt="Zdjęcie 5">
+        </div>
+      </div>
+      <h3>Fotografia - Poziome</h3>
+      <div class="carousel-container">
+        <div class="carousel horizontal">
+          <img src="zdj2.jpeg" alt="Zdjęcie 2">
         </div>
       </div>
       <h3>Wideo</h3>
@@ -286,7 +298,7 @@
         <iframe src="https://www.youtube.com/embed/EXAMPLE1" frameborder="0" allowfullscreen></iframe>
         <iframe src="https://www.youtube.com/embed/EXAMPLE2" frameborder="0" allowfullscreen></iframe>
       </div>
-      <div>Portfolio w Trakcie budowy ;)</div>
+      <div>Portfolio w trakcie budowy ;)</div>
     </section>
     <section id="contact">
       <h2>Kontakt</h2>
@@ -324,6 +336,7 @@
   </div>
   <div class="camera-follower" id="camera">📷</div>
   <script>
+    // Particles
     const particlesCanvas = document.getElementById('particles');
     const pCtx = particlesCanvas.getContext('2d');
     particlesCanvas.width = window.innerWidth;
@@ -358,6 +371,8 @@
       particlesCanvas.width = window.innerWidth;
       particlesCanvas.height = window.innerHeight;
     });
+
+    // Scratch Canvas
     const scratchCanvas = document.getElementById('scratchCanvas');
     const sCtx = scratchCanvas.getContext('2d');
     scratchCanvas.width = window.innerWidth;
@@ -422,12 +437,14 @@
       sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
       sCtx.globalCompositeOperation = "destination-out";
     });
+
+    // Camera follower
     const cameraElem = document.getElementById('camera');
     document.addEventListener('mousemove', (e) => {
       cameraElem.style.top = e.clientY + 'px';
       cameraElem.style.left = e.clientX + 'px';
     });
-    const contactSection = document.getElementById('contact');
   </script>
 </body>
 </html>
+
