@@ -26,8 +26,8 @@
             --tile-shadow: rgba(0, 0, 0, 0.1);
             --tile-shadow-hover: rgba(0, 0, 0, 0.18);
             --intro-bg: rgba(255, 255, 255, 0.05);
-            --lightbox-bg: rgba(10, 10, 15, 0.95); /* Nieco ciemniejsze */
-            --lightbox-info-bg: rgba(0, 0, 0, 0.5); /* Ciemniejsze tło info */
+            --lightbox-bg: rgba(10, 10, 15, 0.94);
+            --lightbox-info-bg: rgba(0, 0, 0, 0.4); /* Nieco jaśniejsze tło info */
 
             /* Kolory akcentów i przycisków - powrót do zieleni */
             --accent-color: var(--gradient-green-light);
@@ -36,7 +36,6 @@
             --filter-button-bg: rgba(255, 255, 255, 0.08);
             --filter-button-hover-bg: rgba(255, 255, 255, 0.15);
             --filter-button-active-bg: var(--accent-color);
-            --nav-link-active-color: var(--accent-color); /* Kolor aktywnego linku */
         }
 
         /* --- Płynne przewijanie --- */
@@ -156,20 +155,14 @@
             text-decoration: none;
             font-size: 0.9em;
             font-weight: 500;
-            transition: color 0.2s ease, border-bottom-color 0.2s ease; /* Dodano transition dla border */
+            transition: color 0.2s ease;
             padding-bottom: 3px;
-            border-bottom: 2px solid transparent; /* Grubsze podkreślenie */
+            border-bottom: 1px solid transparent;
         }
 
         .nav-tile nav a:hover {
-            color: var(--nav-link-active-color);
-            border-bottom-color: var(--nav-link-active-color);
-        }
-        /* Styl dla aktywnego linku nawigacji (scrollspy) */
-        .nav-tile nav a.nav-active {
-            color: var(--nav-link-active-color);
-            font-weight: 600; /* Pogrubienie aktywnego linku */
-            border-bottom-color: var(--nav-link-active-color);
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
         }
 
 
@@ -435,9 +428,9 @@
 
         .gallery-tile .media-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            grid-auto-rows: auto;
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Zmniejszono minmax dla lepszego dopasowania */
+            grid-auto-rows: auto; /* Nadal auto */
+            gap: 15px; /* Mniejszy odstęp */
             margin-top: 20px;
             padding: 0;
              transition: height 0.4s ease;
@@ -445,13 +438,13 @@
 
         .gallery-tile .media-item {
              background-color: rgba(0,0,0, 0.2);
-             border-radius: 12px;
+             border-radius: 12px; /* Mniejsze zaokrąglenie */
              overflow: hidden;
              cursor: pointer;
              transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease, width 0.4s ease, padding 0.4s ease, margin 0.4s ease, border 0.4s ease;
              /* Usunięto aspect-ratio */
              display: flex;
-             align-items: center; /* Wyśrodkowanie */
+             align-items: center; /* Wyśrodkowanie obrazka/ikony w pionie */
              justify-content: center;
              position: relative;
              box-shadow: 0 4px 10px rgba(0,0,0, 0.12);
@@ -481,7 +474,7 @@
              font-family: "Font Awesome 6 Free"; font-weight: 900;
              position: absolute; top: 50%; left: 50%;
              transform: translate(-50%, -50%);
-             font-size: 2.5em;
+             font-size: 2.5em; /* Mniejsza ikona */
              color: rgba(255, 255, 255, 0.6);
              opacity: 1;
              transition: color 0.3s ease;
@@ -496,13 +489,14 @@
             display: block;
             width: 100%;
             height: auto; /* Wysokość dopasuje się do proporcji */
-            max-height: 350px;
-            object-fit: cover; /* Zmieniono z contain na cover */
+            max-height: 350px; /* Ograniczenie maksymalnej wysokości miniatury */
+            object-fit: cover; /* Zmieniono z contain na cover dla lepszego wypełnienia */
             transition: transform 0.35s ease, filter 0.35s ease;
             filter: saturate(0.9);
             vertical-align: top;
-            border-radius: 12px;
+            border-radius: 12px; /* Zaokrąglenie samego obrazka */
          }
+         /* Usunięto overlaye dla uproszczenia */
          .gallery-tile .media-item:not(.is-video)::before,
          .gallery-tile .media-item:not(.is-video)::after {
              display: none;
@@ -510,11 +504,11 @@
 
 
          .gallery-tile .media-item:hover {
-             transform: translateY(-4px);
+             transform: translateY(-4px); /* Mniejszy hover */
              box-shadow: 0 8px 20px rgba(0,0,0,0.2);
          }
           .gallery-tile .media-item:hover img {
-             transform: scale(1.03);
+             transform: scale(1.03); /* Mniejszy zoom */
              filter: saturate(1);
           }
          /* Usunięto hover dla overlay */
@@ -532,7 +526,7 @@
         .lightbox-modal.active { display: flex; }
         .lightbox-content {
             position: relative; margin: auto; padding: 0;
-            max-width: 90%; /* Zmniejszono max-width */
+            max-width: 90%; /* Zmniejszono max-width dla lepszego dopasowania info */
             max-height: 90%; /* Zmniejszono max-height */
             display: flex; flex-direction: column;
              justify-content: center; align-items: center;
@@ -540,56 +534,56 @@
             opacity: 0;
             animation: zoomIn 0.35s 0.05s ease forwards;
         }
-        /* Kontener na obraz/wideo w lightboxie */
-        .lightbox-media-container {
-            width: 100%;
-            flex-grow: 1; /* Pozwala się rozciągnąć */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* Ukrycie nadmiaru */
-            min-height: 0; /* Zapobiega problemom z flexbox */
-        }
-
-        .lightbox-content img,
-        .lightbox-content iframe { /* Wspólne style dla obrazka i iframe */
-            display: block; max-width: 100%; max-height: 100%;
+        .lightbox-content img {
+            display: block; max-width: 100%;
+            /* ZMIANA: Użycie flex-shrink dla obrazka */
+            max-height: 100%; /* Pozwól obrazkowi zająć dostępną wysokość */
             object-fit: contain; border-radius: 8px 8px 0 0;
             box-shadow: 0 6px 20px rgba(0,0,0,0.35);
             margin-bottom: 0;
-            border: none; /* Usunięcie ramki z iframe */
+            flex-shrink: 1; /* Pozwól obrazkowi się zmniejszyć, jeśli info jest długie */
+            min-height: 0; /* Zapobiega problemom z flexbox */
         }
-        .lightbox-content iframe {
-             aspect-ratio: 16 / 9; /* Proporcje dla wideo */
-             width: 100%; /* Szerokość iframe */
-             max-width: 1000px; /* Ograniczenie maksymalnej szerokości */
-             height: auto; /* Wysokość automatyczna */
-             max-height: calc(100% - 80px); /* Ograniczenie wysokości z miejscem na info */
-        }
-
          .lightbox-info {
             background-color: var(--lightbox-info-bg);
             color: var(--text-light);
             padding: 12px 18px;
             border-radius: 0 0 8px 8px;
             width: 100%;
-            max-width: 700px;
+            max-width: 700px; /* Ograniczenie szerokości info */
             box-sizing: border-box;
             font-size: 0.85em;
             line-height: 1.6;
             text-align: left;
-            max-height: 100px;
-            overflow-y: auto;
+            /* ZMIANA: Usunięto max-height, pozwalamy na naturalną wysokość */
+            overflow-y: auto; /* Scrollbar tylko jeśli info jest za długie */
              scrollbar-width: thin;
              scrollbar-color: rgba(255,255,255,0.3) transparent;
-             flex-shrink: 0;
+             flex-shrink: 0; /* Info nie powinno się kurczyć */
         }
-        .lightbox-info::-webkit-scrollbar { width: 6px; }
-        .lightbox-info::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.3); border-radius: 3px; }
-         .lightbox-info p { margin: 4px 0; }
-         .lightbox-info strong { color: var(--text-muted); margin-right: 5px; }
-         .lightbox-info a { color: var(--accent-color); text-decoration: none; transition: color 0.2s ease; }
-         .lightbox-info a:hover { color: var(--text-dark); text-decoration: underline; }
+        .lightbox-info::-webkit-scrollbar {
+            width: 6px;
+        }
+        .lightbox-info::-webkit-scrollbar-thumb {
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+         .lightbox-info p {
+             margin: 4px 0;
+         }
+         .lightbox-info strong {
+             color: var(--text-muted);
+             margin-right: 5px;
+         }
+         .lightbox-info a {
+             color: var(--accent-color);
+             text-decoration: none;
+             transition: color 0.2s ease;
+         }
+         .lightbox-info a:hover {
+             color: var(--text-dark);
+             text-decoration: underline;
+         }
 
         .close-lightbox {
             position: absolute; top: 10px; right: 15px;
@@ -603,37 +597,6 @@
         }
         .close-lightbox:hover,
         .close-lightbox:focus { color: var(--accent-color); background-color: rgba(0,0,0,0.45); }
-
-        /* Przyciski nawigacji lightboxa */
-        .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.3);
-            color: rgba(255, 255, 255, 0.7);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .lightbox-nav:hover {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-        }
-        .lightbox-prev { left: 15px; }
-        .lightbox-next { right: 15px; }
-        .lightbox-nav:disabled {
-             opacity: 0.3;
-             cursor: default;
-        }
-
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -799,9 +762,6 @@
              .nav-tile nav a { font-size: 0.85em; }
              .lightbox-info { padding: 10px 15px; font-size: 0.8em; }
              .lightbox-content img { max-height: calc(90vh - 90px); } /* Mniej miejsca na info na mobilnych */
-             .lightbox-nav { width: 35px; height: 35px; font-size: 1em; }
-             .lightbox-prev { left: 10px; }
-             .lightbox-next { right: 10px; }
          }
          @media (max-width: 480px) {
             /* header { padding: 12px 15px; } */
@@ -844,9 +804,6 @@
              .gallery-filters { gap: 8px; } /* Mniejszy odstęp filtrów */
              .filter-button { padding: 6px 14px; font-size: 0.85em; }
              .lightbox-content img { max-height: calc(90vh - 80px); } /* Jeszcze mniej miejsca na info */
-             .lightbox-nav { width: 30px; height: 30px; font-size: 0.9em; }
-             .lightbox-prev { left: 5px; }
-             .lightbox-next { right: 5px; }
          }
 
          /* Animacja pojawiania się elementów */
@@ -866,7 +823,8 @@
                  <p class="logo">SG.media.pl</p>
             </div>
             <div class="nav-tile">
-                <nav id="main-nav"> <ul>
+                <nav>
+                    <ul>
                         <li><a href="#offer">Oferta</a></li>
                         <li><a href="#info">Info</a></li>
                         <li><a href="#gallery-section">Galeria</a></li>
@@ -877,7 +835,8 @@
     </div>
 
     <main>
-        <div class="intro-container" id="about"> <section class="intro-section">
+        <div class="intro-container">
+            <section class="intro-section">
                 <h2>O mnie</h2>
                 <p>Nazywam się Szymon Grzeszczak i jestem pasjonatem tworzenia unikalnych materiałów foto i wideo. Moim celem jest opowiadanie historii i przyciąganie uwagi poprzez obraz. Odkryj moją ofertę i zobacz, jak mogę pomóc Twojej marce lub uwiecznić wyjątkowe chwile.</p>
             </section>
@@ -979,14 +938,20 @@
                           data-opis="Opis zdjęcia 2.">
                          <img src="zdj2.jpeg" alt="Zdjęcie 2" data-full-src="zdj2.jpeg">
                      </div>
-                      <div class="media-item is-video" data-type="video" data-video-id="YOUTUBE_VIDEO_ID_1"> <img src="https://placehold.co/400x225/111/fff?text=Film+Reklamowy+Thumb" alt="Miniatura filmu reklamowego"> </div>
+                      <div class="media-item is-video" data-type="video">
+                          <a href="https://youtu.be/yF93BSFP4NQ?si=Gm7CpsRb2cDMnd6F" target="_blank" rel="noopener noreferrer" style="display: block; width: 100%; height: 100%;">
+                              <span>[Film Reklamowy]</span>
+                          </a>
+                     </div>
                      <div class="media-item" data-type="photo" data-opis="Opis zdjęcia 3.">
                          <img src="zdj3.jpeg" alt="Zdjęcie 3" data-full-src="zdj3.jpeg">
                      </div>
                      <div class="media-item" data-type="photo" data-opis="Opis zdjęcia 4.">
                          <img src="zdj4.jpeg" alt="Zdjęcie 4" data-full-src="zdj4.jpeg">
                      </div>
-                     <div class="media-item is-video" data-type="video" data-video-id="YOUTUBE_VIDEO_ID_2"> <img src="https://placehold.co/400x225/333/eee?text=Teledysk+Thumb" alt="Miniatura teledysku"> </div>
+                     <div class="media-item is-video" data-type="video">
+                         <span>[Teledysk]</span>
+                     </div>
                      <div class="media-item" data-type="photo" data-opis="Opis zdjęcia 5.">
                           <img src="zdj5.jpeg" alt="Zdjęcie 5" data-full-src="zdj5.jpeg">
                      </div>
@@ -1021,7 +986,7 @@
     </main>
 
     <footer id="contact-footer">
-        <p>© 2024 Szymon Grzeszczak - SG.media.pl. Wszelkie prawa zastrzeżone.</p>
+        <p>&copy; 2024 Szymon Grzeszczak - SG.media.pl. Wszelkie prawa zastrzeżone.</p>
         <p class="social-links">
             <a href="mailto:kontakt@sg.media.pl" aria-label="Email" title="Email"><i class="fas fa-envelope"></i></a>
             <a href="#" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -1030,142 +995,84 @@
     </footer>
 
     <div id="lightbox-modal" class="lightbox-modal">
-        <span class="close-lightbox" id="close-lightbox">×</span>
+        <span class="close-lightbox" id="close-lightbox">&times;</span>
         <div class="lightbox-content">
-            <div class="lightbox-media-container" id="lightbox-media-container">
+            <img src="" id="lightbox-img" alt="[Powiększony obraz z galerii]">
+            <div class="lightbox-info" id="lightbox-info">
                 </div>
-            <div class="lightbox-info" id="lightbox-info"></div>
         </div>
-        <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Poprzedni element"><i class="fas fa-chevron-left"></i></button>
-        <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Następny element"><i class="fas fa-chevron-right"></i></button>
     </div>
 
     <script>
         // --- Skrypt Lightboxa ---
         const galleryContainer = document.getElementById('media-gallery');
         const lightboxModal = document.getElementById('lightbox-modal');
-        const lightboxMediaContainer = document.getElementById('lightbox-media-container'); // Kontener na media
-        const lightboxInfo = document.getElementById('lightbox-info');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxInfo = document.getElementById('lightbox-info'); // Pobranie elementu info
         const closeLightboxBtn = document.getElementById('close-lightbox');
-        const lightboxPrevBtn = document.getElementById('lightbox-prev');
-        const lightboxNextBtn = document.getElementById('lightbox-next');
         let isClosingLightbox = false;
-        let currentGalleryItems = []; // Tablica aktualnie widocznych elementów
-        let currentIndex = 0;
 
-        function updateLightboxNavButtons() {
-            lightboxPrevBtn.disabled = currentIndex <= 0;
-            lightboxNextBtn.disabled = currentIndex >= currentGalleryItems.length - 1;
-        }
-
-        function showLightboxItem(index) {
-            if (index < 0 || index >= currentGalleryItems.length) {
-                console.error("Nieprawidłowy indeks elementu galerii:", index);
-                return;
-            }
-            currentIndex = index;
-            const mediaItem = currentGalleryItems[currentIndex];
-            const itemType = mediaItem.getAttribute('data-type');
-
-            // Wyczyść poprzednią zawartość
-            lightboxMediaContainer.innerHTML = '';
-            lightboxInfo.innerHTML = '';
-
-            if (itemType === 'photo') {
-                const imgElement = mediaItem.querySelector('img');
-                if (imgElement) {
-                    const fullSrc = imgElement.getAttribute('data-full-src');
-                    const realizator = mediaItem.getAttribute('data-realizator');
-                    const realizatorIg = mediaItem.getAttribute('data-realizator-ig');
-                    const model = mediaItem.getAttribute('data-model');
-                    const modelIg = mediaItem.getAttribute('data-model-ig');
-                    const opis = mediaItem.getAttribute('data-opis');
-                    const techDetails = mediaItem.getAttribute('data-tech') || "Niedostępne"; // Przykładowe dane tech
-                    const caseStudyLink = mediaItem.getAttribute('data-case-study');
-
-                    if (fullSrc) {
-                        const newImg = document.createElement('img');
-                        newImg.src = fullSrc;
-                        newImg.alt = imgElement.alt || "[Powiększony obraz z galerii]";
-                        lightboxMediaContainer.appendChild(newImg);
-
-                        // Wypełnienie sekcji informacji
-                        let infoHtml = '';
-                        if (realizator) infoHtml += `<p><strong>Realizator:</strong> ${realizatorIg ? `<a href="${realizatorIg}" target="_blank" rel="noopener noreferrer">${realizator}</a>` : realizator}</p>`;
-                        if (model) infoHtml += `<p><strong>Model:</strong> ${modelIg ? `<a href="${modelIg}" target="_blank" rel="noopener noreferrer">${model}</a>` : model}</p>`;
-                        if (opis) infoHtml += `<p><strong>Opis:</strong> ${opis}</p>`;
-                        infoHtml += `<p><strong>Dane tech.:</strong> ${techDetails}</p>`; // Dodano dane tech
-                        if (caseStudyLink) infoHtml += `<p><a href="${caseStudyLink}" target="_blank" rel="noopener noreferrer">Zobacz case study</a></p>`; // Dodano link do case study
-                        lightboxInfo.innerHTML = infoHtml;
-                    }
-                }
-                 lightboxPrevBtn.style.display = ''; // Pokaż przyciski dla zdjęć
-                 lightboxNextBtn.style.display = '';
-            } else if (itemType === 'video') {
-                const videoId = mediaItem.getAttribute('data-video-id');
-                if (videoId) {
-                    const iframe = document.createElement('iframe');
-                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`; // Dodano autoplay i rel=0
-                    iframe.setAttribute('frameborder', '0');
-                    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-                    iframe.setAttribute('allowfullscreen', '');
-                    lightboxMediaContainer.appendChild(iframe);
-                    // Można dodać podstawowe info dla wideo, jeśli jest potrzebne
-                    lightboxInfo.innerHTML = `<p><strong>Film:</strong> ${mediaItem.querySelector('span')?.textContent || 'Wideo'}</p>`;
-                }
-                 lightboxPrevBtn.style.display = 'none'; // Ukryj przyciski nawigacji dla wideo
-                 lightboxNextBtn.style.display = 'none';
-            }
-
-            updateLightboxNavButtons(); // Zaktualizuj stan przycisków nawigacji
-            lightboxModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            isClosingLightbox = false;
-        }
-
-
-        if (galleryContainer && lightboxModal && lightboxImg && closeLightboxBtn && lightboxInfo && lightboxPrevBtn && lightboxNextBtn) {
+        if (galleryContainer && lightboxModal && lightboxImg && closeLightboxBtn && lightboxInfo) {
             galleryContainer.addEventListener('click', function(event) {
                 const target = event.target;
                 const mediaItem = target.closest('.media-item');
-                if (mediaItem && !mediaItem.classList.contains('hidden')) {
-                    // Znajdź wszystkie aktualnie widoczne elementy
-                    currentGalleryItems = Array.from(galleryContainer.querySelectorAll('.media-item:not(.hidden)'));
-                    const clickedIndex = currentGalleryItems.indexOf(mediaItem);
-                    if (clickedIndex > -1) {
-                        showLightboxItem(clickedIndex);
+                if (mediaItem && !mediaItem.classList.contains('is-video') && !mediaItem.classList.contains('hidden')) {
+                    const imgElement = mediaItem.querySelector('img');
+                    if (imgElement) {
+                        const fullSrc = imgElement.getAttribute('data-full-src');
+                        // Pobranie dodatkowych danych
+                        const realizator = mediaItem.getAttribute('data-realizator');
+                        const realizatorIg = mediaItem.getAttribute('data-realizator-ig');
+                        const model = mediaItem.getAttribute('data-model');
+                        const modelIg = mediaItem.getAttribute('data-model-ig');
+                        const opis = mediaItem.getAttribute('data-opis');
+
+                        if (fullSrc) {
+                            lightboxImg.setAttribute('src', fullSrc);
+                            // Wypełnienie sekcji informacji
+                            let infoHtml = '';
+                            if (realizator) {
+                                infoHtml += `<p><strong>Realizator:</strong> ${realizatorIg ? `<a href="${realizatorIg}" target="_blank" rel="noopener noreferrer">${realizator}</a>` : realizator}</p>`;
+                            }
+                            if (model) {
+                                infoHtml += `<p><strong>Model:</strong> ${modelIg ? `<a href="${modelIg}" target="_blank" rel="noopener noreferrer">${model}</a>` : model}</p>`;
+                            }
+                            if (opis) {
+                                infoHtml += `<p><strong>Opis:</strong> ${opis}</p>`;
+                            }
+                            lightboxInfo.innerHTML = infoHtml; // Wstawienie HTML do div#lightbox-info
+
+                            lightboxModal.classList.add('active');
+                            document.body.style.overflow = 'hidden';
+                            isClosingLightbox = false;
+                        }
                     }
                 }
+                 else if (mediaItem && mediaItem.classList.contains('is-video')) {
+                    // Sprawdzenie czy kliknięto na link wewnątrz kafelka video
+                    if (event.target.tagName !== 'A') {
+                         console.log("Kliknięto na kafelek filmu - logika otwierania playera wideo (jeśli nie kliknięto linku).");
+                         // Można tu np. otworzyć link programowo, jeśli nie ma innej akcji
+                         const videoLink = mediaItem.querySelector('a');
+                         if (videoLink) {
+                             // Symulacja kliknięcia linku lub otwarcie w nowej karcie
+                             // videoLink.click(); // Może być blokowane
+                             window.open(videoLink.href, '_blank');
+                         }
+                    }
+                     // Jeśli kliknięto na link <a>, przeglądarka obsłuży to domyślnie.
+                 }
             });
-
-             lightboxPrevBtn.addEventListener('click', () => {
-                 if (currentIndex > 0) {
-                     showLightboxItem(currentIndex - 1);
-                 }
-             });
-
-             lightboxNextBtn.addEventListener('click', () => {
-                 if (currentIndex < currentGalleryItems.length - 1) {
-                     showLightboxItem(currentIndex + 1);
-                 }
-             });
-
 
             function closeLightboxModal() {
                 if (isClosingLightbox) return;
                 isClosingLightbox = true;
                 lightboxModal.classList.add('closing');
 
-                // Zatrzymanie wideo przy zamykaniu
-                const iframe = lightboxMediaContainer.querySelector('iframe');
-                if (iframe) {
-                    iframe.src = ''; // Najprostszy sposób na zatrzymanie
-                }
-
                 lightboxModal.addEventListener('animationend', function handler() {
                     lightboxModal.classList.remove('active', 'closing');
-                    lightboxMediaContainer.innerHTML = ''; // Wyczyść kontener mediów
-                    lightboxInfo.innerHTML = '';
+                    lightboxImg.setAttribute('src', '');
+                    lightboxInfo.innerHTML = ''; // Wyczyść info przy zamykaniu
                     document.body.style.overflow = '';
                     isClosingLightbox = false;
                     lightboxModal.removeEventListener('animationend', handler);
@@ -1174,54 +1081,58 @@
 
             closeLightboxBtn.addEventListener('click', closeLightboxModal);
             lightboxModal.addEventListener('click', function(event) {
+                // Zamknij tylko jeśli kliknięto na tło (modal), a nie na zawartość (obrazek lub info)
                 if (event.target === lightboxModal) {
                     closeLightboxModal();
                 }
             });
             document.addEventListener('keydown', function(event) {
-                if (lightboxModal.classList.contains('active')) {
-                     if (event.key === 'Escape') {
-                        closeLightboxModal();
-                    } else if (event.key === 'ArrowLeft' && !lightboxPrevBtn.disabled) {
-                        showLightboxItem(currentIndex - 1);
-                    } else if (event.key === 'ArrowRight' && !lightboxNextBtn.disabled) {
-                         showLightboxItem(currentIndex + 1);
-                    }
+                if (event.key === 'Escape' && lightboxModal.classList.contains('active')) {
+                    closeLightboxModal();
                 }
             });
         } else {
-            console.error("Nie znaleziono wszystkich elementów potrzebnych do lightboxa, info lub nawigacji.");
+            console.error("Nie znaleziono wszystkich elementów potrzebnych do lightboxa lub info.");
         }
 
         // --- Skrypt Karuzeli Oferty - USUNIĘTY ---
 
         // --- Skrypt Filtrowania Galerii ---
         const filterButtonsContainer = document.getElementById('gallery-filter-buttons');
-        const galleryItems = galleryContainer ? galleryContainer.querySelectorAll('.media-item') : [];
+        const galleryItems = galleryContainer ? galleryContainer.querySelectorAll('.media-item') : []; // Upewnij się, że galleryContainer istnieje
 
         if (filterButtonsContainer && galleryItems.length > 0) {
             filterButtonsContainer.addEventListener('click', (event) => {
                 if (event.target.classList.contains('filter-button')) {
                     const filterValue = event.target.getAttribute('data-filter');
 
+                    // Aktualizacja aktywnego przycisku
                     filterButtonsContainer.querySelector('.active').classList.remove('active');
                     event.target.classList.add('active');
 
+                    // Filtrowanie elementów
                     galleryItems.forEach(item => {
                         const itemType = item.getAttribute('data-type');
+                        // Sprawdź, czy element powinien być widoczny
                         const shouldBeVisible = (filterValue === 'all' || itemType === filterValue);
 
                         if (shouldBeVisible) {
+                            // Jeśli ma być widoczny, usuń klasę hidden (jeśli istnieje)
                             if (item.classList.contains('hidden')) {
+                                // Usuń klasę hidden, aby rozpocząć animację pojawiania się
                                 item.classList.remove('hidden');
-                                // Reset stylów inline
-                                requestAnimationFrame(() => { // Daj czas na usunięcie klasy
-                                    item.style.width = ''; item.style.height = ''; item.style.padding = '';
-                                    item.style.margin = ''; item.style.border = ''; item.style.overflow = '';
-                                    item.style.opacity = ''; item.style.transform = '';
-                                });
+                                // Reset stylów inline (ważne po ukryciu)
+                                item.style.width = '';
+                                item.style.height = '';
+                                item.style.padding = '';
+                                item.style.margin = '';
+                                item.style.border = '';
+                                item.style.overflow = '';
+                                item.style.opacity = ''; // Pozwól CSS zarządzać opacity
+                                item.style.transform = ''; // Pozwól CSS zarządzać transform
                             }
                         } else {
+                            // Jeśli ma być ukryty, dodaj klasę hidden (jeśli jej nie ma)
                             if (!item.classList.contains('hidden')) {
                                 item.classList.add('hidden');
                             }
@@ -1241,7 +1152,7 @@
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.15
+            threshold: 0.15 // Zwiększony próg dla wcześniejszej animacji
         };
 
         const observerCallback = (entries, observer) => {
@@ -1259,29 +1170,9 @@
             observer.observe(section);
         });
 
-         // --- Skrypt Scrollspy ---
-         const navLinks = document.querySelectorAll('#main-nav a');
-         const sections = document.querySelectorAll('section[id]'); // Zakładamy, że sekcje mają ID
-
-         function activateNavLink() {
-             let index = sections.length;
-
-             while(--index && window.scrollY + 100 < sections[index].offsetTop) {} // +100px offset
-
-             navLinks.forEach((link) => link.classList.remove('nav-active'));
-             // Sprawdź, czy znaleziono pasujący link
-             if (index >= 0 && navLinks[index]) {
-                 const activeLink = document.querySelector(`#main-nav a[href="#${sections[index].id}"]`);
-                 if(activeLink) activeLink.classList.add('nav-active');
-             }
-         }
-
-         // Wywołaj funkcję na starcie i przy scrollowaniu
-         activateNavLink();
-         window.addEventListener('scroll', activateNavLink);
-
     </script>
 
 </body>
 </html>
+
 
