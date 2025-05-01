@@ -18,11 +18,15 @@
     <meta name="twitter:title" content="SG.media.pl - Szymon Grzeszczak...">
     <meta name="twitter:description" content="Profesjonalna fotografia i filmowanie we Wrocławiu...">
     <meta name="twitter:image" content="[TU WSTAW ADRES URL DO GŁÓWNEGO ZDJĘCIA/LOGO]">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -30,116 +34,139 @@
       "name": "SG.media.pl - Szymon Grzeszczak",
       /* ... reszta danych ... */
       "email": "kontakt@sg.media.pl",
-       /* ... reszta danych ... */
+      /* ... reszta danych ... */
       "makesOffer": [ /* ... usługi ... */ ]
     }
     </script>
 
 <style>
-    /* CSS Variables (bez zmian) */
-    :root { /* ... zmienne ... */ --grid-gap: 40px; }
-    body.dark-mode { /* ... zmienne ... */ }
+    /* CSS Variables */
+    :root {
+        --bg-color: #ffffff;
+        --tile-bg-color: #f8f8f8;
+        --text-color: #333;
+        --heading-color: #1a1a1a;
+        --accent-color: #007bff;
+        --accent-hover-color: #0056b3;
+        --accent-gradient: linear-gradient(45deg, var(--accent-color), var(--accent-hover-color));
+        --secondary-accent-color: #dc3545;
+        --shadow-color: rgba(0, 0, 0, 0.08);
+        --strong-shadow-color: rgba(0, 0, 0, 0.12);
+        --subtle-bg-gradient: linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%);
+        --icon-color: #555;
+        --border-color: #eee; /* Używane np. w opiniach */
+        --gallery-item-bg: #fff;
+        /* Glassmorphism dla modali */
+        --modal-bg: rgba(248, 248, 248, 0.6); /* Półprzezroczyste tło jasne */
+        --modal-backdrop-blur: blur(8px);
+        --modal-content-bg: rgba(255, 255, 255, 0.8); /* Lekko przezroczysty kontent */
+        --subtitle-color: #555;
+    }
+    body.dark-mode {
+        --bg-color: #1a1a1a;
+        --tile-bg-color: #2c2c2c;
+        --text-color: #ccc;
+        --heading-color: #ffffff;
+        --accent-color: #4dabf7;
+        --accent-hover-color: #1e90ff;
+        --accent-gradient: linear-gradient(45deg, var(--accent-color), var(--accent-hover-color));
+        --secondary-accent-color: #ff6b6b;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --strong-shadow-color: rgba(0, 0, 0, 0.4);
+        --subtle-bg-gradient: linear-gradient(180deg, #1a1a1a 0%, #222222 100%);
+        --icon-color: #aaa;
+        --border-color: #444;
+        --gallery-item-bg: #383838;
+        /* Glassmorphism dla modali - ciemny */
+        --modal-bg: rgba(26, 26, 26, 0.65); /* Półprzezroczyste tło ciemne */
+        --modal-content-bg: rgba(44, 44, 44, 0.85); /* Lekko przezroczysty kontent ciemny */
+        --subtitle-color: #aaa;
+    }
 
-    /* Reset i Podstawy (bez zmian) */
+    /* Reset i Podstawy */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { /* ... style ... */ position: relative; }
+    body {
+        font-family: 'Roboto', sans-serif; background: var(--subtle-bg-gradient); color: var(--text-color);
+        line-height: 1.7; overflow-x: hidden; transition: background-color 0.3s ease, color 0.3s ease;
+        position: relative; /* Potrzebne dla absolutnych pseudo-elementów */
+    }
 
-    /* Abstrakcyjne Kształty w Tle (bez zmian) */
-    body::before, body::after { /* ... style ... */ }
+    /* Abstrakcyjne Kształty w Tle */
+    body::before,
+    body::after {
+        content: '';
+        position: absolute; /* Zmieniono na absolute */
+        border-radius: 50%;
+        z-index: -1; /* Pod treścią */
+        opacity: 0.1; /* Bardzo subtelne */
+        filter: blur(100px); /* Duże rozmycie */
+        pointer-events: none; /* Nie blokują interakcji */
+    }
+    body::before { /* Pierwszy blob */
+        width: 400px; height: 400px;
+        top: 10%; left: -150px; /* Pozycja */
+        background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+    }
+    body::after { /* Drugi blob */
+        width: 300px; height: 300px;
+        bottom: 5%; right: -100px; /* Pozycja */
+        background: radial-gradient(circle, var(--secondary-accent-color) 0%, transparent 70%);
+    }
+    body.dark-mode::before { opacity: 0.15; filter: blur(120px); background: radial-gradient(circle, var(--accent-hover-color) 0%, transparent 70%);}
+    body.dark-mode::after { opacity: 0.1; filter: blur(120px); background: radial-gradient(circle, #ff8a8a 0%, transparent 70%);} /* Jaśniejszy czerwony w dark */
 
-    /* Typografia (bez zmian) */
-    h1, h2, h3, h4, h5, h6 { /* ... style ... */ }
+
+    /* Typografia */
+    h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; color: var(--heading-color); margin-bottom: 0.75em; letter-spacing: -0.01em; }
     h1 { font-size: 2.4em; font-weight: 800; } h2 { font-size: 1.9em; font-weight: 700; } h3 { font-size: 1.5em; font-weight: 700; }
     p { margin-bottom: 1em; }
     a { color: var(--accent-color); text-decoration: none; transition: color 0.3s ease; }
     a:hover { color: var(--accent-hover-color); }
 
-    /* Preloader (bez zmian) */
-    .preloader { /* ... style ... */ }
-    .preloader.hidden { /* ... style ... */ }
-    .spinner { /* ... style ... */ }
+    /* Preloader */
+    .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 1; transition: opacity 0.5s ease-out 0.2s; }
+    .preloader.hidden { opacity: 0; pointer-events: none; }
+    .spinner { border: 4px solid rgba(0, 0, 0, 0.1); border-left-color: var(--accent-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    body.dark-mode .spinner { /* ... style ... */ }
+    body.dark-mode .spinner { border: 4px solid rgba(255, 255, 255, 0.2); border-left-color: var(--accent-color); }
 
-    /* Przycisk Zmiany Motywu (bez zmian) */
-    .theme-switch-wrapper { /* ... style ... */ }
-    .theme-switch { /* ... style ... */ }
-    .theme-switch input { /* ... style ... */ }
-    .slider { /* ... style ... */ }
-    .slider:before { /* ... style ... */ }
-    input:checked + .slider:before { /* ... style ... */ }
-    input:checked + .slider { /* ... style ... */ }
-    input:checked + .slider:before { /* ... style ... */ }
+    /* Przycisk Zmiany Motywu */
+    .theme-switch-wrapper { position: fixed; top: 15px; right: 15px; z-index: 1001; }
+    .theme-switch { display: inline-block; height: 34px; width: 60px; position: relative; }
+    .theme-switch input { display: none; }
+    .slider { background-color: #ccc; position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; transition: .4s; border-radius: 34px; }
+    .slider:before { background-color: white; content: ""; height: 26px; width: 26px; position: absolute; left: 4px; bottom: 4px; transition: .4s; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 14px; color: #aaa; }
+    .slider:before { content: '\f185'; } input:checked + .slider:before { content: '\f186'; } input:checked + .slider { background-color: var(--accent-color); } input:checked + .slider:before { transform: translateX(26px); }
 
-    /* ----- DEFINICJA SIATKI ----- */
-    .main-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        grid-auto-rows: auto;
-        gap: var(--grid-gap);
-        /* align-items: start; ZAKOMENTOWANE - wróciliśmy do stretch */
-        max-width: 1200px;
-        margin: 70px auto 50px auto;
-        padding: 20px;
-    }
+    /* Kontener główny Grid */
+    .main-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 70px auto 50px auto; padding: 20px; }
 
     /* Styl Kafelków */
     .tile {
-        background-color: var(--tile-bg-color); border-radius: 18px; padding: 35px; /* Domyślny padding */
+        background-color: var(--tile-bg-color); border-radius: 18px; padding: 35px;
         box-shadow: 0 12px 35px -5px var(--shadow-color);
         transition: transform 0.35s ease-out, box-shadow 0.35s ease-out, background-color 0.3s ease;
-        display: flex; flex-direction: column;
-        /* Usunięto min-height */
+        min-height: 150px; display: flex; flex-direction: column;
+        /* Usunięto border */
     }
     .tile:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0 18px 45px -10px var(--strong-shadow-color); }
 
-    /* Kompaktowe kafelki: Header, Social, Contact */
-    #tile-header, #tile-social, #tile-contact {
-        padding: 25px; /* Mniejszy padding dla kompaktowych */
-        min-height: auto;
-    }
-    #tile-header, #tile-social { align-items: center; justify-content: center; }
-    #tile-contact { align-items: stretch; justify-content: flex-start; text-align: left; }
+    /* Specjalne style dla Header i Social */
+    #tile-header, #tile-social { padding: 25px; min-height: auto; align-items: center; justify-content: center; }
 
-    /* *** NOWOŚĆ: Kompaktowy kafelek Lokalizacja *** */
-    #tile-location {
-         padding-top: 25px;    /* Mniejszy padding góra */
-         padding-bottom: 25px; /* Mniejszy padding dół */
-         /* padding-left/right dziedziczy z .tile (35px) */
-         align-items: center; /* Nadal centrujemy zawartość */
-    }
+    /* Rozmieszczenie Grid */
+    #tile-header { grid-column: span 1; text-align: center; }
+    #tile-about { grid-column: span 2; flex-direction: row; align-items: flex-start; gap: 25px; }
+    #tile-services { grid-column: span 1; }
+    #tile-social { grid-column: span 1; }
+    #tile-location { grid-column: span 1; align-items: center; }
+    /* Usunięto #tile-testimonials z siatki */
+    #tile-contact { grid-column: span 1; }
 
-    /* *** NOWOŚĆ: Powiększony kafelek Opinie *** */
-    #tile-testimonials {
-        padding: 40px; /* Większy padding dla wrażenia większego kafelka */
-        /* Zajmowanie 2 kolumn będzie w media query poniżej */
-    }
-
-
-    /* ----- AUTOMATYCZNE UMIEJSCOWIENIE i SPAN ----- */
-    /* Domyślnie pozwalamy na auto-placement */
-    /* Definiujemy spany dla większych ekranów */
-     @media (min-width: 768px) { /* Dostosuj breakpoint jeśli potrzeba */
-         #tile-about,
-         #tile-testimonials { /* Opinie też zajmują 2 kolumny */
-             grid-column: span 2;
-         }
-         /* Wrapper dla Social/Contact nie potrzebuje span */
-         .stacked-tiles-wrapper {
-              align-self: start; /* Zapobiega rozciąganiu wrappera w pionie */
-         }
-     }
-
-
-    /* Wrapper dla Social i Contact (bez zmian) */
-    .stacked-tiles-wrapper {
-        display: flex; flex-direction: column; gap: var(--grid-gap); align-self: start;
-    }
-
-    /* Stylizacja wewnątrz kafelków (reszta bez zmian) */
+    /* Stylizacja wewnątrz kafelków */
     #tile-header img.logo { max-width: 180px; margin-bottom: 10px; }
-    #tile-header h1 { margin-bottom: 0.1em; font-size: 2.2em; color: var(--accent-color); }
+    #tile-header h1 { margin-bottom: 0.1em; font-size: 2.2em; }
     #tile-header .subtitle { margin-top: 0; font-size: 0.95em; color: var(--subtitle-color); }
     #tile-about img { width: 150px; height: 150px; border-radius: 15px; object-fit: cover; border: 3px solid var(--bg-color); box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0; }
     #tile-about .about-text { flex-grow: 1; text-align: left; }
@@ -149,131 +176,123 @@
     #tile-services li { margin-bottom: 10px; padding: 8px 12px 8px 35px; position: relative; border-radius: 8px; transition: background-color 0.3s ease, transform 0.2s ease; cursor: pointer; }
     #tile-services li::before { content: '\f140'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 12px; top: 11px; color: var(--accent-color); }
     #tile-services li:hover { background-color: rgba(0,0,0,0.05); transform: translateX(3px); }
-    #tile-services li:active { transform: scale(0.98); }
+    #tile-services li:active { transform: scale(0.98); } /* Mikrointerakcja kliknięcia */
     body.dark-mode #tile-services li:hover { background-color: rgba(255,255,255,0.08); }
 
     #tile-social h3 { margin-bottom: 15px; }
-    #tile-social ul { list-style: none; display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; padding-top: 0; }
-    #tile-social a { color: var(--icon-color); font-size: 1.7em; transition: color 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); display: inline-block; }
-    #tile-social a:hover { color: var(--accent-color); transform: scale(1.15) rotate(-8deg) translateY(-3px); }
+    #tile-social ul { list-style: none; display: flex; flex-wrap: wrap; gap: 18px; /* Większy gap */ justify-content: center; padding-top: 0; }
+    #tile-social a { color: var(--icon-color); font-size: 1.7em; /* Większe ikony */ transition: color 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Sprężysta animacja */ display: inline-block; }
+    #tile-social a:hover { color: var(--accent-color); transform: scale(1.15) rotate(-8deg) translateY(-3px); /* Bardziej dynamiczny hover */ }
 
-    /* Lokalizacja - padding zmieniony wyżej */
     #tile-location h3 { margin-bottom: 10px; }
     #tile-location p { margin-bottom: 15px; }
     #tile-location img.map-graphic { width: 100%; max-width: 250px; height: auto; border-radius: 10px; display: block; margin: 0 auto; filter: brightness(1) contrast(1); transition: filter 0.3s ease; }
     body.dark-mode #tile-location img.map-graphic { filter: brightness(0.8) contrast(1.2); }
 
-    /* Opinie - padding zmieniony wyżej */
-    #tile-testimonials .testimonial { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed var(--border-color); }
-    #tile-testimonials .testimonial:last-child { margin-bottom: 0; border-bottom: none; }
-    #tile-testimonials blockquote { font-style: italic; margin-bottom: 15px; font-size: 1.1em; /* Lekko powiększony cytat */ line-height: 1.6; }
-    #tile-testimonials cite { font-weight: bold; color: var(--heading-color); font-size: 1em; display: block; text-align: right; }
+    /* Sekcja Opinii (Full-Bleed) - Nowe Style */
+    #testimonials-section {
+        width: 100%; /* Pełna szerokość */
+        padding: 60px 20px; /* Większy padding góra/dół */
+        margin: 40px 0; /* Odstęp od reszty */
+        background-color: var(--tile-bg-color); /* Tło jak kafelki lub inne */
+        text-align: center;
+        border-top: 1px solid var(--border-color); /* Opcjonalne oddzielenie */
+        border-bottom: 1px solid var(--border-color);
+        position: relative; /* Dla ewentualnych dekoracji */
+    }
+     #testimonials-section h2 { margin-bottom: 40px; }
+    .testimonial-container {
+        max-width: 800px; /* Ograniczenie szerokości dla czytelności */
+        margin: 0 auto;
+        display: flex; /* Można użyć flex lub grid dla wielu opinii */
+        flex-direction: column;
+        gap: 30px;
+    }
+    .testimonial { margin-bottom: 0; padding-bottom: 0; border-bottom: none; /* Usunięcie stylów z kafelka */ }
+    .testimonial blockquote { font-style: italic; margin-bottom: 15px; font-size: 1.15em; line-height: 1.6; }
+    .testimonial cite { font-weight: bold; color: var(--heading-color); font-size: 1em; }
 
-    /* Kontakt - padding zmieniony wyżej */
-    #tile-contact h3 { margin-bottom: 10px; width: 100%; text-align: left; }
-    #tile-contact p { margin-bottom: 10px; width: 100%; text-align: left; }
-    #tile-contact form { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; align-self: stretch; }
-    #tile-contact label { display: block; margin-bottom: 3px; font-weight: 500; font-size: 0.9em; }
-    #tile-contact input[type="text"], #tile-contact input[type="email"], #tile-contact textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color); font-family: inherit; font-size: 0.95em; transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; }
-    #tile-contact input:focus, #tile-contact textarea:focus { border-color: var(--accent-color); outline: none; box-shadow: 0 0 6px rgba(var(--accent-color-rgb), 0.4); }
-    #tile-contact textarea { resize: vertical; min-height: 80px; }
-    #tile-contact button.cta-button { background-image: var(--accent-gradient); background-size: 200% auto; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-size: 1em; font-weight: bold; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background-position 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease; align-self: flex-start; box-shadow: 0 4px 15px rgba(var(--accent-color-rgb), 0.3); margin-top: 5px; }
-    #tile-contact button.cta-button:hover { background-position: right center; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(var(--accent-color-rgb), 0.4); }
-    #tile-contact button.cta-button:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(var(--accent-color-rgb), 0.3); }
+    /* Kafelek Kontakt */
+    #tile-contact { text-align: left; }
+    #tile-contact form { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+    #tile-contact label { display: block; margin-bottom: 5px; font-weight: 500; }
+    #tile-contact input[type="text"], #tile-contact input[type="email"], #tile-contact textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color); font-family: inherit; font-size: 1em; transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; }
+    #tile-contact input:focus, #tile-contact textarea:focus { border-color: var(--accent-color); outline: none; box-shadow: 0 0 8px rgba(var(--accent-color-rgb, 0, 123, 255), 0.4); } /* Poprawiony focus, wymaga --accent-color-rgb */
+    #tile-contact textarea { resize: vertical; min-height: 100px; }
+    #tile-contact button.cta-button { background-image: var(--accent-gradient); background-size: 200% auto; color: white; padding: 13px 25px; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background-position 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease; align-self: flex-start; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3); }
+    #tile-contact button.cta-button:hover { background-position: right center; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4); }
+    #tile-contact button.cta-button:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3); } /* Efekt kliknięcia */
 
 
-    /* Sekcja Galerii (bez zmian) */
+    /* Sekcja Galerii */
     #gallery-section { max-width: 1200px; width: calc(100% - 40px); margin: 40px auto; padding: 40px; }
     #gallery-section:hover { transform: none; box-shadow: 0 12px 35px -5px var(--shadow-color); }
     #gallery-section h2 { text-align: center; margin-bottom: 15px; }
     .gallery-filters { text-align: center; margin-bottom: 30px; }
-    .gallery-filters button { /* ... style ... */ }
-    .gallery-filters button:hover { /* ... style ... */ }
-    .gallery-filters button.active { /* ... style ... */ }
-    .gallery-filters button:active { transform: scale(0.97); }
+    .gallery-filters button { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 18px; margin: 5px; border-radius: 20px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease; font-size: 0.9em; font-weight: 500; }
+    .gallery-filters button:hover { background-color: var(--tile-bg-color); color: var(--accent-color); border-color: var(--accent-color); transform: translateY(-2px); }
+    .gallery-filters button.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); transform: translateY(-2px); }
+    .gallery-filters button:active { transform: scale(0.97); } /* Efekt kliknięcia */
+
     .gallery-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-    .gallery-item { /* ... style ... */ }
-    .gallery-item.hidden { /* ... style ... */ }
+    .gallery-item { background-color: var(--gallery-item-bg); border-radius: 10px; box-shadow: 0 4px 8px var(--shadow-color); transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease; overflow: hidden; position: relative; /* Usunięto border */ }
+    .gallery-item.hidden { opacity: 0; transform: scale(0.9); pointer-events: none; height: 0; margin: 0; padding: 0; border: none; overflow: hidden; transition-delay: 0s !important; }
     .gallery-item:hover { transform: scale(1.03); box-shadow: 0 6px 12px var(--strong-shadow-color); }
-    .gallery-item img { /* ... style ... */ }
+    .gallery-item img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 10px; transition: opacity 0.3s ease, transform 0.3s ease; }
     .gallery-item:hover img { transform: scale(1.05); }
-    .gallery-item .overlay { /* ... style ... */ }
+    .gallery-item .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0); border-radius: 10px; transition: background-color 0.3s ease; pointer-events: none; }
     .gallery-item:hover .overlay { background-color: rgba(0, 0, 0, 0.25); }
     .gallery-item img.clickable-img { cursor: pointer; }
-    .gallery-item-video a { /* ... style ... */ }
-    .gallery-item-video img { /* ... style ... */ }
-    .gallery-item-video a::after { /* ... style ... */ }
-    .gallery-item-video a:hover::after { /* ... style ... */ }
+    .gallery-item-video a { display: block; position: relative; line-height: 0; }
+    .gallery-item-video img { border-radius: 10px; }
+    .gallery-item-video a::after { content: '\f144'; font-family: "Font Awesome 6 Brands"; font-weight: 400; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 50px; color: rgba(255, 0, 0, 0.9); text-shadow: 0 0 15px rgba(0, 0, 0, 0.7); pointer-events: none; opacity: 0.8; transition: opacity 0.3s ease, transform 0.3s ease; }
+    .gallery-item-video a:hover::after { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
 
-    /* Stopka (bez zmian) */
+    /* Stopka */
     footer { text-align: center; padding: 30px 20px; margin-top: 40px; border-top: 1px solid var(--border-color); color: var(--icon-color); font-size: 0.9em; }
 
-    /* Modale z Glassmorphism (bez zmian) */
-    .modal { /* ... style ... */ }
-    .modal.show { /* ... style ... */ }
-    .modal-content { /* ... style ... */ }
+    /* Modale z Glassmorphism */
+    .modal {
+        display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%;
+        overflow: auto; background-color: var(--modal-bg); /* Tło z glassmorphism */
+        -webkit-backdrop-filter: var(--modal-backdrop-blur); /* Dla Safari */
+        backdrop-filter: var(--modal-backdrop-blur); /* Efekt rozmycia */
+        align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease;
+    }
+    .modal.show { display: flex; opacity: 1; }
+    .modal-content {
+        position: relative; background-color: var(--modal-content-bg); /* Tło kontentu */
+        margin: auto; padding: 30px; border-radius: 10px; max-width: 90%; max-height: 90vh;
+        display: flex; flex-direction: column; align-items: center; text-align: center;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Cień dla glassmorphism */
+        border: 1px solid rgba(255, 255, 255, 0.18); /* Delikatna ramka dla glass */
+        transform: scale(0.9); transition: transform 0.4s ease, background-color 0.3s ease;
+    }
     #galleryModal .modal-content { width: 80vw; }
     #serviceModal .modal-content { width: 60vw; max-width: 700px; text-align: left; }
     .modal.show .modal-content { transform: scale(1); }
-    .modal-image { /* ... style ... */ }
-    .modal-video-container { /* ... style ... */ }
-    .modal-video-container iframe { /* ... style ... */ }
-    .modal-details { /* ... style ... */ }
+    .modal-image { max-width: 100%; max-height: 65vh; display: none; margin-bottom: 20px; border-radius: 8px; }
+    .modal-video-container { width: 100%; height: 0; padding-bottom: 56.25%; position: relative; margin-bottom: 20px; display: none; }
+    .modal-video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px; }
+    .modal-details { font-size: 0.9em; color: var(--text-color); margin-top: 15px; display: none; }
     .modal-details p { margin-bottom: 8px; }
-    .close-button { /* ... style ... */ }
+    .close-button { position: absolute; top: 10px; right: 20px; color: var(--heading-color); /* Lepszy kontrast */ opacity: 0.7; font-size: 35px; font-weight: bold; transition: color 0.3s ease, opacity 0.3s ease; z-index: 1051; cursor: pointer; }
     .close-button:hover, .close-button:focus { color: var(--secondary-accent-color); opacity: 1; text-decoration: none; }
-    #serviceModal img { /* ... style ... */ }
-    #serviceModal h3 { /* ... style ... */ }
-    #serviceModal p { /* ... style ... */ }
+    #serviceModal img { max-width: 100%; height: auto; border-radius: 8px; margin-top: 15px; display: none; }
+    #serviceModal h3 { color: var(--heading-color); margin-bottom: 15px; }
+    #serviceModal p { color: var(--text-color); margin-bottom: 10px; }
 
-    /* Przycisk Scroll to Top (bez zmian) */
-    .scroll-to-top { /* ... style ... */ }
+    /* Przycisk Scroll to Top */
+    .scroll-to-top { position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color); color: white; border: none; border-radius: 50%; width: 45px; height: 45px; font-size: 1.5em; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease; z-index: 1000; }
     .scroll-to-top.visible { opacity: 0.8; visibility: visible; }
     .scroll-to-top:hover { opacity: 1; background-color: var(--accent-hover-color); transform: scale(1.1); }
-    .scroll-to-top:active { transform: scale(0.95); }
+    .scroll-to-top:active { transform: scale(0.95); } /* Efekt kliknięcia */
 
-    /* Responsywność */
-    @media (max-width: 1024px) {
-        .main-container { gap: 30px; }
-        #gallery-section, .main-container { width: calc(100% - 40px); padding-left: 20px; padding-right: 20px;}
-        .gallery-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;}
-        /* Reset span dla #tile-about i #tile-testimonials na tabletach */
-         #tile-about, #tile-testimonials { grid-column: auto; }
-    }
-    @media (max-width: 768px) {
-        body { font-size: 15px; line-height: 1.6; }
-        h1 { font-size: 2em; } h2 { font-size: 1.6em; } h3 { font-size: 1.2em; }
-        .main-container { grid-template-columns: 1fr; gap: 25px; margin: 50px auto 30px auto; }
-        .tile { padding: 25px; }
-        #tile-about { flex-direction: column; align-items: center; }
-        #tile-about .about-text { text-align: center; }
-        #tile-header, #tile-social, #tile-contact { padding: 20px; }
-        #tile-header h1 { font-size: 1.8em;}
-        #tile-social a { font-size: 1.5em; }
-        .stacked-tiles-wrapper { gap: 25px; } /* Dostosowanie odstępu we wrapperze */
 
-        .gallery-filters button { padding: 7px 15px; }
-        #gallery-section { padding: 30px; width: calc(100% - 20px); margin-left: auto; margin-right: auto;}
-        .gallery-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .gallery-item-video a::after { font-size: 40px; }
-
-        .modal-content { padding: 20px; width: 90%; max-width: 90%; }
-        #serviceModal .modal-content { width: 85vw; }
-        .modal-image { max-height: 55vh; }
-        .close-button { font-size: 30px; top: 5px; right: 10px; }
-        .scroll-to-top { width: 40px; height: 40px; font-size: 1.3em; bottom: 15px; right: 15px;}
-    }
-     @media (max-width: 480px) {
-         .main-container { gap: 20px; }
-         #tile-header img.logo { max-width: 150px; }
-         #tile-contact button.cta-button { width: 100%; text-align: center; }
-         #gallery-section { padding: 20px; width: 100%; margin-left: 0; margin-right: 0; border-radius: 0; }
-         .gallery-container { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-         .gallery-item-video a::after { font-size: 35px; }
-         .modal-content { padding: 15px; }
-         #serviceModal .modal-content { width: 90vw; }
-         .stacked-tiles-wrapper { gap: 20px; }
-    }
+    /* Responsywność - bez większych zmian */
+    @media (max-width: 1024px) { .main-container { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; } #tile-about { grid-column: span 1; flex-direction: column; align-items: center; } #tile-about .about-text { text-align: center; } /* Usunięto #tile-testimonials */ .gallery-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;} #gallery-section, .main-container, #testimonials-section { width: calc(100% - 40px); padding-left: 20px; padding-right: 20px;} }
+    @media (max-width: 768px) { body { font-size: 15px; line-height: 1.6; } h1 { font-size: 2em; } h2 { font-size: 1.6em; } h3 { font-size: 1.2em; } .main-container { grid-template-columns: 1fr; gap: 25px; margin: 50px auto 30px auto; } .tile { padding: 25px; } #tile-about img { width: 120px; height: 120px; } #tile-header, #tile-social { padding: 20px; } #tile-header h1 { font-size: 1.8em;} #tile-social a { font-size: 1.5em; } .gallery-filters button { padding: 7px 15px; } #gallery-section, #testimonials-section { padding: 30px; width: calc(100% - 20px); margin-left: auto; margin-right: auto;} .gallery-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; } .gallery-item-video a::after { font-size: 40px; } .modal-content { padding: 20px; width: 90%; max-width: 90%; } #serviceModal .modal-content { width: 85vw; } .modal-image { max-height: 55vh; } .close-button { font-size: 30px; top: 5px; right: 10px; } .scroll-to-top { width: 40px; height: 40px; font-size: 1.3em; bottom: 15px; right: 15px;} }
+    @media (max-width: 480px) { .main-container { gap: 20px; } #tile-header img.logo { max-width: 150px; } #tile-contact button.cta-button { width: 100%; text-align: center; } #gallery-section, #testimonials-section { padding: 20px; width: 100%; margin-left: 0; margin-right: 0; border-radius: 0; } .gallery-container { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; } .gallery-item-video a::after { font-size: 35px; } .modal-content { padding: 15px; } #serviceModal .modal-content { width: 90vw; } }
 
 </style>
 </head>
@@ -287,78 +306,73 @@
         <div class="tile" id="tile-header" data-aos="zoom-in-down">
              <h1>SG.media.pl</h1> <p class="subtitle">Szymon Grzeszczak</p>
         </div>
-
         <div class="tile" id="tile-about" data-aos="fade-right" data-aos-delay="100">
             <img src="placeholder-profilowe.jpg" alt="Zdjęcie profilowe Szymon Grzeszczak" loading="lazy">
             <div class="about-text"> <h3>O mnie</h3> <p>Witaj! Jestem Szymon...</p> <p> Stawiam na profesjonalizm...</p> </div>
         </div>
-
-        <div class="stacked-tiles-wrapper">
-            <div class="tile" id="tile-social" data-aos="zoom-in-up" data-aos-delay="150">
-                <h3>Social Media</h3>
-                <ul>
-                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
-                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
-                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
-                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Vimeo"><i class="fab fa-vimeo-v"></i></a></li>
-                </ul>
-            </div>
-            <div class="tile" id="tile-contact" data-aos="fade-up" data-aos-delay="200">
-                <h3>Kontakt</h3> <p>Masz pytania...? Napisz do mnie!</p>
-                <form id="contact-form" action="https://formspree.io/f/YOUR_ENDPOINT_HERE" method="POST">
-                     <label for="name">Imię:</label> <input type="text" id="name" name="name" required>
-                     <label for="email">E-mail:</label> <input type="email" id="email" name="email" required>
-                     <label for="message">Wiadomość:</label> <textarea id="message" name="message" required></textarea>
-                     <button type="submit" class="cta-button">Wyślij wiadomość</button>
-                </form>
-                <p id="form-status" style="margin-top: 15px; text-align: center;"></p>
-            </div>
-        </div>
-
-         <div class="tile" id="tile-services" data-aos="fade-left" data-aos-delay="250">
+        <div class="tile" id="tile-services" data-aos="fade-left" data-aos-delay="150">
             <h3>Oferuję</h3>
-             <ul>
-                 <li class="service-item" data-service-title="Fotografia Ślubna" data-service-desc="Pełne reportaże ślubne..." data-service-img="Sesja na fotografii/zf2.jpeg">Fotografię Ślubną i Narzeczeńską</li>
-                 <li class="service-item" data-service-title="Wideofilmowanie Ślubów" data-service-desc="Nowoczesne filmy ślubne..." data-service-img="placeholder-video-thumb1.jpg">Wideofilmowanie Ślubów</li>
-                 <li class="service-item" data-service-title="Sesje Portretowe" data-service-desc="Indywidualne, rodzinne..." data-service-img="Sesja na fotografii/zf1.jpeg">Sesje Portretowe</li>
-                 <li class="service-item" data-service-title="Fotografia Eventowa" data-service-desc="Relacje z konferencji..." data-service-img="Sesja na fotografii/zf3.jpeg">Fotografię i Filmowanie Eventów</li>
-                 <li class="service-item" data-service-title="Teledyski Muzyczne" data-service-desc="Kreatywne i dynamiczne..." data-service-img="placeholder-video-thumb2.jpg">Teledyski Muzyczne</li>
-                 <li class="service-item" data-service-title="Fotografia Produktowa" data-service-desc="Profesjonalne zdjęcia produktów..." data-service-img="path/to/produkt-example.jpg">Fotografię Produktową</li>
-                 <li class="service-item" data-service-title="Ujęcia z Drona" data-service-desc="Spektakularne ujęcia z powietrza..." data-service-img="path/to/dron-example.jpg">Ujęcia z Drona</li>
-             </ul>
+            <ul>
+                <li class="service-item" data-service-title="Fotografia Ślubna" data-service-desc="Pełne reportaże ślubne, sesje narzeczeńskie i plenerowe. Uchwycę magię Waszego dnia." data-service-img="Sesja na fotografii/zf2.jpeg">Fotografię Ślubną i Narzeczeńską</li>
+                <li class="service-item" data-service-title="Wideofilmowanie Ślubów" data-service-desc="Nowoczesne filmy ślubne, od dynamicznych teledysków po pełne reportaże. Używam profesjonalnego sprzętu..." data-service-img="placeholder-video-thumb1.jpg">Wideofilmowanie Ślubów</li>
+                <li class="service-item" data-service-title="Sesje Portretowe" data-service-desc="Indywidualne, rodzinne, dziecięce - w studio lub plenerze. Naturalne i pełne emocji kadry." data-service-img="Sesja na fotografii/zf1.jpeg">Sesje Portretowe</li>
+                <li class="service-item" data-service-title="Fotografia Eventowa" data-service-desc="Relacje z konferencji, bankietów, koncertów i innych wydarzeń. Dyskretnie i profesjonalnie." data-service-img="Sesja na fotografii/zf3.jpeg">Fotografię i Filmowanie Eventów</li>
+                <li class="service-item" data-service-title="Teledyski Muzyczne" data-service-desc="Kreatywne i dynamiczne teledyski dla zespołów i solistów. Pomogę zrealizować Twoją wizję." data-service-img="placeholder-video-thumb2.jpg">Teledyski Muzyczne</li>
+                <li class="service-item" data-service-title="Fotografia Produktowa" data-service-desc="Profesjonalne zdjęcia produktów na potrzeby e-commerce, katalogów i reklamy (packshoty, aranżowane)." data-service-img="path/to/produkt-example.jpg">Fotografię Produktową</li>
+                <li class="service-item" data-service-title="Ujęcia z Drona" data-service-desc="Spektakularne ujęcia z powietrza (zdjęcia i filmy) dla nieruchomości, eventów, ślubów." data-service-img="path/to/dron-example.jpg">Ujęcia z Drona</li>
+            </ul>
         </div>
-
-        <div class="tile" id="tile-location" data-aos="zoom-in-up" data-aos-delay="300">
+        <div class="tile" id="tile-social" data-aos="zoom-in-up" data-aos-delay="200">
+            <h3>Social Media</h3>
+            <ul>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Vimeo"><i class="fab fa-vimeo-v"></i></a></li>
+            </ul>
+        </div>
+        <div class="tile" id="tile-location" data-aos="zoom-in-up" data-aos-delay="250">
             <h3>Lokalizacja</h3> <p>Wrocław, Polska</p> <img src="placeholder-mapa-wroclaw.svg" alt="Graficzna mapa Wrocławia" class="map-graphic" loading="lazy">
         </div>
-
-        <div class="tile" id="tile-testimonials" data-aos="fade-up" data-aos-delay="350"> <h3>Co mówią klienci</h3>
+        <div class="tile" id="tile-contact" data-aos="fade-left" data-aos-delay="300"> <h3>Kontakt</h3> <p>Masz pytania...? Napisz do mnie!</p>
+            <form id="contact-form" action="https://formspree.io/f/YOUR_ENDPOINT_HERE" method="POST">
+                 <label for="name">Imię:</label> <input type="text" id="name" name="name" required>
+                 <label for="email">E-mail:</label> <input type="email" id="email" name="email" required>
+                 <label for="message">Wiadomość:</label> <textarea id="message" name="message" required></textarea>
+                 <button type="submit" class="cta-button">Wyślij wiadomość</button>
+            </form>
+            <p id="form-status" style="margin-top: 15px; text-align: center;"></p>
+        </div>
+    </div><section id="testimonials-section" data-aos="fade-up">
+        <h2>Co mówią klienci</h2>
+        <div class="testimonial-container">
             <div class="testimonial"> <blockquote>"Pełen profesjonalizm..."</blockquote> <cite>– Anna i Piotr K.</cite> </div>
             <div class="testimonial"> <blockquote>"Film z naszego eventu..."</blockquote> <cite>– XYZ Company</cite> </div>
-        </div>
+             </div>
+    </section>
 
-    </div><section id="gallery-section" class="tile" data-aos="fade-up" data-aos-duration="1000">
+    <section id="gallery-section" class="tile" data-aos="fade-up" data-aos-duration="1000">
         <h2>Galeria</h2>
-        <div class="gallery-filters"> <button class="filter-button active" data-filter="all">Wszystko</button> <button class="filter-button" data-filter="sluby">Śluby</button> <button class="filter-button" data-filter="portrety">Portrety</button> <button class="filter-button" data-filter="filmy">Filmy</button> <button class="filter-button" data-filter="eventy">Eventy</button> </div>
+        <div class="gallery-filters"> /* ... przyciski filtrowania ... */ <button class="filter-button active" data-filter="all">Wszystko</button> <button class="filter-button" data-filter="sluby">Śluby</button> <button class="filter-button" data-filter="portrety">Portrety</button> <button class="filter-button" data-filter="filmy">Filmy</button> <button class="filter-button" data-filter="eventy">Eventy</button> </div>
         <div class="gallery-container">
-            <div class="gallery-item" data-category="portrety"> <div class="overlay"></div><img src="Sesja na fotografii/zf1.jpeg" alt="Portret 1" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="sluby">   <div class="overlay"></div><img src="Sesja na fotografii/zf2.jpeg" alt="Ślub 1" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="eventy">  <div class="overlay"></div><img src="Sesja na fotografii/zf3.jpeg" alt="Event 1" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="portrety"><div class="overlay"></div><img src="Sesja na fotografii/zf4.jpeg" alt="Portret 2" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="sluby">   <div class="overlay"></div><img src="Sesja na fotografii/zf5.jpeg" alt="Ślub 2" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="portrety"><div class="overlay"></div><img src="Sesja na fotografii/zf6.jpeg" alt="Portret 3" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="sluby">   <div class="overlay"></div><img src="Sesja na fotografii/zf7.jpeg" alt="Ślub 3" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="eventy">  <div class="overlay"></div><img src="Sesja na fotografii/zf8.jpeg" alt="Event 2" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="portrety"><div class="overlay"></div><img src="Sesja na fotografii/zf9.jpeg" alt="Portret 4" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="portrety"><div class="overlay"></div><img src="Sesja na fotografii/zdj1.jpeg" alt="Portret 5" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="sluby">   <div class="overlay"></div><img src="Sesja na fotografii/zdj2.jpeg" alt="Ślub 4" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="eventy">  <div class="overlay"></div><img src="Sesja na fotografii/zdj3.jpeg" alt="Event 3" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="portrety"><div class="overlay"></div><img src="Sesja na fotografii/zdj4.jpeg" alt="Portret 6" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item" data-category="sluby">   <div class="overlay"></div><img src="Sesja na fotografii/zdj5.jpeg" alt="Ślub 5" class="clickable-img" loading="lazy"> </div>
-             <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_1"> <img src="placeholder-video-thumb1.jpg" alt="Miniaturka filmu 1" loading="lazy"> </a> </div>
-             <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_2"> <img src="placeholder-video-thumb2.jpg" alt="Miniaturka filmu 2" loading="lazy"> </a> </div>
-             <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_3"> <img src="placeholder-video-thumb3.jpg" alt="Miniaturka filmu 3" loading="lazy"> </a> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model Portretowy 1" data-lokalizacja="Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf1.jpeg" alt="Portret Zdjecie 1" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 1" data-lokalizacja="Pałac Ciekocinko (Przykład)"> <div class="overlay"></div><img src="Sesja na fotografii/zf2.jpeg" alt="Ślub Zdjecie 2" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Konferencja Firmowa" data-lokalizacja="Concordia Design Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf3.jpeg" alt="Event Zdjecie 3" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Modelka Studyjna" data-lokalizacja="Studio Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf4.jpeg" alt="Portret Zdjecie 4" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Detale Ślubne" data-lokalizacja="Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf5.jpeg" alt="Ślub Detale Zdjecie 5" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Plenerowa" data-lokalizacja="Park Szczytnicki"> <div class="overlay"></div><img src="Sesja na fotografii/zf6.jpeg" alt="Portret Plener Zdjecie 6" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 2" data-lokalizacja="Zamek Topacz"> <div class="overlay"></div><img src="Sesja na fotografii/zf7.jpeg" alt="Ślub Zdjecie 7" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Koncert" data-lokalizacja="Stary Klasztor"> <div class="overlay"></div><img src="Sesja na fotografii/zf8.jpeg" alt="Event Koncert Zdjecie 8" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Portret Męski" data-lokalizacja="Nadodrze"> <div class="overlay"></div><img src="Sesja na fotografii/zf9.jpeg" alt="Portret Męski Zdjecie 9" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Rodzinna" data-lokalizacja="Ogród Botaniczny"> <div class="overlay"></div><img src="Sesja na fotografii/zdj1.jpeg" alt="Sesja Rodzinna Zdjecie 1" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Plener Ślubny" data-lokalizacja="Góry Stołowe"> <div class="overlay"></div><img src="Sesja na fotografii/zdj2.jpeg" alt="Ślub Plener Zdjecie 2" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Bankiet" data-lokalizacja="Hotel Monopol"> <div class="overlay"></div><img src="Sesja na fotografii/zdj3.jpeg" alt="Event Bankiet Zdjecie 3" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Dziecięca" data-lokalizacja="Park Południowy"> <div class="overlay"></div><img src="Sesja na fotografii/zdj4.jpeg" alt="Sesja Dziecięca Zdjecie 4" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Przygotowania Ślubne" data-lokalizacja="Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zdj5.jpeg" alt="Ślub Przygotowania Zdjecie 5" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_1"> <img src="placeholder-video-thumb1.jpg" alt="Miniaturka filmu ślubnego" loading="lazy"> </a> </div>
+            <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_2"> <img src="placeholder-video-thumb2.jpg" alt="Miniaturka teledysku" loading="lazy"> </a> </div>
+            <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_3"> <img src="placeholder-video-thumb3.jpg" alt="Miniaturka filmu eventowego" loading="lazy"> </a> </div>
         </div>
     </section>
 
@@ -366,29 +380,45 @@
 
     <div id="galleryModal" class="modal"> <span class="close-button" aria-label="Zamknij">×</span> <div class="modal-content"> <img class="modal-image" id="modalGalleryImage" src="" alt="Powiększone zdjęcie z galerii"> <div class="modal-video-container" id="modalGalleryVideoContainer"> <iframe id="modalGalleryVideo" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> </div> <div class="modal-details" id="modalGalleryDetails"> <p id="detailRealizator"></p> <p id="detailModel"></p> <p id="detailLokalizacja"></p> </div> </div> </div>
     <div id="serviceModal" class="modal"> <span class="close-button" aria-label="Zamknij">×</span> <div class="modal-content"> <h3 id="serviceModalTitle"></h3> <p id="serviceModalDesc"></p> <img id="serviceModalImage" src="" alt="Przykładowa realizacja usługi" loading="lazy"> </div> </div>
-    <button class="scroll-to-top" aria-label="Przewiń do góry"> <i class="fas fa-arrow-up"></i> </button>
+     <button class="scroll-to-top" aria-label="Przewiń do góry"> <i class="fas fa-arrow-up"></i> </button>
 
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
 // Cały kod JavaScript pozostaje taki sam jak w poprzedniej odpowiedzi.
+// Zawiera inicjalizację AOS, Preloader, Rok w stopce, Tryb Ciemny,
+// Formularz Kontaktowy, Modale (Galerii i Usług), Filtrowanie Galerii,
+// Przycisk Scroll to Top.
+
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Inicjalizacja AOS ---
     AOS.init({ duration: 800, once: true, offset: 80, debounceDelay: 50, throttleDelay: 99 });
+
+    // --- Preloader ---
     const preloader = document.querySelector('.preloader');
     window.addEventListener('load', () => { if (preloader) { preloader.classList.add('hidden'); } AOS.refresh(); });
     setTimeout(() => { AOS.refresh(); }, 500);
+
+    // --- Rok w stopce ---
     const currentYearElement = document.getElementById('current-year');
     if(currentYearElement) { currentYearElement.textContent = new Date().getFullYear(); }
+
+    // --- Tryb Ciemny ---
     const themeSwitch = document.getElementById('checkbox');
     const currentTheme = localStorage.getItem('theme');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    function setTheme(isDark) { if (isDark) { document.body.classList.add('dark-mode'); if(themeSwitch) themeSwitch.checked = true; localStorage.setItem('theme', 'dark'); } else { document.body.classList.remove('dark-mode'); if(themeSwitch) themeSwitch.checked = false; localStorage.setItem('theme', 'light'); } /*setTimeout(() => { AOS.refreshHard(); }, 300);*/ }
+    function setTheme(isDark) { if (isDark) { document.body.classList.add('dark-mode'); if(themeSwitch) themeSwitch.checked = true; localStorage.setItem('theme', 'dark'); } else { document.body.classList.remove('dark-mode'); if(themeSwitch) themeSwitch.checked = false; localStorage.setItem('theme', 'light'); } /*setTimeout(() => { AOS.refreshHard(); }, 300);*/ } // Odkomentuj AOS jeśli są problemy
     if (themeSwitch) { if (currentTheme) { setTheme(currentTheme === 'dark'); } else { setTheme(prefersDarkScheme.matches); } themeSwitch.addEventListener('change', (e) => setTheme(e.target.checked)); prefersDarkScheme.addEventListener('change', (e) => { const userSetTheme = localStorage.getItem('theme'); if (!userSetTheme) { setTheme(e.matches); } }); }
+
+    // --- Formularz Kontaktowy ---
     const form = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
     async function handleSubmit(event) { event.preventDefault(); const data = new FormData(event.target); if(formStatus) { formStatus.textContent = 'Wysyłanie...'; formStatus.style.color = 'inherit'; } if (!event.target.action || event.target.action === "https://formspree.io/f/YOUR_ENDPOINT_HERE" || !event.target.action.includes("formspree.io")) { if(formStatus) { formStatus.textContent = "Błąd: Skonfiguruj endpoint Formspree..."; formStatus.style.color = 'red'; } console.error("Formspree endpoint not configured!"); return; } fetch(event.target.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } }).then(response => { if (response.ok) { if(formStatus) { formStatus.textContent = "Dziękuję za wiadomość! Odpowiem wkrótce."; formStatus.style.color = 'green'; } if(form) form.reset(); setTimeout(() => { if(formStatus) formStatus.textContent = ''; }, 6000); } else { response.json().then(data => { const errorMsg = Object.hasOwn(data, 'errors') ? data["errors"].map(error => error["message"]).join(", ") : "Ups! Coś poszło nie tak..."; if(formStatus) { formStatus.textContent = errorMsg; formStatus.style.color = 'red'; } console.error("Form submission error:", data); }).catch(error => { if(formStatus) { formStatus.textContent = "Ups! Wystąpił błąd serwera..."; formStatus.style.color = 'red'; } console.error("Form submission JSON parsing error:", error); }); } }).catch(error => { if(formStatus) { formStatus.textContent = "Ups! Wystąpił błąd sieci."; formStatus.style.color = 'red'; } console.error("Form submission network error:", error); }); }
     if (form) { form.addEventListener("submit", handleSubmit); }
+
+    // --- Modale (Galerii i Usług) ---
     const galleryModal = document.getElementById('galleryModal');
     const galleryModalImage = document.getElementById('modalGalleryImage');
     const galleryModalVideoContainer = document.getElementById('modalGalleryVideoContainer');
@@ -404,16 +434,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceModalImage = document.getElementById('serviceModalImage');
     const serviceCloseButton = serviceModal ? serviceModal.querySelector('.close-button') : null;
     const galleryItemsClickable = document.querySelectorAll('.gallery-container .gallery-item > *:not(.overlay)');
-    galleryItemsClickable.forEach(clickableElement => { clickableElement.addEventListener('click', (e) => { e.preventDefault(); const item = clickableElement.closest('.gallery-item'); if (!item || !galleryModal) return; const isVideo = item.classList.contains('gallery-item-video'); galleryModalImage.style.display = 'none'; galleryModalVideoContainer.style.display = 'none'; galleryModalDetails.style.display = 'none'; if (isVideo && clickableElement.tagName === 'A') { const videoLink = clickableElement; const youtubeId = videoLink.getAttribute('data-youtube-id'); if (youtubeId && !youtubeId.startsWith("VIDEO_ID")) { const embedUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`; galleryModalVideo.src = embedUrl; galleryModalVideoContainer.style.display = 'block'; } else { console.error("Invalid/missing YouTube ID:", videoLink); } } else if (!isVideo && clickableElement.tagName === 'IMG') { const img = clickableElement; galleryModalImage.src = img.src; galleryModalImage.alt = img.alt; galleryModalImage.style.display = 'block'; const realizator = item.getAttribute('data-realizator'); const model = item.getAttribute('data-model'); const lokalizacja = item.getAttribute('data-lokalizacja'); if(galleryDetailRealizator) galleryDetailRealizator.textContent = realizator ? `Realizator: ${realizator}` : ''; if(galleryDetailModel) galleryDetailModel.textContent = model ? `Model/Temat: ${model}` : ''; if(galleryDetailLokalizacja) galleryDetailLokalizacja.textContent = lokalizacja ? `Lokalizacja: ${lokalizacja}` : ''; galleryModalDetails.style.display = 'block'; } galleryModal.classList.add('show'); document.body.style.overflow = 'hidden'; }); });
+
+    galleryItemsClickable.forEach(clickableElement => {
+        clickableElement.addEventListener('click', (e) => {
+            e.preventDefault(); const item = clickableElement.closest('.gallery-item'); if (!item || !galleryModal) return; const isVideo = item.classList.contains('gallery-item-video'); galleryModalImage.style.display = 'none'; galleryModalVideoContainer.style.display = 'none'; galleryModalDetails.style.display = 'none';
+            if (isVideo && clickableElement.tagName === 'A') { const videoLink = clickableElement; const youtubeId = videoLink.getAttribute('data-youtube-id'); if (youtubeId && !youtubeId.startsWith("VIDEO_ID")) { const embedUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`; galleryModalVideo.src = embedUrl; galleryModalVideoContainer.style.display = 'block'; } else { console.error("Invalid/missing YouTube ID:", videoLink); } }
+            else if (!isVideo && clickableElement.tagName === 'IMG') { const img = clickableElement; galleryModalImage.src = img.src; galleryModalImage.alt = img.alt; galleryModalImage.style.display = 'block'; const realizator = item.getAttribute('data-realizator'); const model = item.getAttribute('data-model'); const lokalizacja = item.getAttribute('data-lokalizacja'); if(galleryDetailRealizator) galleryDetailRealizator.textContent = realizator ? `Realizator: ${realizator}` : ''; if(galleryDetailModel) galleryDetailModel.textContent = model ? `Model/Temat: ${model}` : ''; if(galleryDetailLokalizacja) galleryDetailLokalizacja.textContent = lokalizacja ? `Lokalizacja: ${lokalizacja}` : ''; galleryModalDetails.style.display = 'block'; }
+            galleryModal.classList.add('show'); document.body.style.overflow = 'hidden';
+        });
+    });
     const serviceItems = document.querySelectorAll('#tile-services .service-item');
-    serviceItems.forEach(item => { function openServiceModal() { if (!serviceModal || !serviceModalTitle || !serviceModalDesc || !serviceModalImage) return; const title = item.getAttribute('data-service-title'); const desc = item.getAttribute('data-service-desc'); const imgSrc = item.getAttribute('data-service-img'); serviceModalTitle.textContent = title || "Szczegóły usługi"; serviceModalDesc.innerHTML = desc ? desc.replace(/\n/g, '<br>') : "Więcej informacji wkrótce."; if (imgSrc && imgSrc !== 'path/to/example.jpg' && !imgSrc.includes('placeholder')) { serviceModalImage.src = imgSrc; serviceModalImage.alt = `Przykład realizacji: ${title}`; serviceModalImage.style.display = 'block'; } else { serviceModalImage.style.display = 'none'; } serviceModal.classList.add('show'); document.body.style.overflow = 'hidden'; } item.addEventListener('click', openServiceModal); item.setAttribute('role', 'button'); item.setAttribute('tabindex', '0'); item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openServiceModal(); } }); });
+    serviceItems.forEach(item => {
+        function openServiceModal() { if (!serviceModal || !serviceModalTitle || !serviceModalDesc || !serviceModalImage) return; const title = item.getAttribute('data-service-title'); const desc = item.getAttribute('data-service-desc'); const imgSrc = item.getAttribute('data-service-img'); serviceModalTitle.textContent = title || "Szczegóły usługi"; serviceModalDesc.textContent = desc || "Więcej informacji wkrótce."; if (imgSrc && imgSrc !== 'path/to/example.jpg' && !imgSrc.includes('placeholder')) { serviceModalImage.src = imgSrc; serviceModalImage.alt = `Przykład realizacji: ${title}`; serviceModalImage.style.display = 'block'; } else { serviceModalImage.style.display = 'none'; } serviceModal.classList.add('show'); document.body.style.overflow = 'hidden'; }
+        item.addEventListener('click', openServiceModal); item.setAttribute('role', 'button'); item.setAttribute('tabindex', '0');
+        item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openServiceModal(); } });
+    });
     function closeModal(modalElement) { if (modalElement) { modalElement.classList.remove('show'); if (modalElement.id === 'galleryModal') { galleryModalVideo.src = ""; galleryModalImage.src = ""; } if (modalElement.id === 'serviceModal') { serviceModalImage.src = ""; } const anyModalOpen = document.querySelector('.modal.show'); if (!anyModalOpen) { document.body.style.overflow = ''; } } }
     if(galleryModal && galleryCloseButton) { galleryCloseButton.addEventListener('click', () => closeModal(galleryModal)); galleryModal.addEventListener('click', (event) => { if (event.target === galleryModal) { closeModal(galleryModal); } }); }
     if(serviceModal && serviceCloseButton) { serviceCloseButton.addEventListener('click', () => closeModal(serviceModal)); serviceModal.addEventListener('click', (event) => { if (event.target === serviceModal) { closeModal(serviceModal); } }); }
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { const openModal = document.querySelector('.modal.show'); if(openModal) { closeModal(openModal); } } });
+
+    // --- Filtrowanie Galerii ---
     const filterContainer = document.querySelector('.gallery-filters');
     const galleryItemsAll = document.querySelectorAll('.gallery-container .gallery-item');
-    if (filterContainer && galleryItemsAll.length > 0) { filterContainer.addEventListener('click', (e) => { if (e.target.classList.contains('filter-button')) { filterContainer.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); const filterValue = e.target.getAttribute('data-filter'); galleryItemsAll.forEach(item => { const itemCategory = item.getAttribute('data-category'); const shouldBeVisible = (filterValue === 'all' || itemCategory === filterValue); item.style.display = shouldBeVisible ? '' : 'none'; }); AOS.refresh(); } }); }
+    if (filterContainer && galleryItemsAll.length > 0) {
+         filterContainer.addEventListener('click', (e) => { if (e.target.classList.contains('filter-button')) { filterContainer.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); const filterValue = e.target.getAttribute('data-filter'); galleryItemsAll.forEach(item => { const itemCategory = item.getAttribute('data-category'); const shouldBeVisible = (filterValue === 'all' || itemCategory === filterValue); item.style.display = shouldBeVisible ? '' : 'none'; }); AOS.refresh(); } });
+    }
+
+    // --- Przycisk Scroll to Top ---
     const scrollToTopBtn = document.querySelector('.scroll-to-top');
     if (scrollToTopBtn) { window.addEventListener('scroll', () => { if (window.scrollY > 300) { scrollToTopBtn.classList.add('visible'); } else { scrollToTopBtn.classList.remove('visible'); } }); scrollToTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); }); }
 
