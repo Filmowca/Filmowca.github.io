@@ -18,25 +18,20 @@
     <meta name="twitter:title" content="SG.media.pl - Szymon Grzeszczak...">
     <meta name="twitter:description" content="Profesjonalna fotografia i filmowanie we Wrocławiu...">
     <meta name="twitter:image" content="[TU WSTAW ADRES URL DO GŁÓWNEGO ZDJĘCIA/LOGO]">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "name": "SG.media.pl - Szymon Grzeszczak",
-      "image": "[TU WSTAW ADRES URL DO GŁÓWNEGO ZDJĘCIA/LOGO]",
-      "@id": "[TU WSTAW ADRES URL STRONY]",
-      "url": "[TU WSTAW ADRES URL STRONY]",
+      /* ... reszta danych ... */
       "email": "kontakt@sg.media.pl",
        /* ... reszta danych ... */
+      "makesOffer": [ /* ... usługi ... */ ]
     }
     </script>
 
@@ -47,7 +42,7 @@
         --tile-bg-color: #f8f8f8;
         --text-color: #333;
         --heading-color: #1a1a1a;
-        --accent-color: #007bff; /* Niebieski Akcent */
+        --accent-color: #007bff;
         --accent-hover-color: #0056b3;
         --accent-gradient: linear-gradient(45deg, var(--accent-color), var(--accent-hover-color));
         --secondary-accent-color: #dc3545;
@@ -61,8 +56,8 @@
         --modal-backdrop-blur: blur(8px);
         --modal-content-bg: rgba(255, 255, 255, 0.8);
         --subtitle-color: #555;
-         /* Dodano zmienną RGB dla focusa */
-         --accent-color-rgb: 0, 123, 255;
+        --accent-color-rgb: 0, 123, 255;
+        --grid-gap: 40px; /* Zmienna dla odstępu w siatce */
     }
     body.dark-mode {
         --bg-color: #1a1a1a;
@@ -82,7 +77,7 @@
         --modal-bg: rgba(26, 26, 26, 0.65);
         --modal-content-bg: rgba(44, 44, 44, 0.85);
         --subtitle-color: #aaa;
-         --accent-color-rgb: 77, 171, 247; /* RGB dla niebieskiego w trybie ciemnym */
+        --accent-color-rgb: 77, 171, 247;
     }
 
     /* Reset i Podstawy */
@@ -123,14 +118,14 @@
     .slider:before { background-color: white; content: ""; height: 26px; width: 26px; position: absolute; left: 4px; bottom: 4px; transition: .4s; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 14px; color: #aaa; }
     .slider:before { content: '\f185'; } input:checked + .slider:before { content: '\f186'; } input:checked + .slider { background-color: var(--accent-color); } input:checked + .slider:before { transform: translateX(26px); }
 
-    /* ----- ZMIANA UKŁADU SIATKI ----- */
+    /* ----- NOWA DEFINICJA SIATKI ----- */
     .main-container {
         display: grid;
-        /* Zdefiniowanie 2 kolumn */
-        grid-template-columns: repeat(2, 1fr);
-        /* Można dodać definicje wierszy, ale auto zwykle wystarcza */
-        /* grid-template-rows: auto auto auto auto; */
-        gap: 40px;
+        /* Automatyczne dopasowanie kolumn, min. 320px szerokości */
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        grid-auto-rows: auto; /* Wiersze dopasowują wysokość */
+        gap: var(--grid-gap); /* Użycie zmiennej */
+        align-items: start; /* Kafelki nie rozciągają się w pionie */
         max-width: 1200px;
         margin: 70px auto 50px auto;
         padding: 20px;
@@ -141,7 +136,7 @@
         background-color: var(--tile-bg-color); border-radius: 18px; padding: 35px;
         box-shadow: 0 12px 35px -5px var(--shadow-color);
         transition: transform 0.35s ease-out, box-shadow 0.35s ease-out, background-color 0.3s ease;
-        min-height: 150px; /* Zachowana min. wysokość dla większości */
+        /* Usunięto min-height */
         display: flex; flex-direction: column;
         /* Usunięto border */
     }
@@ -149,33 +144,38 @@
 
     /* Kompaktowe kafelki: Header, Social, Contact */
     #tile-header, #tile-social, #tile-contact {
-        padding: 25px;         /* Mniejszy padding dla kompaktowych */
-        min-height: auto;      /* Brak minimalnej wysokości */
+        padding: 25px;
+        min-height: auto; /* Zapewnia brak minimalnej wysokości */
     }
-     /* Wyśrodkowanie dla Header i Social */
-    #tile-header, #tile-social {
-        align-items: center;
-        justify-content: center;
-    }
-    /* Wyrównanie do góry i lewej dla Contact */
-    #tile-contact {
-        align-items: stretch; /* Elementy (np. form) rozciągają się */
-        justify-content: flex-start;
-        text-align: left;
+    #tile-header, #tile-social { align-items: center; justify-content: center; }
+    #tile-contact { align-items: stretch; justify-content: flex-start; text-align: left; }
+
+    /* ----- USUNIĘTO WSZYSTKIE grid-column i grid-row z ID KAFELKÓW ----- */
+    /* Przykład - jeśli chcesz, aby 'O mnie' zajmował 2 kolumny na większych ekranach */
+     @media (min-width: 768px) { /* Możesz dostosować breakpoint */
+         #tile-about {
+             grid-column: span 2; /* Zajmuje 2 kolumny jeśli siatka je utworzy */
+             /* Może wymagać `grid-row: span 1` lub `auto` jeśli inne elementy mają stać obok */
+         }
+         /* Wrapper dla Social/Contact może potrzebować span 1 w tym scenariuszu */
+         .stacked-tiles-wrapper {
+             /* grid-column: span 1; */ /* Raczej pozwólmy auto-placement zadziałać */
+         }
+     }
+
+
+    /* Wrapper dla Social i Contact */
+    .stacked-tiles-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--grid-gap); /* Taki sam odstęp jak w siatce */
+        /* Ten wrapper nie ma własnego tła ani paddingu */
+        /* Zajmuje miejsce w siatce jak jeden element */
     }
 
-    /* ----- NOWE PRZYPISANIA DO SIATKI ----- */
-    #tile-header { grid-column: 1 / 2; grid-row: 1 / 2; text-align: center; }
-    #tile-about { grid-column: 1 / 2; grid-row: 2 / 4; /* Zajmuje 2 wiersze */ flex-direction: row; align-items: flex-start; gap: 25px; }
-    #tile-social { grid-column: 2 / 3; grid-row: 1 / 2; }
-    #tile-contact { grid-column: 2 / 3; grid-row: 2 / 3; }
-    #tile-services { grid-column: 2 / 3; grid-row: 3 / 4; } /* Przesunięty */
-    #tile-location { grid-column: 1 / 2; grid-row: 4 / 5; align-items: center; }
-    #tile-testimonials { grid-column: 2 / 3; grid-row: 4 / 5; } /* Wrócił do siatki */
-
-    /* Stylizacja wewnątrz kafelków */
+    /* Stylizacja wewnątrz kafelków (dostosowania dla Contact) */
     #tile-header img.logo { max-width: 180px; margin-bottom: 10px; }
-    #tile-header h1 { margin-bottom: 0.1em; font-size: 2.2em; color: var(--accent-color); /* *** NIEBIESKI KOLOR *** */ }
+    #tile-header h1 { margin-bottom: 0.1em; font-size: 2.2em; color: var(--accent-color); }
     #tile-header .subtitle { margin-top: 0; font-size: 0.95em; color: var(--subtitle-color); }
     #tile-about img { width: 150px; height: 150px; border-radius: 15px; object-fit: cover; border: 3px solid var(--bg-color); box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0; }
     #tile-about .about-text { flex-grow: 1; text-align: left; }
@@ -202,14 +202,14 @@
     #tile-testimonials .testimonial { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed var(--border-color); }
     #tile-testimonials .testimonial:last-child { margin-bottom: 0; border-bottom: none; }
     #tile-testimonials blockquote { font-style: italic; margin-bottom: 15px; font-size: 1.05em; line-height: 1.6; }
-    #tile-testimonials cite { font-weight: bold; color: var(--heading-color); font-size: 1em; display: block; text-align: right; /* Wyrównanie autora */ }
+    #tile-testimonials cite { font-weight: bold; color: var(--heading-color); font-size: 1em; display: block; text-align: right; }
 
     /* Kontakt - dopasowanie do mniejszego kafelka */
     #tile-contact h3 { margin-bottom: 10px; width: 100%; text-align: left; }
     #tile-contact p { margin-bottom: 10px; width: 100%; text-align: left; }
-    #tile-contact form { display: flex; flex-direction: column; gap: 12px; /* Mniejszy gap */ margin-top: 10px; align-self: stretch; }
+    #tile-contact form { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; align-self: stretch; }
     #tile-contact label { display: block; margin-bottom: 3px; font-weight: 500; font-size: 0.9em; }
-    #tile-contact input[type="text"], #tile-contact input[type="email"], #tile-contact textarea { width: 100%; padding: 10px; /* Mniejszy padding */ border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color); font-family: inherit; font-size: 0.95em; transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; }
+    #tile-contact input[type="text"], #tile-contact input[type="email"], #tile-contact textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color); font-family: inherit; font-size: 0.95em; transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; }
     #tile-contact input:focus, #tile-contact textarea:focus { border-color: var(--accent-color); outline: none; box-shadow: 0 0 6px rgba(var(--accent-color-rgb), 0.4); }
     #tile-contact textarea { resize: vertical; min-height: 80px; }
     #tile-contact button.cta-button { background-image: var(--accent-gradient); background-size: 200% auto; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-size: 1em; font-weight: bold; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background-position 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease; align-self: flex-start; box-shadow: 0 4px 15px rgba(var(--accent-color-rgb), 0.3); margin-top: 5px; }
@@ -217,7 +217,7 @@
     #tile-contact button.cta-button:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(var(--accent-color-rgb), 0.3); }
 
 
-    /* Sekcja Galerii */
+    /* Sekcja Galerii - bez zmian */
     #gallery-section { max-width: 1200px; width: calc(100% - 40px); margin: 40px auto; padding: 40px; }
     #gallery-section:hover { transform: none; box-shadow: 0 12px 35px -5px var(--shadow-color); }
     #gallery-section h2 { text-align: center; margin-bottom: 15px; }
@@ -243,7 +243,7 @@
     /* Stopka */
     footer { text-align: center; padding: 30px 20px; margin-top: 40px; border-top: 1px solid var(--border-color); color: var(--icon-color); font-size: 0.9em; }
 
-    /* Modale z Glassmorphism */
+    /* Modale z Glassmorphism - bez zmian */
     .modal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: var(--modal-bg); -webkit-backdrop-filter: var(--modal-backdrop-blur); backdrop-filter: var(--modal-backdrop-blur); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; }
     .modal.show { display: flex; opacity: 1; }
     .modal-content { position: relative; background-color: var(--modal-content-bg); margin: auto; padding: 30px; border-radius: 10px; max-width: 90%; max-height: 90vh; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); border: 1px solid rgba(255, 255, 255, 0.18); transform: scale(0.9); transition: transform 0.4s ease, background-color 0.3s ease; }
@@ -269,32 +269,25 @@
 
     /* Responsywność */
     @media (max-width: 1024px) {
-        .main-container { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        /* Dostosowanie układu 2-kolumnowego na tabletach (może wymagać więcej zmian) */
-         #tile-about { grid-row: 2 / 3; /* Tylko 1 wiersz */ }
-         /* Pozostałe kafelki mogą potrzebować dostosowania grid-row */
-         #tile-services { grid-column: 1 / 2; grid-row: 3 / 4; } /* Przykładowe przeniesienie */
-         #tile-location { grid-column: 2 / 3; grid-row: 3 / 4; } /* Przykładowe przeniesienie */
-         #tile-testimonials { grid-column: 1 / 3; grid-row: 4 / 5; } /* Zajmuje całą szerokość */
-
-        .gallery-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;}
+        .main-container { gap: 30px; }
         #gallery-section, .main-container { width: calc(100% - 40px); padding-left: 20px; padding-right: 20px;}
+        .gallery-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;}
+         /* Wyrównanie wysokości wierszy - może być potrzebne dla auto-fit */
+         /* .main-container { align-items: stretch; } */ /* Odkomentuj jeśli wolisz równe wysokości */
     }
     @media (max-width: 768px) {
         body { font-size: 15px; line-height: 1.6; }
         h1 { font-size: 2em; } h2 { font-size: 1.6em; } h3 { font-size: 1.2em; }
-        /* Układ jednokolumnowy dla siatki głównej */
-        .main-container { grid-template-columns: 1fr; gap: 25px; margin: 50px auto 30px auto; }
-        /* Resetowanie przypisań do siatki dla układu jednokolumnowego */
-        #tile-header, #tile-about, #tile-services, #tile-social, #tile-location, #tile-testimonials, #tile-contact {
-             grid-column: 1 / -1; /* Zajmuje całą szerokość */
-             grid-row: auto; /* Automatyczne rozmieszczenie wierszy */
-        }
-        #tile-about { flex-direction: column; align-items: center; } /* Powrót do zdjęcia nad tekstem */
-        #tile-about .about-text { text-align: center; }
+        /* W układzie jednokolumnowym nie potrzebujemy już span 2 dla #tile-about */
+         @media (min-width: 768px) { #tile-about { grid-column: auto; } } /* Reset span */
+         /* Reset wrapper */
+         .stacked-tiles-wrapper { flex-direction: column; gap: var(--grid-gap); } /* Upewnienie się */
 
+        .main-container { grid-template-columns: 1fr; gap: 25px; margin: 50px auto 30px auto; align-items: start; /* Upewnienie się */ }
         .tile { padding: 25px; }
-        #tile-header, #tile-social, #tile-contact { padding: 20px; } /* Zachowaj mniejszy padding dla kompaktowych */
+        #tile-about { flex-direction: column; align-items: center; }
+        #tile-about .about-text { text-align: center; }
+        #tile-header, #tile-social, #tile-contact { padding: 20px; }
         #tile-header h1 { font-size: 1.8em;}
         #tile-social a { font-size: 1.5em; }
 
@@ -318,6 +311,7 @@
          .gallery-item-video a::after { font-size: 35px; }
          .modal-content { padding: 15px; }
          #serviceModal .modal-content { width: 90vw; }
+         /* Na mobilnych wrapper jest niepotrzebny, ale nie szkodzi */
     }
 
 </style>
@@ -332,28 +326,35 @@
         <div class="tile" id="tile-header" data-aos="zoom-in-down">
              <h1>SG.media.pl</h1> <p class="subtitle">Szymon Grzeszczak</p>
         </div>
+
         <div class="tile" id="tile-about" data-aos="fade-right" data-aos-delay="100">
             <img src="placeholder-profilowe.jpg" alt="Zdjęcie profilowe Szymon Grzeszczak" loading="lazy">
             <div class="about-text"> <h3>O mnie</h3> <p>Witaj! Jestem Szymon...</p> <p> Stawiam na profesjonalizm...</p> </div>
         </div>
-         <div class="tile" id="tile-social" data-aos="zoom-in-up" data-aos-delay="150"> <h3>Social Media</h3>
-            <ul>
-                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
-                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
-                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
-                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Vimeo"><i class="fab fa-vimeo-v"></i></a></li>
-            </ul>
+
+        <div class="stacked-tiles-wrapper">
+            <div class="tile" id="tile-social" data-aos="zoom-in-up" data-aos-delay="150">
+                <h3>Social Media</h3>
+                <ul>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Vimeo"><i class="fab fa-vimeo-v"></i></a></li>
+                </ul>
+            </div>
+            <div class="tile" id="tile-contact" data-aos="fade-up" data-aos-delay="200">
+                <h3>Kontakt</h3> <p>Masz pytania...? Napisz do mnie!</p>
+                <form id="contact-form" action="https://formspree.io/f/YOUR_ENDPOINT_HERE" method="POST">
+                     <label for="name">Imię:</label> <input type="text" id="name" name="name" required>
+                     <label for="email">E-mail:</label> <input type="email" id="email" name="email" required>
+                     <label for="message">Wiadomość:</label> <textarea id="message" name="message" required></textarea>
+                     <button type="submit" class="cta-button">Wyślij wiadomość</button>
+                </form>
+                <p id="form-status" style="margin-top: 15px; text-align: center;"></p>
+            </div>
         </div>
-         <div class="tile" id="tile-contact" data-aos="fade-up" data-aos-delay="200"> <h3>Kontakt</h3> <p>Masz pytania...? Napisz do mnie!</p>
-            <form id="contact-form" action="https://formspree.io/f/YOUR_ENDPOINT_HERE" method="POST">
-                 <label for="name">Imię:</label> <input type="text" id="name" name="name" required>
-                 <label for="email">E-mail:</label> <input type="email" id="email" name="email" required>
-                 <label for="message">Wiadomość:</label> <textarea id="message" name="message" required></textarea>
-                 <button type="submit" class="cta-button">Wyślij wiadomość</button>
-            </form>
-            <p id="form-status" style="margin-top: 15px; text-align: center;"></p>
-        </div>
+
          <div class="tile" id="tile-services" data-aos="fade-left" data-aos-delay="250">
             <h3>Oferuję</h3>
             <ul>
@@ -366,34 +367,38 @@
                 <li class="service-item" data-service-title="Ujęcia z Drona" data-service-desc="Spektakularne ujęcia z powietrza..." data-service-img="path/to/dron-example.jpg">Ujęcia z Drona</li>
             </ul>
         </div>
+
         <div class="tile" id="tile-location" data-aos="zoom-in-up" data-aos-delay="300">
             <h3>Lokalizacja</h3> <p>Wrocław, Polska</p> <img src="placeholder-mapa-wroclaw.svg" alt="Graficzna mapa Wrocławia" class="map-graphic" loading="lazy">
         </div>
-        <div class="tile" id="tile-testimonials" data-aos="fade-up" data-aos-delay="350"> <h3>Co mówią klienci</h3>
+
+        <div class="tile" id="tile-testimonials" data-aos="fade-up" data-aos-delay="350">
+            <h3>Co mówią klienci</h3>
             <div class="testimonial"> <blockquote>"Pełen profesjonalizm..."</blockquote> <cite>– Anna i Piotr K.</cite> </div>
             <div class="testimonial"> <blockquote>"Film z naszego eventu..."</blockquote> <cite>– XYZ Company</cite> </div>
         </div>
+
     </div><section id="gallery-section" class="tile" data-aos="fade-up" data-aos-duration="1000">
         <h2>Galeria</h2>
         <div class="gallery-filters"> <button class="filter-button active" data-filter="all">Wszystko</button> <button class="filter-button" data-filter="sluby">Śluby</button> <button class="filter-button" data-filter="portrety">Portrety</button> <button class="filter-button" data-filter="filmy">Filmy</button> <button class="filter-button" data-filter="eventy">Eventy</button> </div>
         <div class="gallery-container">
             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model Portretowy 1" data-lokalizacja="Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf1.jpeg" alt="Portret Zdjecie 1" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 1" data-lokalizacja="Pałac Ciekocinko (Przykład)"> <div class="overlay"></div><img src="Sesja na fotografii/zf2.jpeg" alt="Ślub Zdjecie 2" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Konferencja Firmowa" data-lokalizacja="Concordia Design Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf3.jpeg" alt="Event Zdjecie 3" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Modelka Studyjna" data-lokalizacja="Studio Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf4.jpeg" alt="Portret Zdjecie 4" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Detale Ślubne" data-lokalizacja="Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf5.jpeg" alt="Ślub Detale Zdjecie 5" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Plenerowa" data-lokalizacja="Park Szczytnicki"> <div class="overlay"></div><img src="Sesja na fotografii/zf6.jpeg" alt="Portret Plener Zdjecie 6" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 2" data-lokalizacja="Zamek Topacz"> <div class="overlay"></div><img src="Sesja na fotografii/zf7.jpeg" alt="Ślub Zdjecie 7" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Koncert" data-lokalizacja="Stary Klasztor"> <div class="overlay"></div><img src="Sesja na fotografii/zf8.jpeg" alt="Event Koncert Zdjecie 8" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Portret Męski" data-lokalizacja="Nadodrze"> <div class="overlay"></div><img src="Sesja na fotografii/zf9.jpeg" alt="Portret Męski Zdjecie 9" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Rodzinna" data-lokalizacja="Ogród Botaniczny"> <div class="overlay"></div><img src="Sesja na fotografii/zdj1.jpeg" alt="Sesja Rodzinna Zdjecie 1" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Plener Ślubny" data-lokalizacja="Góry Stołowe"> <div class="overlay"></div><img src="Sesja na fotografii/zdj2.jpeg" alt="Ślub Plener Zdjecie 2" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Bankiet" data-lokalizacja="Hotel Monopol"> <div class="overlay"></div><img src="Sesja na fotografii/zdj3.jpeg" alt="Event Bankiet Zdjecie 3" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Dziecięca" data-lokalizacja="Park Południowy"> <div class="overlay"></div><img src="Sesja na fotografii/zdj4.jpeg" alt="Sesja Dziecięca Zdjecie 4" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Przygotowania Ślubne" data-lokalizacja="Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zdj5.jpeg" alt="Ślub Przygotowania Zdjecie 5" class="clickable-img" loading="lazy"> </div>
-            <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_1"> <img src="placeholder-video-thumb1.jpg" alt="Miniaturka filmu ślubnego" loading="lazy"> </a> </div>
-            <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_2"> <img src="placeholder-video-thumb2.jpg" alt="Miniaturka teledysku" loading="lazy"> </a> </div>
-            <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_3"> <img src="placeholder-video-thumb3.jpg" alt="Miniaturka filmu eventowego" loading="lazy"> </a> </div>
+             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 1" data-lokalizacja="Pałac Ciekocinko (Przykład)"> <div class="overlay"></div><img src="Sesja na fotografii/zf2.jpeg" alt="Ślub Zdjecie 2" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Konferencja Firmowa" data-lokalizacja="Concordia Design Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf3.jpeg" alt="Event Zdjecie 3" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Modelka Studyjna" data-lokalizacja="Studio Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf4.jpeg" alt="Portret Zdjecie 4" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Detale Ślubne" data-lokalizacja="Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zf5.jpeg" alt="Ślub Detale Zdjecie 5" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Plenerowa" data-lokalizacja="Park Szczytnicki"> <div class="overlay"></div><img src="Sesja na fotografii/zf6.jpeg" alt="Portret Plener Zdjecie 6" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 2" data-lokalizacja="Zamek Topacz"> <div class="overlay"></div><img src="Sesja na fotografii/zf7.jpeg" alt="Ślub Zdjecie 7" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Koncert" data-lokalizacja="Stary Klasztor"> <div class="overlay"></div><img src="Sesja na fotografii/zf8.jpeg" alt="Event Koncert Zdjecie 8" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Portret Męski" data-lokalizacja="Nadodrze"> <div class="overlay"></div><img src="Sesja na fotografii/zf9.jpeg" alt="Portret Męski Zdjecie 9" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Rodzinna" data-lokalizacja="Ogród Botaniczny"> <div class="overlay"></div><img src="Sesja na fotografii/zdj1.jpeg" alt="Sesja Rodzinna Zdjecie 1" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Plener Ślubny" data-lokalizacja="Góry Stołowe"> <div class="overlay"></div><img src="Sesja na fotografii/zdj2.jpeg" alt="Ślub Plener Zdjecie 2" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Bankiet" data-lokalizacja="Hotel Monopol"> <div class="overlay"></div><img src="Sesja na fotografii/zdj3.jpeg" alt="Event Bankiet Zdjecie 3" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Dziecięca" data-lokalizacja="Park Południowy"> <div class="overlay"></div><img src="Sesja na fotografii/zdj4.jpeg" alt="Sesja Dziecięca Zdjecie 4" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Przygotowania Ślubne" data-lokalizacja="Wrocław"> <div class="overlay"></div><img src="Sesja na fotografii/zdj5.jpeg" alt="Ślub Przygotowania Zdjecie 5" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_1"> <img src="placeholder-video-thumb1.jpg" alt="Miniaturka filmu ślubnego" loading="lazy"> </a> </div>
+             <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_2"> <img src="placeholder-video-thumb2.jpg" alt="Miniaturka teledysku" loading="lazy"> </a> </div>
+             <div class="gallery-item gallery-item-video" data-category="filmy"> <div class="overlay"></div><a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_3"> <img src="placeholder-video-thumb3.jpg" alt="Miniaturka filmu eventowego" loading="lazy"> </a> </div>
         </div>
     </section>
 
@@ -408,7 +413,6 @@
 
 <script>
 // Cały kod JavaScript pozostaje taki sam jak w poprzedniej odpowiedzi.
-// (Inicjalizacja AOS, Preloader, Rok, Tryb Ciemny, Formularz, Modale, Filtrowanie, Scroll-to-Top)
 document.addEventListener('DOMContentLoaded', () => {
     AOS.init({ duration: 800, once: true, offset: 80, debounceDelay: 50, throttleDelay: 99 });
     const preloader = document.querySelector('.preloader');
@@ -442,7 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryItemsClickable = document.querySelectorAll('.gallery-container .gallery-item > *:not(.overlay)');
     galleryItemsClickable.forEach(clickableElement => { clickableElement.addEventListener('click', (e) => { e.preventDefault(); const item = clickableElement.closest('.gallery-item'); if (!item || !galleryModal) return; const isVideo = item.classList.contains('gallery-item-video'); galleryModalImage.style.display = 'none'; galleryModalVideoContainer.style.display = 'none'; galleryModalDetails.style.display = 'none'; if (isVideo && clickableElement.tagName === 'A') { const videoLink = clickableElement; const youtubeId = videoLink.getAttribute('data-youtube-id'); if (youtubeId && !youtubeId.startsWith("VIDEO_ID")) { const embedUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`; galleryModalVideo.src = embedUrl; galleryModalVideoContainer.style.display = 'block'; } else { console.error("Invalid/missing YouTube ID:", videoLink); } } else if (!isVideo && clickableElement.tagName === 'IMG') { const img = clickableElement; galleryModalImage.src = img.src; galleryModalImage.alt = img.alt; galleryModalImage.style.display = 'block'; const realizator = item.getAttribute('data-realizator'); const model = item.getAttribute('data-model'); const lokalizacja = item.getAttribute('data-lokalizacja'); if(galleryDetailRealizator) galleryDetailRealizator.textContent = realizator ? `Realizator: ${realizator}` : ''; if(galleryDetailModel) galleryDetailModel.textContent = model ? `Model/Temat: ${model}` : ''; if(galleryDetailLokalizacja) galleryDetailLokalizacja.textContent = lokalizacja ? `Lokalizacja: ${lokalizacja}` : ''; galleryModalDetails.style.display = 'block'; } galleryModal.classList.add('show'); document.body.style.overflow = 'hidden'; }); });
     const serviceItems = document.querySelectorAll('#tile-services .service-item');
-    serviceItems.forEach(item => { function openServiceModal() { if (!serviceModal || !serviceModalTitle || !serviceModalDesc || !serviceModalImage) return; const title = item.getAttribute('data-service-title'); const desc = item.getAttribute('data-service-desc'); const imgSrc = item.getAttribute('data-service-img'); serviceModalTitle.textContent = title || "Szczegóły usługi"; serviceModalDesc.textContent = desc || "Więcej informacji wkrótce."; if (imgSrc && imgSrc !== 'path/to/example.jpg' && !imgSrc.includes('placeholder')) { serviceModalImage.src = imgSrc; serviceModalImage.alt = `Przykład realizacji: ${title}`; serviceModalImage.style.display = 'block'; } else { serviceModalImage.style.display = 'none'; } serviceModal.classList.add('show'); document.body.style.overflow = 'hidden'; } item.addEventListener('click', openServiceModal); item.setAttribute('role', 'button'); item.setAttribute('tabindex', '0'); item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openServiceModal(); } }); });
+    serviceItems.forEach(item => { function openServiceModal() { if (!serviceModal || !serviceModalTitle || !serviceModalDesc || !serviceModalImage) return; const title = item.getAttribute('data-service-title'); const desc = item.getAttribute('data-service-desc'); const imgSrc = item.getAttribute('data-service-img'); serviceModalTitle.textContent = title || "Szczegóły usługi"; serviceModalDesc.innerHTML = desc ? desc.replace(/\n/g, '<br>') : "Więcej informacji wkrótce."; /* Użyto innerHTML dla <br> */ if (imgSrc && imgSrc !== 'path/to/example.jpg' && !imgSrc.includes('placeholder')) { serviceModalImage.src = imgSrc; serviceModalImage.alt = `Przykład realizacji: ${title}`; serviceModalImage.style.display = 'block'; } else { serviceModalImage.style.display = 'none'; } serviceModal.classList.add('show'); document.body.style.overflow = 'hidden'; } item.addEventListener('click', openServiceModal); item.setAttribute('role', 'button'); item.setAttribute('tabindex', '0'); item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openServiceModal(); } }); });
     function closeModal(modalElement) { if (modalElement) { modalElement.classList.remove('show'); if (modalElement.id === 'galleryModal') { galleryModalVideo.src = ""; galleryModalImage.src = ""; } if (modalElement.id === 'serviceModal') { serviceModalImage.src = ""; } const anyModalOpen = document.querySelector('.modal.show'); if (!anyModalOpen) { document.body.style.overflow = ''; } } }
     if(galleryModal && galleryCloseButton) { galleryCloseButton.addEventListener('click', () => closeModal(galleryModal)); galleryModal.addEventListener('click', (event) => { if (event.target === galleryModal) { closeModal(galleryModal); } }); }
     if(serviceModal && serviceCloseButton) { serviceCloseButton.addEventListener('click', () => closeModal(serviceModal)); serviceModal.addEventListener('click', (event) => { if (event.target === serviceModal) { closeModal(serviceModal); } }); }
@@ -452,6 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filterContainer && galleryItemsAll.length > 0) { filterContainer.addEventListener('click', (e) => { if (e.target.classList.contains('filter-button')) { filterContainer.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); const filterValue = e.target.getAttribute('data-filter'); galleryItemsAll.forEach(item => { const itemCategory = item.getAttribute('data-category'); const shouldBeVisible = (filterValue === 'all' || itemCategory === filterValue); item.style.display = shouldBeVisible ? '' : 'none'; }); AOS.refresh(); } }); }
     const scrollToTopBtn = document.querySelector('.scroll-to-top');
     if (scrollToTopBtn) { window.addEventListener('scroll', () => { if (window.scrollY > 300) { scrollToTopBtn.classList.add('visible'); } else { scrollToTopBtn.classList.remove('visible'); } }); scrollToTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); }); }
+
 }); // Koniec DOMContentLoaded
 </script>
 
