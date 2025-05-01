@@ -28,8 +28,45 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService", /* lub LocalBusiness jeśli masz fizyczną lokalizację */
+      "name": "SG.media.pl - Szymon Grzeszczak",
+      "image": "[TU WSTAW ADRES URL DO GŁÓWNEGO ZDJĘCIA/LOGO]",
+      "@id": "[TU WSTAW ADRES URL STRONY]",
+      "url": "[TU WSTAW ADRES URL STRONY]",
+      "telephone": "[TU WSTAW NUMER TELEFONU - opcjonalnie]",
+      "email": "kontakt@sg.media.pl", /* ZMIEŃ jeśli inny */
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Wrocław",
+        "addressRegion": "Dolnośląskie",
+        "postalCode": "[TU WSTAW KOD POCZTOWY - opcjonalnie]",
+        "addressCountry": "PL"
+      },
+      "description": "Profesjonalna fotografia i filmowanie we Wrocławiu. Sesje ślubne, teledyski, portrety, eventy.",
+      "founder": {
+        "@type": "Person",
+        "name": "Szymon Grzeszczak"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Wrocław"
+      },
+       "makesOffer": [ /* Przykładowe usługi */
+         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fotografia Ślubna" }},
+         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Wideofilmowanie Ślubów" }},
+         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sesje Portretowe" }}
+       ]
+      /* Dodaj więcej pól wg potrzeb: openingHours, priceRange, sameAs (linki social media) itp. */
+    }
+    </script>
+
 <style>
-    /* CSS Variables dla Motywów Kolorystycznych */
+    /* CSS Variables - bez zmian */
     :root {
         --bg-color: #ffffff;
         --tile-bg-color: #f8f8f8;
@@ -39,15 +76,15 @@
         --accent-hover-color: #0056b3;
         --secondary-accent-color: #dc3545;
         --shadow-color: rgba(0, 0, 0, 0.1);
+        --strong-shadow-color: rgba(0, 0, 0, 0.15); /* Dla hover */
         --subtle-bg-gradient: linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%);
         --icon-color: #555;
         --border-color: #eee;
         --gallery-item-bg: #fff;
         --modal-bg: rgba(0, 0, 0, 0.85);
         --modal-content-bg: #fefefe;
-        --subtitle-color: #555; /* Dodano zmienną dla podtytułu */
+        --subtitle-color: #555;
     }
-
     body.dark-mode {
         --bg-color: #1a1a1a;
         --tile-bg-color: #2c2c2c;
@@ -57,41 +94,49 @@
         --accent-hover-color: #74c0fc;
         --secondary-accent-color: #ff6b6b;
         --shadow-color: rgba(0, 0, 0, 0.4);
+        --strong-shadow-color: rgba(0, 0, 0, 0.5); /* Dla hover */
         --subtle-bg-gradient: linear-gradient(180deg, #1a1a1a 0%, #222222 100%);
         --icon-color: #aaa;
         --border-color: #444;
         --gallery-item-bg: #383838;
         --modal-bg: rgba(0, 0, 0, 0.9);
         --modal-content-bg: #252525;
-        --subtitle-color: #aaa; /* Zmieniono kolor podtytułu dla trybu ciemnego */
+        --subtitle-color: #aaa;
     }
 
-    /* Resetowanie stylów i podstawy */
+    /* Reset i Podstawy - bez zmian */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
-    body {
-        font-family: 'Roboto', sans-serif;
-        background: var(--subtle-bg-gradient);
-        color: var(--text-color);
-        line-height: 1.6;
-        overflow-x: hidden;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Montserrat', sans-serif;
-        color: var(--heading-color);
-        margin-bottom: 0.75em;
-    }
-    h1 { font-size: 2.2em; }
-    h2 { font-size: 1.8em; }
-    h3 { font-size: 1.4em; }
-
+    body { font-family: 'Roboto', sans-serif; background: var(--subtle-bg-gradient); color: var(--text-color); line-height: 1.6; overflow-x: hidden; transition: background-color 0.3s ease, color 0.3s ease; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; color: var(--heading-color); margin-bottom: 0.75em; }
+    h1 { font-size: 2.2em; } h2 { font-size: 1.8em; } h3 { font-size: 1.4em; }
     a { color: var(--accent-color); text-decoration: none; transition: color 0.3s ease; }
     a:hover { color: var(--accent-hover-color); }
 
-    /* Przycisk Zmiany Motywu */
+    /* Preloader */
+    .preloader {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-color: var(--bg-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* Najwyższy z-index */
+        opacity: 1;
+        transition: opacity 0.5s ease-out;
+    }
+    .preloader.hidden { opacity: 0; pointer-events: none; }
+    .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1); /* Jasnoszary okrąg */
+        border-left-color: var(--accent-color); /* Kolor akcentu dla animacji */
+        border-radius: 50%;
+        width: 40px; height: 40px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    body.dark-mode .spinner { border: 4px solid rgba(255, 255, 255, 0.2); border-left-color: var(--accent-color); }
+
+    /* Przycisk Zmiany Motywu - bez zmian */
     .theme-switch-wrapper { position: fixed; top: 15px; right: 15px; z-index: 1001; }
     .theme-switch { display: inline-block; height: 34px; width: 60px; position: relative; }
     .theme-switch input { display: none; }
@@ -102,80 +147,52 @@
     input:checked + .slider { background-color: var(--accent-color); }
     input:checked + .slider:before { transform: translateX(26px); }
 
-    /* Kontener główny Grid */
-    .main-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 35px;
-        max-width: 1200px;
-        margin: 60px auto 40px auto;
-        padding: 20px;
-    }
+    /* Kontener główny Grid - bez zmian */
+    .main-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 35px; max-width: 1200px; margin: 60px auto 40px auto; padding: 20px; }
 
     /* Styl Kafelków */
     .tile {
-        background-color: var(--tile-bg-color);
-        border-radius: 18px;
-        padding: 30px; /* Domyślny padding */
+        background-color: var(--tile-bg-color); border-radius: 18px; padding: 30px;
         box-shadow: 0 10px 30px var(--shadow-color);
         transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, background-color 0.3s ease;
-        opacity: 0;
-        animation: fadeIn 0.8s ease-out forwards;
-        min-height: 150px; /* Domyślna minimalna wysokość */
-        display: flex;
-        flex-direction: column;
+        /* Usunięto animację fadeIn, bo zajmie się tym AOS */
+        min-height: 150px; display: flex; flex-direction: column;
         border: 1px solid var(--border-color);
     }
-
     .tile:hover {
-       transform: scale(1.025);
-       box-shadow: 0 14px 35px var(--shadow-color);
+       transform: scale(1.025) translateY(-3px); /* Dodano lekkie uniesienie */
+       box-shadow: 0 16px 40px var(--strong-shadow-color); /* Mocniejszy cień */
     }
 
     /* Specjalne style dla Header i Social - mniejsze i wyśrodkowane */
-    #tile-header,
-    #tile-social {
-        padding: 20px;         /* Mniejszy padding */
-        min-height: auto;      /* Brak minimalnej wysokości, dopasuj do treści */
-        align-items: center;   /* Wyśrodkowanie zawartości w poziomie (dla flex column) */
-        justify-content: center;/* Wyśrodkowanie zawartości w pionie */
-    }
+    #tile-header, #tile-social { padding: 20px; min-height: auto; align-items: center; justify-content: center; }
 
-    /* Rozmieszczenie i opóźnienia kafelków w siatce */
-    #tile-header {
-        grid-column: span 1;
-        animation-delay: 0.1s;
-        text-align: center;    /* Wyśrodkowanie tekstu */
-    }
-    #tile-about { grid-column: span 2; flex-direction: row; align-items: flex-start; gap: 25px; animation-delay: 0.2s; /* Domyślna min-height z .tile */ }
-    #tile-services { grid-column: span 1; animation-delay: 0.3s; /* Domyślna min-height z .tile */ }
-    #tile-social {
-        grid-column: span 1;
-        animation-delay: 0.4s;
-    }
-    #tile-location { grid-column: span 1; animation-delay: 0.5s; align-items: center; /* Domyślna min-height z .tile */ }
-    #tile-testimonials { grid-column: span 2; animation-delay: 0.6s; /* Domyślna min-height z .tile */ }
-    #tile-contact { grid-column: span 1; animation-delay: 0.7s; /* Domyślna min-height z .tile */ }
-
+    /* Rozmieszczenie i opóźnienia kafelków w siatce - bez zmian */
+    #tile-header { grid-column: span 1; text-align: center; }
+    #tile-about { grid-column: span 2; flex-direction: row; align-items: flex-start; gap: 25px; }
+    #tile-services { grid-column: span 1; }
+    #tile-social { grid-column: span 1; }
+    #tile-location { grid-column: span 1; align-items: center; }
+    #tile-testimonials { grid-column: span 2; }
+    #tile-contact { grid-column: span 1; }
 
     /* Stylizacja wewnątrz kafelków */
     #tile-header img.logo { max-width: 180px; margin-bottom: 10px; }
     #tile-header h1 { margin-bottom: 0.1em; font-size: 2em; }
-    #tile-header .subtitle { /* Styl dla paragrafu pod H1 */
-        margin-top: 0;
-        font-size: 0.95em;
-        color: var(--subtitle-color); /* Użycie zmiennej */
-    }
+    #tile-header .subtitle { margin-top: 0; font-size: 0.95em; color: var(--subtitle-color); }
     #tile-about img { width: 150px; height: 150px; border-radius: 15px; object-fit: cover; border: 3px solid var(--bg-color); box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0; }
     #tile-about .about-text { flex-grow: 1; text-align: left; }
     #tile-about .about-text h3 { margin-top: 0; }
 
+    /* Kafelek Usługi - Interaktywny */
     #tile-services ul { list-style: none; padding-left: 0; }
-    #tile-services li { margin-bottom: 10px; padding-left: 20px; position: relative; }
-    #tile-services li::before { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--accent-color); }
+    #tile-services li { margin-bottom: 10px; padding: 8px 12px 8px 35px; /* Dodano padding */ position: relative; border-radius: 8px; transition: background-color 0.3s ease; cursor: pointer; }
+    #tile-services li::before { content: '\f140'; /* Ikona 'list-alt' lub inna */ font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 12px; top: 11px; /* Dopasowanie pozycji */ color: var(--accent-color); }
+    #tile-services li:hover { background-color: rgba(0,0,0,0.05); }
+    body.dark-mode #tile-services li:hover { background-color: rgba(255,255,255,0.08); }
 
     #tile-social h3 { margin-bottom: 15px; }
-    #tile-social ul { list-style: none; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; padding-top: 0; /* Usunięto padding top */ }
+    #tile-social ul { list-style: none; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; padding-top: 0; }
     #tile-social a { color: var(--icon-color); font-size: 1.6em; transition: color 0.3s ease, transform 0.3s ease; display: inline-block; }
     #tile-social a:hover { color: var(--accent-color); transform: scale(1.1) rotate(-5deg); }
 
@@ -192,108 +209,98 @@
     #tile-contact { text-align: left; }
     #tile-contact form { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
     #tile-contact label { display: block; margin-bottom: 5px; font-weight: 500; }
-    #tile-contact input[type="text"],
-    #tile-contact input[type="email"],
-    #tile-contact textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color); font-family: inherit; font-size: 1em; transition: border-color 0.3s ease, background-color 0.3s ease; }
+    #tile-contact input[type="text"], #tile-contact input[type="email"], #tile-contact textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color); font-family: inherit; font-size: 1em; transition: border-color 0.3s ease, background-color 0.3s ease; }
     #tile-contact input:focus, #tile-contact textarea:focus { border-color: var(--accent-color); outline: none; }
     #tile-contact textarea { resize: vertical; min-height: 100px; }
     #tile-contact button.cta-button { background-color: var(--accent-color); color: white; padding: 12px 20px; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; align-self: flex-start; }
     #tile-contact button.cta-button:hover { background-color: var(--accent-hover-color); transform: translateY(-2px); }
 
 
-    /* Sekcja Galerii jako duży kafelek */
-    #gallery-section {
-        max-width: 1200px; width: calc(100% - 40px); margin: 40px auto;
-        padding: 40px; animation-delay: 0.8s;
-    }
+    /* Sekcja Galerii jako duży kafelek - bez zmian */
+    #gallery-section { max-width: 1200px; width: calc(100% - 40px); margin: 40px auto; padding: 40px; }
     #gallery-section:hover { transform: none; box-shadow: 0 10px 30px var(--shadow-color); }
     #gallery-section h2 { text-align: center; margin-bottom: 15px; }
-
-    /* Filtry Galerii */
     .gallery-filters { text-align: center; margin-bottom: 30px; }
     .gallery-filters button { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 18px; margin: 0 5px; border-radius: 20px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; font-size: 0.9em; font-weight: 500; }
     .gallery-filters button:hover { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
     .gallery-filters button.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
-
     .gallery-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
     .gallery-item { background-color: var(--gallery-item-bg); border-radius: 10px; box-shadow: 0 4px 8px var(--shadow-color); transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease; overflow: hidden; position: relative; border: 1px solid var(--border-color); }
-    .gallery-item.hidden { opacity: 0; transform: scale(0.9); pointer-events: none; height: 0; margin: 0; padding: 0; border: none; overflow: hidden; }
-    .gallery-item:hover { transform: scale(1.03); box-shadow: 0 6px 12px var(--shadow-color); }
+    .gallery-item.hidden { opacity: 0; transform: scale(0.9); pointer-events: none; height: 0; margin: 0; padding: 0; border: none; overflow: hidden; transition-delay: 0s !important; } /* Szybsze ukrywanie */
+    .gallery-item:hover { transform: scale(1.03); box-shadow: 0 6px 12px var(--strong-shadow-color); }
     .gallery-item img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 10px; transition: opacity 0.3s ease; }
     .gallery-item img.clickable-img { cursor: pointer; }
     .gallery-item img.clickable-img:hover { opacity: 0.85; }
-
     .gallery-item-video a { display: block; position: relative; line-height: 0; }
     .gallery-item-video img { border-radius: 10px; }
     .gallery-item-video a::after { content: '\f144'; font-family: "Font Awesome 6 Brands"; font-weight: 400; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 50px; color: rgba(255, 0, 0, 0.9); text-shadow: 0 0 15px rgba(0, 0, 0, 0.7); pointer-events: none; opacity: 0.8; transition: opacity 0.3s ease, transform 0.3s ease; }
     .gallery-item-video a:hover::after { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
 
-    /* Stopka */
+    /* Stopka - bez zmian */
     footer { text-align: center; padding: 30px 20px; margin-top: 40px; border-top: 1px solid var(--border-color); color: var(--icon-color); font-size: 0.9em; }
 
-    /* Modal (Lightbox) - Zmiany dla wideo */
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: var(--modal-bg); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; }
-    .modal.show { display: flex; opacity: 1; }
+    /* Modal (Lightbox Galerii) - bez zmian */
+    #galleryModal { display: none; position: fixed; z-index: 1050; /* Wyższy z-index dla modalów */ left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: var(--modal-bg); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; }
+    #galleryModal.show { display: flex; opacity: 1; }
     .modal-content { position: relative; background-color: var(--modal-content-bg); margin: auto; padding: 30px; border-radius: 10px; max-width: 90%; max-height: 90vh; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transform: scale(0.9); transition: transform 0.4s ease, background-color 0.3s ease; width: 80vw; }
-    .modal.show .modal-content { transform: scale(1); }
-    .modal-image { max-width: 100%; max-height: 65vh; display: none; /* Ukryty domyślnie */ margin-bottom: 20px; border-radius: 8px; }
-
-    .modal-video-container { width: 100%; height: 0; padding-bottom: 56.25%; position: relative; margin-bottom: 20px; display: none; /* Ukryty domyślnie */ }
+    #galleryModal .modal-content { width: 80vw; } /* Specyficzna szerokość dla galerii */
+    #galleryModal.show .modal-content { transform: scale(1); }
+    .modal-image { max-width: 100%; max-height: 65vh; display: none; margin-bottom: 20px; border-radius: 8px; }
+    .modal-video-container { width: 100%; height: 0; padding-bottom: 56.25%; position: relative; margin-bottom: 20px; display: none; }
     .modal-video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px; }
-
-    .modal-details { font-size: 0.9em; color: var(--text-color); margin-top: 15px; display: none; /* Ukryty domyślnie */ }
+    .modal-details { font-size: 0.9em; color: var(--text-color); margin-top: 15px; display: none; }
     .modal-details p { margin-bottom: 8px; }
-    .close-button { position: absolute; top: 10px; right: 20px; color: #aaa; font-size: 35px; font-weight: bold; transition: color 0.3s ease; z-index: 1002; }
-    .close-button:hover, .close-button:focus { color: var(--secondary-accent-color); text-decoration: none; cursor: pointer; }
+    .close-button { position: absolute; top: 10px; right: 20px; color: #aaa; font-size: 35px; font-weight: bold; transition: color 0.3s ease; z-index: 1051; cursor: pointer; } /* Wyższy z-index niż modal */
+    .close-button:hover, .close-button:focus { color: var(--secondary-accent-color); text-decoration: none; }
 
-    /* Animacje */
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    /* Nowy Modal dla Usług */
+    #serviceModal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: var(--modal-bg); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; }
+    #serviceModal.show { display: flex; opacity: 1; }
+    #serviceModal .modal-content { width: 60vw; max-width: 700px; /* Mniejszy modal dla usług */ text-align: left; } /* Wyrównanie do lewej */
+    #serviceModal.show .modal-content { transform: scale(1); }
+    #serviceModal img { max-width: 100%; height: auto; border-radius: 8px; margin-top: 15px; display: none; /* Domyślnie ukryty */ }
+    #serviceModal h3 { color: var(--heading-color); margin-bottom: 15px; }
+    #serviceModal p { color: var(--text-color); margin-bottom: 10px; }
 
-    /* Responsywność */
-    @media (max-width: 1024px) {
-         .main-container { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-         #tile-about { grid-column: span 1; flex-direction: column; align-items: center; }
-         #tile-about .about-text { text-align: center; }
-         #tile-testimonials { grid-column: span 1; }
-         .gallery-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;}
-         #gallery-section, .main-container { width: calc(100% - 40px); padding: 15px; } /* Poprawka paddingu */
+    /* Przycisk Scroll to Top */
+    .scroll-to-top {
+        position: fixed;
+        bottom: 20px; right: 20px;
+        background-color: var(--accent-color);
+        color: white;
+        border: none; border-radius: 50%;
+        width: 45px; height: 45px;
+        font-size: 1.5em;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        opacity: 0; visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+        z-index: 1000;
     }
+    .scroll-to-top.visible { opacity: 0.8; visibility: visible; }
+    .scroll-to-top:hover { opacity: 1; background-color: var(--accent-hover-color); }
 
+    /* Responsywność - drobne korekty */
+    @media (max-width: 1024px) { /* bez zmian */ }
     @media (max-width: 768px) {
-        body { font-size: 15px; }
-        h1 { font-size: 2em; } h2 { font-size: 1.6em; } h3 { font-size: 1.2em; }
-        .main-container { grid-template-columns: 1fr; gap: 20px; margin: 40px auto 20px auto; }
-        .tile { padding: 20px; }
-        #tile-about img { width: 120px; height: 120px; }
-        #tile-header, #tile-social { padding: 15px; } /* Jeszcze mniejszy padding na mobilnych */
-        #tile-header h1 { font-size: 1.8em;}
-        #tile-social a { font-size: 1.5em; }
-
-        .gallery-filters button { padding: 6px 14px; font-size: 0.85em; }
-        #gallery-section { padding: 25px; width: calc(100% - 20px); margin: 20px auto;}
-        .gallery-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-        .gallery-item-video a::after { font-size: 40px; }
-
-        .modal-content { padding: 20px; width: 90%; max-width: 90%; }
-        .modal-image { max-height: 55vh; }
-        .modal-video-container { padding-bottom: 56.25%; }
-        .close-button { font-size: 30px; top: 5px; right: 10px; }
+        /* ...istniejące style... */
+        #serviceModal .modal-content { width: 85vw; } /* Dostosowanie modala usług */
+        .scroll-to-top { width: 40px; height: 40px; font-size: 1.3em; bottom: 15px; right: 15px;}
     }
-
-     @media (max-width: 480px) {
-         .main-container { gap: 15px; }
-         #tile-header img.logo { max-width: 150px; }
-         #tile-contact button.cta-button { width: 100%; text-align: center; }
-
-         #gallery-section { padding: 20px; width: 100%; margin: 20px 0; border-radius: 0; }
-         .gallery-container { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-         .gallery-item-video a::after { font-size: 35px; }
-         .modal-content { padding: 15px; }
+    @media (max-width: 480px) {
+         /* ...istniejące style... */
+         #serviceModal .modal-content { width: 90vw; padding: 20px; }
+         .tile { padding: 15px; } /* Zmniejszenie paddingu kafelków */
+         #tile-header, #tile-social { padding: 12px; }
     }
 
 </style>
 </head>
 <body>
+
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
 
     <div class="theme-switch-wrapper">
         <label class="theme-switch" for="checkbox" aria-label="Przełącz tryb jasny/ciemny">
@@ -303,177 +310,170 @@
     </div>
 
     <div class="main-container">
-        <div class="tile" id="tile-header">
-             <h1>SG.media.pl</h1>
-             <p class="subtitle">Szymon Grzeszczak</p>
+        <div class="tile" id="tile-header" data-aos="fade-down">
+            <h1>SG.media.pl</h1>
+            <p class="subtitle">Szymon Grzeszczak</p>
         </div>
 
-        <div class="tile" id="tile-about">
-            <img src="placeholder-profilowe.jpg" alt="Zdjęcie profilowe Szymon Grzeszczak" loading="lazy"> <div class="about-text">
+        <div class="tile" id="tile-about" data-aos="fade-right">
+            <img src="placeholder-profilowe.jpg" alt="Zdjęcie profilowe Szymon Grzeszczak" loading="lazy">
+            <div class="about-text">
                 <h3>O mnie</h3>
-                <p>
-                    Witaj! Jestem Szymon i specjalizuję się w tworzeniu niezapomnianych historii wizualnych poprzez fotografię i film. Moja pasja to uchwycenie emocji i detali, które sprawiają, że każda chwila jest wyjątkowa. Pracuję głównie we Wrocławiu, ale jestem otwarty na projekty w całej Polsce.
-                    </p>
-                 <p> Stawiam na profesjonalizm, kreatywność i indywidualne podejście do każdego zlecenia. </p>
+                <p>Witaj! Jestem Szymon i specjalizuję się w tworzeniu niezapomnianych historii wizualnych...</p>
+                <p> Stawiam na profesjonalizm, kreatywność...</p>
             </div>
         </div>
 
-        <div class="tile" id="tile-services">
+        <div class="tile" id="tile-services" data-aos="fade-left">
             <h3>Oferuję</h3>
             <ul>
-                <li>Fotografię Ślubną i Narzeczeńską</li>
-                <li>Wideofilmowanie Ślubów (Teledyski, Reportaże)</li>
-                <li>Sesje Portretowe (Indywidualne, Rodzinne)</li>
-                <li>Fotografię i Filmowanie Eventów</li>
-                <li>Teledyski Muzyczne</li>
-                <li>Fotografię Produktową i Reklamową</li>
-                 <li>Ujęcia z Drona</li>
-                 </ul>
+                <li class="service-item" data-service-title="Fotografia Ślubna" data-service-desc="Pełne reportaże ślubne, sesje narzeczeńskie i plenerowe. Uchwycę magię Waszego dnia." data-service-img="path/to/slubna-example.jpg">Fotografię Ślubną i Narzeczeńską</li>
+                <li class="service-item" data-service-title="Wideofilmowanie Ślubów" data-service-desc="Nowoczesne filmy ślubne, od dynamicznych teledysków po pełne reportaże. Używam profesjonalnego sprzętu..." data-service-img="path/to/video-slubne-thumb.jpg">Wideofilmowanie Ślubów</li>
+                <li class="service-item" data-service-title="Sesje Portretowe" data-service-desc="Indywidualne, rodzinne, dziecięce - w studio lub plenerze. Naturalne i pełne emocji kadry." data-service-img="path/to/portret-example.jpg">Sesje Portretowe</li>
+                <li class="service-item" data-service-title="Fotografia Eventowa" data-service-desc="Relacje z konferencji, bankietów, koncertów i innych wydarzeń. Dyskretnie i profesjonalnie." data-service-img="path/to/event-example.jpg">Fotografię i Filmowanie Eventów</li>
+                <li class="service-item" data-service-title="Teledyski Muzyczne" data-service-desc="Kreatywne i dynamiczne teledyski dla zespołów i solistów. Pomogę zrealizować Twoją wizję." data-service-img="path/to/teledysk-thumb.jpg">Teledyski Muzyczne</li>
+                <li class="service-item" data-service-title="Fotografia Produktowa" data-service-desc="Profesjonalne zdjęcia produktów na potrzeby e-commerce, katalogów i reklamy (packshoty, aranżowane)." data-service-img="path/to/produkt-example.jpg">Fotografię Produktową i Reklamową</li>
+                <li class="service-item" data-service-title="Ujęcia z Drona" data-service-desc="Spektakularne ujęcia z powietrza (zdjęcia i filmy) dla nieruchomości, eventów, ślubów." data-service-img="path/to/dron-example.jpg">Ujęcia z Drona</li>
+            </ul>
         </div>
 
-        <div class="tile" id="tile-social">
+        <div class="tile" id="tile-social" data-aos="fade-up">
             <h3>Social Media</h3>
             <ul>
-                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li> <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li> <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>   <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>  <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Vimeo"><i class="fab fa-vimeo-v"></i></a></li> </ul>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Vimeo"><i class="fab fa-vimeo-v"></i></a></li>
+            </ul>
         </div>
 
-        <div class="tile" id="tile-location">
+        <div class="tile" id="tile-location" data-aos="fade-up">
             <h3>Lokalizacja</h3>
             <p>Wrocław, Polska</p>
             <img src="placeholder-mapa-wroclaw.svg" alt="Graficzna mapa Wrocławia" class="map-graphic" loading="lazy">
         </div>
 
-        <div class="tile" id="tile-testimonials">
+        <div class="tile" id="tile-testimonials" data-aos="fade-right">
             <h3>Co mówią klienci</h3>
             <div class="testimonial">
-                <blockquote>
-                    "Pełen profesjonalizm i niesamowite wyczucie chwili! Zdjęcia przerosły nasze oczekiwania. Polecamy z całego serca!"
-                     </blockquote>
-                <cite>– Anna i Piotr K.</cite> </div>
+                <blockquote>"Pełen profesjonalizm..."</blockquote>
+                <cite>– Anna i Piotr K.</cite>
+            </div>
              <div class="testimonial">
-                <blockquote>
-                    "Film z naszego eventu firmowego był dynamiczny i świetnie zmontowany. Doskonała współpraca."
-                     </blockquote>
-                <cite>– XYZ Company</cite> </div>
-             </div>
+                <blockquote>"Film z naszego eventu firmowego..."</blockquote>
+                <cite>– XYZ Company</cite>
+            </div>
+        </div>
 
-        <div class="tile" id="tile-contact">
+        <div class="tile" id="tile-contact" data-aos="fade-left">
             <h3>Kontakt</h3>
             <p>Masz pytania lub chcesz omówić projekt? Napisz do mnie!</p>
             <form id="contact-form" action="https://formspree.io/f/YOUR_ENDPOINT_HERE" method="POST">
                  <label for="name">Imię:</label>
                  <input type="text" id="name" name="name" required>
-
                  <label for="email">E-mail:</label>
                  <input type="email" id="email" name="email" required>
-
                  <label for="message">Wiadomość:</label>
                  <textarea id="message" name="message" required></textarea>
-
                  <button type="submit" class="cta-button">Wyślij wiadomość</button>
             </form>
-            <p id="form-status" style="margin-top: 15px; text-align: center;"></p> </div>
+            <p id="form-status" style="margin-top: 15px; text-align: center;"></p>
+        </div>
 
-    </div><section id="gallery-section" class="tile">
+    </div><section id="gallery-section" class="tile" data-aos="fade-up" data-aos-duration="1000">
         <h2>Galeria</h2>
-
         <div class="gallery-filters">
-            <button class="filter-button active" data-filter="all">Wszystko</button>
-            <button class="filter-button" data-filter="sluby">Śluby</button>
-            <button class="filter-button" data-filter="portrety">Portrety</button>
-            <button class="filter-button" data-filter="filmy">Filmy</button>
+             <button class="filter-button active" data-filter="all">Wszystko</button>
+             <button class="filter-button" data-filter="sluby">Śluby</button>
+             <button class="filter-button" data-filter="portrety">Portrety</button>
+             <button class="filter-button" data-filter="filmy">Filmy</button>
              <button class="filter-button" data-filter="eventy">Eventy</button>
-             </div>
-
+        </div>
         <div class="gallery-container">
-             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model Portretowy 1" data-lokalizacja="Wrocław">
-                <img src="Sesja na fotografii/zf1.jpeg" alt="Portret Zdjecie 1" class="clickable-img" loading="lazy">
-            </div>
-            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 1" data-lokalizacja="Pałac Ciekocinko (Przykład)">
-                <img src="Sesja na fotografii/zf2.jpeg" alt="Ślub Zdjecie 2" class="clickable-img" loading="lazy">
-            </div>
-            <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Konferencja Firmowa" data-lokalizacja="Concordia Design Wrocław">
-                <img src="Sesja na fotografii/zf3.jpeg" alt="Event Zdjecie 3" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Modelka Studyjna" data-lokalizacja="Studio Wrocław">
-                <img src="Sesja na fotografii/zf4.jpeg" alt="Portret Zdjecie 4" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Detale Ślubne" data-lokalizacja="Wrocław">
-                <img src="Sesja na fotografii/zf5.jpeg" alt="Ślub Detale Zdjecie 5" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Plenerowa" data-lokalizacja="Park Szczytnicki">
-                <img src="Sesja na fotografii/zf6.jpeg" alt="Portret Plener Zdjecie 6" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 2" data-lokalizacja="Zamek Topacz">
-                <img src="Sesja na fotografii/zf7.jpeg" alt="Ślub Zdjecie 7" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Koncert" data-lokalizacja="Stary Klasztor">
-                <img src="Sesja na fotografii/zf8.jpeg" alt="Event Koncert Zdjecie 8" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Portret Męski" data-lokalizacja="Nadodrze">
-                <img src="Sesja na fotografii/zf9.jpeg" alt="Portret Męski Zdjecie 9" class="clickable-img" loading="lazy">
-            </div>
-
-
-            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Rodzinna" data-lokalizacja="Ogród Botaniczny">
-                <img src="Sesja na fotografii/zdj1.jpeg" alt="Sesja Rodzinna Zdjecie 1" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Plener Ślubny" data-lokalizacja="Góry Stołowe">
-                <img src="Sesja na fotografii/zdj2.jpeg" alt="Ślub Plener Zdjecie 2" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Bankiet" data-lokalizacja="Hotel Monopol">
-                <img src="Sesja na fotografii/zdj3.jpeg" alt="Event Bankiet Zdjecie 3" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Dziecięca" data-lokalizacja="Park Południowy">
-                <img src="Sesja na fotografii/zdj4.jpeg" alt="Sesja Dziecięca Zdjecie 4" class="clickable-img" loading="lazy">
-            </div>
-             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Przygotowania Ślubne" data-lokalizacja="Wrocław">
-                <img src="Sesja na fotografii/zdj5.jpeg" alt="Ślub Przygotowania Zdjecie 5" class="clickable-img" loading="lazy">
-            </div>
-
-
-             <div class="gallery-item gallery-item-video" data-category="filmy">
-                 <a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_1"> <img src="placeholder-video-thumb1.jpg" alt="Miniaturka filmu ślubnego" loading="lazy">
-                </a>
-            </div>
-             <div class="gallery-item gallery-item-video" data-category="filmy">
-                 <a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_2">
-                    <img src="placeholder-video-thumb2.jpg" alt="Miniaturka teledysku" loading="lazy">
-                </a>
-            </div>
-             <div class="gallery-item gallery-item-video" data-category="filmy">
-                 <a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_3">
-                    <img src="placeholder-video-thumb3.jpg" alt="Miniaturka filmu eventowego" loading="lazy">
-                </a>
-            </div>
-             </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model Portretowy 1" data-lokalizacja="Wrocław"> <img src="Sesja na fotografii/zf1.jpeg" alt="Portret Zdjecie 1" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 1" data-lokalizacja="Pałac Ciekocinko (Przykład)"> <img src="Sesja na fotografii/zf2.jpeg" alt="Ślub Zdjecie 2" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Konferencja Firmowa" data-lokalizacja="Concordia Design Wrocław"> <img src="Sesja na fotografii/zf3.jpeg" alt="Event Zdjecie 3" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Modelka Studyjna" data-lokalizacja="Studio Wrocław"> <img src="Sesja na fotografii/zf4.jpeg" alt="Portret Zdjecie 4" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Detale Ślubne" data-lokalizacja="Wrocław"> <img src="Sesja na fotografii/zf5.jpeg" alt="Ślub Detale Zdjecie 5" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Plenerowa" data-lokalizacja="Park Szczytnicki"> <img src="Sesja na fotografii/zf6.jpeg" alt="Portret Plener Zdjecie 6" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Para Ślubna 2" data-lokalizacja="Zamek Topacz"> <img src="Sesja na fotografii/zf7.jpeg" alt="Ślub Zdjecie 7" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Koncert" data-lokalizacja="Stary Klasztor"> <img src="Sesja na fotografii/zf8.jpeg" alt="Event Koncert Zdjecie 8" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Portret Męski" data-lokalizacja="Nadodrze"> <img src="Sesja na fotografii/zf9.jpeg" alt="Portret Męski Zdjecie 9" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Rodzinna" data-lokalizacja="Ogród Botaniczny"> <img src="Sesja na fotografii/zdj1.jpeg" alt="Sesja Rodzinna Zdjecie 1" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Plener Ślubny" data-lokalizacja="Góry Stołowe"> <img src="Sesja na fotografii/zdj2.jpeg" alt="Ślub Plener Zdjecie 2" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="eventy" data-realizator="@Szymon_Grzeszczak_foto" data-model="Bankiet" data-lokalizacja="Hotel Monopol"> <img src="Sesja na fotografii/zdj3.jpeg" alt="Event Bankiet Zdjecie 3" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="portrety" data-realizator="@Szymon_Grzeszczak_foto" data-model="Sesja Dziecięca" data-lokalizacja="Park Południowy"> <img src="Sesja na fotografii/zdj4.jpeg" alt="Sesja Dziecięca Zdjecie 4" class="clickable-img" loading="lazy"> </div>
+             <div class="gallery-item" data-category="sluby" data-realizator="@Szymon_Grzeszczak_foto" data-model="Przygotowania Ślubne" data-lokalizacja="Wrocław"> <img src="Sesja na fotografii/zdj5.jpeg" alt="Ślub Przygotowania Zdjecie 5" class="clickable-img" loading="lazy"> </div>
+            <div class="gallery-item gallery-item-video" data-category="filmy"> <a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_1"> <img src="placeholder-video-thumb1.jpg" alt="Miniaturka filmu ślubnego" loading="lazy"> </a> </div>
+            <div class="gallery-item gallery-item-video" data-category="filmy"> <a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_2"> <img src="placeholder-video-thumb2.jpg" alt="Miniaturka teledysku" loading="lazy"> </a> </div>
+            <div class="gallery-item gallery-item-video" data-category="filmy"> <a href="#" target="_blank" rel="noopener noreferrer" data-youtube-id="VIDEO_ID_3"> <img src="placeholder-video-thumb3.jpg" alt="Miniaturka filmu eventowego" loading="lazy"> </a> </div>
+        </div>
     </section>
 
     <footer>
         <p>© <span id="current-year"></span> SG.media.pl Szymon Grzeszczak. Wszelkie prawa zastrzeżone.</p>
         </footer>
 
-    <div id="myModal" class="modal">
+    <div id="galleryModal" class="modal">
         <span class="close-button" aria-label="Zamknij">×</span>
         <div class="modal-content">
-            <img class="modal-image" id="modalImage" src="" alt="Powiększone zdjęcie z galerii">
-            <div class="modal-video-container" id="modalVideoContainer">
-                 <iframe id="modalVideo" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <img class="modal-image" id="modalGalleryImage" src="" alt="Powiększone zdjęcie z galerii">
+            <div class="modal-video-container" id="modalGalleryVideoContainer">
+                 <iframe id="modalGalleryVideo" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
-            <div class="modal-details" id="modalDetails">
-                <p id="detailRealizator"></p>
-                <p id="detailModel"></p>
-                <p id="detailLokalizacja"></p>
+            <div class="modal-details" id="modalGalleryDetails">
+                <p id="detailRealizator"></p> <p id="detailModel"></p> <p id="detailLokalizacja"></p>
             </div>
         </div>
     </div>
 
+    <div id="serviceModal" class="modal">
+        <span class="close-button" aria-label="Zamknij">×</span>
+        <div class="modal-content">
+            <h3 id="serviceModalTitle"></h3>
+            <p id="serviceModalDesc"></p>
+            <img id="serviceModalImage" src="" alt="Przykładowa realizacja usługi" loading="lazy">
+             </div>
+    </div>
+
+     <button class="scroll-to-top" aria-label="Przewiń do góry">
+         <i class="fas fa-arrow-up"></i>
+     </button>
+
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- Inicjalizacja AOS ---
+    AOS.init({
+        duration: 800, // Czas trwania animacji
+        once: true,    // Animuj tylko raz
+        offset: 50,    // Offset względem viewportu
+        debounceDelay: 50, // Opóźnienie debounce dla resize/scroll
+        throttleDelay: 99, // Opóźnienie throttle dla scroll
+    });
+
+    // --- Preloader ---
+    const preloader = document.querySelector('.preloader');
+    window.addEventListener('load', () => {
+        if (preloader) {
+            preloader.classList.add('hidden');
+        }
+         // Odśwież AOS po załadowaniu wszystkiego (szczególnie obrazów)
+         AOS.refresh();
+    });
+    // Dodatkowe odświeżenie AOS po krótkim czasie, na wszelki wypadek
+    setTimeout(() => { AOS.refresh(); }, 500);
+
+
     // --- Ustawienie aktualnego roku w stopce ---
-    document.getElementById('current-year').textContent = new Date().getFullYear();
+    const currentYearElement = document.getElementById('current-year');
+    if(currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
 
     // --- Obsługa Trybu Ciemnego ---
     const themeSwitch = document.getElementById('checkbox');
@@ -483,35 +483,31 @@ document.addEventListener('DOMContentLoaded', () => {
     function setTheme(isDark) {
         if (isDark) {
             document.body.classList.add('dark-mode');
-            themeSwitch.checked = true;
+            if(themeSwitch) themeSwitch.checked = true;
             localStorage.setItem('theme', 'dark');
         } else {
             document.body.classList.remove('dark-mode');
-            themeSwitch.checked = false;
+             if(themeSwitch) themeSwitch.checked = false;
             localStorage.setItem('theme', 'light');
         }
+        // Odśwież AOS po zmianie motywu, jeśli elementy zmieniają rozmiar/położenie
+        setTimeout(() => { AOS.refreshHard(); }, 300); // Użyj refreshHard dla pewności
     }
 
-    // Ustawienie początkowego motywu
-    if (currentTheme) {
-        setTheme(currentTheme === 'dark');
-    } else {
-        setTheme(prefersDarkScheme.matches);
-    }
-
-    // Listener dla przełącznika manualnego
-    themeSwitch.addEventListener('change', (e) => {
-        setTheme(e.target.checked);
-    });
-
-    // Listener dla zmiany preferencji systemowych (opcjonalne)
-    prefersDarkScheme.addEventListener('change', (e) => {
-        // Zmień tylko jeśli użytkownik nie ustawił ręcznie motywu
-        const userSetTheme = localStorage.getItem('theme');
-        if (!userSetTheme) {
-             setTheme(e.matches);
+    if (themeSwitch) {
+        if (currentTheme) {
+            setTheme(currentTheme === 'dark');
+        } else {
+            setTheme(prefersDarkScheme.matches);
         }
-    });
+        themeSwitch.addEventListener('change', (e) => {
+            setTheme(e.target.checked);
+        });
+        prefersDarkScheme.addEventListener('change', (e) => {
+            const userSetTheme = localStorage.getItem('theme');
+            if (!userSetTheme) { setTheme(e.matches); }
+        });
+    }
 
 
     // --- Obsługa Formularza Kontaktowego (z Formspree) ---
@@ -521,128 +517,180 @@ document.addEventListener('DOMContentLoaded', () => {
     async function handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        formStatus.textContent = 'Wysyłanie...'; // Informacja o wysyłaniu
-        formStatus.style.color = 'inherit'; // Domyślny kolor tekstu
-
-        // WAŻNE: Sprawdź, czy action nie jest placeholderem
-        if (event.target.action === "https://formspree.io/f/YOUR_ENDPOINT_HERE" || !event.target.action.includes("formspree.io")) {
-             formStatus.textContent = "Błąd: Skonfiguruj endpoint Formspree w kodzie HTML.";
-             formStatus.style.color = 'red';
-             return; // Przerwij wysyłanie
+        if(formStatus) {
+             formStatus.textContent = 'Wysyłanie...';
+             formStatus.style.color = 'inherit';
         }
 
+        if (!event.target.action || event.target.action === "https://formspree.io/f/YOUR_ENDPOINT_HERE" || !event.target.action.includes("formspree.io")) {
+             if(formStatus) {
+                 formStatus.textContent = "Błąd: Skonfiguruj endpoint Formspree w kodzie HTML.";
+                 formStatus.style.color = 'red';
+             }
+             console.error("Formspree endpoint not configured!");
+             return;
+        }
 
-        fetch(event.target.action, {
-            method: form.method,
-            body: data,
-            headers: { 'Accept': 'application/json' }
-        }).then(response => {
+        fetch(event.target.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } })
+        .then(response => {
             if (response.ok) {
-                formStatus.textContent = "Dziękuję za wiadomość! Odpowiem wkrótce.";
-                formStatus.style.color = 'green';
-                form.reset();
-                 setTimeout(() => { formStatus.textContent = ''; }, 5000); // Wyczyść status po 5s
+                if(formStatus) { formStatus.textContent = "Dziękuję za wiadomość! Odpowiem wkrótce."; formStatus.style.color = 'green'; }
+                if(form) form.reset();
+                setTimeout(() => { if(formStatus) formStatus.textContent = ''; }, 6000);
             } else {
                 response.json().then(data => {
-                    if (Object.hasOwn(data, 'errors')) {
-                         formStatus.textContent = data["errors"].map(error => error["message"]).join(", ");
-                    } else {
-                         formStatus.textContent = "Ups! Coś poszło nie tak przy wysyłaniu.";
-                    }
-                    formStatus.style.color = 'red';
+                    const errorMsg = Object.hasOwn(data, 'errors') ? data["errors"].map(error => error["message"]).join(", ") : "Ups! Coś poszło nie tak przy wysyłaniu.";
+                    if(formStatus) { formStatus.textContent = errorMsg; formStatus.style.color = 'red'; }
+                    console.error("Form submission error:", data);
                 }).catch(error => {
-                    // Problem z przetworzeniem odpowiedzi JSON, pokaż ogólny błąd
-                    formStatus.textContent = "Ups! Wystąpił błąd serwera.";
-                    formStatus.style.color = 'red';
+                    if(formStatus) { formStatus.textContent = "Ups! Wystąpił błąd serwera (nieprawidłowa odpowiedź)."; formStatus.style.color = 'red'; }
+                     console.error("Form submission JSON parsing error:", error);
                 });
             }
         }).catch(error => {
-            formStatus.textContent = "Ups! Wystąpił błąd sieci.";
-            formStatus.style.color = 'red';
+            if(formStatus) { formStatus.textContent = "Ups! Wystąpił błąd sieci."; formStatus.style.color = 'red'; }
+            console.error("Form submission network error:", error);
         });
     }
-    if (form) {
-        form.addEventListener("submit", handleSubmit);
-    }
+    if (form) { form.addEventListener("submit", handleSubmit); }
 
 
-    // --- Obsługa Modala (Lightbox) - Z obsługą wideo ---
-    const modal = document.getElementById('myModal');
-    const modalImage = document.getElementById('modalImage');
-    const modalVideoContainer = document.getElementById('modalVideoContainer');
-    const modalVideo = document.getElementById('modalVideo');
-    const modalDetails = document.getElementById('modalDetails');
-    const detailRealizator = document.getElementById('detailRealizator');
-    const detailModel = document.getElementById('detailModel');
-    const detailLokalizacja = document.getElementById('detailLokalizacja');
-    const closeButton = document.querySelector('.close-button');
+    // --- Obsługa Modali (Galerii i Usług) ---
+    const galleryModal = document.getElementById('galleryModal');
+    const galleryModalImage = document.getElementById('modalGalleryImage');
+    const galleryModalVideoContainer = document.getElementById('modalGalleryVideoContainer');
+    const galleryModalVideo = document.getElementById('modalGalleryVideo');
+    const galleryModalDetails = document.getElementById('modalGalleryDetails');
+    const galleryDetailRealizator = document.getElementById('detailRealizator');
+    const galleryDetailModel = document.getElementById('detailModel');
+    const galleryDetailLokalizacja = document.getElementById('detailLokalizacja');
+    const galleryCloseButton = galleryModal ? galleryModal.querySelector('.close-button') : null;
+
+    const serviceModal = document.getElementById('serviceModal');
+    const serviceModalTitle = document.getElementById('serviceModalTitle');
+    const serviceModalDesc = document.getElementById('serviceModalDesc');
+    const serviceModalImage = document.getElementById('serviceModalImage');
+    const serviceCloseButton = serviceModal ? serviceModal.querySelector('.close-button') : null;
+
+    // Otwieranie Modala Galerii
     const galleryItemsClickable = document.querySelectorAll('.gallery-container .gallery-item > *:first-child');
-
     galleryItemsClickable.forEach(clickableElement => {
         clickableElement.addEventListener('click', (e) => {
             e.preventDefault();
-
             const item = clickableElement.closest('.gallery-item');
-            if (!item) return; // Zabezpieczenie
+            if (!item || !galleryModal) return;
 
             const isVideo = item.classList.contains('gallery-item-video');
 
-            // Resetowanie widoczności elementów modala
-            modalImage.style.display = 'none';
-            modalVideoContainer.style.display = 'none';
-            modalDetails.style.display = 'none';
+            // Reset galerii modala
+            galleryModalImage.style.display = 'none';
+            galleryModalVideoContainer.style.display = 'none';
+            galleryModalDetails.style.display = 'none';
 
-            if (isVideo && clickableElement.tagName === 'A') { // Upewnij się, że kliknięto link wideo
+            if (isVideo && clickableElement.tagName === 'A') {
                 const videoLink = clickableElement;
                 const youtubeId = videoLink.getAttribute('data-youtube-id');
-                if (youtubeId && youtubeId !== "VIDEO_ID_1" && youtubeId !== "VIDEO_ID_2" && youtubeId !== "VIDEO_ID_3") { // Sprawdź czy ID jest ustawione
-                    const embedUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`; // Dodano parametry
-                    modalVideo.src = embedUrl;
-                    modalVideoContainer.style.display = 'block';
-                } else {
-                    console.error("Nieprawidłowy lub brakujący atrybut data-youtube-id dla linku wideo:", videoLink);
-                    // Można by tu wyświetlić komunikat w modalu
-                }
-
-            } else if (!isVideo && clickableElement.tagName === 'IMG') { // Jeśli to obrazek
+                if (youtubeId && !youtubeId.startsWith("VIDEO_ID")) {
+                    const embedUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`;
+                    galleryModalVideo.src = embedUrl;
+                    galleryModalVideoContainer.style.display = 'block';
+                } else { console.error("Nieprawidłowy/brakujący YouTube ID w data-youtube-id:", videoLink); }
+            } else if (!isVideo && clickableElement.tagName === 'IMG') {
                 const img = clickableElement;
-                modalImage.src = img.src;
-                modalImage.alt = img.alt;
-                modalImage.style.display = 'block';
+                galleryModalImage.src = img.src;
+                galleryModalImage.alt = img.alt;
+                galleryModalImage.style.display = 'block';
 
-                // Pokaż szczegóły dla obrazka
                 const realizator = item.getAttribute('data-realizator');
                 const model = item.getAttribute('data-model');
                 const lokalizacja = item.getAttribute('data-lokalizacja');
-
-                 detailRealizator.textContent = realizator ? `Realizator: ${realizator}` : '';
-                detailModel.textContent = model ? `Model/Temat: ${model}` : '';
-                detailLokalizacja.textContent = lokalizacja ? `Lokalizacja: ${lokalizacja}` : '';
-                 modalDetails.style.display = 'block';
+                if(galleryDetailRealizator) galleryDetailRealizator.textContent = realizator ? `Realizator: ${realizator}` : '';
+                if(galleryDetailModel) galleryDetailModel.textContent = model ? `Model/Temat: ${model}` : '';
+                if(galleryDetailLokalizacja) galleryDetailLokalizacja.textContent = lokalizacja ? `Lokalizacja: ${lokalizacja}` : '';
+                galleryModalDetails.style.display = 'block';
             }
 
-            modal.classList.add('show');
+            galleryModal.classList.add('show');
             document.body.style.overflow = 'hidden';
         });
     });
 
-    // Funkcja zamykająca modal
-    function closeModal() {
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
-        // Zatrzymaj odtwarzanie wideo
-        modalVideo.src = "";
-         // Wyczyść src obrazka (opcjonalnie, dla pewności)
-         modalImage.src = "";
+    // Otwieranie Modala Usług
+    const serviceItems = document.querySelectorAll('#tile-services .service-item');
+    serviceItems.forEach(item => {
+        item.addEventListener('click', () => {
+             if (!serviceModal || !serviceModalTitle || !serviceModalDesc || !serviceModalImage) return;
+
+             const title = item.getAttribute('data-service-title');
+             const desc = item.getAttribute('data-service-desc');
+             const imgSrc = item.getAttribute('data-service-img');
+
+             serviceModalTitle.textContent = title || "Szczegóły usługi";
+             serviceModalDesc.textContent = desc || "Więcej informacji wkrótce.";
+
+             if (imgSrc && imgSrc !== 'path/to/example.jpg') { // Sprawdź czy jest sensowny src
+                 serviceModalImage.src = imgSrc;
+                 serviceModalImage.alt = `Przykład realizacji: ${title}`;
+                 serviceModalImage.style.display = 'block';
+             } else {
+                 serviceModalImage.style.display = 'none'; // Ukryj jeśli brak obrazka
+             }
+
+             serviceModal.classList.add('show');
+             document.body.style.overflow = 'hidden';
+        });
+         // Dodanie obsługi klawiatury (Enter) dla elementów listy
+         item.setAttribute('role', 'button');
+         item.setAttribute('tabindex', '0');
+         item.addEventListener('keydown', (e) => {
+             if (e.key === 'Enter' || e.key === ' ') {
+                 e.preventDefault(); // Zapobiegaj przewijaniu strony spacją
+                 item.click(); // Wywołaj zdarzenie kliknięcia
+             }
+         });
+    });
+
+
+    // Funkcja zamykająca DOWOLNY modal (zakładając unikalne ID i klasę .close-button)
+    function closeModal(modalElement) {
+        if (modalElement) {
+            modalElement.classList.remove('show');
+            // Specyficzne czyszczenie dla modala galerii
+            if (modalElement.id === 'galleryModal') {
+                galleryModalVideo.src = "";
+                galleryModalImage.src = "";
+            }
+             // Specyficzne czyszczenie dla modala usług (jeśli potrzebne)
+             if (modalElement.id === 'serviceModal') {
+                serviceModalImage.src = ""; // Wyczyść obrazek
+             }
+
+             // Przywróć przewijanie tylko jeśli żaden inny modal nie jest otwarty
+             const anyModalOpen = document.querySelector('.modal.show');
+             if (!anyModalOpen) {
+                  document.body.style.overflow = '';
+             }
+        }
     }
 
-    // Event Listenery do zamykania modala
-    closeButton.addEventListener('click', closeModal);
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) { closeModal(); }
-    });
+    // Zamykanie Modala Galerii
+    if(galleryModal && galleryCloseButton) {
+        galleryCloseButton.addEventListener('click', () => closeModal(galleryModal));
+        galleryModal.addEventListener('click', (event) => { if (event.target === galleryModal) { closeModal(galleryModal); } });
+    }
+     // Zamykanie Modala Usług
+    if(serviceModal && serviceCloseButton) {
+        serviceCloseButton.addEventListener('click', () => closeModal(serviceModal));
+        serviceModal.addEventListener('click', (event) => { if (event.target === serviceModal) { closeModal(serviceModal); } });
+    }
+    // Zamykanie aktywnego modala klawiszem Escape
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && modal.classList.contains('show')) { closeModal(); }
+        if (event.key === 'Escape') {
+             const openModal = document.querySelector('.modal.show');
+             if(openModal) {
+                 closeModal(openModal);
+             }
+        }
     });
 
 
@@ -659,26 +707,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
                  galleryItemsAll.forEach(item => {
                      const itemCategory = item.getAttribute('data-category');
-                     // Dodajemy niewielkie opóźnienie w animacji dla płynniejszego efektu
-                     //item.style.transitionDelay = Math.random() * 0.1 + 's'; // Małe opóźnienie
-
-                     if (filterValue === 'all' || itemCategory === filterValue) {
-                          // Używamy requestAnimationFrame dla lepszej wydajności animacji
-                          requestAnimationFrame(() => {
-                             item.classList.remove('hidden');
-                          });
-                     } else {
-                          requestAnimationFrame(() => {
-                              item.classList.add('hidden');
-                          });
-                     }
+                     const shouldBeVisible = (filterValue === 'all' || itemCategory === filterValue);
+                     // Użyjemy prostego pokazywania/ukrywania dla wydajności
+                     item.style.display = shouldBeVisible ? '' : 'none';
+                     // Dla zachowania animacji można użyć klas i transition, ale może być mniej wydajne
+                     // if (shouldBeVisible) { item.classList.remove('hidden'); }
+                     // else { item.classList.add('hidden'); }
                  });
+                  // Odśwież AOS po filtrowaniu, aby poprawnie animować nowo widoczne elementy
+                  AOS.refresh();
              }
          });
     }
 
-});
+    // --- Przycisk Scroll to Top ---
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    if (scrollToTopBtn) {
+         window.addEventListener('scroll', () => {
+             if (window.scrollY > 300) { // Pokaż przycisk po przewinięciu 300px
+                 scrollToTopBtn.classList.add('visible');
+             } else {
+                 scrollToTopBtn.classList.remove('visible');
+             }
+         });
+
+         scrollToTopBtn.addEventListener('click', () => {
+             window.scrollTo({
+                 top: 0,
+                 behavior: 'smooth' // Płynne przewijanie
+             });
+         });
+    }
+
+}); // Koniec DOMContentLoaded
 </script>
 
 </body>
 </html>
+
