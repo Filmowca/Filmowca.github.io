@@ -25,10 +25,9 @@
             --tile-border: rgba(255, 255, 255, 0.15);
             --tile-shadow: rgba(0, 0, 0, 0.1);
             --tile-shadow-hover: rgba(0, 0, 0, 0.18);
-            /* Usunięto --header-footer-bg */
             --intro-bg: rgba(255, 255, 255, 0.05);
             --lightbox-bg: rgba(10, 10, 15, 0.94);
-            --lightbox-info-bg: rgba(0, 0, 0, 0.3);
+            --lightbox-info-bg: rgba(0, 0, 0, 0.4); /* Nieco jaśniejsze tło info */
 
             /* Kolory akcentów i przycisków - powrót do zieleni */
             --accent-color: var(--gradient-green-light);
@@ -77,16 +76,18 @@
         }
 
         /* --- Kontener Nagłówka --- */
-        /* Usunięto .header-wrapper */
+        .header-wrapper {
+             max-width: 1200px;
+             margin: 0 auto;
+             padding: 25px 20px;
+        }
+
         .header-container {
             display: flex;
-            justify-content: space-between; /* Rozłożenie kafelków */
+            justify-content: space-between;
             align-items: flex-start;
-            max-width: 1200px; /* Taka sama szerokość jak .content-section */
-            margin: 0 auto; /* Wyśrodkowanie kontenera */
-            padding: 25px 20px; /* Padding boczny jak w .content-section + górny/dolny */
-            position: relative; /* Można zmienić na sticky jeśli potrzeba */
-            z-index: 100;
+            position: relative; /* Dodano dla kontekstu pozycjonowania */
+            z-index: 100; /* Upewnienie się, że jest nad resztą */
         }
 
         /* Kafelek Logo/Nazwy */
@@ -135,7 +136,6 @@
             padding: 15px 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             margin-top: 5px;
-            /* Usunięto margin-left: auto; - justify-content: space-between załatwia sprawę */
         }
          .nav-tile:hover {
              transform: translateY(-3px);
@@ -428,33 +428,38 @@
 
         .gallery-tile .media-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
+            /* ZMIANA: Użycie `dense` dla lepszego wypełnienia */
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Mniejsze miniatury dla lepszego dopasowania */
+            grid-auto-rows: 20px; /* Mała wysokość bazowa dla auto-flow */
+            gap: 15px; /* Mniejszy odstęp */
             margin-top: 20px;
             padding: 0;
-             transition: height 0.4s ease;
+            transition: height 0.4s ease;
         }
 
         .gallery-tile .media-item {
              background-color: rgba(0,0,0, 0.2);
-             border-radius: 16px;
+             border-radius: 12px; /* Mniejsze zaokrąglenie */
              overflow: hidden;
              cursor: pointer;
              transition: transform 0.35s ease, box-shadow 0.35s ease, opacity 0.4s ease, width 0.4s ease, padding 0.4s ease, margin 0.4s ease, border 0.4s ease;
-             aspect-ratio: 16 / 9;
+             /* Usunięto aspect-ratio */
              display: flex;
              align-items: center;
              justify-content: center;
              position: relative;
-             box-shadow: 0 5px 15px rgba(0,0,0, 0.15);
+             box-shadow: 0 4px 10px rgba(0,0,0, 0.12); /* Lżejszy cień */
              color: var(--text-muted);
              opacity: 1;
              transform: scale(1);
              width: auto;
-             height: auto;
+             height: auto; /* Pozwól gridowi zarządzać wysokością */
              padding: 0;
              margin: 0;
              border: none;
+             /* ZMIANA: Dodanie `grid-row-end` na podstawie wysokości obrazka */
+             /* To wymagałoby JS do obliczenia, więc na razie zostawiamy bez */
+             /* grid-row-end: span X; */
         }
          .media-item.hidden {
              opacity: 0;
@@ -473,27 +478,30 @@
              font-family: "Font Awesome 6 Free"; font-weight: 900;
              position: absolute; top: 50%; left: 50%;
              transform: translate(-50%, -50%);
-             font-size: 3em;
-             color: rgba(255, 255, 255, 0.5);
+             font-size: 2.5em; /* Mniejsza ikona */
+             color: rgba(255, 255, 255, 0.6);
              opacity: 1;
              transition: color 0.3s ease;
              z-index: 2;
              pointer-events: none;
          }
          .gallery-tile .media-item.is-video:hover::before {
-             color: rgba(255, 255, 255, 0.8);
+             color: rgba(255, 255, 255, 0.9);
          }
 
          .gallery-tile .media-item img {
-            display: block; width: 100%; height: 100%;
-            object-fit: cover; transition: transform 0.35s ease, filter 0.35s ease;
+            display: block; width: 100%;
+            height: auto; /* ZMIANA: Wysokość automatyczna */
+            object-fit: cover; /* Nadal cover, ale bez przycinania proporcji */
+            transition: transform 0.35s ease, filter 0.35s ease;
             filter: saturate(0.9);
+            vertical-align: top; /* Zapobiega dodatkowym odstępom */
          }
          .gallery-tile .media-item:not(.is-video)::before {
              content: '\f00e';
              font-family: "Font Awesome 6 Free"; font-weight: 900;
-             position: absolute; bottom: 15px; right: 15px;
-             font-size: 1.2em;
+             position: absolute; bottom: 10px; right: 10px; /* Mniejsze odstępy */
+             font-size: 1em; /* Mniejsza ikona */
              color: rgba(255, 255, 255, 0.8);
              opacity: 0;
              transform: scale(0.8);
@@ -504,7 +512,7 @@
           .gallery-tile .media-item:not(.is-video)::after {
             content: '';
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 60%);
+            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%); /* Subtelniejszy gradient */
             opacity: 0;
             transition: opacity 0.35s ease;
             pointer-events: none;
@@ -512,12 +520,12 @@
 
 
          .gallery-tile .media-item:hover {
-             transform: translateY(-5px);
-             box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+             transform: translateY(-4px); /* Mniejszy hover */
+             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
          }
           .gallery-tile .media-item:hover img {
-             transform: scale(1.05);
-             filter: saturate(1.1);
+             transform: scale(1.03); /* Mniejszy zoom */
+             filter: saturate(1); /* Normalne nasycenie */
           }
          .gallery-tile .media-item:not(.is-video):hover::after,
          .gallery-tile .media-item:not(.is-video):hover::before {
@@ -538,7 +546,8 @@
         .lightbox-modal.active { display: flex; }
         .lightbox-content {
             position: relative; margin: auto; padding: 0;
-            max-width: 92%; max-height: 92%;
+            max-width: 94%; /* Zwiększono max-width */
+            max-height: 94%; /* Zwiększono max-height */
             display: flex; flex-direction: column;
              justify-content: center; align-items: center;
             transform: scale(0.95);
@@ -547,25 +556,29 @@
         }
         .lightbox-content img {
             display: block; max-width: 100%;
-            max-height: calc(100% - 100px);
-            object-fit: contain; border-radius: 10px 10px 0 0;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            /* ZMIANA: Zmniejszono max-height, aby ZAWSZE było miejsce na info */
+            max-height: calc(100% - 120px); /* Więcej miejsca na info */
+            object-fit: contain; border-radius: 8px 8px 0 0; /* Mniejsze zaokrąglenie */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35); /* Lżejszy cień */
             margin-bottom: 0;
         }
          .lightbox-info {
             background-color: var(--lightbox-info-bg);
             color: var(--text-light);
-            padding: 15px 20px;
-            border-radius: 0 0 10px 10px;
-            width: 100%;
-            max-width: 800px;
+            padding: 12px 18px; /* Mniejszy padding */
+            border-radius: 0 0 8px 8px; /* Dopasowane zaokrąglenie */
+            width: 100%; /* Dopasowanie do szerokości obrazu */
+            max-width: 700px; /* Ograniczenie szerokości info */
             box-sizing: border-box;
-            font-size: 0.9em;
-            line-height: 1.5;
+            font-size: 0.85em; /* Mniejsza czcionka */
+            line-height: 1.6;
             text-align: left;
+            /* Zapewnienie, że info jest widoczne */
+            max-height: 100px; /* Ograniczenie wysokości info */
+            overflow-y: auto; /* Scrollowanie, jeśli info jest za długie */
         }
          .lightbox-info p {
-             margin: 5px 0;
+             margin: 4px 0; /* Mniejszy margines */
          }
          .lightbox-info strong {
              color: var(--text-muted);
@@ -582,17 +595,17 @@
          }
 
         .close-lightbox {
-            position: absolute; top: 15px; right: 20px;
-            color: #e0e0e0; font-size: 30px; font-weight: 300;
+            position: absolute; top: 10px; right: 15px; /* Bliżej rogu */
+            color: #e0e0e0; font-size: 28px; font-weight: 300; /* Lżejszy X */
             transition: 0.3s ease; cursor: pointer; line-height: 1;
-            background-color: rgba(0,0,0,0.2); border-radius: 50%;
-            width: 35px; height: 35px; display: flex;
+            background-color: rgba(0,0,0,0.25); border-radius: 50%;
+            width: 32px; height: 32px; display: flex;
             justify-content: center; align-items: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 10;
         }
         .close-lightbox:hover,
-        .close-lightbox:focus { color: var(--accent-color); background-color: rgba(0,0,0,0.4); }
+        .close-lightbox:focus { color: var(--accent-color); background-color: rgba(0,0,0,0.45); }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -757,7 +770,7 @@
              .nav-tile nav ul { gap: 15px; }
              .nav-tile nav a { font-size: 0.85em; }
              .lightbox-info { padding: 10px 15px; font-size: 0.8em; }
-             .lightbox-content img { max-height: calc(100% - 80px); } /* Mniej miejsca na info */
+             .lightbox-content img { max-height: calc(100% - 90px); } /* Mniej miejsca na info na mobilnych */
          }
          @media (max-width: 480px) {
             /* header { padding: 12px 15px; } */
@@ -799,6 +812,7 @@
              .intro-photo-tile { width: 85%; max-width: 260px; }
              .gallery-filters { gap: 8px; } /* Mniejszy odstęp filtrów */
              .filter-button { padding: 6px 14px; font-size: 0.85em; }
+             .lightbox-content img { max-height: calc(100% - 70px); } /* Jeszcze mniej miejsca na info */
          }
 
          /* Animacja pojawiania się elementów */
