@@ -57,7 +57,7 @@
         --modal-content-bg: rgba(255, 255, 255, 0.8);
         --subtitle-color: #555;
         --accent-color-rgb: 0, 123, 255;
-        --grid-gap: 40px; /* Zmienna dla odstępu w siatce */
+        --grid-gap: 40px;
     }
     body.dark-mode {
         --bg-color: #1a1a1a;
@@ -89,28 +89,28 @@
         position: relative;
     }
 
-    /* Abstrakcyjne Kształty w Tle - bez zmian */
+    /* Abstrakcyjne Kształty w Tle */
     body::before, body::after { content: ''; position: absolute; border-radius: 50%; z-index: -1; opacity: 0.1; filter: blur(100px); pointer-events: none; }
     body::before { width: 400px; height: 400px; top: 10%; left: -150px; background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%); }
     body::after { width: 300px; height: 300px; bottom: 5%; right: -100px; background: radial-gradient(circle, var(--secondary-accent-color) 0%, transparent 70%); }
     body.dark-mode::before { opacity: 0.15; filter: blur(120px); background: radial-gradient(circle, var(--accent-hover-color) 0%, transparent 70%);}
     body.dark-mode::after { opacity: 0.1; filter: blur(120px); background: radial-gradient(circle, #ff8a8a 0%, transparent 70%);}
 
-    /* Typografia - bez zmian */
+    /* Typografia */
     h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; color: var(--heading-color); margin-bottom: 0.75em; letter-spacing: -0.01em; }
     h1 { font-size: 2.4em; font-weight: 800; } h2 { font-size: 1.9em; font-weight: 700; } h3 { font-size: 1.5em; font-weight: 700; }
     p { margin-bottom: 1em; }
     a { color: var(--accent-color); text-decoration: none; transition: color 0.3s ease; }
     a:hover { color: var(--accent-hover-color); }
 
-    /* Preloader - bez zmian */
+    /* Preloader */
     .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 1; transition: opacity 0.5s ease-out 0.2s; }
     .preloader.hidden { opacity: 0; pointer-events: none; }
     .spinner { border: 4px solid rgba(0, 0, 0, 0.1); border-left-color: var(--accent-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     body.dark-mode .spinner { border: 4px solid rgba(255, 255, 255, 0.2); border-left-color: var(--accent-color); }
 
-    /* Przycisk Zmiany Motywu - bez zmian */
+    /* Przycisk Zmiany Motywu */
     .theme-switch-wrapper { position: fixed; top: 15px; right: 15px; z-index: 1001; }
     .theme-switch { display: inline-block; height: 34px; width: 60px; position: relative; }
     .theme-switch input { display: none; }
@@ -118,14 +118,13 @@
     .slider:before { background-color: white; content: ""; height: 26px; width: 26px; position: absolute; left: 4px; bottom: 4px; transition: .4s; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 14px; color: #aaa; }
     .slider:before { content: '\f185'; } input:checked + .slider:before { content: '\f186'; } input:checked + .slider { background-color: var(--accent-color); } input:checked + .slider:before { transform: translateX(26px); }
 
-    /* ----- NOWA DEFINICJA SIATKI ----- */
+    /* ----- DEFINICJA SIATKI ----- */
     .main-container {
         display: grid;
-        /* Automatyczne dopasowanie kolumn, min. 320px szerokości */
         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        grid-auto-rows: auto; /* Wiersze dopasowują wysokość */
-        gap: var(--grid-gap); /* Użycie zmiennej */
-        align-items: start; /* Kafelki nie rozciągają się w pionie */
+        grid-auto-rows: auto;
+        gap: var(--grid-gap);
+        /* Usunięto align-items: start; - wracamy do domyślnego stretch */
         max-width: 1200px;
         margin: 70px auto 50px auto;
         padding: 20px;
@@ -136,44 +135,41 @@
         background-color: var(--tile-bg-color); border-radius: 18px; padding: 35px;
         box-shadow: 0 12px 35px -5px var(--shadow-color);
         transition: transform 0.35s ease-out, box-shadow 0.35s ease-out, background-color 0.3s ease;
-        /* Usunięto min-height */
+        /* Usunięto min-height - wysokość zależy od treści i rozciągania w wierszu siatki */
         display: flex; flex-direction: column;
-        /* Usunięto border */
     }
     .tile:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0 18px 45px -10px var(--strong-shadow-color); }
 
-    /* Kompaktowe kafelki: Header, Social, Contact */
+    /* Kompaktowe kafelki: Header, Social, Contact - nadal mają auto wysokość */
     #tile-header, #tile-social, #tile-contact {
         padding: 25px;
-        min-height: auto; /* Zapewnia brak minimalnej wysokości */
+        min-height: auto; /* Nadal potrzebne, aby nadpisać potencjalne min-height z innych reguł */
     }
     #tile-header, #tile-social { align-items: center; justify-content: center; }
     #tile-contact { align-items: stretch; justify-content: flex-start; text-align: left; }
 
-    /* ----- USUNIĘTO WSZYSTKIE grid-column i grid-row z ID KAFELKÓW ----- */
-    /* Przykład - jeśli chcesz, aby 'O mnie' zajmował 2 kolumny na większych ekranach */
-     @media (min-width: 768px) { /* Możesz dostosować breakpoint */
+    /* ----- AUTOMATYCZNE UMIEJSCOWIENIE ----- */
+    /* Usunięto wszystkie jawne przypisania grid-column/grid-row dla ID */
+    /* Opcjonalnie: pozwól #tile-about zająć 2 kolumny, jeśli siatka je stworzy */
+     @media (min-width: 768px) {
          #tile-about {
-             grid-column: span 2; /* Zajmuje 2 kolumny jeśli siatka je utworzy */
-             /* Może wymagać `grid-row: span 1` lub `auto` jeśli inne elementy mają stać obok */
-         }
-         /* Wrapper dla Social/Contact może potrzebować span 1 w tym scenariuszu */
-         .stacked-tiles-wrapper {
-             /* grid-column: span 1; */ /* Raczej pozwólmy auto-placement zadziałać */
+             grid-column: span 2;
          }
      }
-
 
     /* Wrapper dla Social i Contact */
     .stacked-tiles-wrapper {
         display: flex;
         flex-direction: column;
-        gap: var(--grid-gap); /* Taki sam odstęp jak w siatce */
-        /* Ten wrapper nie ma własnego tła ani paddingu */
-        /* Zajmuje miejsce w siatce jak jeden element */
+        gap: var(--grid-gap);
+         /* Wrapper sam w sobie jest elementem siatki, jego umiejscowienie zależy od auto-placement */
+         /* Jeśli #tile-about zajmuje 2 kolumny, ten wrapper zajmie 1 kolumnę obok lub pod */
+         /* Można dodać `align-self: start;` jeśli nie chcemy, by wrapper się rozciągał */
+         align-self: start;
     }
 
-    /* Stylizacja wewnątrz kafelków (dostosowania dla Contact) */
+
+    /* Stylizacja wewnątrz kafelków (reszta bez zmian) */
     #tile-header img.logo { max-width: 180px; margin-bottom: 10px; }
     #tile-header h1 { margin-bottom: 0.1em; font-size: 2.2em; color: var(--accent-color); }
     #tile-header .subtitle { margin-top: 0; font-size: 0.95em; color: var(--subtitle-color); }
@@ -198,13 +194,11 @@
     #tile-location img.map-graphic { width: 100%; max-width: 250px; height: auto; border-radius: 10px; display: block; margin: 0 auto; filter: brightness(1) contrast(1); transition: filter 0.3s ease; }
     body.dark-mode #tile-location img.map-graphic { filter: brightness(0.8) contrast(1.2); }
 
-    /* Opinie jako standardowy kafelek */
     #tile-testimonials .testimonial { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed var(--border-color); }
     #tile-testimonials .testimonial:last-child { margin-bottom: 0; border-bottom: none; }
     #tile-testimonials blockquote { font-style: italic; margin-bottom: 15px; font-size: 1.05em; line-height: 1.6; }
     #tile-testimonials cite { font-weight: bold; color: var(--heading-color); font-size: 1em; display: block; text-align: right; }
 
-    /* Kontakt - dopasowanie do mniejszego kafelka */
     #tile-contact h3 { margin-bottom: 10px; width: 100%; text-align: left; }
     #tile-contact p { margin-bottom: 10px; width: 100%; text-align: left; }
     #tile-contact form { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; align-self: stretch; }
@@ -215,7 +209,6 @@
     #tile-contact button.cta-button { background-image: var(--accent-gradient); background-size: 200% auto; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-size: 1em; font-weight: bold; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background-position 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease; align-self: flex-start; box-shadow: 0 4px 15px rgba(var(--accent-color-rgb), 0.3); margin-top: 5px; }
     #tile-contact button.cta-button:hover { background-position: right center; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(var(--accent-color-rgb), 0.4); }
     #tile-contact button.cta-button:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(var(--accent-color-rgb), 0.3); }
-
 
     /* Sekcja Galerii - bez zmian */
     #gallery-section { max-width: 1200px; width: calc(100% - 40px); margin: 40px auto; padding: 40px; }
@@ -243,7 +236,7 @@
     /* Stopka */
     footer { text-align: center; padding: 30px 20px; margin-top: 40px; border-top: 1px solid var(--border-color); color: var(--icon-color); font-size: 0.9em; }
 
-    /* Modale z Glassmorphism - bez zmian */
+    /* Modale z Glassmorphism */
     .modal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: var(--modal-bg); -webkit-backdrop-filter: var(--modal-backdrop-blur); backdrop-filter: var(--modal-backdrop-blur); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; }
     .modal.show { display: flex; opacity: 1; }
     .modal-content { position: relative; background-color: var(--modal-content-bg); margin: auto; padding: 30px; border-radius: 10px; max-width: 90%; max-height: 90vh; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); border: 1px solid rgba(255, 255, 255, 0.18); transform: scale(0.9); transition: transform 0.4s ease, background-color 0.3s ease; }
@@ -272,24 +265,22 @@
         .main-container { gap: 30px; }
         #gallery-section, .main-container { width: calc(100% - 40px); padding-left: 20px; padding-right: 20px;}
         .gallery-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;}
-         /* Wyrównanie wysokości wierszy - może być potrzebne dla auto-fit */
-         /* .main-container { align-items: stretch; } */ /* Odkomentuj jeśli wolisz równe wysokości */
+        /* Reset span dla #tile-about na tabletach, jeśli użyto `auto-fit` */
+         #tile-about { grid-column: auto; }
+         .stacked-tiles-wrapper { grid-column: auto; }
     }
     @media (max-width: 768px) {
         body { font-size: 15px; line-height: 1.6; }
         h1 { font-size: 2em; } h2 { font-size: 1.6em; } h3 { font-size: 1.2em; }
-        /* W układzie jednokolumnowym nie potrzebujemy już span 2 dla #tile-about */
-         @media (min-width: 768px) { #tile-about { grid-column: auto; } } /* Reset span */
-         /* Reset wrapper */
-         .stacked-tiles-wrapper { flex-direction: column; gap: var(--grid-gap); } /* Upewnienie się */
-
-        .main-container { grid-template-columns: 1fr; gap: 25px; margin: 50px auto 30px auto; align-items: start; /* Upewnienie się */ }
+        .main-container { grid-template-columns: 1fr; gap: 25px; margin: 50px auto 30px auto; }
         .tile { padding: 25px; }
         #tile-about { flex-direction: column; align-items: center; }
         #tile-about .about-text { text-align: center; }
         #tile-header, #tile-social, #tile-contact { padding: 20px; }
         #tile-header h1 { font-size: 1.8em;}
         #tile-social a { font-size: 1.5em; }
+        /* Na mobilnych wrapper jest elementem siatki 1-kolumnowej */
+        .stacked-tiles-wrapper { gap: 25px; }
 
         .gallery-filters button { padding: 7px 15px; }
         #gallery-section { padding: 30px; width: calc(100% - 20px); margin-left: auto; margin-right: auto;}
@@ -311,7 +302,7 @@
          .gallery-item-video a::after { font-size: 35px; }
          .modal-content { padding: 15px; }
          #serviceModal .modal-content { width: 90vw; }
-         /* Na mobilnych wrapper jest niepotrzebny, ale nie szkodzi */
+         .stacked-tiles-wrapper { gap: 20px; } /* Mniejszy odstęp na mobilnych */
     }
 
 </style>
@@ -357,23 +348,22 @@
 
          <div class="tile" id="tile-services" data-aos="fade-left" data-aos-delay="250">
             <h3>Oferuję</h3>
-            <ul>
-                <li class="service-item" data-service-title="Fotografia Ślubna" data-service-desc="Pełne reportaże ślubne..." data-service-img="Sesja na fotografii/zf2.jpeg">Fotografię Ślubną i Narzeczeńską</li>
-                <li class="service-item" data-service-title="Wideofilmowanie Ślubów" data-service-desc="Nowoczesne filmy ślubne..." data-service-img="placeholder-video-thumb1.jpg">Wideofilmowanie Ślubów</li>
-                <li class="service-item" data-service-title="Sesje Portretowe" data-service-desc="Indywidualne, rodzinne..." data-service-img="Sesja na fotografii/zf1.jpeg">Sesje Portretowe</li>
-                <li class="service-item" data-service-title="Fotografia Eventowa" data-service-desc="Relacje z konferencji..." data-service-img="Sesja na fotografii/zf3.jpeg">Fotografię i Filmowanie Eventów</li>
-                <li class="service-item" data-service-title="Teledyski Muzyczne" data-service-desc="Kreatywne i dynamiczne..." data-service-img="placeholder-video-thumb2.jpg">Teledyski Muzyczne</li>
-                <li class="service-item" data-service-title="Fotografia Produktowa" data-service-desc="Profesjonalne zdjęcia produktów..." data-service-img="path/to/produkt-example.jpg">Fotografię Produktową</li>
-                <li class="service-item" data-service-title="Ujęcia z Drona" data-service-desc="Spektakularne ujęcia z powietrza..." data-service-img="path/to/dron-example.jpg">Ujęcia z Drona</li>
-            </ul>
+             <ul>
+                 <li class="service-item" data-service-title="Fotografia Ślubna" data-service-desc="Pełne reportaże ślubne, sesje narzeczeńskie i plenerowe. Uchwycę magię Waszego dnia." data-service-img="Sesja na fotografii/zf2.jpeg">Fotografię Ślubną i Narzeczeńską</li>
+                 <li class="service-item" data-service-title="Wideofilmowanie Ślubów" data-service-desc="Nowoczesne filmy ślubne, od dynamicznych teledysków po pełne reportaże. Używam profesjonalnego sprzętu...\nDodatkowe informacje o montażu i dronie." data-service-img="placeholder-video-thumb1.jpg">Wideofilmowanie Ślubów</li>
+                 <li class="service-item" data-service-title="Sesje Portretowe" data-service-desc="Indywidualne, rodzinne, dziecięce - w studio lub plenerze. Naturalne i pełne emocji kadry." data-service-img="Sesja na fotografii/zf1.jpeg">Sesje Portretowe</li>
+                 <li class="service-item" data-service-title="Fotografia Eventowa" data-service-desc="Relacje z konferencji, bankietów, koncertów i innych wydarzeń. Dyskretnie i profesjonalnie." data-service-img="Sesja na fotografii/zf3.jpeg">Fotografię i Filmowanie Eventów</li>
+                 <li class="service-item" data-service-title="Teledyski Muzyczne" data-service-desc="Kreatywne i dynamiczne teledyski dla zespołów i solistów. Pomogę zrealizować Twoją wizję." data-service-img="placeholder-video-thumb2.jpg">Teledyski Muzyczne</li>
+                 <li class="service-item" data-service-title="Fotografia Produktowa" data-service-desc="Profesjonalne zdjęcia produktów na potrzeby e-commerce, katalogów i reklamy (packshoty, aranżowane)." data-service-img="path/to/produkt-example.jpg">Fotografię Produktową</li>
+                 <li class="service-item" data-service-title="Ujęcia z Drona" data-service-desc="Spektakularne ujęcia z powietrza (zdjęcia i filmy) dla nieruchomości, eventów, ślubów." data-service-img="path/to/dron-example.jpg">Ujęcia z Drona</li>
+             </ul>
         </div>
 
         <div class="tile" id="tile-location" data-aos="zoom-in-up" data-aos-delay="300">
             <h3>Lokalizacja</h3> <p>Wrocław, Polska</p> <img src="placeholder-mapa-wroclaw.svg" alt="Graficzna mapa Wrocławia" class="map-graphic" loading="lazy">
         </div>
 
-        <div class="tile" id="tile-testimonials" data-aos="fade-up" data-aos-delay="350">
-            <h3>Co mówią klienci</h3>
+        <div class="tile" id="tile-testimonials" data-aos="fade-up" data-aos-delay="350"> <h3>Co mówią klienci</h3>
             <div class="testimonial"> <blockquote>"Pełen profesjonalizm..."</blockquote> <cite>– Anna i Piotr K.</cite> </div>
             <div class="testimonial"> <blockquote>"Film z naszego eventu..."</blockquote> <cite>– XYZ Company</cite> </div>
         </div>
@@ -446,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryItemsClickable = document.querySelectorAll('.gallery-container .gallery-item > *:not(.overlay)');
     galleryItemsClickable.forEach(clickableElement => { clickableElement.addEventListener('click', (e) => { e.preventDefault(); const item = clickableElement.closest('.gallery-item'); if (!item || !galleryModal) return; const isVideo = item.classList.contains('gallery-item-video'); galleryModalImage.style.display = 'none'; galleryModalVideoContainer.style.display = 'none'; galleryModalDetails.style.display = 'none'; if (isVideo && clickableElement.tagName === 'A') { const videoLink = clickableElement; const youtubeId = videoLink.getAttribute('data-youtube-id'); if (youtubeId && !youtubeId.startsWith("VIDEO_ID")) { const embedUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`; galleryModalVideo.src = embedUrl; galleryModalVideoContainer.style.display = 'block'; } else { console.error("Invalid/missing YouTube ID:", videoLink); } } else if (!isVideo && clickableElement.tagName === 'IMG') { const img = clickableElement; galleryModalImage.src = img.src; galleryModalImage.alt = img.alt; galleryModalImage.style.display = 'block'; const realizator = item.getAttribute('data-realizator'); const model = item.getAttribute('data-model'); const lokalizacja = item.getAttribute('data-lokalizacja'); if(galleryDetailRealizator) galleryDetailRealizator.textContent = realizator ? `Realizator: ${realizator}` : ''; if(galleryDetailModel) galleryDetailModel.textContent = model ? `Model/Temat: ${model}` : ''; if(galleryDetailLokalizacja) galleryDetailLokalizacja.textContent = lokalizacja ? `Lokalizacja: ${lokalizacja}` : ''; galleryModalDetails.style.display = 'block'; } galleryModal.classList.add('show'); document.body.style.overflow = 'hidden'; }); });
     const serviceItems = document.querySelectorAll('#tile-services .service-item');
-    serviceItems.forEach(item => { function openServiceModal() { if (!serviceModal || !serviceModalTitle || !serviceModalDesc || !serviceModalImage) return; const title = item.getAttribute('data-service-title'); const desc = item.getAttribute('data-service-desc'); const imgSrc = item.getAttribute('data-service-img'); serviceModalTitle.textContent = title || "Szczegóły usługi"; serviceModalDesc.innerHTML = desc ? desc.replace(/\n/g, '<br>') : "Więcej informacji wkrótce."; /* Użyto innerHTML dla <br> */ if (imgSrc && imgSrc !== 'path/to/example.jpg' && !imgSrc.includes('placeholder')) { serviceModalImage.src = imgSrc; serviceModalImage.alt = `Przykład realizacji: ${title}`; serviceModalImage.style.display = 'block'; } else { serviceModalImage.style.display = 'none'; } serviceModal.classList.add('show'); document.body.style.overflow = 'hidden'; } item.addEventListener('click', openServiceModal); item.setAttribute('role', 'button'); item.setAttribute('tabindex', '0'); item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openServiceModal(); } }); });
+    serviceItems.forEach(item => { function openServiceModal() { if (!serviceModal || !serviceModalTitle || !serviceModalDesc || !serviceModalImage) return; const title = item.getAttribute('data-service-title'); const desc = item.getAttribute('data-service-desc'); const imgSrc = item.getAttribute('data-service-img'); serviceModalTitle.textContent = title || "Szczegóły usługi"; serviceModalDesc.innerHTML = desc ? desc.replace(/\n/g, '<br>') : "Więcej informacji wkrótce."; if (imgSrc && imgSrc !== 'path/to/example.jpg' && !imgSrc.includes('placeholder')) { serviceModalImage.src = imgSrc; serviceModalImage.alt = `Przykład realizacji: ${title}`; serviceModalImage.style.display = 'block'; } else { serviceModalImage.style.display = 'none'; } serviceModal.classList.add('show'); document.body.style.overflow = 'hidden'; } item.addEventListener('click', openServiceModal); item.setAttribute('role', 'button'); item.setAttribute('tabindex', '0'); item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openServiceModal(); } }); });
     function closeModal(modalElement) { if (modalElement) { modalElement.classList.remove('show'); if (modalElement.id === 'galleryModal') { galleryModalVideo.src = ""; galleryModalImage.src = ""; } if (modalElement.id === 'serviceModal') { serviceModalImage.src = ""; } const anyModalOpen = document.querySelector('.modal.show'); if (!anyModalOpen) { document.body.style.overflow = ''; } } }
     if(galleryModal && galleryCloseButton) { galleryCloseButton.addEventListener('click', () => closeModal(galleryModal)); galleryModal.addEventListener('click', (event) => { if (event.target === galleryModal) { closeModal(galleryModal); } }); }
     if(serviceModal && serviceCloseButton) { serviceCloseButton.addEventListener('click', () => closeModal(serviceModal)); serviceModal.addEventListener('click', (event) => { if (event.target === serviceModal) { closeModal(serviceModal); } }); }
