@@ -1,540 +1,411 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio | Szymon Grzeszczak</title>
-  <!-- Import czcionki Montserrat -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* Reset */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SG.media.pl - Szymon Grzeszczak - Fotografia i Film, Wrocław</title>
+    <meta name="description" content="Profesjonalna fotografia i filmowanie we Wrocławiu. Specjalizuję się w sesjach ślubnych, teledyskach, etiudach filmowych, fotografii portretowej, produktowej i eventowej. SG.media.pl - Szymon Grzeszczak.">
+    <meta name="keywords" content="fotograf Wrocław, filmowanie Wrocław, fotografia ślubna, teledyski, etiudy filmowe, sesje zdjęciowe, wideofilmowanie, SG.media.pl, Szymon Grzeszczak, fotografia portretowa, fotografia produktowa, filmowanie eventów, fotografia eventowa, dron, ujęcia z drona">
+    <meta name="author" content="Szymon Grzeszczak, SG.media.pl">
+
+    <meta property="og:title" content="SG.media.pl - Szymon Grzeszczak - Fotografia i Film, Wrocław">
+    <meta property="og:description" content="Profesjonalna fotografia i filmowanie we Wrocławiu: śluby, teledyski, portrety, eventy i więcej.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="[TU WSTAW ADRES URL STRONY PO PUBLIKACJI]"> <meta property="og:image" content="[TU WSTAW ADRES URL DO GŁÓWNEGO ZDJĘCIA/LOGO]"> <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SG.media.pl - Szymon Grzeszczak - Fotografia i Film, Wrocław">
+    <meta name="twitter:description" content="Profesjonalna fotografia i filmowanie we Wrocławiu: śluby, teledyski, portrety, eventy i więcej.">
+    <meta name="twitter:image" content="[TU WSTAW ADRES URL DO GŁÓWNEGO ZDJĘCIA/LOGO]"> <style>
+    /* Resetowanie stylów i podstawy */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(135deg, #121212, #1e1e1e);
-      color: #e0e0e0;
-      overflow-x: hidden;
-      position: relative;
-      text-align: center;
-      cursor: none;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #ffffff;
+        color: #333;
+        line-height: 1.6;
+        overflow-x: hidden;
     }
-    #flash-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 2000;
-      transition: opacity 0.5s ease-out;
+
+    /* Kontener główny z Gridem dla pierwszych kafelków */
+    .main-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px; /* Zwiększony odstęp */
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
     }
-    #particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -3;
+
+    /* Styl kafelków */
+    .tile {
+        background-color: #f8f8f8;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        opacity: 0;
+        /* Usunięto animację floatAnimation, zostaje tylko fadeIn */
+        animation: fadeIn 0.8s ease-out forwards;
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
     }
-    #scratchCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 100;
-      cursor: crosshair;
+
+    .tile:hover {
+       /* Zmieniono translateY na scale dla minimalnego powiększenia */
+       transform: scale(1.02);
+       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
     }
-    #overlayText {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 101;
-      font-size: 48px;
-      color: white;
-      pointer-events: none;
+
+    /* Indywidualne opóźnienia animacji dla kafelków w siatce */
+    #tile-header { grid-column: span 1; animation-delay: 0.1s; }
+    #tile-about {
+        grid-column: span 2;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 20px;
+        animation-delay: 0.2s; /* Dostosowanie opóźnień */
     }
-    header {
-      position: relative;
-      z-index: 10;
-      padding: 20px 20px 10px;
-      text-align: center;
-      margin-bottom: 40px;
+    #tile-social { grid-column: span 1; animation-delay: 0.3s; }
+    #tile-location { grid-column: span 1; animation-delay: 0.4s; align-items: center; }
+    #tile-contact {
+         grid-column: span 1;
+         animation-delay: 0.5s;
+         text-align: center;
+         /* Usunięto justify-content: center; aby tekst był od góry */
     }
-    header h1 {
-      font-size: 32px;
-      margin-bottom: 5px;
+
+    /* Stylizacja wewnątrz kafelków (bez zmian, oprócz about i contact) */
+    #tile-about img {
+        width: 150px; height: 150px; border-radius: 15px; object-fit: cover;
+        border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0;
     }
-    header span {
-      font-size: 16px;
-      font-weight: 400;
+    #tile-about .about-text { flex-grow: 1; text-align: left; }
+    #tile-about .about-text h3 { margin-bottom: 10px; }
+
+    #tile-social h3 { margin-bottom: 15px; }
+    #tile-social ul { list-style: none; }
+    #tile-social li { margin-bottom: 12px; }
+    #tile-social a { text-decoration: none; color: #333; transition: color 0.3s ease; display: block; padding: 5px 0; font-weight: bold; }
+    #tile-social a:hover { color: #007bff; }
+
+    #tile-location h3 { margin-bottom: 10px; }
+    #tile-location p { margin-bottom: 15px; }
+    #tile-location img.map-graphic { width: 100%; max-width: 250px; height: auto; border-radius: 10px; display: block; margin: 0 auto; }
+
+    #tile-contact h3 { margin-bottom: 15px; }
+    #tile-contact p { margin-bottom: 10px; } /* Dodano margines dla lepszego odstępu */
+    #tile-contact a { color: #dc3545; text-decoration: none; font-weight: bold; }
+    #tile-contact a:hover { text-decoration: underline; }
+
+
+    /* Sekcja Galerii - teraz jako .tile */
+    #gallery-section {
+        /* Dziedziczy style z .tile (background, shadow, border-radius, padding, fadeIn anim.) */
+        /* Nadpisujemy/dodajemy potrzebne style */
+        max-width: 1200px; /* Dopasowanie do szerokości kontenera */
+        width: calc(100% - 40px); /* Pełna szerokość w ramach paddingu body/kontenera */
+        margin: 40px auto; /* Odstęp od górnych kafelków i centrowanie */
+        padding: 30px; /* Można dostosować padding w razie potrzeby */
+        animation-delay: 0.6s; /* Opóźnienie dla galerii */
+         /* Upewniamy się, że hover z .tile nie przeszkadza */
+         /* transform: none !important; Można użyć, jeśli .tile:hover nadal powoduje problemy */
     }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto 60px;
-      padding: 20px;
-      position: relative;
-      z-index: 5;
+     /* Usuwamy efekt powiększenia dla całej sekcji galerii przy najechaniu */
+    #gallery-section:hover {
+        transform: none;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Reset cienia do stanu bazowego */
     }
-    /* Zmienione tło sekcji na żółte z ciemnym tekstem */
-    section {
-      background: #ffeb3b;
-      color: #121212;
-      padding: 30px;
-      margin: 40px auto 60px;
-      max-width: 800px;
-      border-radius: 10px;
+
+
+     #gallery-section h2 {
+         text-align: center;
+         margin-bottom: 30px;
+         font-size: 2em;
+     }
+
+    .gallery-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        /* Usunięto max-width i margin, bo są na #gallery-section */
     }
-    .about {
-      text-align: center;
-      margin-bottom: 60px;
+
+    .gallery-item {
+       background-color: #fff;
+       border-radius: 10px;
+       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+       transition: transform 0.3s ease, box-shadow 0.3s ease;
+       overflow: hidden;
+       position: relative;
     }
-    .about h2 {
-      margin-bottom: 20px;
+
+    .gallery-item:hover {
+        transform: scale(1.03); /* Zostawiamy powiększenie dla pojedynczych zdjęć */
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
-    .about-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      text-align: left;
+
+    .gallery-item img {
+        display: block; width: 100%; height: auto;
+        object-fit: cover; border-radius: 10px; transition: opacity 0.3s ease;
     }
-    .about-content div {
-      flex: 1;
-      padding: 10px;
+    .gallery-item img.clickable-img { cursor: pointer; }
+    .gallery-item img.clickable-img:hover { opacity: 0.85; }
+
+    .gallery-item-video a { display: block; position: relative; line-height: 0; }
+    .gallery-item-video img { border-radius: 10px; }
+    .gallery-item-video a::after {
+        content: '▶'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        font-size: 50px; color: rgba(255, 255, 255, 0.8); text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        pointer-events: none; opacity: 0; transition: opacity 0.3s ease;
     }
-    .about-content img {
-      width: 300px;
-      height: 300px;
-      object-fit: cover;
-      object-position: center bottom; /* Przytnij zdjęcie, ucinając więcej góry */
-      margin: 10px;
-      border-radius: 15px;
-    }
-    .about p span.large-text {
-      font-size: 24px;
-      display: block;
-      margin-bottom: 20px; /* Odstęp między "Nazywam się..." a resztą */
-    }
-    .about p {
-      line-height: 1.6;
-    }
-    .carousel-container {
-      width: 100%;
-      max-width: 960px;
-      margin: 20px auto;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-    }
-    .carousel-container::-webkit-scrollbar {
-      display: none;
-    }
-    .carousel-container:hover {
-      scrollbar-width: thin;
-    }
-    .carousel-container:hover::-webkit-scrollbar {
-      display: block;
-    }
-    .carousel {
-      display: flex;
-    }
-    /* Karuzela dla zdjęć pionowych */
-    .carousel.vertical img {
-      width: 200px;
-      height: 355px;
-      object-fit: cover;
-      margin: 0 10px;
-      border-radius: 8px;
-      transition: transform 0.3s ease-in-out;
-    }
-    /* Karuzela dla zdjęć poziomych */
-    .carousel.horizontal img {
-      width: 355px;
-      height: 200px;
-      object-fit: cover;
-      margin: 0 10px;
-      border-radius: 8px;
-      transition: transform 0.3s ease-in-out;
-    }
-    .carousel img:hover {
-      transform: scale(1.05);
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-    .gallery iframe {
-      width: 100%;
-      height: 315px;
-      border-radius: 8px;
-      transition: transform 0.3s ease-in-out;
-    }
-    .gallery iframe:hover {
-      transform: scale(1.05);
-    }
-    /* Styl dla formularza kontaktowego */
-    .form-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .centered-form {
-      width: 50%;
-      padding: 20px;
-      background-color: #ffeb3b;
-      border-radius: 5px;
-      color: #121212;
-    }
-    .centered-form label {
-      display: block;
-      margin-bottom: 10px;
-      text-align: left;
-    }
-    .centered-form input,
-    .centered-form textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      background: #fff;
-      border: 1px solid #555;
-      color: #121212;
-      font-size: 16px;
-      border-radius: 5px;
-    }
-    .centered-form button {
-      padding: 12px 24px;
-      margin-top: 20px;
-      background: #ffffff;
-      border: none;
-      color: #121212;
-      cursor: pointer;
-      font-size: 18px;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-    .centered-form button:hover {
-      background: #e0e0e0;
-    }
-    .camera-follower {
-      position: fixed;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 900;
-      font-size: 30px;
-      line-height: 1;
-    }
-    @keyframes popInOut {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .animate-contact {
-      animation: popInOut 0.5s ease-out;
-    }
-    #portfolio h2 {
-      margin-bottom: 40px;
-    }
-    /* Belka z ikonami mediów społecznościowych */
-    .social-bar {
-      background-color: #ffeb3b;
-      padding: 20px;
-      text-align: center;
-    }
-    .social-bar a {
-      margin: 0 15px;
-      text-decoration: none;
-    }
-    .social-bar img {
-      width: 40px;
-      height: 40px;
-      filter: grayscale(100%);
-      transition: filter 0.3s;
-    }
-    /* Modal do powiększania zdjęć */
+    .gallery-item-video a:hover::after { opacity: 1; }
+
+
+    /* Modal (Lightbox) - bez zmian */
     .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 3000;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease;
+        display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+        overflow: auto; background-color: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center;
+        opacity: 0; transition: opacity 0.4s ease;
     }
-    .modal.show {
-      opacity: 1;
-      visibility: visible;
+    .modal.show { display: flex; opacity: 1; }
+    .modal-content {
+        position: relative; background-color: #fefefe; margin: auto; padding: 30px; border-radius: 10px;
+        max-width: 85%; max-height: 85vh; display: flex; flex-direction: column; align-items: center;
+        text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transform: scale(0.9); transition: transform 0.4s ease;
     }
-    .modal img {
-      max-width: 100%;
-      max-height: 100%;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    .modal.show .modal-content { transform: scale(1); }
+    .modal-image { max-width: 100%; max-height: 65vh; display: block; margin-bottom: 20px; border-radius: 8px; }
+    .modal-details { font-size: 0.9em; color: #555; }
+    .modal-details p { margin-bottom: 8px; }
+    .close-button {
+        position: absolute; top: 10px; right: 20px; color: #aaa; font-size: 35px; font-weight: bold; transition: color 0.3s ease;
     }
-  </style>
-  <!-- Meta tag SEO -->
-  <meta name="keywords" content="Wideofilmowanie ślubów, wesela, produkcja filmów promocyjnych, reklama, teledyski muzyczne, filmy korporacyjne, filmy dokumentalne, nagrywanie wydarzeń, filmy edukacyjne, gaffer, produkcje filmowe, treści mediów społecznościowych, podcasty wideo, filmy instruktażowe, wywiady, reportaże, filmy animowane, usługi dronem">
+    .close-button:hover, .close-button:focus { color: #ff0000; text-decoration: none; cursor: pointer; }
+
+    /* Animacje */
+    /* Usunięto floatAnimation */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsywność */
+    @media (max-width: 992px) {
+        .main-container {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px; /* Nieco mniejszy odstęp */
+            padding: 15px; margin: 20px auto;
+        }
+        #tile-about { grid-column: span 1; flex-direction: column; align-items: center; }
+        #tile-about .about-text { text-align: center; }
+
+         #gallery-section { width: calc(100% - 30px); margin: 30px auto; }
+         .gallery-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;}
+    }
+
+    @media (max-width: 768px) {
+        body { font-size: 15px; }
+        .main-container { grid-template-columns: 1fr; gap: 20px; } /* Jedna kolumna, mniejszy odstęp */
+        .tile { padding: 20px; }
+        #tile-about img { width: 120px; height: 120px; }
+
+        #gallery-section { padding: 25px; width: calc(100% - 20px); margin: 20px auto;}
+        #gallery-section h2 { font-size: 1.8em; }
+        .gallery-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+        .gallery-item-video a::after { font-size: 40px; }
+
+        .modal-content { padding: 15px; max-width: 95%; }
+        .modal-image { max-height: 60vh; }
+        .close-button { font-size: 30px; top: 5px; right: 10px; }
+    }
+
+    @media (max-width: 480px) {
+         .main-container { gap: 15px; }
+         #gallery-section { padding: 20px; width: 100%; margin: 20px 0; border-radius: 0; /* Pełna szerokość na mobilnych */ }
+         .gallery-container { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+         .gallery-item-video a::after { font-size: 35px; }
+    }
+
+</style>
 </head>
 <body>
-  <canvas id="particles"></canvas>
-  <canvas id="scratchCanvas"></canvas>
-  <div id="overlayText">Odkryj kreatywność</div>
-  <header>
-    <h1>Szymon Grzeszczak<br><span>Filmowca.top</span></h1>
-  </header>
-  <div class="container">
-    <section id="about" class="about">
-      <h2>O mnie</h2>
-      <div class="about-content">
-        <div>
-          <p>
-            <span class="large-text">Nazywam się Szymon, moja pasja do fotografii bla bla bla portfolio poniżej.</span>
-          </p>
+
+    <div class="main-container">
+        <div class="tile" id="tile-header">
+            <h1>SG.media.pl</h1>
+            <p>Szymon Grzeszczak</p>
         </div>
-        <img src="Toja.jpeg" alt="To ja">
-      </div>
-    </section>
-    <section id="portfolio">
-      <h2>Portfolio</h2>
-      <h3>━━━━━━━━━━━</h3>
-      <div class="carousel-container">
-        <div class="carousel vertical">
-          <img src="zdj1.jpeg" alt="Zdjęcie 1">
-          <img src="zdj3.jpeg" alt="Zdjęcie 3">
-          <img src="zdj4.jpeg" alt="Zdjęcie 4">
-          <img src="zdj5.jpeg" alt="Zdjęcie 5">
-          <img src="Sesja na fotografii/zf1.jpeg" alt="Zdjęcie 6">
-          <img src="Sesja na fotografii/zf2.jpeg" alt="Zdjęcie 7">
-          <img src="Sesja na fotografii/zf3.jpeg" alt="Zdjęcie 8">
-          <img src="Sesja na fotografii/zf4.jpeg" alt="Zdjęcie 9">
-          <img src="Sesja na fotografii/zf5.jpeg" alt="Zdjęcie 10">
-          <img src="Sesja na fotografii/zf6.jpeg" alt="Zdjęcie 11">
-          <img src="Sesja na fotografii/zf7.jpeg" alt="Zdjęcie 12">
-          <img src="Sesja na fotografii/zf8.jpeg" alt="Zdjęcie 13">
-          <img src="Sesja na fotografii/zf9.jpeg" alt="Zdjęcie 14">
-          <img src="Sesja na fotografii/zf10.jpeg" alt="Zdjęcie 15">
+
+        <div class="tile" id="tile-about">
+            <img src="placeholder-profilowe.jpg" alt="Zdjęcie profilowe Szymon Grzeszczak">
+            <div class="about-text">
+                <h3>O mnie</h3>
+                <p>
+                    Tutaj wpisz swój zaktualizowany opis. Opowiada on o Twojej pasji do fotografii i filmu, specjalizacjach (np. śluby, teledyski, portrety) oraz o tym, co wyróżnia Twoją pracę. Staraj się używać słów kluczowych związanych z Twoją działalnością.
+                </p>
+            </div>
         </div>
-      </div>
-      <h3>━━━━━━━━━━━</h3>
-      <div class="carousel-container">
-        <div class="carousel horizontal">
-          <img src="zdj2.jpeg" alt="Zdjęcie 2">
-          <img src="zdj2.jpeg" alt="Zdjęcie 2">
+
+        <div class="tile" id="tile-social">
+            <h3>Social Media</h3>
+            <ul>
+                <li><a href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+            </ul>
         </div>
-      </div>
-      <h3>━━━━━━━━━━</h3>
-      <div class="gallery">
-        <iframe src="https://www.youtube.com/embed/EXAMPLE1" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/EXAMPLE2" frameborder="0" allowfullscreen></iframe>
-      </div>
+
+        <div class="tile" id="tile-location">
+            <h3>Lokalizacja</h3>
+            <p>Wrocław, Polska</p>
+            <img src="placeholder-mapa-wroclaw.svg" alt="Graficzna mapa Wrocławia" class="map-graphic">
+        </div>
+
+        <div class="tile" id="tile-contact">
+            <h3>Kontakt</h3>
+            <p>Skontaktuj się ze mną:</p>
+            <p><a href="mailto:kontakt@sg.media.pl">kontakt@sg.media.pl</a></p>
+        </div>
+    </div><section id="gallery-section" class="tile"> <h2>Galeria</h2>
+        <div class="gallery-container">
+             <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 1" data-lokalizacja="Miejsce 1">
+                <img src="zf1.jpeg" alt="Opis zdjęcia zf1" class="clickable-img">
+            </div>
+            <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 2" data-lokalizacja="Miejsce 2">
+                <img src="zf2.jpeg" alt="Opis zdjęcia zf2" class="clickable-img">
+            </div>
+            <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 3" data-lokalizacja="Miejsce 3">
+                <img src="zf3.jpeg" alt="Opis zdjęcia zf3" class="clickable-img">
+            </div>
+            <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 4" data-lokalizacja="Miejsce 4">
+                <img src="zf4.jpeg" alt="Opis zdjęcia zf4" class="clickable-img">
+            </div>
+            <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 5" data-lokalizacja="Miejsce 5">
+                <img src="zf5.jpeg" alt="Opis zdjęcia zf5" class="clickable-img">
+            </div>
+            <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 6" data-lokalizacja="Miejsce 6">
+                <img src="zf6.jpeg" alt="Opis zdjęcia zf6" class="clickable-img">
+            </div>
+            <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 7" data-lokalizacja="Miejsce 7">
+                <img src="zf7.jpeg" alt="Opis zdjęcia zf7" class="clickable-img">
+            </div>
+            <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 8" data-lokalizacja="Miejsce 8">
+                <img src="zf8.jpeg" alt="Opis zdjęcia zf8" class="clickable-img">
+            </div>
+             <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 9" data-lokalizacja="Miejsce 9">
+                <img src="zf9.jpeg" alt="Opis zdjęcia zf9" class="clickable-img">
+            </div>
+
+            <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 10" data-lokalizacja="Miejsce 10">
+                <img src="zdj1.jpeg" alt="Opis zdjęcia zdj1" class="clickable-img">
+            </div>
+             <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 11" data-lokalizacja="Miejsce 11">
+                <img src="zdj2.jpeg" alt="Opis zdjęcia zdj2" class="clickable-img">
+            </div>
+             <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 12" data-lokalizacja="Miejsce 12">
+                <img src="zdj3.jpeg" alt="Opis zdjęcia zdj3" class="clickable-img">
+            </div>
+             <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 13" data-lokalizacja="Miejsce 13">
+                <img src="zdj4.jpeg" alt="Opis zdjęcia zdj4" class="clickable-img">
+            </div>
+             <div class="gallery-item" data-realizator="@Szymon_Grzeszczak_foto" data-model="Model/Temat 14" data-lokalizacja="Miejsce 14">
+                <img src="zdj5.jpeg" alt="Opis zdjęcia zdj5" class="clickable-img">
+            </div>
+
+             <div class="gallery-item gallery-item-video">
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                    <img src="placeholder-video-thumb1.jpg" alt="Miniaturka filmu 1">
+                </a>
+            </div>
+             <div class="gallery-item gallery-item-video">
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                    <img src="placeholder-video-thumb2.jpg" alt="Miniaturka filmu 2">
+                </a>
+            </div>
+             <div class="gallery-item gallery-item-video">
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                    <img src="placeholder-video-thumb3.jpg" alt="Miniaturka filmu 3">
+                </a>
+            </div>
+        </div>
     </section>
-    <section id="contact">
-      <h2>Kontakt</h2>
-      <div class="form-container">
-        <form class="centered-form" action="https://formspree.io/f/xoveqnal" method="POST">
-          <input type="text" name="_gotcha" style="display:none;" />
-          <label>
-            Twój email:
-            <input type="email" name="email" required>
-          </label>
-          <label>
-            Twoja wiadomość:
-            <textarea name="message" required></textarea>
-          </label>
-          <label>
-            Data:
-            <input type="date" name="date" required>
-          </label>
-          <label>
-            Lokalizacja:
-            <input type="text" name="location" required>
-          </label>
-          <button type="submit">Wyślij</button>
-        </form>
-      </div>
-    </section>
-  </div>
-  <!-- Belka z ikonami mediów społecznościowych -->
-  <div class="social-bar">
-    <a href="https://www.facebook.com/profile.php?id=61569414226384&sk=about" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook">
-    </a>
-    <a href="https://www.instagram.com/filmowca.top/" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
-    </a>
-    <a href="https://www.eyeem.com/u/filmowca" target="_blank">
-      <img src="https://user-images.githubusercontent.com/12258962/45914628-2108cf80-be65-11e8-918b-875dce58fec4.png" alt="EyeEm">
-    </a>
-    <a href="https://www.youtube.com/@FilmOwca" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-    </a>
-    <a href="https://www.tiktok.com/@filmowca.top" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/3046/3046129.png" alt="TikTok">
-    </a>
-  </div>
-  <div class="camera-follower" id="camera">📷</div>
 
-  <!-- Modal do powiększania zdjęć -->
-  <div class="modal" id="imgModal">
-    <img src="" alt="Powiększone zdjęcie">
-  </div>
+    <div id="myModal" class="modal">
+        <span class="close-button">×</span>
+        <div class="modal-content">
+            <img class="modal-image" id="modalImage" src="" alt="Powiększone zdjęcie z galerii">
+            <div class="modal-details" id="modalDetails">
+                <p id="detailRealizator"></p>
+                <p id="detailModel"></p>
+                <p id="detailLokalizacja"></p>
+            </div>
+        </div>
+    </div>
 
-  <!-- Ukryty blok SEO, widoczny tylko dla wyszukiwarek -->
-  <div style="display: none;">
-    <p><strong>Wideofilmowanie ślubów i wesel:</strong> Nagrywanie ceremonii ślubnych oraz przyjęć weselnych to popularna usługa. W 2025 roku ceny takich usług w Polsce wahają się od około 3000 zł do nawet 10 000 zł, w zależności od doświadczenia filmowca, zakresu usług oraz regionu. (HCWEDDINGS.PL)</p>
-    <p><strong>Produkcja filmów promocyjnych i reklamowych:</strong> Tworzenie materiałów wideo dla firm, które chcą promować swoje produkty lub usługi.</p>
-    <p><strong>Nagrywanie teledysków muzycznych:</strong> Współpraca z artystami muzycznymi przy tworzeniu wizualizacji ich utworów.</p>
-    <p><strong>Produkcja filmów korporacyjnych:</strong> Tworzenie materiałów szkoleniowych, prezentacji czy relacji z wydarzeń firmowych.</p>
-    <p><strong>Tworzenie filmów dokumentalnych:</strong> Realizacja projektów dokumentujących różnorodne tematy społeczne, historyczne czy kulturalne.</p>
-    <p><strong>Nagrywanie wydarzeń sportowych i kulturalnych:</strong> Rejestrowanie meczów, koncertów, festiwali czy innych imprez masowych.</p>
-    <p><strong>Produkcja filmów edukacyjnych:</strong> Tworzenie materiałów dydaktycznych dla szkół, uczelni czy platform e-learningowych.</p>
-    <p><strong>Usługi jako gaffer (oświetleniowiec):</strong> Specjalizacja w obsłudze oświetlenia na planach filmowych czy fotograficznych.</p>
-    <p><strong>Współpraca przy produkcjach filmowych i telewizyjnych:</strong> Pełnienie różnych ról na planie, takich jak asystent kamery czy operator.</p>
-    <p><strong>Tworzenie treści dla mediów społecznościowych:</strong> Produkcja krótkich form wideo dla influencerów czy marek obecnych w mediach społecznościowych.</p>
-    <p><strong>Nagrywanie i montaż podcastów wideo:</strong> Pomoc w tworzeniu wizualnej strony podcastów.</p>
-    <p><strong>Tworzenie filmów instruktażowych:</strong> Produkcja materiałów pokazujących, jak wykonać określone czynności czy obsługiwać produkty.</p>
-    <p><strong>Nagrywanie wywiadów i reportaży:</strong> Realizacja materiałów dziennikarskich dla mediów czy organizacji.</p>
-    <p><strong>Produkcja filmów animowanych:</strong> Tworzenie animacji na potrzeby edukacyjne, rozrywkowe czy reklamowe.</p>
-    <p><strong>Usługi dronem:</strong> Nagrywanie ujęć z powietrza, co jest przydatne w wielu branżach, od nieruchomości po produkcje filmowe.</p>
-  </div>
 
-  <script>
-    // Particles
-    const particlesCanvas = document.getElementById('particles');
-    const pCtx = particlesCanvas.getContext('2d');
-    particlesCanvas.width = window.innerWidth;
-    particlesCanvas.height = window.innerHeight;
-    let particles = [];
-    const numParticles = 100;
-    for (let i = 0; i < numParticles; i++) {
-      particles.push({
-        x: Math.random() * particlesCanvas.width,
-        y: Math.random() * particlesCanvas.height,
-        size: Math.random() * 3 + 1,
-        speedX: (Math.random() * 0.5) - 0.25,
-        speedY: (Math.random() * 0.5) - 0.25
-      });
-    }
-    function updateParticles() {
-      pCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-      for (let p of particles) {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        if (p.x < 0 || p.x > particlesCanvas.width) p.speedX *= -1;
-        if (p.y < 0 || p.y > particlesCanvas.height) p.speedY *= -1;
-        pCtx.beginPath();
-        pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        pCtx.fillStyle = "#ffffff";
-        pCtx.fill();
-      }
-      requestAnimationFrame(updateParticles);
-    }
-    updateParticles();
-    window.addEventListener('resize', () => {
-      particlesCanvas.width = window.innerWidth;
-      particlesCanvas.height = window.innerHeight;
-    });
+<script>
+    // === Skrypt dla Modala (Lightboxa) ===
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('myModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalDetails = document.getElementById('modalDetails');
+        const detailRealizator = document.getElementById('detailRealizator');
+        const detailModel = document.getElementById('detailModel');
+        const detailLokalizacja = document.getElementById('detailLokalizacja');
+        const closeButton = document.querySelector('.close-button');
 
-    // Scratch Canvas (zdrapywanie)
-    const scratchCanvas = document.getElementById('scratchCanvas');
-    const sCtx = scratchCanvas.getContext('2d');
-    scratchCanvas.width = window.innerWidth;
-    scratchCanvas.height = window.innerHeight;
-    sCtx.fillStyle = "black";
-    sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
-    sCtx.globalCompositeOperation = "destination-out";
-    const eraserRadius = 130;
-    scratchCanvas.addEventListener('mousemove', (e) => {
-      const rect = scratchCanvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      sCtx.beginPath();
-      sCtx.arc(x, y, eraserRadius, 0, Math.PI * 2);
-      sCtx.fill();
-    });
-    scratchCanvas.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-    });
-    scratchCanvas.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      const rect = scratchCanvas.getBoundingClientRect();
-      const touch = e.touches[0];
-      const x = touch.clientX - rect.left;
-      const y = touch.clientY - rect.top;
-      sCtx.beginPath();
-      sCtx.arc(x, y, eraserRadius, 0, Math.PI * 2);
-      sCtx.fill();
-    });
-    let overlayFaded = false;
-    function checkErasedPercentage() {
-      const imageData = sCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
-      let transparentPixels = 0;
-      const totalPixels = scratchCanvas.width * scratchCanvas.height;
-      for (let i = 3; i < imageData.data.length; i += 4) {
-        if (imageData.data[i] === 0) transparentPixels++;
-      }
-      return transparentPixels / totalPixels;
-    }
-    function checkAndFadeOverlay() {
-      if (!overlayFaded && checkErasedPercentage() > 0.4) {
-        overlayFaded = true;
-        let opacity = 1;
-        const fadeInterval = setInterval(() => {
-          opacity -= 0.05;
-          scratchCanvas.style.opacity = opacity;
-          document.getElementById('overlayText').style.opacity = opacity;
-          if (opacity <= 0) {
-            clearInterval(fadeInterval);
-            scratchCanvas.style.display = "none";
-            document.getElementById('overlayText').style.display = "none";
-          }
-        }, 50);
-      }
-    }
-    setInterval(checkAndFadeOverlay, 1000);
-    window.addEventListener('resize', () => {
-      scratchCanvas.width = window.innerWidth;
-      scratchCanvas.height = window.innerHeight;
-      sCtx.globalCompositeOperation = "source-over";
-      sCtx.fillStyle = "black";
-      sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
-      sCtx.globalCompositeOperation = "destination-out";
-    });
+        const clickableImages = document.querySelectorAll('.gallery-container .gallery-item img.clickable-img');
 
-    // Camera follower
-    const cameraElem = document.getElementById('camera');
-    document.addEventListener('mousemove', (e) => {
-      cameraElem.style.top = e.clientY + 'px';
-      cameraElem.style.left = e.clientX + 'px';
-    });
+        clickableImages.forEach(img => {
+            img.addEventListener('click', () => {
+                const item = img.closest('.gallery-item');
 
-    // Modal do powiększania zdjęć
-    const imgModal = document.getElementById('imgModal');
-    const modalImg = imgModal.querySelector('img');
-    // Dodajemy kursor zoom-in na wszystkie zdjęcia w sekcji portfolio
-    document.querySelectorAll('#portfolio img').forEach(img => {
-      img.style.cursor = 'zoom-in';
-      img.addEventListener('click', () => {
-        modalImg.src = img.src;
-        imgModal.classList.add('show');
-      });
+                modalImage.src = img.src;
+                modalImage.alt = img.alt;
+
+                const realizator = item.getAttribute('data-realizator');
+                const model = item.getAttribute('data-model');
+                const lokalizacja = item.getAttribute('data-lokalizacja');
+
+                detailRealizator.textContent = realizator ? `Realizator: ${realizator}` : '';
+                detailModel.textContent = model ? `Model/Temat: ${model}` : '';
+                detailLokalizacja.textContent = lokalizacja ? `Lokalizacja: ${lokalizacja}` : '';
+
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeModal() {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        closeButton.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('show')) {
+                closeModal();
+            }
+        });
     });
-    // Zamykamy modal po kliknięciu
-    imgModal.addEventListener('click', () => {
-      imgModal.classList.remove('show');
-    });
-  </script>
+</script>
+
 </body>
 </html>
+
