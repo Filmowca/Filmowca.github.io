@@ -28,6 +28,8 @@
             --intro-bg: var(--tile-bg);
             --lightbox-bg: rgba(10, 10, 15, 0.94);
             --lightbox-info-bg: rgba(0, 0, 0, 0.4);
+            --gallery-item-bg: rgba(255, 255, 255, 0.03); /* Tło dla elementów galerii */
+
 
             /* Kolory akcentów i przycisków - powrót do zieleni */
             --accent-color: var(--gradient-green-light);
@@ -78,17 +80,18 @@
         }
 
         /* --- Kontener Nagłówka --- */
-        /* Usunięto .header-wrapper */
         .header-container {
             display: flex;
-            justify-content: space-between; /* Rozłożenie kafelków */
-            align-items: flex-start; /* Wyrównanie do góry */
-            max-width: 1200px; /* Taka sama szerokość jak .content-section */
-            margin: 0 auto; /* Wyśrodkowanie kontenera */
-            padding: 25px 20px; /* Padding boczny jak w .content-section + górny/dolny */
-            margin-bottom: 40px; /* Odstęp pod nagłówkiem */
+            justify-content: space-between; /* Rozkłada elementy na lewo i prawo */
+            align-items: center; /* Wyśrodkowuje elementy pionowo */
+            max-width: 1200px;
+            width: 100%; /* Upewnia się, że kontener zajmuje dostępną szerokość */
+            margin: 0 auto; /* Centruje kontener */
+            padding: 25px 20px;
+            margin-bottom: 40px;
             position: relative;
             z-index: 100;
+            box-sizing: border-box; /* Uwzględnia padding w szerokości */
         }
 
         /* Kafelek Logo/Nazwy */
@@ -104,7 +107,8 @@
             flex-direction: column;
             align-items: flex-start;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            /* Usunięto margin-left: auto; */
+            flex-shrink: 0; /* Zapobiega kurczeniu się */
+            position: static; /* Upewnia się, że jest w normalnym przepływie */
         }
          .logo-tile:hover {
              transform: translateY(-3px);
@@ -132,13 +136,13 @@
             background: var(--nav-tile-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-radius: 50px; /* Kształt pigułki */
+            border-radius: 50px;
             border: 1px solid var(--nav-tile-border);
             box-shadow: none;
-            padding: 8px 10px; /* Mniejszy padding */
+            padding: 8px 10px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-top: 8px; /* Dopasowanie marginesu */
-            /* Usunięto margin-left: auto; */
+            position: static; /* Upewnia się, że jest w normalnym przepływie */
+            flex-shrink: 0; /* Zapobiega kurczeniu się */
         }
          .nav-tile:hover {
              transform: translateY(-2px);
@@ -150,7 +154,7 @@
             padding: 0;
             margin: 0;
             display: flex;
-            gap: 5px; /* Mniejszy odstęp */
+            gap: 5px;
         }
 
         .nav-tile nav a {
@@ -158,19 +162,19 @@
             text-decoration: none;
             font-size: 0.85em;
             font-weight: 500;
-            padding: 8px 15px; /* Padding jak w przycisku */
-            border-radius: 50px; /* Zaokrąglenie */
+            padding: 8px 15px;
+            border-radius: 50px;
             transition: color 0.2s ease, background-color 0.2s ease;
-            border-bottom: none; /* Usunięto podkreślenie */
+            border-bottom: none;
         }
 
         .nav-tile nav a:hover {
             color: var(--text-light);
-            background-color: var(--nav-link-hover-bg); /* Tło na hover */
+            background-color: var(--nav-link-hover-bg);
         }
         .nav-tile nav a.nav-active {
             color: var(--gradient-black);
-            background-color: var(--nav-link-active-color); /* Akcent jako tło */
+            background-color: var(--nav-link-active-color);
             font-weight: 600;
         }
 
@@ -178,7 +182,7 @@
         /* --- Główna sekcja --- */
         main {
             flex-grow: 1;
-            padding: 0 20px 60px 20px; /* Usunięto padding-top */
+            padding: 0 20px 60px 20px;
         }
 
         /* --- Sekcja Wprowadzająca z Obrazkiem --- */
@@ -186,9 +190,9 @@
             display: flex;
             align-items: stretch;
             gap: 30px;
-            max-width: 1200px; /* Dopasowanie do .header-container */
-            margin: 0 auto 70px auto; /* Wyśrodkowanie */
-            padding: 0 20px; /* Padding boczny jak w header */
+            max-width: 1200px;
+            margin: 0 auto 70px auto;
+            padding: 0 20px;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.8s ease forwards;
@@ -264,7 +268,7 @@
         .content-section {
             max-width: 1200px;
             margin: 0 auto 70px auto;
-            padding: 0 20px; /* Zachowano padding boczny */
+            padding: 0 20px;
             opacity: 0;
             transform: translateY(20px);
         }
@@ -437,56 +441,51 @@
             font-weight: 600;
         }
 
-        /* ZMIANA: Kontener Galerii - column-count */
+        /* Kontener Galerii - column-count */
         .gallery-tile .media-container {
-            column-count: 4; /* Domyślnie 4 kolumny */
-            column-gap: 15px; /* Odstęp między kolumnami */
+            column-count: 4;
+            column-gap: 15px;
             margin-top: 20px;
             padding: 0;
         }
 
-        /* ZMIANA: Elementy Galerii dla column-count */
-        .gallery-tile .gallery-item { /* Zmieniono klasę na .gallery-item */
-             background-color: var(--gallery-item-bg); /* Tło dla elementów */
+        /* Elementy Galerii dla column-count */
+        .gallery-tile .gallery-item {
+             background-color: var(--gallery-item-bg);
              border-radius: 12px;
-             overflow: hidden; /* Ważne dla border-radius i iframe */
-             margin-bottom: 15px; /* Odstęp pionowy */
-             break-inside: avoid; /* Zapobiega łamaniu elementu */
-             display: inline-block; /* Kluczowe dla column-count */
-             width: 100%; /* Element zajmuje szerokość kolumny */
+             overflow: hidden;
+             margin-bottom: 15px;
+             break-inside: avoid;
+             display: inline-block;
+             width: 100%;
              box-shadow: 0 3px 6px rgba(0,0,0,0.1);
              transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-             position: relative; /* Dla overlay wideo */
+             position: relative;
         }
          .gallery-item.hide {
-             display: none; /* Proste ukrywanie */
+             display: none;
          }
 
-         /* ZMIANA: Obrazki w galerii */
+         /* Obrazki w galerii */
          .gallery-tile .gallery-item img {
             display: block;
             width: 100%;
-            height: auto; /* Automatyczna wysokość */
-            border-radius: 12px; /* Zaokrąglenie */
-            vertical-align: middle; /* Lepsze wyrównanie */
+            height: auto;
+            border-radius: 12px;
+            vertical-align: middle;
          }
-         .gallery-tile .gallery-item.photo:hover { /* Efekt hover tylko dla zdjęć */
+         .gallery-tile .gallery-item.photo:hover {
              transform: translateY(-3px);
              box-shadow: 0 6px 12px rgba(0,0,0,0.15);
          }
 
-         /* ZMIANA: Styl dla iframe (wideo) */
+         /* Styl dla iframe (wideo) */
          .gallery-tile .gallery-item.video iframe {
              display: block;
              width: 100%;
              border: none;
-             border-radius: 12px; /* Zaokrąglenie */
-             /* Wysokość ustawiana przez JS */
+             border-radius: 12px;
          }
-         /* Ikona play dla wideo - usunięta, bo wideo odtwarza się bezpośrednio */
-
-
-        /* --- Lightbox Modal - USUNIĘTY --- */
 
 
         /* --- Style dla linków, tekstu w kafelkach (poza ofertą) --- */
@@ -530,8 +529,6 @@
         .info-grid .tile-item p { flex-grow: 0; text-align: center; }
         .info-grid .tile-item .info-link { margin-top: auto; }
 
-         /* Styl dla listy w opiniach - usunięty */
-
 
         /* --- Stopka --- */
         footer {
@@ -574,16 +571,12 @@
              .gallery-section { padding: 0; }
              .gallery-tile { margin: 0 30px; width: auto; }
              .intro-container { padding: 0 30px; max-width: none; }
-              .header-wrapper { padding: 20px 30px; }
          }
          @media (max-width: 992px) {
-             /* Usunięcie specyficznych reguł dla .info-grid */
-             /* .gallery-tile .media-container { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } */
              .intro-container { flex-direction: column; gap: 30px; }
              .intro-section { flex-basis: auto; text-align: center; }
              .intro-section h2, .intro-section p { text-align: center; }
-             .intro-photo-tile { flex-basis: auto; width: 65%; max-width: 320px; }
-             .header-wrapper { padding: 20px 25px; }
+             .intro-photo-tile { flex-basis: auto; width: 65%; max-width: 320px; margin: 0 auto; }
              .logo-tile .name { font-size: 1.4em; }
              .logo-tile .logo { font-size: 0.85em; }
              .info-grid {
@@ -595,49 +588,52 @@
                  grid-template-columns: 1fr;
              }
              .header-container {
-                 padding: 0;
-                 flex-direction: column;
-                 align-items: center;
+                 padding: 20px;
+                 display: flex; /* Upewnienie się, że jest flex */
+                 flex-direction: column; /* Zmiana na kolumnę */
+                 align-items: center; /* Wyśrodkowanie w kolumnie */
+                 justify-content: center; /* Wyśrodkowanie w kolumnie */
                  gap: 15px;
              }
-             .header-wrapper { padding: 15px 20px; margin-bottom: 20px;}
+             .logo-tile {
+                 position: static;
+             }
+             .nav-tile {
+                 position: static;
+                 margin-left: 0; /* Reset marginesu */
+             }
              body { padding-top: 0; }
-             main { padding-top: 30px; }
-
-            main { padding: 50px 15px; }
-            .intro-container { padding: 0 15px; margin-bottom: 50px; }
-            .intro-section { padding: 30px; }
-            .content-section { padding: 0 15px; margin-bottom: 50px; }
-            .info-grid { gap: 25px; }
-            .gallery-section { margin-bottom: 50px; }
+             main { padding: 30px 15px 50px 15px; }
+             .intro-container { padding: 0 15px; margin-bottom: 50px; }
+             .intro-section { padding: 30px; }
+             .content-section { padding: 0 15px; margin-bottom: 50px; }
+             .info-grid { gap: 25px; }
+             .gallery-section { margin-bottom: 50px; }
              .gallery-tile { margin: 0 15px; width: auto; padding: 30px; }
-            .tile-item { padding: 22px; border-radius: 14px; }
-            .offer-tile { padding: 22px; }
-            .tile-item h3 { font-size: 1.25em; }
-            .offer-tile h3 { font-size: 1.2em; }
-            .tile-item p { font-size: 0.9em; line-height: 1.6; }
-            .offer-tile .offer-description { font-size: 0.9em; margin-bottom: 20px;}
-            .offer-service-tile { padding: 15px;}
-            .offer-service-tile i { font-size: 1.7em;}
-            .offer-service-tile span { font-size: 0.8em; }
-            .offer-tile .cta-button { padding: 10px 22px; font-size: 0.9em; margin-top: 25px;}
-            /* .gallery-tile .media-container { gap: 15px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); } */
-            .tile-item i.tile-icon { font-size: 2em; }
+             .tile-item { padding: 22px; border-radius: 14px; }
+             .offer-tile { padding: 22px; }
+             .tile-item h3 { font-size: 1.25em; }
+             .offer-tile h3 { font-size: 1.2em; }
+             .tile-item p { font-size: 0.9em; line-height: 1.6; }
+             .offer-tile .offer-description { font-size: 0.9em; margin-bottom: 20px;}
+             .offer-service-tile { padding: 15px;}
+             .offer-service-tile i { font-size: 1.7em;}
+             .offer-service-tile span { font-size: 0.8em; }
+             .offer-tile .cta-button { padding: 10px 22px; font-size: 0.9em; margin-top: 25px;}
+             .tile-item i.tile-icon { font-size: 2em; }
              .intro-photo-tile { width: 75%; max-width: 300px; }
              .logo-tile .name { font-size: 1.3em; }
              .logo-tile .logo { font-size: 0.8em; }
-             .nav-tile nav ul { gap: 15px; }
-             .nav-tile nav a { font-size: 0.85em; }
-             /* Usunięto style lightbox */
+             .nav-tile nav ul { gap: 10px; flex-wrap: wrap; justify-content: center;}
+             .nav-tile nav a { font-size: 0.85em; padding: 6px 12px;}
          }
          @media (max-width: 480px) {
-             .header-wrapper { padding: 15px; }
-             .header-container { padding: 0; }
+             .header-container { padding: 15px; gap: 10px;}
              .logo-tile .name { font-size: 1.2em; }
              .logo-tile .logo { font-size: 0.75em; }
-             .nav-tile { padding: 10px 15px; }
-             .nav-tile nav ul { gap: 12px; }
-             .nav-tile nav a { font-size: 0.8em; }
+             .nav-tile { padding: 6px 8px; }
+             .nav-tile nav ul { gap: 8px; }
+             .nav-tile nav a { font-size: 0.8em; padding: 5px 10px;}
 
             main { padding: 40px 10px; }
             .intro-container { padding: 0 10px; margin-bottom: 40px; gap: 25px;}
@@ -661,12 +657,10 @@
             footer { padding: 20px 15px; font-size: 0.75em; }
              footer a { margin: 0 8px; }
              footer .social-links a { font-size: 1.2em; }
-            /* .gallery-tile .media-container { gap: 10px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } */
             .tile-item i.tile-icon { font-size: 1.8em; }
              .intro-photo-tile { width: 85%; max-width: 260px; }
              .gallery-filters { gap: 8px; }
              .filter-button { padding: 6px 14px; font-size: 0.85em; }
-             /* Usunięto style lightbox */
          }
 
          /* Animacja pojawiania się elementów */
@@ -679,20 +673,18 @@
 </head>
 <body>
 
-    <div class="header-wrapper">
-        <div class="header-container">
-            <div class="logo-tile">
-                 <h1 class="name">Szymon Grzeszczak</h1>
-                 <p class="logo">SG.media.pl</p>
-            </div>
-            <div class="nav-tile">
-                <nav id="main-nav"> <ul>
-                        <li><a href="#offer">Oferta</a></li>
-                        <li><a href="#info">Info</a></li>
-                        <li><a href="#gallery-section">Galeria</a></li>
-                    </ul>
-                </nav>
-            </div>
+    <div class="header-container">
+        <div class="logo-tile">
+             <h1 class="name">Szymon Grzeszczak</h1>
+             <p class="logo">SG.media.pl</p>
+        </div>
+        <div class="nav-tile">
+            <nav id="main-nav"> <ul>
+                    <li><a href="#offer">Oferta</a></li>
+                    <li><a href="#info">Info</a></li>
+                    <li><a href="#gallery-section">Galeria</a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 
@@ -808,8 +800,7 @@
                      </div>
                      <div class="gallery-item photo" data-type="photo">
                           <img src="zdj5.jpeg" alt="Zdjęcie 5">
-
-                         </div>
+                     </div>
                      <div class="gallery-item photo" data-type="photo">
                          <img src="zf1.jpeg" alt="Zdjęcie zf1">
                      </div>
@@ -858,33 +849,7 @@
                      <div class="gallery-item photo" data-type="photo"> <img src="Q21.jpeg" alt="Zdjęcie Q21"> </div>
                      <div class="gallery-item photo" data-type="photo"> <img src="Q22.jpeg" alt="Zdjęcie Q22"> </div>
                      <div class="gallery-item photo" data-type="photo"> <img src="Q23.jpeg" alt="Zdjęcie Q23"> </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf1.jpeg" alt="Zdjęcie zf1">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf10.jpeg" alt="Zdjęcie zf10">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf2.jpeg" alt="Zdjęcie zf2">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf3.jpeg" alt="Zdjęcie zf3">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf4.jpeg" alt="Zdjęcie zf4">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf5.jpeg" alt="Zdjęcie zf5">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf6.jpeg" alt="Zdjęcie zf6">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf7.jpeg" alt="Zdjęcie zf7">
-                     </div>
-                 </div>
-             </div>
-        </section>
+                     </div> </div> </section>
 
     </main>
 
@@ -898,21 +863,20 @@
     </footer>
 
     <script>
-        // --- Skrypt Lightboxa - USUNIĘTY ---
-
-        // --- Skrypt Karuzeli Oferty - USUNIĘTY ---
-
         // --- Skrypt Filtrowania Galerii ---
         const filterButtonsContainer = document.getElementById('gallery-filter-buttons');
-        const galleryContainer = document.getElementById('media-gallery'); // Kontener galerii
-        const galleryItems = galleryContainer ? galleryContainer.querySelectorAll('.gallery-item') : []; // Zmieniono selektor
+        const galleryContainer = document.getElementById('media-gallery');
 
-        if (filterButtonsContainer && galleryItems.length > 0) {
+        if (filterButtonsContainer && galleryContainer) {
             filterButtonsContainer.addEventListener('click', (event) => {
                 if (event.target.classList.contains('filter-button')) {
                     const filterValue = event.target.getAttribute('data-filter');
+                    const galleryItems = galleryContainer.querySelectorAll('.gallery-item');
 
-                    filterButtonsContainer.querySelector('.active').classList.remove('active');
+                    const currentActive = filterButtonsContainer.querySelector('.active');
+                    if (currentActive) {
+                        currentActive.classList.remove('active');
+                    }
                     event.target.classList.add('active');
 
                     galleryItems.forEach(item => {
@@ -925,35 +889,29 @@
                             item.classList.add('hide');
                         }
                     });
-                    // Po filtrowaniu, dostosuj wysokość widocznych iframe'ów
-                    setTimeout(adjustIframeHeights, 50); // Małe opóźnienie
+                    setTimeout(adjustIframeHeights, 50);
                 }
             });
         } else {
              if (!filterButtonsContainer) console.error("Nie znaleziono kontenera przycisków filtrów.");
-             if (galleryItems.length === 0) console.error("Nie znaleziono elementów galerii do filtrowania.");
+             if (!galleryContainer) console.error("Nie znaleziono kontenera galerii.");
         }
 
         // --- Funkcja do ustawiania wysokości iframe ---
-        const videoIframes = document.querySelectorAll('.gallery-item.video iframe');
         function adjustIframeHeights() {
+             const videoIframes = document.querySelectorAll('.gallery-item.video iframe');
              videoIframes.forEach(iframe => {
                  const galleryItem = iframe.closest('.gallery-item');
-                 // Sprawdź, czy element nadrzędny (kafelek) jest widoczny
                  if (galleryItem && galleryItem.offsetWidth > 0 && !galleryItem.classList.contains('hide')) {
                      const videoId = iframe.getAttribute('data-video-id');
-                     // Ustaw src tylko raz
                      if (videoId && !iframe.getAttribute('src')) {
-                         iframe.setAttribute('src', `https://www.youtube.com/watch?v=VIDEO_ID7{videoId}`);
+                         iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}`);
                      }
-                     // Ustaw wysokość
                      const width = iframe.offsetWidth;
                      const height = width * (9 / 16);
                      iframe.style.height = `${height}px`;
                  } else if (galleryItem && galleryItem.classList.contains('hide')) {
-                     // Opcjonalnie: Usuń src, gdy element jest ukryty
-                     // iframe.removeAttribute('src');
-                     iframe.style.height = '0px'; // Zwiń ukryty iframe
+                     iframe.style.height = '0px';
                  }
              });
          }
@@ -965,7 +923,7 @@
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.15
+            threshold: 0.1
         };
 
         const observerCallback = (entries, observer) => {
@@ -988,32 +946,49 @@
          const sections = document.querySelectorAll('section[id], .intro-container[id]');
 
          function activateNavLink() {
-             let index = sections.length;
-             const scrollPosition = window.scrollY + 100; // Zwiększony offset dla wcześniejszej aktywacji
+             let currentSectionId = '';
+             const scrollPosition = window.scrollY + window.innerHeight * 0.4;
 
-             while(--index >= 0 && scrollPosition < sections[index].offsetTop) {}
+             sections.forEach(section => {
+                 const sectionTop = section.offsetTop;
+                 const sectionHeight = section.offsetHeight;
+                 if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                     currentSectionId = section.id;
+                 }
+             });
 
-             navLinks.forEach((link) => link.classList.remove('nav-active'));
+             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+                currentSectionId = sections[sections.length - 1].id;
+             }
 
-             if (index >= 0) {
-                 const targetId = sections[index].id;
-                 const hrefSelector = (targetId === 'about') ? '#about' : `#${targetId}`;
-                 const activeLink = document.querySelector(`#main-nav a[href="${hrefSelector}"]`);
-                 if(activeLink) activeLink.classList.add('nav-active');
+
+             navLinks.forEach(link => {
+                 link.classList.remove('nav-active');
+                 const linkHref = link.getAttribute('href');
+                 if (linkHref === `#${currentSectionId}`) {
+                     link.classList.add('nav-active');
+                 }
+             });
+
+             if (!currentSectionId && sections.length > 0 && window.scrollY < sections[0].offsetTop) {
+                 navLinks.forEach(link => link.classList.remove('nav-active'));
              }
          }
 
-         activateNavLink();
-         window.addEventListener('scroll', activateNavLink);
 
-         // --- Inicjalne ustawienie wysokości iframe'ów i obsługa zmiany rozmiaru okna ---
+         // --- Inicjalne ustawienie i obsługa zdarzeń ---
          document.addEventListener('DOMContentLoaded', () => {
-             adjustIframeHeights(); // Ustaw wysokość przy pierwszym załadowaniu
-             window.addEventListener('resize', adjustIframeHeights); // Ustaw wysokość przy zmianie rozmiaru okna
+             adjustIframeHeights();
+             activateNavLink();
+
+             window.addEventListener('resize', () => {
+                adjustIframeHeights();
+                activateNavLink();
+             });
+             window.addEventListener('scroll', activateNavLink);
          });
 
     </script>
 
 </body>
 </html>
-
