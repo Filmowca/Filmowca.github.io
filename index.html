@@ -26,8 +26,7 @@
             --tile-shadow: rgba(0, 0, 0, 0.1);
             --tile-shadow-hover: rgba(0, 0, 0, 0.18);
             --intro-bg: rgba(255, 255, 255, 0.05);
-            --lightbox-bg: rgba(10, 10, 15, 0.94);
-            --lightbox-info-bg: rgba(0, 0, 0, 0.4); /* Nieco jaśniejsze tło info */
+            /* Usunięto zmienne lightboxa */
 
             /* Kolory akcentów i przycisków - powrót do zieleni */
             --accent-color: var(--gradient-green-light);
@@ -36,6 +35,7 @@
             --filter-button-bg: rgba(255, 255, 255, 0.08);
             --filter-button-hover-bg: rgba(255, 255, 255, 0.15);
             --filter-button-active-bg: var(--accent-color);
+            --gallery-item-bg: rgba(0, 0, 0, 0.15); /* Tło dla elementów galerii */
         }
 
         /* --- Płynne przewijanie --- */
@@ -431,15 +431,13 @@
             font-weight: 600;
         }
 
-
+        /* ZMIANA: Styl dla kontenera galerii - column-count */
         .gallery-tile .media-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Zmieniono minmax */
-            /* Usunięto grid-auto-rows */
-            gap: 15px;
+            column-count: 4; /* Domyślnie 4 kolumny */
+            column-gap: 15px; /* Odstęp między kolumnami */
             margin-top: 20px;
             padding: 0;
-             transition: height 0.4s ease;
+            transition: height 0.4s ease; /* Zachowano dla płynności zmiany wysokości */
         }
 
         .gallery-tile .media-item {
@@ -447,33 +445,27 @@
              border-radius: 12px;
              overflow: hidden;
              cursor: pointer;
-             transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease, width 0.4s ease, padding 0.4s ease, margin 0.4s ease, border 0.4s ease;
-             /* Usunięto aspect-ratio */
-             display: flex;
-             align-items: stretch; /* Rozciągnij, aby wypełnić komórkę */
-             justify-content: center;
+             transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease;
+             /* ZMIANA: Styl dla elementów masonry */
+             display: inline-block; /* Kluczowe dla column-count */
+             width: 100%; /* Element zajmuje szerokość kolumny */
+             margin-bottom: 15px; /* Odstęp pionowy */
+             break-inside: avoid; /* Zapobiega łamaniu elementu */
              position: relative;
              box-shadow: 0 4px 10px rgba(0,0,0, 0.12);
              color: var(--text-muted);
              opacity: 1;
              transform: scale(1);
-             width: auto;
-             height: auto; /* Wysokość będzie określona przez obrazek */
+             /* Usunięto height: auto; */
              padding: 0;
-             margin: 0;
+             /* Usunięto margin: 0; */
              border: none;
         }
          .media-item.hidden {
-             opacity: 0;
+             display: none; /* Prostsze ukrywanie dla column-count */
+             opacity: 0; /* Dodano dla płynności, chociaż display:none dominuje */
              transform: scale(0.9);
              pointer-events: none;
-             width: 0 !important;
-             height: 0 !important;
-             padding: 0 !important;
-             margin: 0 !important;
-             border: none !important;
-             overflow: hidden;
-             transition: opacity 0.3s ease, transform 0.3s ease, width 0.3s ease 0.1s, padding 0.3s ease 0.1s, margin 0.3s ease 0.1s, border 0.3s ease 0.1s, height 0.3s ease 0.1s;
          }
 
          .gallery-tile .media-item.is-video::before {
@@ -495,11 +487,11 @@
          .gallery-tile .media-item img {
             display: block;
             width: 100%;
-            height: 100%; /* ZMIANA: Obrazek wypełnia wysokość kontenera */
-            object-fit: cover; /* Obrazek wypełnia, przycinając */
+            height: auto; /* ZMIANA: Wysokość dopasuje się do proporcji */
+            object-fit: cover; /* Nadal cover */
             transition: transform 0.35s ease, filter 0.35s ease;
             filter: saturate(0.9);
-            vertical-align: top;
+            vertical-align: top; /* Ważne dla column-count */
             border-radius: 12px;
          }
          .gallery-tile .media-item:not(.is-video)::before,
@@ -709,22 +701,26 @@
              .offer-grid {
                  grid-template-columns: repeat(4, 1fr);
              }
+             .gallery-tile .media-container { column-count: 4; } /* 4 kolumny galerii */
          }
          @media (min-width: 768px) and (max-width: 992px) { /* Układ 3 kolumn dla oferty na tabletach */
              .offer-grid {
                  grid-template-columns: repeat(3, 1fr);
              }
+              .gallery-tile .media-container { column-count: 3; } /* 3 kolumny galerii */
          }
          @media (min-width: 576px) and (max-width: 767px) { /* Układ 2 kolumn dla oferty na mniejszych tabletach/dużych mobilnych */
              .offer-grid {
                  grid-template-columns: repeat(2, 1fr);
              }
+              .gallery-tile .media-container { column-count: 2; } /* 2 kolumny galerii */
          }
          @media (max-width: 575px) { /* Układ 2 kolumn dla oferty na małych mobilnych */
              .offer-grid {
                  grid-template-columns: repeat(2, 1fr);
              }
              .offer-service-tile { width: auto; } /* Kafelki zajmują dostępną szerokość */
+             .gallery-tile .media-container { column-count: 1; } /* 1 kolumna galerii */
          }
 
 
@@ -737,7 +733,7 @@
          }
          @media (max-width: 992px) {
              /* Usunięcie specyficznych reguł dla .info-grid */
-             .gallery-tile .media-container { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } /* Mniejsze miniatury */
+             /* .gallery-tile .media-container { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } /* Mniejsze miniatury */
              .intro-container { flex-direction: column; gap: 30px; }
              .intro-section { flex-basis: auto; text-align: center; }
              .intro-section h2, .intro-section p { text-align: center; }
@@ -785,7 +781,7 @@
             .offer-service-tile i { font-size: 1.7em;}
             .offer-service-tile span { font-size: 0.8em; }
             .offer-tile .cta-button { padding: 10px 22px; font-size: 0.9em; margin-top: 25px;}
-            .gallery-tile .media-container { gap: 15px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } /* Mniejsze miniatury */
+            /* .gallery-tile .media-container { gap: 15px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); } /* Mniejsze miniatury */
             .close-lightbox { font-size: 28px; right: 15px; top: 15px; width: 32px; height: 32px;}
             .tile-item i.tile-icon { font-size: 2em; }
              .intro-photo-tile { width: 75%; max-width: 300px; }
@@ -837,7 +833,7 @@
             footer { padding: 20px 15px; font-size: 0.75em; }
              footer a { margin: 0 8px; }
              footer .social-links a { font-size: 1.2em; }
-            .gallery-tile .media-container { gap: 15px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+            /* .gallery-tile .media-container { gap: 10px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } */
             .tile-item i.tile-icon { font-size: 1.8em; }
              .intro-photo-tile { width: 85%; max-width: 260px; }
              .gallery-filters { gap: 8px; } /* Mniejszy odstęp filtrów */
@@ -1226,8 +1222,7 @@
                             }
                         }
                     });
-                     // Ponowne obliczenie wysokości siatki po filtrowaniu
-                     setTimeout(setGridRowEnd, 450); // Opóźnienie dla animacji
+                     // Usunięto wywołanie setGridRowEnd
                 }
             });
         } else {
@@ -1284,48 +1279,7 @@
          activateNavLink();
          window.addEventListener('scroll', activateNavLink);
 
-         // --- Skrypt do ustawiania grid-row-end dla elementów galerii ---
-         function setGridRowEnd() {
-             galleryItems.forEach(item => {
-                 if (!item.classList.contains('hidden')) { // Działaj tylko na widocznych elementach
-                     const img = item.querySelector('img');
-                     if (img) {
-                         // Użyj clientHeight, który jest dostępny od razu
-                         const rowHeight = 10; // grid-auto-rows
-                         const rowGap = 15; // gap
-                         // Oblicz span na podstawie wysokości elementu (który zawiera obrazek)
-                         const rowSpan = Math.ceil((item.clientHeight + rowGap) / (rowHeight + rowGap));
-                         item.style.gridRowEnd = `span ${rowSpan}`;
-
-                     } else if (item.classList.contains('is-video')) {
-                         // Ustaw domyślny span dla filmów (można dostosować)
-                         const rowHeight = 10;
-                         const rowGap = 15;
-                         // Przykładowa wysokość dla wideo - można ją dostosować
-                         const videoHeightEstimate = item.clientWidth * (9 / 16); // Przybliżona wysokość dla 16:9
-                         const rowSpan = Math.ceil((videoHeightEstimate + rowGap) / (rowHeight + rowGap));
-                         item.style.gridRowEnd = `span ${Math.max(rowSpan, 10)}`; // Minimalny span np. 10
-                     }
-                 }
-             });
-         }
-
-         // Wywołaj funkcję po załadowaniu strony i przy zmianie rozmiaru okna
-         window.addEventListener('load', () => {
-             // Upewnij się, że obrazy mają czas na załadowanie przed pierwszym obliczeniem
-             setTimeout(setGridRowEnd, 200);
-         });
-         window.addEventListener('resize', setGridRowEnd);
-         // Wywołaj również po filtrowaniu
-         if (filterButtonsContainer) {
-             filterButtonsContainer.addEventListener('click', (event) => {
-                 if (event.target.classList.contains('filter-button')) {
-                     // Opóźnij wykonanie, aby dać czas na zakończenie animacji ukrywania/pokazywania
-                     setTimeout(setGridRowEnd, 450);
-                 }
-             });
-         }
-
+         // Usunięto skrypt setGridRowEnd
 
     </script>
 
