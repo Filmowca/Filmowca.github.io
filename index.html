@@ -26,8 +26,8 @@
             --tile-shadow: rgba(0, 0, 0, 0.1);
             --tile-shadow-hover: rgba(0, 0, 0, 0.18);
             --intro-bg: var(--tile-bg);
-            --lightbox-bg: rgba(10, 10, 15, 0.94);
-            --lightbox-info-bg: rgba(0, 0, 0, 0.4);
+            /* Usunięto zmienne lightboxa */
+            --gallery-item-bg: rgba(0, 0, 0, 0.15); /* Tło dla elementów galerii */
 
             /* Kolory akcentów i przycisków - powrót do zieleni */
             --accent-color: var(--gradient-green-light);
@@ -78,15 +78,17 @@
         }
 
         /* --- Kontener Nagłówka --- */
-        /* Usunięto .header-wrapper */
+        .header-wrapper {
+             max-width: 1200px;
+             margin: 0 auto;
+             padding: 25px 20px;
+             margin-bottom: 40px;
+        }
+
         .header-container {
             display: flex;
-            justify-content: space-between; /* Rozłożenie kafelków */
+            justify-content: space-between;
             align-items: flex-start;
-            max-width: 1200px; /* Taka sama szerokość jak .content-section */
-            margin: 0 auto; /* Wyśrodkowanie kontenera */
-            padding: 25px 20px; /* Padding boczny jak w .content-section + górny/dolny */
-            margin-bottom: 40px; /* Odstęp pod nagłówkiem */
             position: relative;
             z-index: 100;
         }
@@ -137,7 +139,7 @@
             padding: 10px 15px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             margin-top: 8px;
-            /* Usunięto margin-left: auto; */
+            margin-left: auto;
         }
          .nav-tile:hover {
              transform: translateY(-2px);
@@ -436,216 +438,73 @@
             font-weight: 600;
         }
 
-
+        /* ZMIANA: Kontener Galerii - column-count */
         .gallery-tile .media-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            grid-auto-rows: auto;
-            gap: 15px;
+            column-count: 4; /* Domyślnie 4 kolumny */
+            column-gap: 15px; /* Odstęp między kolumnami */
             margin-top: 20px;
             padding: 0;
-             transition: height 0.4s ease;
         }
 
+        /* ZMIANA: Elementy Galerii dla column-count */
         .gallery-tile .media-item {
-             background-color: rgba(0,0,0, 0.2);
+             background-color: var(--gallery-item-bg); /* Tło dla elementów */
              border-radius: 12px;
-             overflow: hidden;
-             cursor: pointer;
-             transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease, width 0.4s ease, padding 0.4s ease, margin 0.4s ease, border 0.4s ease;
-             /* Usunięto aspect-ratio */
-             display: flex;
-             align-items: stretch;
-             justify-content: center;
-             position: relative;
-             box-shadow: 0 4px 10px rgba(0,0,0, 0.12);
-             color: var(--text-muted);
-             opacity: 1;
-             transform: scale(1);
-             width: auto;
-             height: auto;
-             padding: 0;
-             margin: 0;
-             border: none;
+             overflow: hidden; /* Ważne dla border-radius i iframe */
+             margin-bottom: 15px; /* Odstęp pionowy */
+             break-inside: avoid; /* Zapobiega łamaniu elementu */
+             display: inline-block; /* Kluczowe dla column-count */
+             width: 100%; /* Element zajmuje szerokość kolumny */
+             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+             position: relative; /* Dla overlay wideo */
         }
-         .media-item.hidden {
-             opacity: 0;
-             transform: scale(0.9);
-             pointer-events: none;
-             width: 0 !important;
-             height: 0 !important;
-             padding: 0 !important;
-             margin: 0 !important;
-             border: none !important;
-             overflow: hidden;
-             transition: opacity 0.3s ease, transform 0.3s ease, width 0.3s ease 0.1s, padding 0.3s ease 0.1s, margin 0.3s ease 0.1s, border 0.3s ease 0.1s, height 0.3s ease 0.1s;
+         .gallery-item.hide {
+             display: none; /* Proste ukrywanie */
          }
 
+         /* ZMIANA: Obrazki w galerii */
+         .gallery-tile .media-item img {
+            display: block;
+            width: 100%;
+            height: auto; /* Automatyczna wysokość */
+            border-radius: 12px; /* Zaokrąglenie */
+            vertical-align: middle; /* Lepsze wyrównanie */
+         }
+         .gallery-tile .media-item.photo:hover { /* Efekt hover tylko dla zdjęć */
+             transform: translateY(-3px);
+             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+         }
+
+         /* ZMIANA: Styl dla iframe (wideo) */
+         .gallery-tile .media-item.is-video iframe {
+             display: block;
+             width: 100%;
+             border: none;
+             border-radius: 12px; /* Zaokrąglenie */
+             /* Wysokość ustawiana przez JS */
+         }
+         /* Ikona play dla wideo */
          .gallery-tile .media-item.is-video::before {
-             content: '\f03d';
-             font-family: "Font Awesome 6 Free"; font-weight: 900;
+             content: '\f144'; /* Ikona play circle */
+             font-family: "Font Awesome 6 Free"; font-weight: 900; /* Solid */
              position: absolute; top: 50%; left: 50%;
              transform: translate(-50%, -50%);
-             font-size: 2.5em;
-             color: rgba(255, 255, 255, 0.6);
+             font-size: 3em;
+             color: rgba(255, 255, 255, 0.7);
              opacity: 1;
-             transition: color 0.3s ease;
+             transition: color 0.3s ease, transform 0.3s ease;
              z-index: 2;
              pointer-events: none;
          }
          .gallery-tile .media-item.is-video:hover::before {
-             color: rgba(255, 255, 255, 0.9);
-         }
-
-         .gallery-tile .media-item img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.35s ease, filter 0.35s ease;
-            filter: saturate(0.9);
-            vertical-align: top;
-            border-radius: 12px;
-         }
-         .gallery-tile .media-item:not(.is-video)::before,
-         .gallery-tile .media-item:not(.is-video)::after {
-             display: none;
+             color: rgba(255, 255, 255, 1);
+             transform: translate(-50%, -50%) scale(1.1);
          }
 
 
-         .gallery-tile .media-item:hover {
-             transform: translateY(-4px);
-             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-         }
-          .gallery-tile .media-item:hover img {
-             transform: scale(1.03);
-             filter: saturate(1);
-          }
-         /* Usunięto hover dla overlay */
-
-
-        /* --- Lightbox Modal --- */
-        .lightbox-modal {
-            display: none; position: fixed; z-index: 1000;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: var(--lightbox-bg);
-            overflow: hidden; justify-content: center; align-items: center;
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            animation: fadeIn 0.3s ease forwards;
-        }
-        .lightbox-modal.active { display: flex; }
-        .lightbox-content {
-            position: relative; margin: auto; padding: 0;
-            max-width: 90%;
-            max-height: 90%;
-            display: flex; flex-direction: column;
-             justify-content: center; align-items: center;
-            transform: scale(0.95);
-            opacity: 0;
-            animation: zoomIn 0.35s 0.05s ease forwards;
-        }
-        .lightbox-media-container {
-            width: 100%;
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            min-height: 0;
-        }
-
-        .lightbox-content img,
-        .lightbox-content iframe {
-            display: block; max-width: 100%; max-height: 100%;
-            object-fit: contain; border-radius: 8px 8px 0 0;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-            margin-bottom: 0;
-            border: none;
-            flex-shrink: 1;
-        }
-        .lightbox-content iframe {
-             aspect-ratio: 16 / 9;
-             width: 100%;
-             max-width: 1000px;
-             height: auto;
-             max-height: calc(100% - 80px);
-        }
-
-         .lightbox-info {
-            background-color: var(--lightbox-info-bg);
-            color: var(--text-light);
-            padding: 12px 18px;
-            border-radius: 0 0 8px 8px;
-            width: 100%;
-            max-width: 700px;
-            box-sizing: border-box;
-            font-size: 0.85em;
-            line-height: 1.6;
-            text-align: left;
-            max-height: 100px;
-            overflow-y: auto;
-             scrollbar-width: thin;
-             scrollbar-color: rgba(255,255,255,0.3) transparent;
-             flex-shrink: 0;
-        }
-        .lightbox-info::-webkit-scrollbar { width: 6px; }
-        .lightbox-info::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.3); border-radius: 3px; }
-         .lightbox-info p { margin: 4px 0; }
-         .lightbox-info strong { color: var(--text-muted); margin-right: 5px; }
-         .lightbox-info a { color: var(--accent-color); text-decoration: none; transition: color 0.2s ease; }
-         .lightbox-info a:hover { color: var(--text-dark); text-decoration: underline; }
-
-        .close-lightbox {
-            position: absolute; top: 10px; right: 15px;
-            color: #e0e0e0; font-size: 28px; font-weight: 300;
-            transition: 0.3s ease; cursor: pointer; line-height: 1;
-            background-color: rgba(0,0,0,0.25); border-radius: 50%;
-            width: 32px; height: 32px; display: flex;
-            justify-content: center; align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 10;
-        }
-        .close-lightbox:hover,
-        .close-lightbox:focus { color: var(--accent-color); background-color: rgba(0,0,0,0.45); }
-
-        /* Przyciski nawigacji lightboxa */
-        .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.3);
-            color: rgba(255, 255, 255, 0.7);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .lightbox-nav:hover {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-        }
-        .lightbox-prev { left: 15px; }
-        .lightbox-next { right: 15px; }
-        .lightbox-nav:disabled {
-             opacity: 0.3;
-             cursor: default;
-        }
-
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-        @keyframes zoomOut { from { transform: scale(1); opacity: 1; } to { transform: scale(0.95); opacity: 0; } }
-
-        .lightbox-modal.closing .lightbox-content { animation: zoomOut 0.25s ease forwards; }
-        .lightbox-modal.closing { animation: fadeOut 0.25s 0.05s ease forwards; }
+        /* --- Lightbox Modal - USUNIĘTY --- */
+        /* Usunięto style .lightbox-modal, .lightbox-content, etc. */
 
 
         /* --- Style dla linków, tekstu w kafelkach (poza ofertą) --- */
@@ -685,9 +544,9 @@
         }
 
         /* Style dla kafelków informacyjnych */
-        .info-grid .tile-item { justify-content: space-between; } /* Zmieniono na space-between */
+        .info-grid .tile-item { justify-content: space-between; }
         .info-grid .tile-item p { flex-grow: 0; text-align: center; }
-        .info-grid .tile-item .info-link { margin-top: auto; } /* Link na dole */
+        .info-grid .tile-item .info-link { margin-top: auto; }
 
          /* Styl dla listy w opiniach - usunięty */
 
@@ -696,7 +555,6 @@
         footer {
             text-align: center; padding: 25px 20px;
             margin-top: 50px;
-            /* Usunięto tło i border-top dla czystszego wyglądu */
             font-size: 0.85em;
              color: var(--text-muted);
         }
@@ -710,30 +568,22 @@
 
 
         /* --- Responsywność --- */
-         @media (min-width: 993px) { /* Układ 4 kolumn dla oferty na dużych ekranach */
-             .offer-grid {
-                 grid-template-columns: repeat(4, 1fr);
-             }
-             .gallery-tile .media-container { column-count: 4; } /* 4 kolumny galerii */
+         @media (min-width: 993px) {
+             .offer-grid { grid-template-columns: repeat(4, 1fr); }
+             .gallery-tile .media-container { column-count: 4; }
          }
-         @media (min-width: 768px) and (max-width: 992px) { /* Układ 3 kolumn dla oferty na tabletach */
-             .offer-grid {
-                 grid-template-columns: repeat(3, 1fr);
-             }
-              .gallery-tile .media-container { column-count: 3; } /* 3 kolumny galerii */
+         @media (min-width: 768px) and (max-width: 992px) {
+             .offer-grid { grid-template-columns: repeat(3, 1fr); }
+             .gallery-tile .media-container { column-count: 3; }
          }
-         @media (min-width: 576px) and (max-width: 767px) { /* Układ 2 kolumn dla oferty na mniejszych tabletach/dużych mobilnych */
-             .offer-grid {
-                 grid-template-columns: repeat(2, 1fr);
-             }
-              .gallery-tile .media-container { column-count: 2; } /* 2 kolumny galerii */
+         @media (min-width: 576px) and (max-width: 767px) {
+             .offer-grid { grid-template-columns: repeat(2, 1fr); }
+             .gallery-tile .media-container { column-count: 2; }
          }
-         @media (max-width: 575px) { /* Układ 2 kolumn dla oferty na małych mobilnych */
-             .offer-grid {
-                 grid-template-columns: repeat(2, 1fr);
-             }
-             .offer-service-tile { width: auto; } /* Kafelki zajmują dostępną szerokość */
-             .gallery-tile .media-container { column-count: 1; } /* 1 kolumna galerii */
+         @media (max-width: 575px) {
+             .offer-grid { grid-template-columns: repeat(2, 1fr); }
+             .offer-service-tile { width: auto; }
+             .gallery-tile .media-container { column-count: 1; }
          }
 
 
@@ -742,41 +592,36 @@
              .gallery-section { padding: 0; }
              .gallery-tile { margin: 0 30px; width: auto; }
              .intro-container { padding: 0 30px; max-width: none; }
-              .header-wrapper { padding: 20px 30px; } /* Dopasowanie paddingu nagłówka */
+              .header-wrapper { padding: 20px 30px; }
          }
          @media (max-width: 992px) {
              /* Usunięcie specyficznych reguł dla .info-grid */
-             /* .gallery-tile .media-container { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } /* Mniejsze miniatury */
+             /* .gallery-tile .media-container { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } */
              .intro-container { flex-direction: column; gap: 30px; }
              .intro-section { flex-basis: auto; text-align: center; }
              .intro-section h2, .intro-section p { text-align: center; }
              .intro-photo-tile { flex-basis: auto; width: 65%; max-width: 320px; }
-             /* Usunięto przyciski karuzeli */
-             /* header { padding: 15px 25px; } */
              .header-wrapper { padding: 20px 25px; }
-             .logo-tile .name { font-size: 1.4em; } /* Dopasowanie na tabletach */
+             .logo-tile .name { font-size: 1.4em; }
              .logo-tile .logo { font-size: 0.85em; }
-             /* Zmiana układu info-grid na 2 kolumny dla tabletów */
              .info-grid {
-                 grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Użycie auto-fit */
+                 grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
              }
          }
-         @media (max-width: 767px) { /* Zmiana z 768px na 767px dla precyzji */
-             /* Powrót do 1 kolumny dla .info-grid */
+         @media (max-width: 767px) {
              .info-grid {
                  grid-template-columns: 1fr;
              }
              .header-container {
-                 padding: 0; /* Usunięto padding wewnętrzny */
-                 flex-direction: column; /* Układ pionowy nagłówka na mobilnych */
-                 align-items: center; /* Wyśrodkowanie */
-                 gap: 15px; /* Odstęp między kafelkami nagłówka */
+                 padding: 0;
+                 flex-direction: column;
+                 align-items: center;
+                 gap: 15px;
              }
-             .header-wrapper { padding: 15px 20px; margin-bottom: 20px;} /* Zmniejszenie odstępu */
-             body { padding-top: 0; } /* Usunięcie paddingu, bo header nie jest sticky */
-             main { padding-top: 30px; } /* Dodanie paddingu do main */
+             .header-wrapper { padding: 15px 20px; margin-bottom: 20px;}
+             body { padding-top: 0; }
+             main { padding-top: 30px; }
 
-            /* header { padding: 15px 20px; } */
             main { padding: 50px 15px; }
             .intro-container { padding: 0 15px; margin-bottom: 50px; }
             .intro-section { padding: 30px; }
@@ -790,34 +635,22 @@
             .offer-tile h3 { font-size: 1.2em; }
             .tile-item p { font-size: 0.9em; line-height: 1.6; }
             .offer-tile .offer-description { font-size: 0.9em; margin-bottom: 20px;}
-            /* Usunięto style dla offer-service-tile width */
             .offer-service-tile { padding: 15px;}
             .offer-service-tile i { font-size: 1.7em;}
             .offer-service-tile span { font-size: 0.8em; }
             .offer-tile .cta-button { padding: 10px 22px; font-size: 0.9em; margin-top: 25px;}
-            /* .gallery-tile .media-container { gap: 15px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); } /* Mniejsze miniatury */
-            .close-lightbox { font-size: 28px; right: 15px; top: 15px; width: 32px; height: 32px;}
+            /* .gallery-tile .media-container { gap: 15px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); } */
             .tile-item i.tile-icon { font-size: 2em; }
              .intro-photo-tile { width: 75%; max-width: 300px; }
-             /* Usunięto przyciski karuzeli */
-             /* header .name { font-size: 1.4em; } */
-             /* header .logo { font-size: 0.85em; } */
              .logo-tile .name { font-size: 1.3em; }
              .logo-tile .logo { font-size: 0.8em; }
              .nav-tile nav ul { gap: 15px; }
              .nav-tile nav a { font-size: 0.85em; }
-             .lightbox-info { padding: 10px 15px; font-size: 0.8em; }
-             .lightbox-content img { max-height: calc(90vh - 90px); } /* Mniej miejsca na info na mobilnych */
-             .lightbox-nav { width: 35px; height: 35px; font-size: 1em; }
-             .lightbox-prev { left: 10px; }
-             .lightbox-next { right: 10px; }
+             /* Usunięto style lightbox */
          }
          @media (max-width: 480px) {
-            /* header { padding: 12px 15px; } */
-             /* header .name { font-size: 1.3em; } */
-             /* header .logo { font-size: 0.8em; } */
-             .header-wrapper { padding: 15px; } /* Zmniejszenie paddingu wrappera */
-             .header-container { padding: 0; } /* Usunięcie paddingu z kontenera */
+             .header-wrapper { padding: 15px; }
+             .header-container { padding: 0; }
              .logo-tile .name { font-size: 1.2em; }
              .logo-tile .logo { font-size: 0.75em; }
              .nav-tile { padding: 10px 15px; }
@@ -830,7 +663,7 @@
             .intro-section h2 { font-size: 1.5em; }
             .intro-section p { font-size: 0.9em; }
             .content-section { padding: 0 10px; margin-bottom: 40px; }
-            .info-grid { grid-template-columns: 1fr; gap: 20px; } /* Nadal 1 kolumna */
+            .info-grid { grid-template-columns: 1fr; gap: 20px; }
             .gallery-section { margin-bottom: 40px; }
              .gallery-tile { margin: 0 10px; width: auto; padding: 25px; }
             .tile-item { padding: 18px; border-radius: 12px; }
@@ -839,7 +672,6 @@
             .offer-tile h3 { font-size: 1.1em; }
             .tile-item p { font-size: 0.85em; }
             .offer-tile .offer-description { font-size: 0.85em; margin-bottom: 18px;}
-            /* Usunięto style dla offer-service-tile width */
             .offer-service-tile { padding: 12px;}
             .offer-service-tile i { font-size: 1.5em; }
             .offer-service-tile span { font-size: 0.7em; }
@@ -850,12 +682,9 @@
             /* .gallery-tile .media-container { gap: 10px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } */
             .tile-item i.tile-icon { font-size: 1.8em; }
              .intro-photo-tile { width: 85%; max-width: 260px; }
-             .gallery-filters { gap: 8px; } /* Mniejszy odstęp filtrów */
+             .gallery-filters { gap: 8px; }
              .filter-button { padding: 6px 14px; font-size: 0.85em; }
-             .lightbox-content img { max-height: calc(90vh - 80px); } /* Jeszcze mniej miejsca na info */
-             .lightbox-nav { width: 30px; height: 30px; font-size: 0.9em; }
-             .lightbox-prev { left: 5px; }
-             .lightbox-next { right: 5px; }
+             /* Usunięto style lightbox */
          }
 
          /* Animacja pojawiania się elementów */
@@ -976,55 +805,55 @@
                      <button class="filter-button" data-filter="video">Wideo</button>
                  </div>
 
-                 <div class="media-container" id="media-gallery">
-                     <div class="media-item" data-type="photo"
+                 <div class="gallery media-container" id="media-gallery">
+                     <div class="gallery-item photo" data-type="photo"
                           data-realizator="@Szymon_Grzeszczak_Photo" data-realizator-ig="https://www.instagram.com/szymon_grzeszczak_photo"
                           data-model="@Model_Zdj1" data-model-ig="https://www.instagram.com/model_zdj1"
                           data-opis="Piękny krajobraz uchwycony o wschodzie słońca.">
                          <img src="zdj1.jpeg" alt="Zdjęcie 1" data-full-src="zdj1.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo"
+                     <div class="gallery-item photo" data-type="photo"
                           data-realizator="@Szymon_Grzeszczak_Photo" data-realizator-ig="https://www.instagram.com/szymon_grzeszczak_photo"
                           data-opis="Opis zdjęcia 2.">
                          <img src="zdj2.jpeg" alt="Zdjęcie 2" data-full-src="zdj2.jpeg">
                      </div>
-                      <div class="media-item is-video" data-type="video" data-video-id="YOUTUBE_VIDEO_ID_1">
-                         <img src="https://placehold.co/400x225/111/fff?text=Film+Reklamowy+Thumb" alt="Miniatura filmu reklamowego">
+                      <div class="gallery-item video" data-type="video">
+                         <iframe data-video-id="YOUTUBE_VIDEO_ID_1" title="Odtwarzacz wideo YouTube 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia 3.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia 3.">
                          <img src="zdj3.jpeg" alt="Zdjęcie 3" data-full-src="zdj3.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia 4.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia 4.">
                          <img src="zdj4.jpeg" alt="Zdjęcie 4" data-full-src="zdj4.jpeg">
                      </div>
-                     <div class="media-item is-video" data-type="video" data-video-id="YOUTUBE_VIDEO_ID_2">
-                          <img src="https://placehold.co/400x225/333/eee?text=Teledysk+Thumb" alt="Miniatura teledysku">
+                     <div class="gallery-item video" data-type="video">
+                          <iframe data-video-id="YOUTUBE_VIDEO_ID_2" title="Odtwarzacz wideo YouTube 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia 5.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia 5.">
                           <img src="zdj5.jpeg" alt="Zdjęcie 5" data-full-src="zdj5.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia zf1.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf1.">
                          <img src="zf1.jpeg" alt="Zdjęcie zf1" data-full-src="zf1.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia zf10.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf10.">
                          <img src="zf10.jpeg" alt="Zdjęcie zf10" data-full-src="zf10.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia zf2.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf2.">
                          <img src="zf2.jpeg" alt="Zdjęcie zf2" data-full-src="zf2.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia zf3.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf3.">
                          <img src="zf3.jpeg" alt="Zdjęcie zf3" data-full-src="zf3.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia zf4.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf4.">
                          <img src="zf4.jpeg" alt="Zdjęcie zf4" data-full-src="zf4.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia zf5.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf5.">
                          <img src="zf5.jpeg" alt="Zdjęcie zf5" data-full-src="zf5.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia zf6.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf6.">
                          <img src="zf6.jpeg" alt="Zdjęcie zf6" data-full-src="zf6.jpeg">
                      </div>
-                     <div class="media-item" data-type="photo" data-opis="Opis zdjęcia zf7.">
+                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf7.">
                          <img src="zf7.jpeg" alt="Zdjęcie zf7" data-full-src="zf7.jpeg">
                      </div>
                  </div>
@@ -1042,172 +871,15 @@
             <a href="#" aria-label="Vimeo" title="Vimeo"><i class="fab fa-vimeo-v"></i></a> </p>
     </footer>
 
-    <div id="lightbox-modal" class="lightbox-modal">
-        <span class="close-lightbox" id="close-lightbox">×</span>
-        <div class="lightbox-content">
-            <div class="lightbox-media-container" id="lightbox-media-container">
-                </div>
-            <div class="lightbox-info" id="lightbox-info">
-                </div>
-        </div>
-        <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Poprzedni element"><i class="fas fa-chevron-left"></i></button>
-        <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Następny element"><i class="fas fa-chevron-right"></i></button>
-    </div>
-
     <script>
-        // --- Skrypt Lightboxa ---
-        const galleryContainer = document.getElementById('media-gallery');
-        const lightboxModal = document.getElementById('lightbox-modal');
-        const lightboxMediaContainer = document.getElementById('lightbox-media-container');
-        const lightboxInfo = document.getElementById('lightbox-info');
-        const closeLightboxBtn = document.getElementById('close-lightbox');
-        const lightboxPrevBtn = document.getElementById('lightbox-prev');
-        const lightboxNextBtn = document.getElementById('lightbox-next');
-        let isClosingLightbox = false;
-        let currentGalleryItems = []; // Tablica aktualnie widocznych elementów
-        let currentIndex = 0;
-
-        function updateLightboxNavButtons() {
-            lightboxPrevBtn.disabled = currentIndex <= 0;
-            lightboxNextBtn.disabled = currentIndex >= currentGalleryItems.length - 1;
-        }
-
-        function showLightboxItem(index) {
-            if (index < 0 || index >= currentGalleryItems.length) {
-                console.error("Nieprawidłowy indeks elementu galerii:", index);
-                return;
-            }
-            currentIndex = index;
-            const mediaItem = currentGalleryItems[currentIndex];
-            const itemType = mediaItem.getAttribute('data-type');
-
-            lightboxMediaContainer.innerHTML = '';
-            lightboxInfo.innerHTML = '';
-
-            if (itemType === 'photo') {
-                const imgElement = mediaItem.querySelector('img');
-                if (imgElement) {
-                    const fullSrc = imgElement.getAttribute('data-full-src');
-                    const realizator = mediaItem.getAttribute('data-realizator');
-                    const realizatorIg = mediaItem.getAttribute('data-realizator-ig');
-                    const model = mediaItem.getAttribute('data-model');
-                    const modelIg = mediaItem.getAttribute('data-model-ig');
-                    const opis = mediaItem.getAttribute('data-opis');
-                    const techDetails = mediaItem.getAttribute('data-tech') || "Niedostępne";
-                    const caseStudyLink = mediaItem.getAttribute('data-case-study');
-
-                    if (fullSrc) {
-                        const newImg = document.createElement('img');
-                        newImg.src = fullSrc;
-                        newImg.alt = imgElement.alt || "[Powiększony obraz z galerii]";
-                        lightboxMediaContainer.appendChild(newImg);
-
-                        let infoHtml = '';
-                        if (realizator) infoHtml += `<p><strong>Realizator:</strong> ${realizatorIg ? `<a href="${realizatorIg}" target="_blank" rel="noopener noreferrer">${realizator}</a>` : realizator}</p>`;
-                        if (model) infoHtml += `<p><strong>Model:</strong> ${modelIg ? `<a href="${modelIg}" target="_blank" rel="noopener noreferrer">${model}</a>` : model}</p>`;
-                        if (opis) infoHtml += `<p><strong>Opis:</strong> ${opis}</p>`;
-                        infoHtml += `<p><strong>Dane tech.:</strong> ${techDetails}</p>`;
-                        if (caseStudyLink) infoHtml += `<p><a href="${caseStudyLink}" target="_blank" rel="noopener noreferrer">Zobacz case study</a></p>`;
-                        lightboxInfo.innerHTML = infoHtml;
-                    }
-                }
-                 lightboxPrevBtn.style.display = '';
-                 lightboxNextBtn.style.display = '';
-            } else if (itemType === 'video') {
-                const videoId = mediaItem.getAttribute('data-video-id');
-                if (videoId) {
-                    const iframe = document.createElement('iframe');
-                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`;
-                    iframe.setAttribute('frameborder', '0');
-                    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-                    iframe.setAttribute('allowfullscreen', '');
-                    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-                    lightboxMediaContainer.appendChild(iframe);
-                    lightboxInfo.innerHTML = `<p><strong>Film:</strong> ${mediaItem.querySelector('span')?.textContent || 'Wideo'}</p>`;
-                }
-                 lightboxPrevBtn.style.display = 'none';
-                 lightboxNextBtn.style.display = 'none';
-            }
-
-            updateLightboxNavButtons();
-            lightboxModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            isClosingLightbox = false;
-        }
-
-
-        if (galleryContainer && lightboxModal && lightboxMediaContainer && closeLightboxBtn && lightboxInfo && lightboxPrevBtn && lightboxNextBtn) {
-            galleryContainer.addEventListener('click', function(event) {
-                const target = event.target;
-                const mediaItem = target.closest('.media-item');
-                if (mediaItem && !mediaItem.classList.contains('hidden')) {
-                    currentGalleryItems = Array.from(galleryContainer.querySelectorAll('.media-item:not(.hidden)'));
-                    const clickedIndex = currentGalleryItems.indexOf(mediaItem);
-                    if (clickedIndex > -1) {
-                        showLightboxItem(clickedIndex);
-                    }
-                }
-            });
-
-             lightboxPrevBtn.addEventListener('click', () => {
-                 if (currentIndex > 0) {
-                     showLightboxItem(currentIndex - 1);
-                 }
-             });
-
-             lightboxNextBtn.addEventListener('click', () => {
-                 if (currentIndex < currentGalleryItems.length - 1) {
-                     showLightboxItem(currentIndex + 1);
-                 }
-             });
-
-
-            function closeLightboxModal() {
-                if (isClosingLightbox) return;
-                isClosingLightbox = true;
-                lightboxModal.classList.add('closing');
-
-                const iframe = lightboxMediaContainer.querySelector('iframe');
-                if (iframe) {
-                    iframe.src = '';
-                }
-
-                lightboxModal.addEventListener('animationend', function handler() {
-                    lightboxModal.classList.remove('active', 'closing');
-                    lightboxMediaContainer.innerHTML = '';
-                    lightboxInfo.innerHTML = '';
-                    document.body.style.overflow = '';
-                    isClosingLightbox = false;
-                    lightboxModal.removeEventListener('animationend', handler);
-                }, { once: true });
-            }
-
-            closeLightboxBtn.addEventListener('click', closeLightboxModal);
-            lightboxModal.addEventListener('click', function(event) {
-                if (event.target === lightboxModal) {
-                    closeLightboxModal();
-                }
-            });
-            document.addEventListener('keydown', function(event) {
-                if (lightboxModal.classList.contains('active')) {
-                     if (event.key === 'Escape') {
-                        closeLightboxModal();
-                    } else if (event.key === 'ArrowLeft' && !lightboxPrevBtn.disabled) {
-                        showLightboxItem(currentIndex - 1);
-                    } else if (event.key === 'ArrowRight' && !lightboxNextBtn.disabled) {
-                         showLightboxItem(currentIndex + 1);
-                    }
-                }
-            });
-        } else {
-            console.error("Nie znaleziono wszystkich elementów potrzebnych do lightboxa, info lub nawigacji.");
-        }
+        // --- Skrypt Lightboxa - USUNIĘTY ---
 
         // --- Skrypt Karuzeli Oferty - USUNIĘTY ---
 
         // --- Skrypt Filtrowania Galerii ---
         const filterButtonsContainer = document.getElementById('gallery-filter-buttons');
-        const galleryItems = galleryContainer ? galleryContainer.querySelectorAll('.media-item') : [];
+        const galleryContainer = document.getElementById('media-gallery'); // Kontener galerii
+        const galleryItems = galleryContainer ? galleryContainer.querySelectorAll('.gallery-item') : []; // Zmieniono selektor
 
         if (filterButtonsContainer && galleryItems.length > 0) {
             filterButtonsContainer.addEventListener('click', (event) => {
@@ -1222,27 +894,43 @@
                         const shouldBeVisible = (filterValue === 'all' || itemType === filterValue);
 
                         if (shouldBeVisible) {
-                            if (item.classList.contains('hidden')) {
-                                item.classList.remove('hidden');
-                                requestAnimationFrame(() => {
-                                    item.style.width = ''; item.style.height = ''; item.style.padding = '';
-                                    item.style.margin = ''; item.style.border = ''; item.style.overflow = '';
-                                    item.style.opacity = ''; item.style.transform = '';
-                                });
-                            }
+                            item.classList.remove('hide');
                         } else {
-                            if (!item.classList.contains('hidden')) {
-                                item.classList.add('hidden');
-                            }
+                            item.classList.add('hide');
                         }
                     });
-                     // Usunięto wywołanie setGridRowEnd
+                    // Po filtrowaniu, dostosuj wysokość iframe'ów
+                    setTimeout(adjustIframeHeights, 50); // Małe opóźnienie
                 }
             });
         } else {
              if (!filterButtonsContainer) console.error("Nie znaleziono kontenera przycisków filtrów.");
              if (galleryItems.length === 0) console.error("Nie znaleziono elementów galerii do filtrowania.");
         }
+
+        // --- Funkcja do ustawiania wysokości iframe ---
+        const videoIframes = document.querySelectorAll('.gallery-item.video iframe');
+        function adjustIframeHeights() {
+             videoIframes.forEach(iframe => {
+                 const galleryItem = iframe.closest('.gallery-item');
+                 // Sprawdź, czy element nadrzędny (kafelek) jest widoczny
+                 if (galleryItem && galleryItem.offsetWidth > 0 && !galleryItem.classList.contains('hide')) {
+                     const videoId = iframe.getAttribute('data-video-id');
+                     // Ustaw src tylko raz
+                     if (videoId && !iframe.getAttribute('src')) {
+                         iframe.setAttribute('src', `https://www.youtube.com/watch?v=VIDEO_ID7{videoId}`);
+                     }
+                     // Ustaw wysokość
+                     const width = iframe.offsetWidth;
+                     const height = width * (9 / 16);
+                     iframe.style.height = `${height}px`;
+                 } else if (galleryItem && galleryItem.classList.contains('hide')) {
+                     // Opcjonalnie: Usuń src, gdy element jest ukryty
+                     // iframe.removeAttribute('src');
+                     iframe.style.height = '0px'; // Zwiń ukryty iframe
+                 }
+             });
+         }
 
 
         // --- Skrypt do animacji pojawiania się sekcji na scroll ---
@@ -1275,8 +963,7 @@
 
          function activateNavLink() {
              let index = sections.length;
-             // ZMIANA: Zmniejszony offset dla dokładniejszego scrollspy
-             const scrollPosition = window.scrollY + 80;
+             const scrollPosition = window.scrollY + 100; // Zwiększony offset dla wcześniejszej aktywacji
 
              while(--index >= 0 && scrollPosition < sections[index].offsetTop) {}
 
@@ -1293,11 +980,13 @@
          activateNavLink();
          window.addEventListener('scroll', activateNavLink);
 
-         // Usunięto skrypt setGridRowEnd
+         // --- Inicjalne ustawienie wysokości iframe'ów i obsługa zmiany rozmiaru okna ---
+         document.addEventListener('DOMContentLoaded', () => {
+             adjustIframeHeights(); // Ustaw wysokość przy pierwszym załadowaniu
+             window.addEventListener('resize', adjustIframeHeights); // Ustaw wysokość przy zmianie rozmiaru okna
+         });
 
     </script>
 
 </body>
 </html>
-
-
