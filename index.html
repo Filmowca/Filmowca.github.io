@@ -26,8 +26,8 @@
             --tile-shadow: rgba(0, 0, 0, 0.1);
             --tile-shadow-hover: rgba(0, 0, 0, 0.18);
             --intro-bg: var(--tile-bg);
-            /* Usunięto zmienne lightboxa */
-            --gallery-item-bg: rgba(0, 0, 0, 0.15); /* Tło dla elementów galerii */
+            --lightbox-bg: rgba(10, 10, 15, 0.94);
+            --lightbox-info-bg: rgba(0, 0, 0, 0.4);
 
             /* Kolory akcentów i przycisków - powrót do zieleni */
             --accent-color: var(--gradient-green-light);
@@ -37,8 +37,8 @@
             --filter-button-hover-bg: rgba(255, 255, 255, 0.15);
             --filter-button-active-bg: var(--accent-color);
             --nav-link-active-color: var(--accent-color);
-            --nav-tile-bg: rgba(255, 255, 255, 0.07);
-            --nav-tile-border: rgba(255, 255, 255, 0.18);
+            --nav-tile-bg: rgba(255, 255, 255, 0.05);
+            --nav-tile-border: rgba(255, 255, 255, 0.1);
             --nav-link-hover-bg: rgba(255, 255, 255, 0.1);
         }
 
@@ -78,17 +78,15 @@
         }
 
         /* --- Kontener Nagłówka --- */
-        .header-wrapper {
-             max-width: 1200px;
-             margin: 0 auto;
-             padding: 25px 20px;
-             margin-bottom: 40px;
-        }
-
+        /* Usunięto .header-wrapper */
         .header-container {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            justify-content: space-between; /* Rozłożenie kafelków */
+            align-items: flex-start; /* Wyrównanie do góry */
+            max-width: 1200px; /* Taka sama szerokość jak .content-section */
+            margin: 0 auto; /* Wyśrodkowanie kontenera */
+            padding: 25px 20px; /* Padding boczny jak w .content-section + górny/dolny */
+            margin-bottom: 40px; /* Odstęp pod nagłówkiem */
             position: relative;
             z-index: 100;
         }
@@ -106,6 +104,7 @@
             flex-direction: column;
             align-items: flex-start;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Usunięto margin-left: auto; */
         }
          .logo-tile:hover {
              transform: translateY(-3px);
@@ -133,13 +132,13 @@
             background: var(--nav-tile-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-radius: 14px;
+            border-radius: 50px; /* Kształt pigułki */
             border: 1px solid var(--nav-tile-border);
             box-shadow: none;
-            padding: 10px 15px;
+            padding: 8px 10px; /* Mniejszy padding */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-top: 8px;
-            margin-left: auto;
+            margin-top: 8px; /* Dopasowanie marginesu */
+            /* Usunięto margin-left: auto; */
         }
          .nav-tile:hover {
              transform: translateY(-2px);
@@ -151,27 +150,27 @@
             padding: 0;
             margin: 0;
             display: flex;
-            gap: 15px;
+            gap: 5px; /* Mniejszy odstęp */
         }
 
         .nav-tile nav a {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 8px;
+            padding: 8px 15px; /* Padding jak w przycisku */
+            border-radius: 50px; /* Zaokrąglenie */
             transition: color 0.2s ease, background-color 0.2s ease;
-            border-bottom: none;
+            border-bottom: none; /* Usunięto podkreślenie */
         }
 
         .nav-tile nav a:hover {
             color: var(--text-light);
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: var(--nav-link-hover-bg); /* Tło na hover */
         }
         .nav-tile nav a.nav-active {
             color: var(--gradient-black);
-            background-color: var(--nav-link-active-color);
+            background-color: var(--nav-link-active-color); /* Akcent jako tło */
             font-weight: 600;
         }
 
@@ -187,9 +186,9 @@
             display: flex;
             align-items: stretch;
             gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto 70px auto;
-            padding: 0 20px;
+            max-width: 1200px; /* Dopasowanie do .header-container */
+            margin: 0 auto 70px auto; /* Wyśrodkowanie */
+            padding: 0 20px; /* Padding boczny jak w header */
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.8s ease forwards;
@@ -447,7 +446,7 @@
         }
 
         /* ZMIANA: Elementy Galerii dla column-count */
-        .gallery-tile .media-item {
+        .gallery-tile .gallery-item { /* Zmieniono klasę na .gallery-item */
              background-color: var(--gallery-item-bg); /* Tło dla elementów */
              border-radius: 12px;
              overflow: hidden; /* Ważne dla border-radius i iframe */
@@ -464,47 +463,30 @@
          }
 
          /* ZMIANA: Obrazki w galerii */
-         .gallery-tile .media-item img {
+         .gallery-tile .gallery-item img {
             display: block;
             width: 100%;
             height: auto; /* Automatyczna wysokość */
             border-radius: 12px; /* Zaokrąglenie */
             vertical-align: middle; /* Lepsze wyrównanie */
          }
-         .gallery-tile .media-item.photo:hover { /* Efekt hover tylko dla zdjęć */
+         .gallery-tile .gallery-item.photo:hover { /* Efekt hover tylko dla zdjęć */
              transform: translateY(-3px);
              box-shadow: 0 6px 12px rgba(0,0,0,0.15);
          }
 
          /* ZMIANA: Styl dla iframe (wideo) */
-         .gallery-tile .media-item.is-video iframe {
+         .gallery-tile .gallery-item.video iframe {
              display: block;
              width: 100%;
              border: none;
              border-radius: 12px; /* Zaokrąglenie */
              /* Wysokość ustawiana przez JS */
          }
-         /* Ikona play dla wideo */
-         .gallery-tile .media-item.is-video::before {
-             content: '\f144'; /* Ikona play circle */
-             font-family: "Font Awesome 6 Free"; font-weight: 900; /* Solid */
-             position: absolute; top: 50%; left: 50%;
-             transform: translate(-50%, -50%);
-             font-size: 3em;
-             color: rgba(255, 255, 255, 0.7);
-             opacity: 1;
-             transition: color 0.3s ease, transform 0.3s ease;
-             z-index: 2;
-             pointer-events: none;
-         }
-         .gallery-tile .media-item.is-video:hover::before {
-             color: rgba(255, 255, 255, 1);
-             transform: translate(-50%, -50%) scale(1.1);
-         }
+         /* Ikona play dla wideo - usunięta, bo wideo odtwarza się bezpośrednio */
 
 
         /* --- Lightbox Modal - USUNIĘTY --- */
-        /* Usunięto style .lightbox-modal, .lightbox-content, etc. */
 
 
         /* --- Style dla linków, tekstu w kafelkach (poza ofertą) --- */
@@ -806,55 +788,50 @@
                  </div>
 
                  <div class="gallery media-container" id="media-gallery">
-                     <div class="gallery-item photo" data-type="photo"
-                          data-realizator="@Szymon_Grzeszczak_Photo" data-realizator-ig="https://www.instagram.com/szymon_grzeszczak_photo"
-                          data-model="@Model_Zdj1" data-model-ig="https://www.instagram.com/model_zdj1"
-                          data-opis="Piękny krajobraz uchwycony o wschodzie słońca.">
-                         <img src="zdj1.jpeg" alt="Zdjęcie 1" data-full-src="zdj1.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zdj1.jpeg" alt="Zdjęcie 1">
                      </div>
-                     <div class="gallery-item photo" data-type="photo"
-                          data-realizator="@Szymon_Grzeszczak_Photo" data-realizator-ig="https://www.instagram.com/szymon_grzeszczak_photo"
-                          data-opis="Opis zdjęcia 2.">
-                         <img src="zdj2.jpeg" alt="Zdjęcie 2" data-full-src="zdj2.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zdj2.jpeg" alt="Zdjęcie 2">
                      </div>
                       <div class="gallery-item video" data-type="video">
                          <iframe data-video-id="YOUTUBE_VIDEO_ID_1" title="Odtwarzacz wideo YouTube 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia 3.">
-                         <img src="zdj3.jpeg" alt="Zdjęcie 3" data-full-src="zdj3.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zdj3.jpeg" alt="Zdjęcie 3">
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia 4.">
-                         <img src="zdj4.jpeg" alt="Zdjęcie 4" data-full-src="zdj4.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zdj4.jpeg" alt="Zdjęcie 4">
                      </div>
                      <div class="gallery-item video" data-type="video">
                           <iframe data-video-id="YOUTUBE_VIDEO_ID_2" title="Odtwarzacz wideo YouTube 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia 5.">
-                          <img src="zdj5.jpeg" alt="Zdjęcie 5" data-full-src="zdj5.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                          <img src="zdj5.jpeg" alt="Zdjęcie 5">
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf1.">
-                         <img src="zf1.jpeg" alt="Zdjęcie zf1" data-full-src="zf1.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zf1.jpeg" alt="Zdjęcie zf1">
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf10.">
-                         <img src="zf10.jpeg" alt="Zdjęcie zf10" data-full-src="zf10.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zf10.jpeg" alt="Zdjęcie zf10">
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf2.">
-                         <img src="zf2.jpeg" alt="Zdjęcie zf2" data-full-src="zf2.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zf2.jpeg" alt="Zdjęcie zf2">
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf3.">
-                         <img src="zf3.jpeg" alt="Zdjęcie zf3" data-full-src="zf3.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zf3.jpeg" alt="Zdjęcie zf3">
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf4.">
-                         <img src="zf4.jpeg" alt="Zdjęcie zf4" data-full-src="zf4.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zf4.jpeg" alt="Zdjęcie zf4">
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf5.">
-                         <img src="zf5.jpeg" alt="Zdjęcie zf5" data-full-src="zf5.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zf5.jpeg" alt="Zdjęcie zf5">
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf6.">
-                         <img src="zf6.jpeg" alt="Zdjęcie zf6" data-full-src="zf6.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zf6.jpeg" alt="Zdjęcie zf6">
                      </div>
-                     <div class="gallery-item photo" data-type="photo" data-opis="Opis zdjęcia zf7.">
-                         <img src="zf7.jpeg" alt="Zdjęcie zf7" data-full-src="zf7.jpeg">
+                     <div class="gallery-item photo" data-type="photo">
+                         <img src="zf7.jpeg" alt="Zdjęcie zf7">
                      </div>
                  </div>
              </div>
@@ -899,7 +876,7 @@
                             item.classList.add('hide');
                         }
                     });
-                    // Po filtrowaniu, dostosuj wysokość iframe'ów
+                    // Po filtrowaniu, dostosuj wysokość widocznych iframe'ów
                     setTimeout(adjustIframeHeights, 50); // Małe opóźnienie
                 }
             });
@@ -990,3 +967,4 @@
 
 </body>
 </html>
+
