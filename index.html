@@ -399,7 +399,9 @@
         /* --- Sekcja i Kafelek Galeria --- */
         .gallery-section { max-width: none; padding: 0; margin-bottom: 70px; }
         .gallery-tile {
-            border-radius: 18px; width: 100%; min-height: 300px;
+            border-radius: 18px;
+            /* width: 100%; /* Usunięto - zostanie zastąpione przez width: auto w media query */ */
+            min-height: 300px;
             justify-content: flex-start; text-align: center;
             padding: 35px;
             background: transparent;
@@ -569,7 +571,7 @@
          @media (max-width: 1240px) {
              .content-section { padding: 0 30px; }
              .gallery-section { padding: 0; }
-             .gallery-tile { margin: 0 30px; width: auto; }
+             .gallery-tile { margin: 0 30px; width: auto; } /* Zmieniono width */
              .intro-container { padding: 0 30px; max-width: none; }
          }
          @media (max-width: 992px) {
@@ -609,7 +611,7 @@
              .content-section { padding: 0 15px; margin-bottom: 50px; }
              .info-grid { gap: 25px; }
              .gallery-section { margin-bottom: 50px; }
-             .gallery-tile { margin: 0 15px; width: auto; padding: 30px; }
+             .gallery-tile { margin: 0 15px; width: auto; padding: 30px; } /* Poprawiono width */
              .tile-item { padding: 22px; border-radius: 14px; }
              .offer-tile { padding: 22px; }
              .tile-item h3 { font-size: 1.25em; }
@@ -643,7 +645,7 @@
             .content-section { padding: 0 10px; margin-bottom: 40px; }
             .info-grid { grid-template-columns: 1fr; gap: 20px; }
             .gallery-section { margin-bottom: 40px; }
-             .gallery-tile { margin: 0 10px; width: auto; padding: 25px; }
+             .gallery-tile { margin: 0 10px; width: auto; padding: 25px; } /* Poprawiono width */
             .tile-item { padding: 18px; border-radius: 12px; }
             .offer-tile { padding: 18px; }
             .tile-item h3 { font-size: 1.15em; }
