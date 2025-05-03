@@ -269,11 +269,11 @@
             max-width: 1200px;
             margin: 0 auto 70px auto;
             padding: 0 20px;
-            opacity: 0;
-            transform: translateY(20px);
+            opacity: 0; /* Domyślnie ukryte */
+            transform: translateY(20px); /* Domyślnie przesunięte */
         }
         .content-section.visible {
-             animation: fadeInUp 0.8s ease forwards;
+             animation: fadeInUp 0.8s ease forwards; /* Animacja dla sekcji z klasą .visible */
         }
 
 
@@ -397,7 +397,13 @@
 
 
         /* --- Sekcja i Kafelek Galeria --- */
-        .gallery-section { max-width: none; padding: 0; margin-bottom: 70px; }
+        /* Klasa .gallery-section jest teraz używana tylko do marginesów/paddingu */
+        .gallery-section {
+            max-width: none; /* Usunięto max-width z .content-section */
+            padding: 0; /* Usunięto padding z .content-section */
+            margin: 0 auto 70px auto; /* Zachowano margines dolny i auto */
+            /* opacity i transform są teraz kontrolowane przez .content-section.visible */
+        }
         .gallery-tile {
             border-radius: 18px;
             /* width: 100%; /* Usunięto - zostanie zastąpione przez width: auto w media query */ */
@@ -569,9 +575,8 @@
 
 
          @media (max-width: 1240px) {
-             .content-section { padding: 0 30px; }
-             .gallery-section { padding: 0; }
-             .gallery-tile { margin: 0 30px; width: auto; } /* Zmieniono width */
+             .content-section, .gallery-section { padding: 0 30px; } /* Dodano .gallery-section */
+             .gallery-tile { margin: 0 30px; width: auto; }
              .intro-container { padding: 0 30px; max-width: none; }
          }
          @media (max-width: 992px) {
@@ -591,10 +596,10 @@
              }
              .header-container {
                  padding: 20px;
-                 display: flex; /* Upewnienie się, że jest flex */
-                 flex-direction: column; /* Zmiana na kolumnę */
-                 align-items: center; /* Wyśrodkowanie w kolumnie */
-                 justify-content: center; /* Wyśrodkowanie w kolumnie */
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center;
+                 justify-content: center;
                  gap: 15px;
              }
              .logo-tile {
@@ -602,16 +607,16 @@
              }
              .nav-tile {
                  position: static;
-                 margin-left: 0; /* Reset marginesu */
+                 margin-left: 0;
              }
              body { padding-top: 0; }
              main { padding: 30px 15px 50px 15px; }
              .intro-container { padding: 0 15px; margin-bottom: 50px; }
              .intro-section { padding: 30px; }
-             .content-section { padding: 0 15px; margin-bottom: 50px; }
+             .content-section, .gallery-section { padding: 0 15px; margin-bottom: 50px; } /* Dodano .gallery-section */
              .info-grid { gap: 25px; }
-             .gallery-section { margin-bottom: 50px; }
-             .gallery-tile { margin: 0 15px; width: auto; padding: 30px; } /* Poprawiono width */
+             /* .gallery-section { margin-bottom: 50px; } /* Usunięto, bo jest w .content-section */ */
+             .gallery-tile { margin: 0; width: 100%; padding: 30px; box-sizing: border-box;} /* Poprawiono margines i szerokość */
              .tile-item { padding: 22px; border-radius: 14px; }
              .offer-tile { padding: 22px; }
              .tile-item h3 { font-size: 1.25em; }
@@ -642,10 +647,10 @@
             .intro-section { padding: 25px; }
             .intro-section h2 { font-size: 1.5em; }
             .intro-section p { font-size: 0.9em; }
-            .content-section { padding: 0 10px; margin-bottom: 40px; }
+            .content-section, .gallery-section { padding: 0 10px; margin-bottom: 40px; } /* Dodano .gallery-section */
             .info-grid { grid-template-columns: 1fr; gap: 20px; }
-            .gallery-section { margin-bottom: 40px; }
-             .gallery-tile { margin: 0 10px; width: auto; padding: 25px; } /* Poprawiono width */
+            /* .gallery-section { margin-bottom: 40px; } /* Usunięto, bo jest w .content-section */ */
+             .gallery-tile { margin: 0; width: 100%; padding: 25px; box-sizing: border-box;} /* Poprawiono margines i szerokość */
             .tile-item { padding: 18px; border-radius: 12px; }
             .offer-tile { padding: 18px; }
             .tile-item h3 { font-size: 1.15em; }
@@ -770,7 +775,7 @@
             </div>
         </section>
 
-         <section id="gallery-section" class="content-section gallery-section">
+         <section id="gallery-section" class="gallery-section">
              <div class="tile-item gallery-tile">
                  <h3>Galeria Wybranych Prac</h3>
                  <p>Zobacz przykłady moich realizacji – od dynamicznych filmów po klimatyczne fotografie.</p>
@@ -920,7 +925,8 @@
 
 
         // --- Skrypt do animacji pojawiania się sekcji na scroll ---
-        const sectionsToAnimate = document.querySelectorAll('.content-section, .intro-container');
+        // Zmieniono selektor, aby nie obejmował .gallery-section (bo usunęliśmy z niej klasę .content-section)
+        const sectionsToAnimate = document.querySelectorAll('.content-section, .intro-container'); // Usunięto .gallery-section
 
         const observerOptions = {
             root: null,
@@ -945,34 +951,44 @@
 
          // --- Skrypt Scrollspy ---
          const navLinks = document.querySelectorAll('#main-nav a');
+         // Upewniamy się, że sekcja galerii jest uwzględniona, nawet bez klasy .content-section
          const sections = document.querySelectorAll('section[id], .intro-container[id]');
 
          function activateNavLink() {
              let currentSectionId = '';
-             const scrollPosition = window.scrollY + window.innerHeight * 0.4;
+             // Zmniejszono offset, aby link aktywował się szybciej przy przewijaniu w dół
+             const scrollPosition = window.scrollY + window.innerHeight * 0.3;
 
              sections.forEach(section => {
                  const sectionTop = section.offsetTop;
                  const sectionHeight = section.offsetHeight;
+                 // Sprawdzamy, czy górna krawędź sekcji jest powyżej punktu aktywacji
+                 // i czy dolna krawędź sekcji jest poniżej punktu aktywacji
                  if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
                      currentSectionId = section.id;
                  }
              });
 
+             // Obsługa, gdy jesteśmy blisko dołu strony
              if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
-                currentSectionId = sections[sections.length - 1].id;
+                const lastSection = sections[sections.length - 1];
+                if (lastSection) {
+                    currentSectionId = lastSection.id;
+                }
              }
 
 
              navLinks.forEach(link => {
                  link.classList.remove('nav-active');
                  const linkHref = link.getAttribute('href');
-                 if (linkHref === `#${currentSectionId}`) {
+                 // Używamy startsWith, aby obsłużyć potencjalne różnice w ID (np. #gallery-section vs gallery-section)
+                 if (linkHref && currentSectionId && linkHref.endsWith(currentSectionId)) {
                      link.classList.add('nav-active');
                  }
              });
 
-             if (!currentSectionId && sections.length > 0 && window.scrollY < sections[0].offsetTop) {
+             // Jeśli jesteśmy na samej górze, usuń aktywność
+             if (window.scrollY < sections[0]?.offsetTop - window.innerHeight * 0.4) { // Dodano ??.offsetTop dla bezpieczeństwa
                  navLinks.forEach(link => link.classList.remove('nav-active'));
              }
          }
@@ -981,13 +997,13 @@
          // --- Inicjalne ustawienie i obsługa zdarzeń ---
          document.addEventListener('DOMContentLoaded', () => {
              adjustIframeHeights();
-             activateNavLink();
+             activateNavLink(); // Aktywuj link przy załadowaniu
 
              window.addEventListener('resize', () => {
                 adjustIframeHeights();
-                activateNavLink();
+                activateNavLink(); // Sprawdź link przy zmianie rozmiaru
              });
-             window.addEventListener('scroll', activateNavLink);
+             window.addEventListener('scroll', activateNavLink); // Sprawdzaj link podczas przewijania
          });
 
     </script>
