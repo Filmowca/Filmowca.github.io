@@ -3,15 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SG.media.pl - Wizytówka i Portfolio</title>
+    <title>Szymon Grzeszczak - Fotografia</title>
     <style>
-        /* Import czcionki podobnej do tej z Instagrama */
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+        /* Import czcionki */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+
+        /* Definicja animacji */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         body {
             font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #FAFAFA; /* Jasnoszare tło jak na Instagramie */
-            color: #262626;
+            background-color: #FFFFFF; /* Zmienione na czystą biel */
+            color: #1C1C1E;
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,7 +29,7 @@
         }
 
         .container {
-            max-width: 935px;
+            max-width: 1100px; /* Szerszy layout */
             width: 100%;
             padding: 20px;
             box-sizing: border-box;
@@ -29,39 +39,41 @@
         .profile-header {
             display: flex;
             align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #DBDBDB;
-            flex-wrap: wrap; /* Umożliwia zawijanie na mniejszych ekranach */
+            padding: 40px 0;
+            border-bottom: 1px solid #EFEFEF;
+            flex-wrap: wrap;
+            animation: slideUp 0.8s ease-out; /* Animacja */
         }
 
         .profile-picture-container {
-            margin: 0 50px 0 20px;
+            margin-right: 60px;
+            flex-shrink: 0; /* Zapobiega kurczeniu się zdjęcia */
         }
 
         .profile-story-ring {
-            width: 150px;
-            height: 150px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            padding: 4px; /* Grubość ramki */
-            background: radial-gradient(circle at 33% 100%, #FED373 4%, #F15245 30%, #D92E7F 62%, #9B36B7 85%, #515ECF); /* Gradient jak w Insta Stories */
+            padding: 4px;
+            background: radial-gradient(circle at 33% 100%, #FED373 4%, #F15245 30%, #D92E7F 62%, #9B36B7 85%, #515ECF);
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.3s ease;
         }
         
         .profile-story-ring:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) rotate(5deg);
         }
 
         .profile-picture {
             width: 100%;
             height: 100%;
             background-color: white;
-            border: 4px solid #FAFAFA; /* Wewnętrzna biała ramka */
+            border: 5px solid #FFFFFF; /* Grubsza wewnętrzna ramka */
             border-radius: 50%;
-            background-image: url('https://via.placeholder.com/150'); /* --- ZMIEŃ TEN LINK NA SWOJE ZDJĘCIE! --- */
+            background-image: url('https://via.placeholder.com/160'); /* --- ZMIEŃ NA SWOJE ZDJĘCIE! --- */
             background-size: cover;
             background-position: center;
         }
@@ -71,101 +83,156 @@
         }
 
         .profile-info h1 {
-            font-size: 28px;
-            font-weight: 300;
+            font-size: 32px;
+            font-weight: 700; /* Pogrubiona nazwa */
             margin: 0 0 20px;
         }
 
         .contact-buttons {
             display: flex;
-            gap: 10px; /* Odstęp między przyciskami */
+            gap: 12px;
         }
 
         .button {
-            background-color: #0095F6; /* Niebieski przycisk */
+            background-color: #0095F6;
             color: white;
-            border: 1px solid transparent;
+            border: none;
             border-radius: 8px;
-            padding: 8px 16px;
+            padding: 10px 24px;
+            font-size: 14px;
             font-weight: 500;
             text-decoration: none;
             text-align: center;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s ease-in-out;
         }
 
         .button:hover {
             background-color: #0077C3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 149, 246, 0.3);
         }
 
         .button.secondary {
-            background-color: #EFEFEF; /* Szary przycisk */
-            color: #262626;
-            border: 1px solid #DBDBDB;
+            background-color: #EFEFEF;
+            color: #1C1C1E;
         }
         
         .button.secondary:hover {
             background-color: #DBDBDB;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .profile-bio {
-            margin-top: 20px;
+            margin-top: 25px;
+            font-size: 16px;
         }
 
         .profile-bio p {
             margin: 5px 0 0;
-            line-height: 1.5;
+            line-height: 1.6;
         }
         
-        .profile-bio strong {
-            font-weight: 700;
-        }
-
-        /* --- SEKCJA PORTFOLIO / O MNIE --- */
-        .portfolio-section {
-            padding: 40px 10px;
+        /* --- SEKCJE OPISOWE --- */
+        .content-section {
+            padding: 50px 10px;
             text-align: center;
-            border-bottom: 1px solid #DBDBDB;
+            animation: slideUp 0.8s 0.2s ease-out backwards; /* Opóźniona animacja */
         }
         
-        .portfolio-section h2 {
-            font-size: 24px;
-            font-weight: 500;
+        .content-section h2 {
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 20px;
         }
         
-        .portfolio-section p {
-            font-size: 16px;
-            line-height: 1.6;
-            max-width: 600px;
+        .content-section p {
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 650px;
             margin: 0 auto;
+            color: #6E6E73;
         }
 
-        /* --- SEKCJA GALERII --- */
+        /* --- GALERIA --- */
         .gallery-section {
-            padding: 40px 0;
+            padding-top: 20px;
+            animation: fadeIn 1s 0.4s ease-out backwards;
+        }
+
+        /* --- POP-UP E-MAIL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease-in-out;
         }
         
-        .gallery-section h2 {
-            text-align: center;
-            font-size: 24px;
-            font-weight: 500;
-            margin-bottom: 30px;
-            color: #8E8E8E;
-            text-transform: uppercase;
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-content h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 22px;
         }
 
-        /* Media queries dla mniejszych ekranów */
+        .modal-email {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none; border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        .close-btn:hover { color: #1c1c1e; }
+        
         @media (max-width: 768px) {
             .profile-header {
                 flex-direction: column;
                 text-align: center;
             }
             .profile-picture-container {
-                margin: 0 auto 20px;
+                margin: 0 auto 30px;
             }
             .profile-info h1 {
-                font-size: 22px;
+                font-size: 26px;
             }
             .contact-buttons {
                 justify-content: center;
@@ -179,44 +246,85 @@
 
         <header class="profile-header">
             <div class="profile-picture-container">
-                <a href="https://www.instagram.com/stories/twojanazwa/" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.instagram.com/stories/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer">
                     <div class="profile-story-ring">
                         <div class="profile-picture"></div>
                     </div>
                 </a>
             </div>
-
             <div class="profile-info">
-                <h1>sg.media.pl</h1>
+                <h1>szymon_grzeszczak_photo</h1>
                 <div class="contact-buttons">
-                    <a href="mailto:kontakt@sg.media.pl" class="button">E-mail</a>
-                    <a href="https://www.instagram.com/twojanazwa/" target="_blank" rel="noopener noreferrer" class="button secondary">Wiadomość DM</a>
+                    <button id="email-popup-btn" class="button">E-mail</button>
+                    <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="button secondary">Wiadomość DM</a>
                 </div>
                 <div class="profile-bio">
-                    <p><strong>Szymon Grzeszczak</strong></p>
                     <p>
-                        Kreatywne rozwiązania dla Twojej marki. Fotografia | Wideo | Media społecznościowe. Zmieniamy pomysły w rzeczywistość.
+                        Uchwycone momenty, opowiedziane historie. Kreatywna fotografia na każdą okazję.
                     </p>
                 </div>
             </div>
         </header>
 
-        <section class="portfolio-section">
-            <h2>Czym się zajmuję?</h2>
+        <section class="content-section">
+            <h2>O mnie</h2>
             <p>
-                Specjalizuję się w tworzeniu angażujących treści wizualnych, które opowiadają historię Twojej marki. Od profesjonalnych sesji zdjęciowych, przez dynamiczne filmy promocyjne, aż po kompleksowe zarządzanie profilami w mediach społecznościowych – pomagam firmom budować silny i spójny wizerunek w internecie.
+                Pasja do fotografii to coś więcej niż praca – to sposób na postrzeganie świata. Specjalizuję się w autentycznych portretach i dynamicznej fotografii eventowej, zawsze szukając unikalnego światła i prawdziwych emocji.
             </p>
         </section>
 
         <main class="gallery-section">
-            <h2>GALERIA</h2>
-            
-            <div style="text-align: center; padding: 20px; border: 2px dashed #DBDBDB; background-color: #EFEFEF; border-radius: 8px;">
-                <p style="font-weight: 500; margin:0;"><iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview" style="width: 100%; height: 500px; border: none;"></iframe></p>
+            <div style="text-align: center; padding: 40px; border: 2px dashed #DBDBDB; background-color: #FAFAFA; border-radius: 12px;">
+                <p style="font-weight: 500; margin:0; color: #8E8E8E;"><iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview" style="width: 100%; height: 500px; border: none;"></iframe></p>
             </div>
-
         </main>
 
     </div>
+    
+    <div id="email-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="close-btn">&times;</button>
+            <h3>Skontaktuj się ze mną</h3>
+            <div class="modal-email">biuro.sg.media.pl@gmail.com</div>
+            <button id="copy-email-btn" class="button">Skopiuj adres e-mail</button>
+        </div>
+    </div>
+
+    <script>
+        // Obsługa okna pop-up (modal)
+        const emailModal = document.getElementById('email-modal');
+        const openBtn = document.getElementById('email-popup-btn');
+        const closeBtn = document.getElementById('close-modal-btn');
+        const copyBtn = document.getElementById('copy-email-btn');
+
+        // Funkcje otwierania i zamykania
+        const openModal = () => emailModal.classList.add('visible');
+        const closeModal = () => emailModal.classList.remove('visible');
+
+        // Nasłuchiwanie na kliknięcia
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        emailModal.addEventListener('click', (event) => {
+            // Zamknij, jeśli kliknięto w tło (overlay), a nie w okno (content)
+            if (event.target === emailModal) {
+                closeModal();
+            }
+        });
+
+        // Funkcja kopiowania e-maila do schowka
+        copyBtn.addEventListener('click', () => {
+            const email = 'biuro.sg.media.pl@gmail.com';
+            navigator.clipboard.writeText(email).then(() => {
+                // Informacja zwrotna dla użytkownika
+                copyBtn.textContent = 'Skopiowano!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Skopiuj adres e-mail';
+                }, 2000); // Wróć do oryginalnego tekstu po 2 sekundach
+            }).catch(err => {
+                console.error('Błąd kopiowania: ', err);
+                alert('Nie udało się skopiować adresu e-mail.');
+            });
+        });
+    </script>
 </body>
 </html>
