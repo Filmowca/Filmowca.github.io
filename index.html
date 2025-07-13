@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Szymon Grzeszczak - Fotografia</title>
     <style>
-        /* Import czcionki */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
 
-        /* Definicja animacji */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -20,17 +18,16 @@
 
         body {
             font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #FFFFFF; /* Zmienione na czystą biel */
+            background-color: #FFFFFF;
             color: #1C1C1E;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
         }
 
         .container {
-            max-width: 1100px; /* Szerszy layout */
+            max-width: 1100px;
             width: 100%;
+            margin: 0 auto; /* Wyśrodkowanie kontenera */
             padding: 20px;
             box-sizing: border-box;
         }
@@ -40,14 +37,13 @@
             display: flex;
             align-items: center;
             padding: 40px 0;
-            border-bottom: 1px solid #EFEFEF;
             flex-wrap: wrap;
-            animation: slideUp 0.8s ease-out; /* Animacja */
+            animation: slideUp 0.8s ease-out;
         }
 
         .profile-picture-container {
             margin-right: 60px;
-            flex-shrink: 0; /* Zapobiega kurczeniu się zdjęcia */
+            flex-shrink: 0;
         }
 
         .profile-story-ring {
@@ -71,7 +67,7 @@
             width: 100%;
             height: 100%;
             background-color: white;
-            border: 5px solid #FFFFFF; /* Grubsza wewnętrzna ramka */
+            border: 5px solid #FFFFFF;
             border-radius: 50%;
             background-image: url('https://via.placeholder.com/160'); /* --- ZMIEŃ NA SWOJE ZDJĘCIE! --- */
             background-size: cover;
@@ -84,7 +80,7 @@
 
         .profile-info h1 {
             font-size: 32px;
-            font-weight: 700; /* Pogrubiona nazwa */
+            font-weight: 700;
             margin: 0 0 20px;
         }
 
@@ -137,7 +133,8 @@
         .content-section {
             padding: 50px 10px;
             text-align: center;
-            animation: slideUp 0.8s 0.2s ease-out backwards; /* Opóźniona animacja */
+            border-top: 1px solid #EFEFEF; /* Lepsze oddzielenie wizualne */
+            animation: slideUp 0.8s 0.2s ease-out backwards;
         }
         
         .content-section h2 {
@@ -154,74 +151,14 @@
             color: #6E6E73;
         }
 
-        /* --- GALERIA --- */
-        .gallery-section {
-            padding-top: 20px;
+        /* --- SEKCJA GALERII PEŁNOEKRANOWEJ --- */
+        .gallery-section-full-width {
+            width: 100%; /* Rozciągnij na całą szerokość */
+            min-height: 500px; /* Minimalna wysokość, żeby było widać, że coś tam jest */
+            background-color: #FFFFFF; /* Gwarantuje płynne przejście tła */
             animation: fadeIn 1s 0.4s ease-out backwards;
+            /* Widget z Elfsight sam zarządza swoimi stylami, więc nie trzeba więcej */
         }
-
-        /* --- POP-UP E-MAIL --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .modal-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            transform: scale(0.9);
-            transition: transform 0.3s ease-in-out;
-        }
-        
-        .modal-overlay.visible .modal-content {
-            transform: scale(1);
-        }
-        
-        .modal-content h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
-
-        .modal-email {
-            background-color: #f0f0f0;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            word-wrap: break-word;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px; right: 15px;
-            background: none; border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #aaa;
-        }
-        .close-btn:hover { color: #1c1c1e; }
         
         @media (max-width: 768px) {
             .profile-header {
@@ -238,12 +175,14 @@
                 justify-content: center;
             }
         }
+        
+        /* --- Style dla Modala (bez zmian) --- */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(5px);display:flex;justify-content:center;align-items:center;z-index:1000;opacity:0;visibility:hidden;transition:all .3s ease-in-out}.modal-overlay.visible{opacity:1;visibility:visible}.modal-content{background:white;padding:30px 40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center;width:90%;max-width:400px;transform:scale(.9);transition:transform .3s ease-in-out}.modal-overlay.visible .modal-content{transform:scale(1)}.modal-content h3{margin-top:0;margin-bottom:15px;font-size:22px}.modal-email{background-color:#f0f0f0;padding:10px;border-radius:8px;font-size:16px;font-weight:500;margin-bottom:20px;word-wrap:break-word}.close-btn{position:absolute;top:15px;right:15px;background:none;border:none;font-size:24px;cursor:pointer;color:#aaa}.close-btn:hover{color:#1c1c1e}
     </style>
 </head>
 <body>
 
     <div class="container">
-
         <header class="profile-header">
             <div class="profile-picture-container">
                 <a href="https://www.instagram.com/stories/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer">
@@ -259,28 +198,19 @@
                     <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="button secondary">Wiadomość DM</a>
                 </div>
                 <div class="profile-bio">
-                    <p>
-                        Uchwycone momenty, opowiedziane historie. Kreatywna fotografia na każdą okazję.
-                    </p>
+                    <p>Uchwycone momenty, opowiedziane historie. Kreatywna fotografia na każdą okazję.</p>
                 </div>
             </div>
         </header>
 
         <section class="content-section">
             <h2>O mnie</h2>
-            <p>
-                Pasja do fotografii to coś więcej niż praca – to sposób na postrzeganie świata. Specjalizuję się w autentycznych portretach i dynamicznej fotografii eventowej, zawsze szukając unikalnego światła i prawdziwych emocji.
-            </p>
+            <p>Pasja do fotografii to coś więcej niż praca – to sposób na postrzeganie świata. Specjalizuję się w autentycznych portretach i dynamicznej fotografii eventowej, zawsze szukając unikalnego światła i prawdziwych emocji.</p>
         </section>
-
-        <main class="gallery-section">
-            <div style="text-align: center; padding: 40px; border: 2px dashed #DBDBDB; background-color: #FAFAFA; border-radius: 12px;">
-                <p style="font-weight: 500; margin:0; color: #8E8E8E;"><iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview" style="width: 100%; height: 500px; border: none;"></iframe></p>
-            </div>
+    </div> <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview" style="width: 100%; height: 500px; border: none;"></iframe> <main class="gallery-section-full-width">
         </main>
 
-    </div>
-    
+
     <div id="email-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="close-btn">&times;</button>
@@ -291,40 +221,7 @@
     </div>
 
     <script>
-        // Obsługa okna pop-up (modal)
-        const emailModal = document.getElementById('email-modal');
-        const openBtn = document.getElementById('email-popup-btn');
-        const closeBtn = document.getElementById('close-modal-btn');
-        const copyBtn = document.getElementById('copy-email-btn');
-
-        // Funkcje otwierania i zamykania
-        const openModal = () => emailModal.classList.add('visible');
-        const closeModal = () => emailModal.classList.remove('visible');
-
-        // Nasłuchiwanie na kliknięcia
-        openBtn.addEventListener('click', openModal);
-        closeBtn.addEventListener('click', closeModal);
-        emailModal.addEventListener('click', (event) => {
-            // Zamknij, jeśli kliknięto w tło (overlay), a nie w okno (content)
-            if (event.target === emailModal) {
-                closeModal();
-            }
-        });
-
-        // Funkcja kopiowania e-maila do schowka
-        copyBtn.addEventListener('click', () => {
-            const email = 'biuro.sg.media.pl@gmail.com';
-            navigator.clipboard.writeText(email).then(() => {
-                // Informacja zwrotna dla użytkownika
-                copyBtn.textContent = 'Skopiowano!';
-                setTimeout(() => {
-                    copyBtn.textContent = 'Skopiuj adres e-mail';
-                }, 2000); // Wróć do oryginalnego tekstu po 2 sekundach
-            }).catch(err => {
-                console.error('Błąd kopiowania: ', err);
-                alert('Nie udało się skopiować adresu e-mail.');
-            });
-        });
+        const emailModal=document.getElementById("email-modal"),openBtn=document.getElementById("email-popup-btn"),closeBtn=document.getElementById("close-modal-btn"),copyBtn=document.getElementById("copy-email-btn"),openModal=()=>emailModal.classList.add("visible"),closeModal=()=>emailModal.classList.remove("visible");openBtn.addEventListener("click",openModal),closeBtn.addEventListener("click",closeModal),emailModal.addEventListener("click",e=>{e.target===emailModal&&closeModal()}),copyBtn.addEventListener("click",()=>{navigator.clipboard.writeText("biuro.sg.media.pl@gmail.com").then(()=>{copyBtn.textContent="Skopiowano!",setTimeout(()=>{copyBtn.textContent="Skopiuj adres e-mail"},2e3)}).catch(e=>{console.error("Błąd kopiowania: ",e),alert("Nie udało się skopiować adresu e-mail.")})});
     </script>
 </body>
 </html>
