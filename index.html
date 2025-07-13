@@ -3,1011 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Szymon Grzeszczak - SG.media.pl</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>SG.media.pl - Wizytówka i Portfolio</title>
     <style>
-        /* --- Podstawowe style --- */
-        :root {
-            /* Definicje kolorów gradientu - ORYGINALNA ZIELONO-CZARNA PALETA */
-            --gradient-green-light: #b0f2c2;
-            --gradient-green-mid: #5cb85c;
-            --gradient-green-dark: #408040;
-            --gradient-black: #111111;
-
-            /* Kolory tekstu i tła dla "Clean Look" */
-            --text-light: #f8f9fa;
-            --text-dark: #ffffff;
-            --text-muted: #a0aec0;
-            --tile-bg: rgba(255, 255, 255, 0.06);
-            --tile-border: rgba(255, 255, 255, 0.15);
-            --tile-shadow: rgba(0, 0, 0, 0.1);
-            --tile-shadow-hover: rgba(0, 0, 0, 0.18);
-            --intro-bg: var(--tile-bg);
-            --lightbox-bg: rgba(10, 10, 15, 0.94);
-            --lightbox-info-bg: rgba(0, 0, 0, 0.4);
-            --gallery-item-bg: rgba(255, 255, 255, 0.03); /* Tło dla elementów galerii */
-
-
-            /* Kolory akcentów i przycisków - powrót do zieleni */
-            --accent-color: var(--gradient-green-light);
-            --button-bg: var(--gradient-green-mid);
-            --button-hover-bg: var(--gradient-green-dark);
-            --filter-button-bg: rgba(255, 255, 255, 0.08);
-            --filter-button-hover-bg: rgba(255, 255, 255, 0.15);
-            --filter-button-active-bg: var(--accent-color);
-            --nav-link-active-color: var(--accent-color);
-            --nav-tile-bg: rgba(255, 255, 255, 0.05);
-            --nav-tile-border: rgba(255, 255, 255, 0.1);
-            --nav-link-hover-bg: rgba(255, 255, 255, 0.1);
-        }
-
-        /* --- Płynne przewijanie --- */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* --- Animacja tła --- */
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        /* Import czcionki podobnej do tej z Instagrama */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 
         body {
-            background: linear-gradient(135deg,
-                var(--gradient-green-light),
-                var(--gradient-green-mid),
-                var(--gradient-green-dark),
-                var(--gradient-black),
-                var(--gradient-green-dark),
-                var(--gradient-green-mid)
-            );
-            background-size: 600% 600%;
-            animation: gradientAnimation 25s ease infinite;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #FAFAFA; /* Jasnoszare tło jak na Instagramie */
+            color: #262626;
             margin: 0;
             padding: 0;
-            color: var(--text-light);
-            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* --- Kontener Nagłówka --- */
-        .header-container {
-            display: flex;
-            justify-content: space-between; /* Rozkłada elementy na lewo i prawo */
-            align-items: center; /* Wyśrodkowuje elementy pionowo */
-            max-width: 1200px;
-            width: 100%; /* Upewnia się, że kontener zajmuje dostępną szerokość */
-            margin: 0 auto; /* Centruje kontener */
-            padding: 25px 20px;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 100;
-            box-sizing: border-box; /* Uwzględnia padding w szerokości */
-        }
-
-        /* Kafelek Logo/Nazwy */
-        .logo-tile {
-            background: var(--tile-bg);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-radius: 16px;
-            border: 1px solid var(--tile-border);
-            box-shadow: var(--tile-shadow);
-            padding: 15px 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            flex-shrink: 0; /* Zapobiega kurczeniu się */
-            position: static; /* Upewnia się, że jest w normalnym przepływie */
-        }
-         .logo-tile:hover {
-             transform: translateY(-3px);
-             box-shadow: var(--tile-shadow-hover);
-         }
-
-        .logo-tile .name {
-            margin: 0;
-            font-size: 1.5em;
-            color: var(--text-dark);
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .logo-tile .logo {
-            margin: 0;
-            font-size: 0.9em;
-            color: var(--text-muted);
-            font-weight: 400;
-            letter-spacing: 0.5px;
-        }
-
-        /* Kafelek Nawigacji */
-        .nav-tile {
-            background: var(--nav-tile-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 50px;
-            border: 1px solid var(--nav-tile-border);
-            box-shadow: none;
-            padding: 8px 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: static; /* Upewnia się, że jest w normalnym przepływie */
-            flex-shrink: 0; /* Zapobiega kurczeniu się */
-        }
-         .nav-tile:hover {
-             transform: translateY(-2px);
-             box-shadow: var(--tile-shadow);
-         }
-
-        .nav-tile nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            gap: 5px;
-        }
-
-        .nav-tile nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85em;
-            font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 50px;
-            transition: color 0.2s ease, background-color 0.2s ease;
-            border-bottom: none;
-        }
-
-        .nav-tile nav a:hover {
-            color: var(--text-light);
-            background-color: var(--nav-link-hover-bg);
-        }
-        .nav-tile nav a.nav-active {
-            color: var(--gradient-black);
-            background-color: var(--nav-link-active-color);
-            font-weight: 600;
-        }
-
-
-        /* --- Główna sekcja --- */
-        main {
-            flex-grow: 1;
-            padding: 0 20px 60px 20px;
-        }
-
-        /* --- Sekcja Wprowadzająca z Obrazkiem --- */
-        .intro-container {
-            display: flex;
-            align-items: stretch;
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto 70px auto;
-            padding: 0 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        /* Sekcja wprowadzająca (tekst) */
-        .intro-section {
-            flex: 1 1 58%;
-            text-align: left;
-            margin-bottom: 0;
-            padding: 30px;
-            background: var(--intro-bg);
-            border-radius: 16px;
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid var(--tile-border);
-            box-shadow: var(--tile-shadow);
-            display: flex;
-            flex-direction: column;
             justify-content: center;
         }
 
-        .intro-section h2 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-            font-weight: 600;
-            font-size: 1.8em;
-            text-align: left;
-            line-height: 1.3;
+        .container {
+            max-width: 935px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .intro-section p {
-            font-size: 1.05em;
-            line-height: 1.7;
-            max-width: none;
-            margin-left: 0;
-            margin-right: 0;
-            text-align: left;
-            color: var(--text-light);
-        }
-
-        /* Kafelek ze zdjęciem wprowadzającym */
-        .intro-photo-tile {
-            flex: 1 1 38%;
-            padding: 0;
-            background: transparent;
-            backdrop-filter: none;
-            border-radius: 16px;
-            border: none;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
+        /* --- STYL WIZYTÓWKI --- */
+        .profile-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .intro-photo-tile:hover {
-             transform: translateY(-6px);
-             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+            padding: 20px 0;
+            border-bottom: 1px solid #DBDBDB;
+            flex-wrap: wrap; /* Umożliwia zawijanie na mniejszych ekranach */
         }
 
-        .intro-photo-tile img {
-            display: block;
+        .profile-picture-container {
+            margin: 0 50px 0 20px;
+        }
+
+        .profile-story-ring {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            padding: 4px; /* Grubość ramki */
+            background: radial-gradient(circle at 33% 100%, #FED373 4%, #F15245 30%, #D92E7F 62%, #9B36B7 85%, #515ECF); /* Gradient jak w Insta Stories */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .profile-story-ring:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-picture {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            border-radius: 0;
+            background-color: white;
+            border: 4px solid #FAFAFA; /* Wewnętrzna biała ramka */
+            border-radius: 50%;
+            background-image: url('https://via.placeholder.com/150'); /* --- ZMIEŃ TEN LINK NA SWOJE ZDJĘCIE! --- */
+            background-size: cover;
+            background-position: center;
         }
 
-
-        /* --- Kontenery siatek i sekcji --- */
-        .content-section {
-            max-width: 1200px;
-            margin: 0 auto 70px auto;
-            padding: 0 20px;
-            opacity: 0; /* Domyślnie ukryte */
-            transform: translateY(20px); /* Domyślnie przesunięte */
-        }
-        .content-section.visible {
-             animation: fadeInUp 0.8s ease forwards; /* Animacja dla sekcji z klasą .visible */
+        .profile-info {
+            flex-grow: 1;
         }
 
-
-        /* --- Siatka Informacyjna --- */
-        .info-grid {
-            display: grid;
-            gap: 30px;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            align-items: stretch;
+        .profile-info h1 {
+            font-size: 28px;
+            font-weight: 300;
+            margin: 0 0 20px;
         }
 
-        /* --- Kafelek (Wspólny styl) --- */
-        .tile-item {
-            background: var(--tile-bg);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-radius: 16px;
-            border: 1px solid var(--tile-border);
-            box-shadow: var(--tile-shadow);
-            padding: 25px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        .contact-buttons {
             display: flex;
-            flex-direction: column;
+            gap: 10px; /* Odstęp między przyciskami */
+        }
+
+        .button {
+            background-color: #0095F6; /* Niebieski przycisk */
+            color: white;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            text-decoration: none;
             text-align: center;
-             justify-content: space-between;
+            cursor: pointer;
+            transition: background-color 0.2s;
         }
 
-        .tile-item:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--tile-shadow-hover);
-            background-color: rgba(255, 255, 255, 0.1);
+        .button:hover {
+            background-color: #0077C3;
         }
 
-        /* --- Kafelek Oferta z Siatką 4x2 --- */
-        .offer-tile {
-            text-align: center;
-            padding: 25px;
+        .button.secondary {
+            background-color: #EFEFEF; /* Szary przycisk */
+            color: #262626;
+            border: 1px solid #DBDBDB;
         }
-        .offer-tile h3 {
-             display: flex;
-             align-items: center;
-             justify-content: center;
-             margin-bottom: 15px;
-             font-size: 1.4em;
-             font-weight: 600;
-        }
-         .offer-tile h3 i {
-             font-size: 0.9em;
-             margin-right: 10px;
-             color: var(--accent-color);
-         }
-        .offer-tile .offer-description {
-             margin-bottom: 30px;
-             color: var(--text-muted);
-             font-size: 1em;
-             line-height: 1.7;
+        
+        .button.secondary:hover {
+            background-color: #DBDBDB;
         }
 
-        /* Siatka usług w ofercie */
-        .offer-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-bottom: 30px;
+        .profile-bio {
+            margin-top: 20px;
         }
 
-        /* Pojedynczy kafelek usługi w siatce */
-        .offer-service-tile {
-            padding: 18px 15px;
-            background-color: rgba(0,0,0, 0.2);
-            border-radius: 14px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-             min-height: 150px;
-             justify-content: center;
-        }
-         .offer-service-tile:hover {
-             background-color: rgba(0,0,0, 0.3);
-             transform: translateY(-3px);
-         }
-
-        .offer-service-tile i {
-            font-size: 2em;
-            color: var(--accent-color);
-            margin-bottom: 12px;
-        }
-
-        .offer-service-tile span {
-            font-size: 0.9em;
-            color: var(--text-light);
+        .profile-bio p {
+            margin: 5px 0 0;
             line-height: 1.5;
         }
+        
+        .profile-bio strong {
+            font-weight: 700;
+        }
 
-        /* Przycisk CTA (Call to Action) */
-        .offer-tile .cta-button {
-            display: inline-block;
-            background-color: var(--button-bg);
-            color: var(--gradient-black);
-            padding: 12px 28px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1em;
+        /* --- SEKCJA PORTFOLIO / O MNIE --- */
+        .portfolio-section {
+            padding: 40px 10px;
             text-align: center;
-            margin-top: 0;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            border: none;
+            border-bottom: 1px solid #DBDBDB;
         }
-        .offer-tile .cta-button:hover {
-            background-color: var(--button-hover-bg);
-            color: var(--text-dark);
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-
-
-        /* --- Sekcja i Kafelek Galeria --- */
-        /* Klasa .gallery-section jest teraz używana tylko do marginesów/paddingu */
-        .gallery-section {
-            max-width: none; /* Usunięto max-width z .content-section */
-            padding: 0; /* Usunięto padding z .content-section */
-            margin: 0 auto 70px auto; /* Zachowano margines dolny i auto */
-            /* opacity i transform są teraz kontrolowane przez .content-section.visible */
-        }
-        .gallery-tile {
-            border-radius: 18px;
-            /* width: 100%; /* Usunięto - zostanie zastąpione przez width: auto w media query */ */
-            min-height: 300px;
-            justify-content: flex-start; text-align: center;
-            padding: 35px;
-            background: transparent;
-            backdrop-filter: none;
-            border: none;
-            box-shadow: none;
-        }
-        .gallery-tile h3 { margin-bottom: 15px; font-size: 1.6em; color: var(--text-light); }
-        .gallery-tile p { margin-bottom: 15px; font-size: 1.1em; color: var(--text-muted); }
-
-        /* Filtry Galerii */
-        .gallery-filters {
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .filter-button {
-            padding: 8px 18px;
-            font-size: 0.9em;
+        
+        .portfolio-section h2 {
+            font-size: 24px;
             font-weight: 500;
-            background-color: var(--filter-button-bg);
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            opacity: 0.8;
+            margin-bottom: 20px;
         }
-        .filter-button:hover {
-            background-color: var(--filter-button-hover-bg);
-            opacity: 1;
-        }
-        .filter-button.active {
-            background-color: var(--filter-button-active-bg);
-            color: var(--gradient-black);
-            opacity: 1;
-            font-weight: 600;
+        
+        .portfolio-section p {
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* Kontener Galerii - column-count */
-        .gallery-tile .media-container {
-            column-count: 4;
-            column-gap: 15px;
-            margin-top: 20px;
-            padding: 0;
+        /* --- SEKCJA GALERII --- */
+        .gallery-section {
+            padding: 40px 0;
+        }
+        
+        .gallery-section h2 {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            color: #8E8E8E;
+            text-transform: uppercase;
         }
 
-        /* Elementy Galerii dla column-count */
-        .gallery-tile .gallery-item {
-             background-color: var(--gallery-item-bg);
-             border-radius: 12px;
-             overflow: hidden;
-             margin-bottom: 15px;
-             break-inside: avoid;
-             display: inline-block;
-             width: 100%;
-             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-             position: relative;
+        /* Media queries dla mniejszych ekranów */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-picture-container {
+                margin: 0 auto 20px;
+            }
+            .profile-info h1 {
+                font-size: 22px;
+            }
+            .contact-buttons {
+                justify-content: center;
+            }
         }
-         .gallery-item.hide {
-             display: none;
-         }
-
-         /* Obrazki w galerii */
-         .gallery-tile .gallery-item img {
-            display: block;
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            vertical-align: middle;
-         }
-         .gallery-tile .gallery-item.photo:hover {
-             transform: translateY(-3px);
-             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-         }
-
-         /* Styl dla iframe (wideo) */
-         .gallery-tile .gallery-item.video iframe {
-             display: block;
-             width: 100%;
-             border: none;
-             border-radius: 12px;
-         }
-
-
-        /* --- Style dla linków, tekstu w kafelkach (poza ofertą) --- */
-        .tile-item:not(.offer-tile) a { text-decoration: none; color: inherit; }
-        .tile-item .info-link {
-            color: var(--text-dark); /* <--- ZMIENIONY KOLOR (biały) */
-            text-decoration: none; margin-top: 15px;
-            display: inline-block; font-weight: 500;
-            transition: color 0.2s ease, letter-spacing 0.2s ease;
-            border-bottom: 1px solid transparent; padding-bottom: 2px;
-        }
-        .tile-item .info-link:hover {
-            color: var(--text-dark); letter-spacing: 0.5px;
-            border-bottom-color: var(--text-dark);
-        }
-
-        /* Ikony w kafelkach informacyjnych */
-        .tile-item i.tile-icon {
-            font-size: 2.2em;
-            margin-bottom: 12px;
-             color: var(--accent-color);
-        }
-
-        /* Tytuł w kafelku */
-        .tile-item:not(.offer-tile) h3 {
-            margin-top: 0; margin-bottom: 12px;
-            font-size: 1.3em;
-            font-weight: 600; color: var(--text-dark); text-align: center;
-            letter-spacing: 0.3px;
-        }
-
-        /* Opis/Tekst w kafelku */
-        .tile-item:not(.offer-tile) p {
-            font-size: 0.95em;
-            line-height: 1.7; margin-top: 0;
-            margin-bottom: 15px; flex-grow: 1; color: var(--text-muted);
-        }
-
-        /* Style dla kafelków informacyjnych */
-        .info-grid .tile-item { justify-content: space-between; }
-        .info-grid .tile-item p { flex-grow: 0; text-align: center; }
-        .info-grid .tile-item .info-link { margin-top: auto; }
-
-
-        /* --- Stopka --- */
-        footer {
-            text-align: center; padding: 25px 20px;
-            margin-top: 50px;
-            font-size: 0.85em;
-             color: var(--text-muted);
-        }
-         footer p { margin: 4px 0; }
-        footer a {
-            color: var(--text-muted); text-decoration: none; margin: 0 12px;
-            transition: color 0.2s ease; font-size: 1.1em;
-        }
-        footer a:hover { color: var(--accent-color); }
-         footer .social-links a { font-size: 1.2em; }
-
-
-        /* --- Responsywność --- */
-         @media (min-width: 993px) {
-             .offer-grid { grid-template-columns: repeat(4, 1fr); }
-             .gallery-tile .media-container { column-count: 4; }
-         }
-         @media (min-width: 768px) and (max-width: 992px) {
-             .offer-grid { grid-template-columns: repeat(3, 1fr); }
-             .gallery-tile .media-container { column-count: 3; }
-         }
-         @media (min-width: 576px) and (max-width: 767px) {
-             .offer-grid { grid-template-columns: repeat(2, 1fr); }
-             .gallery-tile .media-container { column-count: 2; }
-         }
-         @media (max-width: 575px) {
-             .offer-grid { grid-template-columns: repeat(2, 1fr); }
-             .offer-service-tile { width: auto; }
-             .gallery-tile .media-container { column-count: 1; }
-         }
-
-
-         @media (max-width: 1240px) {
-             .content-section, .gallery-section { padding: 0 30px; } /* Dodano .gallery-section */
-             .gallery-tile { margin: 0 30px; width: auto; }
-             .intro-container { padding: 0 30px; max-width: none; }
-         }
-         @media (max-width: 992px) {
-             .intro-container { flex-direction: column; gap: 30px; }
-             .intro-section { flex-basis: auto; text-align: center; }
-             .intro-section h2, .intro-section p { text-align: center; }
-             .intro-photo-tile { flex-basis: auto; width: 65%; max-width: 320px; margin: 0 auto; }
-             .logo-tile .name { font-size: 1.4em; }
-             .logo-tile .logo { font-size: 0.85em; }
-             .info-grid {
-                 grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-             }
-         }
-         @media (max-width: 767px) {
-             .info-grid {
-                 grid-template-columns: 1fr;
-             }
-             .header-container {
-                 padding: 20px;
-                 display: flex;
-                 flex-direction: column;
-                 align-items: center;
-                 justify-content: center;
-                 gap: 15px;
-             }
-             .logo-tile {
-                 position: static;
-             }
-             .nav-tile {
-                 position: static;
-                 margin-left: 0;
-             }
-             body { padding-top: 0; }
-             main { padding: 30px 15px 50px 15px; }
-             .intro-container { padding: 0 15px; margin-bottom: 50px; }
-             .intro-section { padding: 30px; }
-             .content-section, .gallery-section { padding: 0 15px; margin-bottom: 50px; } /* Dodano .gallery-section */
-             .info-grid { gap: 25px; }
-             /* .gallery-section { margin-bottom: 50px; } /* Usunięto, bo jest w .content-section */ */
-             .gallery-tile { margin: 0; width: 100%; padding: 30px; box-sizing: border-box;} /* Poprawiono margines i szerokość */
-             .tile-item { padding: 22px; border-radius: 14px; }
-             .offer-tile { padding: 22px; }
-             .tile-item h3 { font-size: 1.25em; }
-             .offer-tile h3 { font-size: 1.2em; }
-             .tile-item p { font-size: 0.9em; line-height: 1.6; }
-             .offer-tile .offer-description { font-size: 0.9em; margin-bottom: 20px;}
-             .offer-service-tile { padding: 15px;}
-             .offer-service-tile i { font-size: 1.7em;}
-             .offer-service-tile span { font-size: 0.8em; }
-             .offer-tile .cta-button { padding: 10px 22px; font-size: 0.9em; margin-top: 25px;}
-             .tile-item i.tile-icon { font-size: 2em; }
-             .intro-photo-tile { width: 75%; max-width: 300px; }
-             .logo-tile .name { font-size: 1.3em; }
-             .logo-tile .logo { font-size: 0.8em; }
-             .nav-tile nav ul { gap: 10px; flex-wrap: wrap; justify-content: center;}
-             .nav-tile nav a { font-size: 0.85em; padding: 6px 12px;}
-         }
-         @media (max-width: 480px) {
-             .header-container { padding: 15px; gap: 10px;}
-             .logo-tile .name { font-size: 1.2em; }
-             .logo-tile .logo { font-size: 0.75em; }
-             .nav-tile { padding: 6px 8px; }
-             .nav-tile nav ul { gap: 8px; }
-             .nav-tile nav a { font-size: 0.8em; padding: 5px 10px;}
-
-            main { padding: 40px 10px; }
-            .intro-container { padding: 0 10px; margin-bottom: 40px; gap: 25px;}
-            .intro-section { padding: 25px; }
-            .intro-section h2 { font-size: 1.5em; }
-            .intro-section p { font-size: 0.9em; }
-            .content-section, .gallery-section { padding: 0 10px; margin-bottom: 40px; } /* Dodano .gallery-section */
-            .info-grid { grid-template-columns: 1fr; gap: 20px; }
-            /* .gallery-section { margin-bottom: 40px; } /* Usunięto, bo jest w .content-section */ */
-             .gallery-tile { margin: 0; width: 100%; padding: 25px; box-sizing: border-box;} /* Poprawiono margines i szerokość */
-            .tile-item { padding: 18px; border-radius: 12px; }
-            .offer-tile { padding: 18px; }
-            .tile-item h3 { font-size: 1.15em; }
-            .offer-tile h3 { font-size: 1.1em; }
-            .tile-item p { font-size: 0.85em; }
-            .offer-tile .offer-description { font-size: 0.85em; margin-bottom: 18px;}
-            .offer-service-tile { padding: 12px;}
-            .offer-service-tile i { font-size: 1.5em; }
-            .offer-service-tile span { font-size: 0.7em; }
-            .offer-tile .cta-button { padding: 9px 18px; font-size: 0.85em; margin-top: 20px;}
-            footer { padding: 20px 15px; font-size: 0.75em; }
-             footer a { margin: 0 8px; }
-             footer .social-links a { font-size: 1.2em; }
-            .tile-item i.tile-icon { font-size: 1.8em; }
-             .intro-photo-tile { width: 85%; max-width: 260px; }
-             .gallery-filters { gap: 8px; }
-             .filter-button { padding: 6px 14px; font-size: 0.85em; }
-         }
-
-         /* Animacja pojawiania się elementów */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="header-container">
-        <div class="logo-tile">
-             <h1 class="name">Szymon Grzeszczak</h1>
-             <p class="logo">SG.media.pl</p>
-        </div>
-        <div class="nav-tile">
-            <nav id="main-nav"> <ul>
-                    <li><a href="#offer">Oferta</a></li>
-                    <li><a href="#info">Info</a></li>
-                    <li><a href="#gallery-section">Galeria</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    <div class="container">
 
-    <main>
-        <div class="intro-container" id="about"> <section class="intro-section">
-                <h2>O mnie</h2>
-                <p>Nazywam się Szymon moja pasja do fotografii zaczeła się bla bla bla portfolio poniżej ;)</p>
-            </section>
-            <div class="intro-photo-tile">
-                <img src="Toja.jpeg" alt="Zdjęcie Szymona Grzeszczaka">
+        <header class="profile-header">
+            <div class="profile-picture-container">
+                <a href="https://www.instagram.com/stories/twojanazwa/" target="_blank" rel="noopener noreferrer">
+                    <div class="profile-story-ring">
+                        <div class="profile-picture"></div>
+                    </div>
+                </a>
             </div>
-        </div>
 
-        <section id="offer" class="content-section">
-             <div class="tile-item offer-tile">
-                <h3><i class="fa-solid fa-briefcase"></i>Oferta</h3>
-                <p class="offer-description">Realizuję szeroki zakres usług, zawsze z dbałością o najwyższą jakość:</p>
-
-                <div class="offer-grid">
-                    <div class="offer-service-tile">
-                        <i class="fa-solid fa-camera-retro"></i>
-                        <span>Sesje portretowe</span>
-                    </div>
-                    <div class="offer-service-tile">
-                        <i class="fa-solid fa-film"></i>
-                        <span>Filmy reklamowe</span>
-                    </div>
-                    <div class="offer-service-tile">
-                        <i class="fa-solid fa-box-open"></i>
-                        <span>Fotografia produktowa</span>
-                    </div>
-                    <div class="offer-service-tile">
-                        <i class="fa-solid fa-calendar-check"></i>
-                        <span>Reportaże (śluby, eventy)</span>
-                    </div>
-                    <div class="offer-service-tile">
-                        <i class="fa-solid fa-music"></i>
-                        <span>Teledyski muzyczne</span>
-                    </div>
-                    <div class="offer-service-tile">
-                        <i class="fa-solid fa-building"></i>
-                        <span>Foto/Wideo architektury</span>
-                    </div>
-                    <div class="offer-service-tile">
-                        <i class="fa-solid fa-plane-up"></i>
-                        <span>Nagrania z drona</span>
-                    </div>
-                     <div class="offer-service-tile"> <i class="fas fa-video"></i>
-                        <span>Montaż wideo</span>
-                    </div>
+            <div class="profile-info">
+                <h1>sg.media.pl</h1>
+                <div class="contact-buttons">
+                    <a href="mailto:kontakt@sg.media.pl" class="button">E-mail</a>
+                    <a href="https://www.instagram.com/twojanazwa/" target="_blank" rel="noopener noreferrer" class="button secondary">Wiadomość DM</a>
                 </div>
-                <p style="text-align: center;">
-                    <a href="mailto:biuro.sg.media.pl@gmail.com" class="cta-button">Zapytaj o wycenę</a>
-                 </p>
-            </div>
-        </section>
-
-        <section id="info" class="content-section">
-            <div class="info-grid">
-                <div class="tile-item"> 
-                <i class="fa-solid fa-envelope tile-icon"></i>
-                <h3>Kontakt</h3>
-                <p>Masz pytania lub chcesz nawiązać współpracę? Skontaktuj się!</p>
-                <p>
-                    <a href="mailto:biuro.sg.media.pl@gmail.com" class="info-link">biuro.sg.media.pl@gmail.com</a>
-                </p>
-            </div>
-                <div class="tile-item"> <i class="fa-solid fa-map-marker-alt tile-icon"></i>
-                    <h3>Lokalizacja</h3>
-                    <p>Punkt startowy Wrocław, Polska. Realizacje na całym świecie.</p>
-                    <a href="mailto:biuro.sg.media.pl@gmail.com" class="info-link">Sprawdź dostępność</a> </div>
-                 <div class="tile-item" id="social-tile"> <i class="fa-solid fa-share-alt tile-icon"></i>
-                    <h3>Social Media</h3>
-                    <p>Bądź na bieżąco z nowościami i inspiracjami - obserwuj mnie!</p>
-                    <p class="social-links" style="font-size: 1.5em; margin-top: 10px;">
-                        <a href="https://www.instagram.com/szymon_grzeszczak_photo?igsh=Z2k5OXF2bmI5OTBi&utm_source=qr" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.facebook.com/profile.php?id=61575863283439" aria-label="Facebook" title="Facebook" style="margin: 0 20px;"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.youtube.com/@GrzeszczakSzymon" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
-                        <a href="#" aria-label="TikTok" title="TikTok" style="margin-left: 20px;"><i class="fab fa-tiktok"></i></a>
+                <div class="profile-bio">
+                    <p><strong>SG Media</strong></p>
+                    <p>
+                        Kreatywne rozwiązania dla Twojej marki. Fotografia | Wideo | Media społecznościowe. Zmieniamy pomysły w rzeczywistość.
                     </p>
                 </div>
             </div>
+        </header>
+
+        <section class="portfolio-section">
+            <h2>Czym się zajmuję?</h2>
+            <p>
+                Specjalizuję się w tworzeniu angażujących treści wizualnych, które opowiadają historię Twojej marki. Od profesjonalnych sesji zdjęciowych, przez dynamiczne filmy promocyjne, aż po kompleksowe zarządzanie profilami w mediach społecznościowych – pomagam firmom budować silny i spójny wizerunek w internecie.
+            </p>
         </section>
 
-         <section id="gallery-section" class="gallery-section">
-             <div class="tile-item gallery-tile">
-                 <h3>Galeria</h3>
-                 <p>Zobacz przykłady moich realizacji</p>
+        <main class="gallery-section">
+            <h2>GALERIA</h2>
+            
+            <div style="text-align: center; padding: 20px; border: 2px dashed #DBDBDB; background-color: #EFEFEF; border-radius: 8px;">
+                <p style="font-weight: 500; margin:0;">Tutaj pojawi się Twoja galeria z Instagrama po wklejeniu kodu z Elfsight.</p>
+            </div>
 
-                 <div class="gallery-filters" id="gallery-filter-buttons">
-                     <button class="filter-button active" data-filter="all">Wszystko</button>
-                     <button class="filter-button" data-filter="photo">Zdjęcia</button>
-                     <button class="filter-button" data-filter="video">Wideo</button>
-                 </div>
+        </main>
 
-                 <div class="gallery media-container" id="media-gallery">
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zdj1.jpeg" alt="Zdjęcie 1">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zdj2.jpeg" alt="Zdjęcie 2">
-                     </div>
-                      <div class="gallery-item video" data-type="video">
-                         <iframe data-video-id="YOUTUBE_VIDEO_ID_1" title="Odtwarzacz wideo YouTube 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zdj3.jpeg" alt="Zdjęcie 3">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zdj4.jpeg" alt="Zdjęcie 4">
-                     </div>
-                     <div class="gallery-item video" data-type="video">
-                          <iframe data-video-id="YOUTUBE_VIDEO_ID_2" title="Odtwarzacz wideo YouTube 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                          <img src="zdj5.jpeg" alt="Zdjęcie 5">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf1.jpeg" alt="Zdjęcie zf1">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf10.jpeg" alt="Zdjęcie zf10">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf2.jpeg" alt="Zdjęcie zf2">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf3.jpeg" alt="Zdjęcie zf3">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf4.jpeg" alt="Zdjęcie zf4">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf5.jpeg" alt="Zdjęcie zf5">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf6.jpeg" alt="Zdjęcie zf6">
-                     </div>
-                     <div class="gallery-item photo" data-type="photo">
-                         <img src="zf7.jpeg" alt="Zdjęcie zf7">
-                     </div>
-
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q1.jpeg" alt="Zdjęcie Q1"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q2.jpeg" alt="Zdjęcie Q2"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q3.jpeg" alt="Zdjęcie Q3"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q4.jpeg" alt="Zdjęcie Q4"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q5.jpeg" alt="Zdjęcie Q5"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q6.jpeg" alt="Zdjęcie Q6"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q7.jpeg" alt="Zdjęcie Q7"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q8.jpeg" alt="Zdjęcie Q8"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q9.jpeg" alt="Zdjęcie Q9"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q10.jpeg" alt="Zdjęcie Q10"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q11.jpeg" alt="Zdjęcie Q11"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q12.jpeg" alt="Zdjęcie Q12"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q13.jpeg" alt="Zdjęcie Q13"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q14.jpeg" alt="Zdjęcie Q14"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q15.jpeg" alt="Zdjęcie Q15"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q16.jpeg" alt="Zdjęcie Q16"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q17.jpeg" alt="Zdjęcie Q17"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q18.jpeg" alt="Zdjęcie Q18"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q19.jpeg" alt="Zdjęcie Q19"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q20.jpeg" alt="Zdjęcie Q20"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q21.jpeg" alt="Zdjęcie Q21"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q22.jpeg" alt="Zdjęcie Q22"> </div>
-                     <div class="gallery-item photo" data-type="photo"> <img src="Q23.jpeg" alt="Zdjęcie Q23"> </div>
-                     </div> </div> </section>
-
-    </main>
-
-    <footer id="contact-footer">
-        <p>© 2024 Szymon Grzeszczak - SG.media.pl. Wszelkie prawa zastrzeżone.</p>
-        <p class="social-links">
-            <a href="mailto:biuro.sg.media.pl@gmail.com" aria-label="Email" title="Email"><i class="fas fa-envelope"></i></a>
-            <a href="https://www.facebook.com/profile.php?id=61575863283439" aria-label="Facebook" title="Facebook" style="margin: 0 20px;"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/szymon_grzeszczak_photo?igsh=Z2k5OXF2bmI5OTBi&utm_source=qr" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.youtube.com/@GrzeszczakSzymon" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a> </p>
-    </footer>
-
-    <script>
-        // --- Skrypt Filtrowania Galerii ---
-        const filterButtonsContainer = document.getElementById('gallery-filter-buttons');
-        const galleryContainer = document.getElementById('media-gallery');
-
-        if (filterButtonsContainer && galleryContainer) {
-            filterButtonsContainer.addEventListener('click', (event) => {
-                if (event.target.classList.contains('filter-button')) {
-                    const filterValue = event.target.getAttribute('data-filter');
-                    const galleryItems = galleryContainer.querySelectorAll('.gallery-item');
-
-                    const currentActive = filterButtonsContainer.querySelector('.active');
-                    if (currentActive) {
-                        currentActive.classList.remove('active');
-                    }
-                    event.target.classList.add('active');
-
-                    galleryItems.forEach(item => {
-                        const itemType = item.getAttribute('data-type');
-                        const shouldBeVisible = (filterValue === 'all' || itemType === filterValue);
-
-                        if (shouldBeVisible) {
-                            item.classList.remove('hide');
-                        } else {
-                            item.classList.add('hide');
-                        }
-                    });
-                    setTimeout(adjustIframeHeights, 50);
-                }
-            });
-        } else {
-             if (!filterButtonsContainer) console.error("Nie znaleziono kontenera przycisków filtrów.");
-             if (!galleryContainer) console.error("Nie znaleziono kontenera galerii.");
-        }
-
-        // --- Funkcja do ustawiania wysokości iframe ---
-        function adjustIframeHeights() {
-             const videoIframes = document.querySelectorAll('.gallery-item.video iframe');
-             videoIframes.forEach(iframe => {
-                 const galleryItem = iframe.closest('.gallery-item');
-                 if (galleryItem && galleryItem.offsetWidth > 0 && !galleryItem.classList.contains('hide')) {
-                     const videoId = iframe.getAttribute('data-video-id');
-                     if (videoId && !iframe.getAttribute('src')) {
-                         iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}`);
-                     }
-                     const width = iframe.offsetWidth;
-                     const height = width * (9 / 16);
-                     iframe.style.height = `${height}px`;
-                 } else if (galleryItem && galleryItem.classList.contains('hide')) {
-                     iframe.style.height = '0px';
-                 }
-             });
-         }
-
-
-        // --- Skrypt do animacji pojawiania się sekcji na scroll ---
-        // Zmieniono selektor, aby nie obejmował .gallery-section (bo usunęliśmy z niej klasę .content-section)
-        const sectionsToAnimate = document.querySelectorAll('.content-section, .intro-container'); // Usunięto .gallery-section
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observerCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-        sectionsToAnimate.forEach(section => {
-            observer.observe(section);
-        });
-
-         // --- Skrypt Scrollspy ---
-         const navLinks = document.querySelectorAll('#main-nav a');
-         // Upewniamy się, że sekcja galerii jest uwzględniona, nawet bez klasy .content-section
-         const sections = document.querySelectorAll('section[id], .intro-container[id]');
-
-         function activateNavLink() {
-             let currentSectionId = '';
-             // Zmniejszono offset, aby link aktywował się szybciej przy przewijaniu w dół
-             const scrollPosition = window.scrollY + window.innerHeight * 0.3;
-
-             sections.forEach(section => {
-                 const sectionTop = section.offsetTop;
-                 const sectionHeight = section.offsetHeight;
-                 // Sprawdzamy, czy górna krawędź sekcji jest powyżej punktu aktywacji
-                 // i czy dolna krawędź sekcji jest poniżej punktu aktywacji
-                 if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                     currentSectionId = section.id;
-                 }
-             });
-
-             // Obsługa, gdy jesteśmy blisko dołu strony
-             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
-                const lastSection = sections[sections.length - 1];
-                if (lastSection) {
-                    currentSectionId = lastSection.id;
-                }
-             }
-
-
-             navLinks.forEach(link => {
-                 link.classList.remove('nav-active');
-                 const linkHref = link.getAttribute('href');
-                 // Używamy startsWith, aby obsłużyć potencjalne różnice w ID (np. #gallery-section vs gallery-section)
-                 if (linkHref && currentSectionId && linkHref.endsWith(currentSectionId)) {
-                     link.classList.add('nav-active');
-                 }
-             });
-
-             // Jeśli jesteśmy na samej górze, usuń aktywność
-             if (window.scrollY < sections[0]?.offsetTop - window.innerHeight * 0.4) { // Dodano ??.offsetTop dla bezpieczeństwa
-                 navLinks.forEach(link => link.classList.remove('nav-active'));
-             }
-         }
-
-
-         // --- Inicjalne ustawienie i obsługa zdarzeń ---
-         document.addEventListener('DOMContentLoaded', () => {
-             adjustIframeHeights();
-             activateNavLink(); // Aktywuj link przy załadowaniu
-
-             window.addEventListener('resize', () => {
-                adjustIframeHeights();
-                activateNavLink(); // Sprawdź link przy zmianie rozmiaru
-             });
-             window.addEventListener('scroll', activateNavLink); // Sprawdzaj link podczas przewijania
-         });
-
-    </script>
-
+    </div>
 </body>
 </html>
