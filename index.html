@@ -47,33 +47,30 @@
         .content-section h2 { font-size: 28px; font-weight: 700; margin-bottom: 20px; }
         .content-section p { font-size: 17px; line-height: 1.7; max-width: 650px; margin: 0 auto; color: #6E6E73; }
         
-        /* >>> ZMIANA: NOWA, RĘCZNA GALERIA ZAMIAST WIDGETU <<<
-        */
+        /* >>> NOWE STYLE DLA RESPONSYWNEJ RAMKI IFRAME <<< */
         .gallery-container {
             width: 100%;
-            margin-top: 60px;
+            margin-top: 60px; /* Odstęp od sekcji "O mnie" */
             animation: fadeIn 1s 0.4s ease-out backwards;
         }
 
-        .manual-gallery-grid {
-            display: grid;
-            /* Tworzy siatkę z 3 kolumnami na dużych ekranach, 2 na średnich i 1 na małych */
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 4px; /* Mały odstęp między zdjęciami */
+        .iframe-responsive-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Proporcje kwadratu (1:1). Zmień na 4/3 lub 16/9 dla prostokątnej galerii */
+        }
+
+        .iframe-responsive-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0; /* Usunięcie ramki */
         }
         
-        /* To sprawia, że osadzone posty z Instagrama idealnie wypełniają komórki siatki */
-        .manual-gallery-grid .instagram-media {
-            background: white !important;
-            border: 0 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            min-width: 100% !important;
-            height: 100% !important;
-        }
-        
-        /* --- Stopka i Modal (bez zmian) --- */
+        /* --- Stopka i Modal --- */
         footer { text-align: center; padding: 40px 20px; background-color: #FFFFFF; color: #8E8E8E; font-size: 14px; }
         footer a { color: #1C1C1E; text-decoration: none; font-weight: 500; }
         footer a:hover { text-decoration: underline; }
@@ -88,18 +85,10 @@
         <header class="profile-header"><div class="profile-picture-container"><a href="https://www.instagram.com/stories/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer"><div class="profile-story-ring"><div class="profile-picture"></div></div></a></div><div class="profile-info"><h1>szymon_grzeszczak_photo</h1><div class="contact-buttons"><button id="email-popup-btn" class="button">E-mail</button><a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="button secondary">Wiadomość DM</a></div><div class="profile-bio"><p>Uchwycone momenty, opowiedziane historie. Kreatywna fotografia na każdą okazję.</p></div></div></header>
         <section class="content-section"><h2>O mnie</h2><p>Pasja do fotografii to coś więcej niż praca – to sposób na postrzeganie świata. Specjalizuję się w autentycznych portretach i dynamicznej fotografii eventowej, zawsze szukając unikalnego światła i prawdziwych emocji.</p></section>
     </div> <main class="gallery-container">
-        <div class="manual-gallery-grid">
-            
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/C2sT4bXCCLr/" data-instgrm-version="14"></blockquote>
-            
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/Cj_qA9yq9pD/" data-instgrm-version="14"></blockquote>
-
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/Ck_AqzKqWdp/" data-instgrm-version="14"></blockquote>
-            
-            </div>
+        <div class="iframe-responsive-wrapper">
+            <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
+        </div>
     </main>
-    
-    <script async src="//www.instagram.com/embed.js"></script>
     
     
     <footer><p><a href="mailto:biuro.sg.media.pl@gmail.com">biuro.sg.media.pl@gmail.com</a></p><p class="humor">Wszystkie prawa nie zastrzeżone 2025</p></footer>
