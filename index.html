@@ -16,7 +16,7 @@
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes rotateGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* === GŁÓWNE STYLE W DUCHU APPLE === */
+        /* === GŁÓWNE STYLE === */
         :root {
             --background-color: #F5F5F7; --card-background-color: #FFFFFF; --primary-text-color: #1D1D1F;
             --secondary-text-color: #6E6E73; --accent-color: #007AFF; --border-color: rgba(0, 0, 0, 0.1);
@@ -44,7 +44,7 @@
         .button:hover { filter: brightness(1.1); }
         .button.secondary { background-color: #E5E5E7; color: var(--primary-text-color); }
         
-        /* === UKŁAD KART OBOK SIEBIE === */
+        /* === KARTY === */
         .cards-container { display: flex; gap: 24px; margin-top: 40px; align-items: stretch; }
         .card {
             background-color: var(--card-background-color); border-radius: 20px; padding: 32px;
@@ -52,11 +52,12 @@
             opacity: 0; transform: translateY(20px);
             animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
             flex: 1; transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center; /* POPRAWKA: Wyśrodkowanie całego tekstu w kafelku */
         }
         .card:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); }
-        .card h2 { font-size: 22px; font-weight: 600; text-align: center; margin-top: 0; margin-bottom: 16px; }
-        .card p { font-size: 16px; line-height: 1.6; color: var(--secondary-text-color); text-align: center; margin: 0 auto; }
-        .map-card { flex: 0 1 300px; text-align: center; }
+        .card h2 { font-size: 22px; font-weight: 600; margin-top: 0; margin-bottom: 16px; }
+        .card p { font-size: 16px; line-height: 1.6; color: var(--secondary-text-color); margin: 0 auto; }
+        .map-card { flex: 0 1 300px; }
         .map-container { margin-top: 16px; border-radius: 12px; overflow: hidden; }
         .map-container img { display: block; width: 100%; height: auto; }
         .coordinates { font-family: monospace; font-size: 14px; color: var(--secondary-text-color); margin-top: 16px; }
@@ -74,41 +75,19 @@
         /* Modal styles (minified) */
         .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);display:flex;justify-content:center;align-items:center;z-index:1000;opacity:0;visibility:hidden;transition:opacity .3s ease-in-out}.modal-overlay.visible{opacity:1;visibility:visible}.modal-content{background:rgba(255,255,255,.9);padding:30px 40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center;width:90%;max-width:400px;transform:translateY(20px);transition:transform .3s ease-in-out; border: 1px solid rgba(255,255,255,0.8);}.modal-overlay.visible .modal-content{transform:translateY(0)}.modal-content h3{margin-top:0;margin-bottom:15px;font-size:22px}.modal-email{background-color:rgba(0,0,0,.05);padding:10px;border-radius:8px;font-size:16px;font-weight:500;margin-bottom:20px;word-wrap:break-word}.close-btn{position:absolute;top:10px;right:10px;background:#ddd;border:none;width:24px;height:24px;border-radius:50%;font-size:14px;cursor:pointer;color:#555;display:flex;align-items:center;justify-content:center;line-height:1}.close-btn:hover{background:#ccc}
 
-        /* === NOWOŚĆ: STYLE DLA EFEKTU ZDRAPKI === */
+        /* === STYLE DLA EFEKTU ZDRAPKI === */
         #scratch-off-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            cursor: cell; /* Kursor sugerujący interakcję */
-            transition: opacity 0.8s ease-in-out;
-            opacity: 1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999; cursor: cell;
+            transition: opacity 0.8s ease-in-out; opacity: 1;
+            display: flex; align-items: center; justify-content: center;
         }
-
-        #scratch-off-container.cleared {
-            opacity: 0;
-            pointer-events: none; /* Wyłącza interakcję po zniknięciu */
-        }
-
-        #scratch-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
+        #scratch-off-container.cleared { opacity: 0; pointer-events: none; }
+        #scratch-canvas { position: absolute; top: 0; left: 0; }
         .scratch-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 28px;
-            font-weight: 600;
-            text-align: center;
-            pointer-events: none; /* Tekst nie blokuje zdrapywania */
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            color: white; font-size: 28px; font-weight: 600; text-align: center;
+            pointer-events: none; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            z-index: 1; /* Upewnia się, że tekst jest nad płótnem */
         }
     </style>
 </head>
@@ -125,12 +104,7 @@
         
         <div class="cards-container">
             <section class="card" style="animation-delay: 0.1s;"><h2>Cześć, tu Szymon.</h2><p>Jestem fotografem i twórcą wideo z Wrocławia. Moją pasją jest zatrzymywanie w kadrze autentycznych emocji. Specjalizuję się w reportażach z wesel i eventów, tworząc wizualne opowieści, które zostają na lata.</p></section>
-            <section class="card map-card" style="animation-delay: 0.2s;">
-                <div class="map-container">
-                    <img src="Mapa.jpg" alt="Minimalistyczna, czarno-biała mapa Wrocławia">
-                </div>
-                <div class="coordinates">51.1079° N / 17.0385° E</div>
-            </section>
+            <section class="card map-card" style="animation-delay: 0.2s;"><div class="map-container"><img src="Mapa.jpg" alt="Minimalistyczna, czarno-biała mapa Wrocławia"></div><div class="coordinates">51.1079° N / 17.0385° E</div></section>
         </div>
     </div>
 
@@ -141,131 +115,74 @@
     <div id="email-modal" class="modal-overlay"><div class="modal-content"><button id="close-modal-btn" class="close-btn">&times;</button><h3>Skontaktuj się ze mną</h3><div class="modal-email">biuro.sg.media.pl@gmail.com</div><button id="copy-email-btn" class="button">Skopiuj adres</button></div></div>
 
     <script>
-        // Skrypt dla Modala (bez zmian)
-        const emailModal = document.getElementById('email-modal');
-        const openBtn = document.getElementById('email-popup-btn');
-        // ... (reszta skryptu modala jest taka sama, jak poprzednio)
-        const closeBtn = document.getElementById('close-modal-btn');
-        const copyBtn = document.getElementById('copy-email-btn');
-        const openModal = () => emailModal.classList.add('visible');
-        const closeModal = () => emailModal.classList.remove('visible');
-        openBtn.addEventListener('click', openModal);
-        closeBtn.addEventListener('click', closeModal);
-        emailModal.addEventListener('click', (event) => { if (event.target === emailModal) { closeModal(); } });
-        copyBtn.addEventListener('click', () => {
-            const emailToCopy = 'biuro.sg.media.pl@gmail.com';
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(emailToCopy).then(() => {
-                    copyBtn.textContent = 'Skopiowano!';
-                    setTimeout(() => { copyBtn.textContent = 'Skopiuj adres' }, 2000);
-                });
-            } else {
-                let textArea = document.createElement("textarea");
-                textArea.value = emailToCopy;
-                textArea.style.position = "fixed"; textArea.style.left = "-9999px";
-                document.body.appendChild(textArea);
-                textArea.focus(); textArea.select();
-                try {
-                    document.execCommand('copy');
-                    copyBtn.textContent = 'Skopiowano!';
-                    setTimeout(() => { copyBtn.textContent = 'Skopiuj adres' }, 2000);
-                } catch (err) {
-                    alert('Automatyczne kopiowanie nie powiodło się. Skopiuj ręcznie: ' + emailToCopy);
-                }
-                document.body.removeChild(textArea);
-            }
-        });
+        // Skrypt dla Modala
+        const emailModal=document.getElementById("email-modal"),openBtn=document.getElementById("email-popup-btn"),closeBtn=document.getElementById("close-modal-btn"),copyBtn=document.getElementById("copy-email-btn"),openModal=()=>emailModal.classList.add("visible"),closeModal=()=>emailModal.classList.remove("visible");openBtn.addEventListener("click",openModal),closeBtn.addEventListener("click",closeModal),emailModal.addEventListener("click",e=>{e.target===emailModal&&closeModal()}),copyBtn.addEventListener("click",()=>{const e="biuro.sg.media.pl@gmail.com";navigator.clipboard&&window.isSecureContext?navigator.clipboard.writeText(e).then(()=>{copyBtn.textContent="Skopiowano!",setTimeout(()=>{copyBtn.textContent="Skopiuj adres"},2e3)}):(()=>{let t=document.createElement("textarea");t.value=e,t.style.position="fixed",t.style.left="-9999px",document.body.appendChild(t),t.focus(),t.select();try{document.execCommand("copy"),copyBtn.textContent="Skopiowano!",setTimeout(()=>{copyBtn.textContent="Skopiuj adres"},2e3)}catch(e){alert("Automatyczne kopiowanie nie powiodło się. Skopiuj ręcznie: "+e)}document.body.removeChild(t)})()});
 
-        // === NOWOŚĆ: SKRYPT DLA EFEKTU ZDRAPKI ===
+        // === SKRYPT DLA EFEKTU ZDRAPKI (POPRAWIONY) ===
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('scratch-off-container');
             const canvas = document.getElementById('scratch-canvas');
-            const ctx = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d', { willReadFrequently: true }); // Optymalizacja
 
-            let isDrawing = false;
             let isCleared = false;
-            const brushRadius = 50; // Połowa szerokości "pędzla" (100px)
+            const brushRadius = 50;
 
             function init() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-
-                // Wypełnij całe płótno czarnym kolorem
-                ctx.fillStyle = '#1D1D1F';
+                ctx.fillStyle = '#000000'; // POPRAWKA: Czarne tło
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
 
             function getCoords(e) {
-                if (e.changedTouches) {
-                    return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
-                }
-                return { x: e.clientX, y: e.clientY };
+                return e.changedTouches ? 
+                    { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY } :
+                    { x: e.clientX, y: e.clientY };
             }
 
             function scratch(e) {
-                if (!isDrawing) return;
+                if (isCleared) return;
                 e.preventDefault();
-
                 const coords = getCoords(e);
                 
-                // "Wymazuje" obszar, rysując przezroczysty kształt
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.beginPath();
                 ctx.arc(coords.x, coords.y, brushRadius, 0, Math.PI * 2);
                 ctx.fill();
             }
             
-            function checkClearedArea() {
-                if (isCleared) return;
+            // Funkcję sprawdzającą można wywoływać rzadziej dla lepszej wydajności
+            const checkClearedArea = (() => {
+                let timeout;
+                return () => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        if (isCleared) return;
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        const pixels = imageData.data;
+                        let transparentPixels = 0;
+                        for (let i = 3; i < pixels.length; i += 4 * 10) { // Sprawdzamy co 10 piksel
+                            if (pixels[i] === 0) transparentPixels++;
+                        }
+                        const clearedPercentage = (transparentPixels / (pixels.length / 40)) * 100;
+                        if (clearedPercentage > 35) {
+                            isCleared = true;
+                            container.classList.add('cleared');
+                            setTimeout(() => container.remove(), 800);
+                        }
+                    }, 200); // Sprawdź 200ms po ostatnim ruchu
+                };
+            })();
 
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const pixels = imageData.data;
-                const totalPixels = pixels.length / 4;
-                let transparentPixels = 0;
-
-                // Sprawdzamy co 4 piksel (kanał alfa)
-                for (let i = 3; i < pixels.length; i += 4) {
-                    if (pixels[i] === 0) {
-                        transparentPixels++;
-                    }
-                }
-
-                const clearedPercentage = (transparentPixels / totalPixels) * 100;
-                if (clearedPercentage > 35) {
-                    isCleared = true;
-                    container.classList.add('cleared');
-                    // Po zakończeniu animacji usuwamy element, żeby nie obciążał strony
-                    setTimeout(() => {
-                        container.remove();
-                    }, 800);
-                }
-            }
-
-            function startDrawing(e) {
-                isDrawing = true;
+            // POPRAWKA: Zdrapywanie od razu po ruchu myszki/palca
+            function moveHandler(e) {
                 scratch(e);
-            }
-
-            function stopDrawing() {
-                isDrawing = false;
                 checkClearedArea();
             }
             
-            // Inicjalizacja
             init();
-
-            // Event Listeners dla myszki
-            canvas.addEventListener('mousedown', startDrawing);
-            canvas.addEventListener('mousemove', scratch);
-            canvas.addEventListener('mouseup', stopDrawing);
-            canvas.addEventListener('mouseleave', stopDrawing);
-            
-            // Event Listeners dla dotyku (telefony)
-            canvas.addEventListener('touchstart', startDrawing);
-            canvas.addEventListener('touchmove', scratch);
-            canvas.addEventListener('touchend', stopDrawing);
-
-            // Przerysuj canvas przy zmianie rozmiaru okna
+            canvas.addEventListener('mousemove', moveHandler);
+            canvas.addEventListener('touchmove', moveHandler);
             window.addEventListener('resize', init);
         });
     </script>
