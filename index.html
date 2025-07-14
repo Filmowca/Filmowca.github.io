@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szymon Grzeszczak - Fotografia</title>
+    
+    <title>SG.media.pl - Fotografia i Wideo | Wesela, Eventy | Wrocław</title>
+    <meta name="description" content="Profesjonalna fotografia i wideo na wesela, eventy i sesje plenerowe. SG.media.pl - Szymon Grzeszczak, fotograf z Wrocławia. Uchwycimy Twoje najlepsze momenty.">
+    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia ślubna, filmowanie wesel, wesela, eventy, fotografia eventowa, SG.media.pl, Szymon Grzeszczak">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
 
         /* --- Animacje --- */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* NOWA ANIMACJA: Obrót gradientu ramki zdjęcia */
+        @keyframes rotateGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
         body {
             font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -19,22 +28,27 @@
             padding: 0;
         }
         
-        /* --- Główny kontener dla treści wyśrodkowanej --- */
         .container {
-            max-width: 1100px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
+            max-width: 1100px; width: 100%; margin: 0 auto; padding: 20px; box-sizing: border-box;
         }
 
-        /* --- Sekcje profilu i "O mnie" (bez zmian) --- */
+        /* --- Sekcja profilu --- */
         .profile-header { display: flex; align-items: center; padding: 40px 0; flex-wrap: wrap; animation: slideUp 0.8s ease-out; }
         .profile-picture-container { margin-right: 60px; flex-shrink: 0; }
-        .profile-story-ring { width: 160px; height: 160px; border-radius: 50%; padding: 4px; background: radial-gradient(circle at 33% 100%, #FED373 4%, #F15245 30%, #D92E7F 62%, #9B36B7 85%, #515ECF); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.3s ease; }
-        .profile-story-ring:hover { transform: scale(1.05) rotate(5deg); }
+        .profile-story-ring {
+            width: 160px; height: 160px; border-radius: 50%; padding: 4px; cursor: pointer;
+            background: radial-gradient(circle at 33% 100%, #FED373 4%, #F15245 30%, #D92E7F 62%, #9B36B7 85%, #515ECF);
+            background-size: 200% 200%;
+            transition: transform 0.3s ease;
+        }
+        /* POPRAWKA: Płynna animacja obrotu po najechaniu */
+        .profile-story-ring:hover {
+            transform: scale(1.05);
+            animation: rotateGradient 4s ease-in-out infinite;
+        }
         .profile-picture { width: 100%; height: 100%; background-color: white; border: 5px solid #FFFFFF; border-radius: 50%; background-image: url('Toja.jpeg'); background-size: cover; background-position: center; }
         .profile-info { flex-grow: 1; }
+        /* POPRAWKA: Zmiana nazwy brandu */
         .profile-info h1 { font-size: 32px; font-weight: 700; margin: 0 0 20px; }
         .contact-buttons { display: flex; gap: 12px; }
         .button { background-color: #0095F6; color: white; border: none; border-radius: 8px; padding: 10px 24px; font-size: 14px; font-weight: 500; text-decoration: none; text-align: center; cursor: pointer; transition: all 0.2s ease-in-out; }
@@ -43,47 +57,68 @@
         .button.secondary:hover { background-color: #DBDBDB; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
         .profile-bio { margin-top: 25px; font-size: 16px; }
         .profile-bio p { margin: 5px 0 0; line-height: 1.6; }
-        .content-section { padding: 50px 40px; text-align: center; animation: slideUp 0.8s 0.2s ease-out backwards; background-color: #F7F7F7; border-radius: 20px; margin-top: 40px; }
-        .content-section h2 { font-size: 28px; font-weight: 700; margin-bottom: 20px; }
-        .content-section p { font-size: 17px; line-height: 1.7; max-width: 650px; margin: 0 auto; color: #6E6E73; }
         
-        /* >>> NOWE STYLE DLA RESPONSYWNEJ RAMKI IFRAME <<< */
-        .gallery-container {
-            width: 100%;
-            margin-top: 60px; /* Odstęp od sekcji "O mnie" */
-            animation: fadeIn 1s 0.4s ease-out backwards;
+        /* POPRAWKA: Nowy, ładniejszy wygląd sekcji "O mnie" */
+        .content-section {
+            padding: 40px 50px;
+            text-align: center;
+            background-color: #F7F7F7;
+            border-radius: 24px; /* Bardziej zaokrąglone rogi */
+            margin: 40px auto 0 auto; /* Wyśrodkowanie i margines */
+            max-width: 700px; /* Zwężenie sekcji */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Subtelny cień */
+            /* Nowa, opóźniona animacja */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.8s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
-
-        .iframe-responsive-wrapper {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            aspect-ratio: 1 / 1; /* Proporcje kwadratu (1:1). Zmień na 4/3 lub 16/9 dla prostokątnej galerii */
-        }
-
-        .iframe-responsive-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0; /* Usunięcie ramki */
-        }
+        .content-section h2 { font-size: 24px; font-weight: 700; margin-top:0; margin-bottom: 15px; }
+        .content-section p { font-size: 16px; line-height: 1.7; color: #6E6E73; margin: 0; }
         
-        /* --- Stopka i Modal --- */
+        /* --- Galeria iFrame (bez zmian) --- */
+        .gallery-container { width: 100%; margin-top: 60px; animation: fadeIn 1s 0.4s ease-out backwards; }
+        .iframe-responsive-wrapper { position: relative; overflow: hidden; width: 100%; aspect-ratio: 1 / 1; }
+        .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
+        /* --- Stopka i Modal (bez zmian) --- */
         footer { text-align: center; padding: 40px 20px; background-color: #FFFFFF; color: #8E8E8E; font-size: 14px; }
         footer a { color: #1C1C1E; text-decoration: none; font-weight: 500; }
         footer a:hover { text-decoration: underline; }
         footer .humor { margin-top: 10px; font-size: 12px; }
-        @media (max-width: 768px) { .profile-header { flex-direction: column; text-align: center; } .profile-picture-container { margin: 0 auto 30px; } .profile-info h1 { font-size: 26px; } .contact-buttons { justify-content: center; } }
+        @media (max-width: 768px) { .profile-header { flex-direction: column; text-align: center; } .profile-picture-container { margin: 0 auto 30px; } .profile-info h1 { font-size: 26px; } .contact-buttons { justify-content: center; } .content-section { padding: 30px 25px; } }
         .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(5px);display:flex;justify-content:center;align-items:center;z-index:1000;opacity:0;visibility:hidden;transition:all .3s ease-in-out}.modal-overlay.visible{opacity:1;visibility:visible}.modal-content{background:white;padding:30px 40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center;width:90%;max-width:400px;transform:scale(.9);transition:transform .3s ease-in-out}.modal-overlay.visible .modal-content{transform:scale(1)}.modal-content h3{margin-top:0;margin-bottom:15px;font-size:22px}.modal-email{background-color:#f0f0f0;padding:10px;border-radius:8px;font-size:16px;font-weight:500;margin-bottom:20px;word-wrap:break-word}.close-btn{position:absolute;top:15px;right:15px;background:none;border:none;font-size:24px;cursor:pointer;color:#aaa}.close-btn:hover{color:#1c1c1e}
     </style>
 </head>
 <body>
 
     <div class="container">
-        <header class="profile-header"><div class="profile-picture-container"><a href="https://www.instagram.com/stories/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer"><div class="profile-story-ring"><div class="profile-picture"></div></div></a></div><div class="profile-info"><h1>SG.mdeia.pl</h1><div class="contact-buttons"><button id="email-popup-btn" class="button">E-mail</button><a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="button secondary">Wiadomość DM</a></div><div class="profile-bio"><p> Tekst 1123123123123123123123123123.</p></div></div></header>
-        <section class="content-section"><h2>O mnie</h2><p>Pasja do fotografii to coś więcej niż praca.</p></section>
+        <header class="profile-header">
+            <div class="profile-picture-container">
+                <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" aria-label="Zobacz relacje na Instagramie">
+                    <div class="profile-story-ring" role="img" aria-label="Zdjęcie profilowe Szymona Grzeszczaka">
+                        <div class="profile-picture"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="profile-info">
+                <h1>SG.media.pl</h1>
+                <div class="contact-buttons">
+                    <button id="email-popup-btn" class="button">E-mail</button>
+                    <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="button secondary">Wiadomość DM</a>
+                </div>
+                <div class="profile-bio">
+                    <p>Fotografia & Wideo 📸</p>
+                    <p>Uchwycone momenty, opowiedziane historie.</p>
+                </div>
+            </div>
+        </header>
+
+        <section class="content-section">
+            <h2>Cześć!</h2>
+            <p>
+                Nazywam się Szymon Grzeszczak i jestem fotografem z Wrocławia. Moją pasją jest zatrzymywanie w kadrze autentycznych emocji i tworzenie wizualnych opowieści. Specjalizuję się w reportażach z wesel i eventów, realizując zarówno zlecenia foto, jak i wideo.
+            </p>
+        </section>
     </div> <main class="gallery-container">
         <div class="iframe-responsive-wrapper">
             <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
