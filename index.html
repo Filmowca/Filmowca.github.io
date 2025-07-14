@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -7,86 +8,122 @@
     <title>SG.media.pl - Fotografia i Wideo | Wesela, Eventy | Wrocław</title>
     <meta name="description" content="Profesjonalna fotografia i wideo na wesela, eventy i sesje plenerowe. SG.media.pl - Szymon Grzeszczak, fotograf z Wrocławia. Uchwycimy Twoje najlepsze momenty.">
     <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia ślubna, filmowanie wesel, wesela, eventy, fotografia eventowa, SG.media.pl, Szymon Grzeszczak">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
 
-        /* --- Animacje --- */
+    <style>
+        /* Użycie fontu Inter jako świetnego odpowiednika fontu Apple SF Pro */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        /* Animacje (bez zmian) */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        /* NOWA ANIMACJA: Obrót gradientu ramki zdjęcia */
-        @keyframes rotateGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes rotateGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* === GŁÓWNE STYLE W DUCHU APPLE === */
+        :root {
+            --background-color: #F5F5F7; /* Jasnoszare tło Apple */
+            --card-background-color: #FFFFFF;
+            --primary-text-color: #1D1D1F; /* Głęboka czerń tekstu */
+            --secondary-text-color: #6E6E73; /* Szary tekst pomocniczy */
+            --accent-color: #007AFF; /* Charakterystyczny niebieski Apple */
+            --border-color: rgba(0, 0, 0, 0.1);
         }
 
         body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #FFFFFF;
-            color: #1C1C1E;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-text-color);
             margin: 0;
             padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .container {
-            max-width: 1100px; width: 100%; margin: 0 auto; padding: 20px; box-sizing: border-box;
+            max-width: 980px; /* Standardowy kontener Apple */
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            box-sizing: border-box;
         }
 
-        /* --- Sekcja profilu --- */
-        .profile-header { display: flex; align-items: center; padding: 40px 0; flex-wrap: wrap; animation: slideUp 0.8s ease-out; }
-        .profile-picture-container { margin-right: 60px; flex-shrink: 0; }
+        /* === PRZEPROJEKTOWANY HEADER === */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            animation: slideUp 0.8s ease-out;
+        }
+        .profile-picture-container { margin-right: 40px; flex-shrink: 0; }
         .profile-story-ring {
-            width: 160px; height: 160px; border-radius: 50%; padding: 4px; cursor: pointer;
+            width: 120px; height: 120px; /* Zmniejszone zdjęcie dla subtelniejszego efektu */
+            border-radius: 50%; padding: 3px; cursor: pointer;
             background: radial-gradient(circle at 33% 100%, #FED373 4%, #F15245 30%, #D92E7F 62%, #9B36B7 85%, #515ECF);
-            background-size: 200% 200%;
-            transition: transform 0.3s ease;
+            background-size: 200% 200%; transition: transform 0.3s ease;
         }
-        /* POPRAWKA: Płynna animacja obrotu po najechaniu */
-        .profile-story-ring:hover {
-            transform: scale(1.05);
-            animation: rotateGradient 4s ease-in-out infinite;
-        }
-        .profile-picture { width: 100%; height: 100%; background-color: white; border: 5px solid #FFFFFF; border-radius: 50%; background-image: url('Toja.jpeg'); background-size: cover; background-position: center; }
+        .profile-story-ring:hover { transform: scale(1.05); animation: rotateGradient 4s ease-in-out infinite; }
+        .profile-picture { width: 100%; height: 100%; background-color: var(--card-background-color); border: 4px solid var(--card-background-color); border-radius: 50%; background-image: url('Toja.jpeg'); background-size: cover; background-position: center; }
         .profile-info { flex-grow: 1; }
-        /* POPRAWKA: Zmiana nazwy brandu */
-        .profile-info h1 { font-size: 32px; font-weight: 700; margin: 0 0 20px; }
+        .profile-info h1 { font-size: 32px; font-weight: 700; margin: 0 0 16px; letter-spacing: -0.5px; }
+        .profile-info .bio { font-size: 17px; line-height: 1.5; color: var(--secondary-text-color); margin-bottom: 24px; }
         .contact-buttons { display: flex; gap: 12px; }
-        .button { background-color: #0095F6; color: white; border: none; border-radius: 8px; padding: 10px 24px; font-size: 14px; font-weight: 500; text-decoration: none; text-align: center; cursor: pointer; transition: all 0.2s ease-in-out; }
-        .button:hover { background-color: #0077C3; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 149, 246, 0.3); }
-        .button.secondary { background-color: #EFEFEF; color: #1C1C1E; }
-        .button.secondary:hover { background-color: #DBDBDB; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
-        .profile-bio { margin-top: 25px; font-size: 16px; }
-        .profile-bio p { margin: 5px 0 0; line-height: 1.6; }
-        
-        /* POPRAWKA: Nowy, ładniejszy wygląd sekcji "O mnie" */
-        .content-section {
-            padding: 40px 50px;
-            text-align: center;
-            background-color: #F7F7F7;
-            border-radius: 24px; /* Bardziej zaokrąglone rogi */
-            margin: 40px auto 0 auto; /* Wyśrodkowanie i margines */
-            max-width: 700px; /* Zwężenie sekcji */
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Subtelny cień */
-            /* Nowa, opóźniona animacja */
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.8s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        .button {
+            background-color: var(--accent-color); color: white; border: none; border-radius: 980px; /* Pill-shape */
+            padding: 10px 20px; font-size: 15px; font-weight: 500; text-decoration: none;
+            cursor: pointer; transition: all 0.2s ease-in-out;
         }
-        .content-section h2 { font-size: 24px; font-weight: 700; margin-top:0; margin-bottom: 15px; }
-        .content-section p { font-size: 16px; line-height: 1.7; color: #6E6E73; margin: 0; }
+        .button:hover { filter: brightness(1.1); }
+        .button.secondary { background-color: #E5E5E7; color: var(--primary-text-color); }
         
+        /* === PRZEPROJEKTOWANE KARTY (O MNIE i MAPA) === */
+        .card {
+            background-color: var(--card-background-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            opacity: 0; transform: translateY(20px);
+            animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        .card h2 {
+            font-size: 24px; font-weight: 600; text-align: center;
+            margin-top: 0; margin-bottom: 24px;
+        }
+        .card p { font-size: 17px; line-height: 1.7; color: var(--secondary-text-color); text-align: center; max-width: 600px; margin: 0 auto; }
+
+        /* === NOWA SEKCJA Z MAPĄ === */
+        .map-container {
+            margin-top: 24px;
+            border-radius: 12px;
+            overflow: hidden; /* Ukrywa rogi obrazka, które wystają poza zaokrąglenie */
+        }
+        .map-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .coordinates {
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--secondary-text-color);
+            margin-top: 16px;
+            text-align: center;
+        }
+
         /* --- Galeria iFrame (bez zmian) --- */
-        .gallery-container { width: 100%; margin-top: 60px; animation: fadeIn 1s 0.4s ease-out backwards; }
-        .iframe-responsive-wrapper { position: relative; overflow: hidden; width: 100%; aspect-ratio: 1 / 1; }
+        .gallery-container { width: 100%; margin-top: 40px; animation: fadeIn 1s 0.6s ease-out backwards; }
+        .iframe-responsive-wrapper { position: relative; overflow: hidden; width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; }
         .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         
-        /* --- Stopka i Modal (bez zmian) --- */
-        footer { text-align: center; padding: 40px 20px; background-color: #FFFFFF; color: #8E8E8E; font-size: 14px; }
-        footer a { color: #1C1C1E; text-decoration: none; font-weight: 500; }
+        /* --- Stopka i Modal --- */
+        footer { text-align: center; padding: 60px 20px 40px 20px; color: var(--secondary-text-color); font-size: 14px; }
+        footer a { color: var(--primary-text-color); text-decoration: none; font-weight: 500; }
         footer a:hover { text-decoration: underline; }
-        footer .humor { margin-top: 10px; font-size: 12px; }
-        @media (max-width: 768px) { .profile-header { flex-direction: column; text-align: center; } .profile-picture-container { margin: 0 auto 30px; } .profile-info h1 { font-size: 26px; } .contact-buttons { justify-content: center; } .content-section { padding: 30px 25px; } }
-        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(5px);display:flex;justify-content:center;align-items:center;z-index:1000;opacity:0;visibility:hidden;transition:all .3s ease-in-out}.modal-overlay.visible{opacity:1;visibility:visible}.modal-content{background:white;padding:30px 40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center;width:90%;max-width:400px;transform:scale(.9);transition:transform .3s ease-in-out}.modal-overlay.visible .modal-content{transform:scale(1)}.modal-content h3{margin-top:0;margin-bottom:15px;font-size:22px}.modal-email{background-color:#f0f0f0;padding:10px;border-radius:8px;font-size:16px;font-weight:500;margin-bottom:20px;word-wrap:break-word}.close-btn{position:absolute;top:15px;right:15px;background:none;border:none;font-size:24px;cursor:pointer;color:#aaa}.close-btn:hover{color:#1c1c1e}
+        @media (max-width: 768px) { .profile-header { flex-direction: column; text-align: center; } .profile-picture-container { margin: 0 auto 30px; } .card { padding: 30px 25px; } }
+        /* Modal styles (minified for brevity) */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);display:flex;justify-content:center;align-items:center;z-index:1000;opacity:0;visibility:hidden;transition:opacity .3s ease-in-out}.modal-overlay.visible{opacity:1;visibility:visible}.modal-content{background:rgba(255,255,255,.9);padding:30px 40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center;width:90%;max-width:400px;transform:translateY(20px);transition:transform .3s ease-in-out; border: 1px solid rgba(255,255,255,0.8);}.modal-overlay.visible .modal-content{transform:translateY(0)}.modal-content h3{margin-top:0;margin-bottom:15px;font-size:22px}.modal-email{background-color:rgba(0,0,0,.05);padding:10px;border-radius:8px;font-size:16px;font-weight:500;margin-bottom:20px;word-wrap:break-word}.close-btn{position:absolute;top:10px;right:10px;background:#ddd;border:none;width:24px;height:24px;border-radius:50%;font-size:14px;cursor:pointer;color:#555;display:flex;align-items:center;justify-content:center;line-height:1}.close-btn:hover{background:#ccc}
     </style>
 </head>
 <body>
@@ -102,32 +139,51 @@
             </div>
             <div class="profile-info">
                 <h1>SG.media.pl</h1>
+                <p class="bio">Fotografia & Wideo. Uchwycone momenty, opowiedziane historie.</p>
                 <div class="contact-buttons">
-                    <button id="email-popup-btn" class="button">E-mail</button>
-                    <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="button secondary">Wiadomość DM</a>
-                </div>
-                <div class="profile-bio">
-                    <p>Fotografia & Wideo 📸</p>
-                    <p>Uchwycone momenty, opowiedziane historie.</p>
+                    <button id="email-popup-btn" class="button">Napisz do mnie</button>
+                    <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="button secondary">Instagram</a>
                 </div>
             </div>
         </header>
-
-        <section class="content-section">
-            <h2>Cześć!</h2>
+        
+        <section class="card" style="animation-delay: 0.1s;">
+            <h2>Cześć, tu Szymon.</h2>
             <p>
-                Nazywam się Szymon Grzeszczak i jestem fotografem z Wrocławia. Moją pasją jest zatrzymywanie w kadrze autentycznych emocji i tworzenie wizualnych opowieści. Specjalizuję się w reportażach z wesel i eventów, realizując zarówno zlecenia foto, jak i wideo.
+                Jestem fotografem i twórcą wideo z Wrocławia. Moją pasją jest zatrzymywanie w kadrze autentycznych emocji. Specjalizuję się w reportażach z wesel i eventów, tworząc wizualne opowieści, które zostają na lata.
             </p>
         </section>
-    </div> <main class="gallery-container">
+
+        <section class="card" style="animation-delay: 0.2s;">
+            <h2>Lokalizacja: Wrocław</h2>
+            <p>Choć działam głównie na terenie Wrocławia i Dolnego Śląska, z przyjemnością dojadę w każdy zakątek Polski, by zrealizować Twój projekt.</p>
+            <div class="map-container">
+                <img src="https://i.imgur.com/8QO9M0y.png" alt="Minimalistyczna, czarno-biała mapa Wrocławia">
+            </div>
+            <div class="coordinates">51.1079° N / 17.0385° E</div>
+        </section>
+    </div>
+
+    <main class="gallery-container">
         <div class="iframe-responsive-wrapper">
             <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
         </div>
     </main>
     
+    <footer>
+        <p><a href="mailto:biuro.sg.media.pl@gmail.com">biuro.sg.media.pl@gmail.com</a></p>
+        <p class="humor">© 2025 SG.media.pl // Wszystkie prawa nie zastrzeżone</p>
+    </footer>
     
-    <footer><p><a href="mailto:biuro.sg.media.pl@gmail.com">biuro.sg.media.pl@gmail.com</a></p><p class="humor">Wszystkie prawa nie zastrzeżone 2025</p></footer>
-    <div id="email-modal" class="modal-overlay"><div class="modal-content"><button id="close-modal-btn" class="close-btn">&times;</button><h3>Skontaktuj się ze mną</h3><div class="modal-email">biuro.sg.media.pl@gmail.com</div><button id="copy-email-btn" class="button">Skopiuj adres e-mail</button></div></div>
-    <script>const emailModal=document.getElementById("email-modal"),openBtn=document.getElementById("email-popup-btn"),closeBtn=document.getElementById("close-modal-btn"),copyBtn=document.getElementById("copy-email-btn"),openModal=()=>emailModal.classList.add("visible"),closeModal=()=>emailModal.classList.remove("visible");openBtn.addEventListener("click",openModal),closeBtn.addEventListener("click",closeModal),emailModal.addEventListener("click",e=>{e.target===emailModal&&closeModal()}),copyBtn.addEventListener("click",()=>{navigator.clipboard.writeText("biuro.sg.media.pl@gmail.com").then(()=>{copyBtn.textContent="Skopiowano!",setTimeout(()=>{copyBtn.textContent="Skopiuj adres e-mail"},2e3)}).catch(e=>{console.error("Błąd kopiowania: ",e),alert("Nie udało się skopiować adresu e-mail.")})});</script>
+    <div id="email-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="close-btn">&times;</button>
+            <h3>Skontaktuj się ze mną</h3>
+            <div class="modal-email">biuro.sg.media.pl@gmail.com</div>
+            <button id="copy-email-btn" class="button">Skopiuj adres</button>
+        </div>
+    </div>
+
+    <script>const e=document.getElementById("email-modal"),t=document.getElementById("email-popup-btn"),o=document.getElementById("close-modal-btn"),l=document.getElementById("copy-email-btn"),n=()=>e.classList.add("visible"),a=()=>e.classList.remove("visible");t.addEventListener("click",n),o.addEventListener("click",a),e.addEventListener("click",t=>{t.target===e&&a()}),l.addEventListener("click",()=>{navigator.clipboard.writeText("biuro.sg.media.pl@gmail.com").then(()=>{l.textContent="Skopiowano!",setTimeout(()=>{l.textContent="Skopiuj adres"},2e3)}).catch(e=>{console.error("Błąd kopiowania: ",e),alert("Nie udało się skopiować adresu e-mail.")})});</script>
 </body>
 </html>
