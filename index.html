@@ -4,151 +4,206 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>SG.media.pl - Fotografia & Wideo</title>
-    <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Fotografia i wideo dla nowoczesnych marek, relacje z eventów i wesel. Wrocław.">
-    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia modowa, fotografia ślubna, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <title>SG.media.pl - [SESSION ESTABLISHED]</title>
+    <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Connection established. Accessing visual data stream. Location: Wrocław, PL.">
+    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, portfolio">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap');
+        /* NOWA TYPOGRAFIA: Czcionka maszynowa */
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
         :root {
-            --ease: cubic-bezier(0.25, 1, 0.5, 1);
-            --duration: 0.5s;
-            --color-background: #FFFFFF;
-            --color-text: #0A0A0A;
-            --color-text-secondary: #666666;
-            --color-border: #EAEAEA;
-            --color-surface: #F5F5F5;
-        }
-
-        body[data-theme="dark"] {
-            --color-background: #121212;
-            --color-text: #EAEAEA;
-            --color-text-secondary: #A0A0A0;
-            --color-border: #282828;
-            --color-surface: #1E1E1E;
+            --font-mono: 'VT323', monospace;
+            --color-green: #00FF41;
+            --color-black: #000000;
+            --color-dark-gray: #111;
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
 
         body {
-            font-family: 'Manrope', sans-serif;
-            background-color: var(--color-background);
-            color: var(--color-text);
-            margin: 0; padding: 0;
-            transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease);
-            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-            cursor: default; /* Domyślny kursor na starcie */
+            font-family: var(--font-mono);
+            background-color: var(--color-black);
+            color: var(--color-green);
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Wyłączenie przewijania na desktopie */
+            font-size: 20px;
         }
         
-        body.custom-cursor-active { cursor: none; }
+        /* Nakładka z efektem starych monitorów */
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.2) 0px, rgba(0,0,0,0.2) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 100;
+        }
 
-        .cursor { position: fixed; top: 0; left: 0; z-index: 99999; pointer-events: none; border-radius: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s ease; }
-        body.custom-cursor-active .cursor { opacity: 1; }
-        #cursor-dot { width: 8px; height: 8px; background-color: var(--color-text); transition: background-color var(--duration) var(--ease); }
-        #cursor-circle { width: 40px; height: 40px; border: 1px solid var(--color-text); transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease, border-color var(--duration) var(--ease); }
-        #cursor-circle.hovered { transform: scale(1.5); }
-
-        .site-wrapper { display: grid; grid-template-columns: 320px 1fr; gap: 4vw; padding: 0 4vw; max-width: 1600px; margin: 0 auto; opacity: 0; animation: fadeIn 1s 0.2s ease forwards; }
-
-        .sticky-sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 40px 0; box-sizing: border-box; }
-        .sidebar-content { margin: auto 0; }
-        .logo { font-weight: 800; font-size: 32px; color: var(--color-text); margin-bottom: 24px; transition: color var(--duration) var(--ease); }
-        .bio { font-size: 16px; line-height: 1.7; color: var(--color-text-secondary); margin-bottom: 32px; transition: color var(--duration) var(--ease); }
-        .action-buttons { display: flex; gap: 12px; align-items: center; }
-        .contact-button { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 600; text-decoration: none; color: var(--color-background); background-color: var(--color-text); padding: 12px 24px; border-radius: 8px; border: 1px solid var(--color-text); transition: all 0.3s ease; cursor: none; }
-        .contact-button:hover { background-color: transparent; color: var(--color-text); }
-        .instagram-button { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background-color: transparent; border: 1px solid var(--color-border); border-radius: 8px; text-decoration: none; transition: all 0.3s ease; cursor: none; }
-        .instagram-button:hover { border-color: var(--color-text); }
-        .instagram-button svg { width: 20px; height: 20px; fill: var(--color-text-secondary); transition: fill 0.3s, fill var(--duration) var(--ease); }
-        .instagram-button:hover svg { fill: var(--color-text); }
-        .theme-toggle { margin-top: auto; padding-top: 40px; background: none; border: none; cursor: none; }
-        .theme-toggle svg { width: 24px; height: 24px; fill: var(--color-text-secondary); transition: fill 0.3s, transform 0.5s ease, fill var(--duration) var(--ease); }
-        .theme-toggle:hover svg { fill: var(--color-text); transform: rotate(180deg); }
-
-        .main-content { padding: 40px 0; }
-        .main-content h1 {
-            font-weight: 800; font-size: 48px; margin-bottom: 32px;
-            border-left: 3px solid var(--color-text); padding-left: 20px;
-            transition: color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+        /* --- NOWY UKŁAD W STYLU HAKERSKIM --- */
+        .hacker-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 10px;
+            width: 100vw;
+            height: 100vh;
+            padding: 10px;
+            box-sizing: border-box;
+            opacity: 0;
         }
         
-        .iframe-responsive-wrapper { position: relative; overflow: hidden; width: 100%; aspect-ratio: 1 / 1; border-radius: 12px; border: 1px solid var(--color-border); transition: border-color var(--duration) var(--ease); }
-        .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .content-footer { text-align: center; padding: 80px 0 40px 0; font-size: 14px; color: var(--color-text-secondary); transition: color var(--duration) var(--ease); }
+        .hacker-grid.visible {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
 
-        @media (max-width: 900px) { .site-wrapper { grid-template-columns: 1fr; padding: 0; } .sticky-sidebar { position: static; height: auto; padding: 40px 24px; border-bottom: 1px solid var(--color-border); } .sidebar-content { margin: 0; } .action-buttons, .logo, .bio { text-align: center; justify-content: center; } .theme-toggle { display: none; } .main-content { padding: 40px 24px; } }
+        .panel {
+            border: 2px solid var(--color-green);
+            background-color: rgba(0, 255, 65, 0.05);
+            padding: 15px;
+            overflow: hidden; /* Zapobiega wychodzeniu treści poza panel */
+        }
         
+        .panel-title {
+            font-size: 22px;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--color-green);
+            padding-bottom: 5px;
+        }
+
+        /* Poszczególne panele */
+        .header-panel { grid-column: 1 / 3; }
+        .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
+        .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
+
+        .user-info ul {
+            list-style: none;
+            padding: 0; margin: 0;
+        }
+        .user-info li {
+            margin-bottom: 10px;
+        }
+        .user-info li strong {
+            color: white;
+        }
+        .user-info a {
+            color: var(--color-green);
+            text-decoration: none;
+        }
+        .user-info a:hover {
+            background-color: var(--color-green);
+            color: var(--color-black);
+        }
+
+        /* Galeria z Mirror */
+        .iframe-responsive-wrapper {
+            flex-grow: 1; /* Wypełnia dostępną przestrzeń */
+            position: relative;
+            border: 2px solid var(--color-green);
+            border-top: none;
+        }
+        .iframe-responsive-wrapper iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+            filter: grayscale(1) contrast(1.5) brightness(0.8); /* Filtr monochromatyczny dla klimatu */
+        }
+
+        /* Animacja pisania */
+        .type-effect { display: inline; }
+        .blinking-cursor {
+            animation: blink 1s step-end infinite;
+            background-color: var(--color-green);
+            display: inline-block;
+            width: 12px;
+            height: 20px;
+            vertical-align: bottom;
+        }
+
+        /* Responsywność dla telefonów */
+        @media (max-width: 900px) {
+            body {
+                overflow: auto; /* Włączenie przewijania na mobilce */
+            }
+            .hacker-grid {
+                grid-template-columns: 1fr; /* Jeden panel pod drugim */
+                grid-template-rows: auto auto 50vh; /* Dostosowanie wysokości */
+                height: auto;
+            }
+            .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
+            .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; }
+        }
+
+        /* --- ZDRAPKA --- */
         #scratch-off-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: cell; transition: opacity 0.8s ease-in-out; opacity: 1; display: flex; align-items: center; justify-content: center; background-color:#000; }
         #scratch-off-container.cleared { opacity: 0; pointer-events: none; }
         #scratch-canvas { position: absolute; top: 0; left: 0; }
-        .scratch-text { color: white; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 32px; text-align: center; pointer-events: none; text-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 1; }
-        #email-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,.1); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 99999; opacity: 0; visibility: hidden; transition: all .3s ease-in-out; }
-        body[data-theme="dark"] #email-modal { background: rgba(0,0,0,.5); }
-        #email-modal.visible { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--color-background); border-radius: 16px; border: 1px solid var(--color-border); box-shadow: 0 10px 30px rgba(0,0,0,.1); text-align: center; width: 90%; max-width: 400px; padding: 30px 40px; transform: translateY(20px); transition: all .3s ease-in-out; }
-        #email-modal.visible .modal-content { transform: translateY(0); }
-        .modal-content h3 { font-weight: 800; margin-top: 0; margin-bottom: 15px; font-size: 22px; color: var(--color-text); }
-        .modal-email { background-color: var(--color-surface); padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 500; margin-bottom: 20px; word-wrap: break-word; color: var(--color-text-secondary); transition: all var(--duration) var(--ease); }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: none; color: #aaa; transition: color 0.2s ease; }
-        .close-btn:hover { color: var(--color-text); }
+        .scratch-text { color: var(--color-green); font-family: var(--font-mono); font-weight: 400; font-size: 32px; text-align: center; pointer-events: none; z-index: 1; }
     </style>
 </head>
 <body>
-    
+
     <div id="scratch-off-container">
-        <div class="scratch-text">Odkryj kreatywność</div>
+        <div class="scratch-text">Odkryj kreatywność<span class="blinking-cursor"></span></div>
         <canvas id="scratch-canvas"></canvas>
     </div>
 
-    <div id="cursor-dot" class="cursor"></div>
-    <div id="cursor-circle" class="cursor"></div>
+    <div class="hacker-grid">
+        <header class="panel header-panel">
+            <h1 class="panel-title type-effect" data-text="> SG.MEDIA.PL - VISUAL DATA STREAM [ONLINE]"></h1>
+        </header>
 
-    <div class="site-wrapper">
-        <aside class="sticky-sidebar">
-            <div class="sidebar-content">
-                <div class="logo">SG.media.pl</div>
-                <p class="bio">Nazywam się Szymon Grzeszczak. Jestem fotografem i twórcą wideo z Wrocławia. Opowiadam historie poprzez obrazy, specjalizując się w reportażach z wesel i eventów.</p>
-                <div class="action-buttons">
-                    <button id="open-modal-btn" class="contact-button">Napisz do mnie</button>
-                    <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="instagram-button" aria-label="Przejdź na Instagram">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.069-1.644-.069-4.849s.012-3.584.07-4.85c.149-3.227 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163m0-1.625C8.724.538 8.316.527 7.053.469 3.746.318.528 2.536.372 5.844.314 7.107.303 7.515.303 12s.012 4.893.07 6.156c.155 3.308 2.373 5.525 5.68 5.68 1.265.057 1.673.068 4.947.068s3.682-.012 4.947-.068c3.308-.155 5.525-2.373 5.68-5.68.057-1.265.068-1.673.068-4.947s-.012-3.682-.068-4.947c-.155-3.308-2.373-5.525-5.68-5.68C15.682.527 15.275.538 12 .538z"></path><path d="M12 6.865A5.135 5.135 0 1017.135 12 5.135 5.135 0 0012 6.865zm0 8.513A3.377 3.377 0 1115.377 12 3.377 3.377 0 0112 15.378z"></path><path d="M18.846 6.365A1.44 1.44 0 1117.407 4.925 1.44 1.44 0 0118.846 6.365z"></path></svg>
-                    </a>
-                </div>
-            </div>
-            <button class="theme-toggle" id="theme-toggle" aria-label="Zmień motyw"><svg id="theme-icon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 110 18A9 9 0 0112 3m0-2a11 11 0 100 22A11 11 0 0012 1zM12 7a5 5 0 110 10A5 5 0 0112 7z"/></svg></button>
-        </aside>
+        <section class="panel user-info">
+            <h2 class="panel-title">> USER_INFO</h2>
+            <ul>
+                <li><strong>USER:</strong> <span class="type-effect" data-text="Szymon Grzeszczak"></span></li>
+                <li><strong>UID:</strong> <span class="type-effect" data-text="1337"></span></li>
+                <li><strong>LOCATION:</strong> <span class="type-effect" data-text="Wrocław, PL"></span></li>
+                <li><strong>STATUS:</strong> <span class="type-effect" data-text="ONLINE"></span></li>
+                <li><strong>SERVICES:</strong> <span class="type-effect" data-text="[foto], [wideo], [eventy]"></span></li>
+                <li><strong>CONTACT:</strong> <a href="mailto:biuro.sg.media.pl@gmail.com" class="type-effect" data-text="biuro.sg.media.pl@gmail.com"></a></li>
+                <li><strong>SIGNAL:</strong> <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
+            </ul>
+        </section>
 
-        <main class="main-content">
-            <h1>Portfolio</h1>
+        <section class="panel gallery-window">
+            <h2 class="panel-title">> INCOMING_IMAGE_FEED</h2>
             <div class="iframe-responsive-wrapper">
                 <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
             </div>
-            <footer class="content-footer">© 2025 SG.media.pl</footer>
-        </main>
+        </section>
     </div>
-    
-    <div id="email-modal"><div class="modal-content"><button id="close-modal-btn" class="close-btn">&times;</button><h3>Skontaktuj się</h3><div class="modal-email">biuro.sg.media.pl@gmail.com</div><button id="copy-email-btn" class="contact-button">Skopiuj adres</button></div></div>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- POPRAWIONY SKRYPT ZDRAPKI ---
+            // --- SKRYPT ZDRAPKI ---
             const scratchContainer = document.getElementById('scratch-off-container');
+            const mainGrid = document.querySelector('.hacker-grid');
+
             if (scratchContainer) {
                 const canvas = scratchContainer.querySelector('canvas');
                 const ctx = canvas.getContext('2d', { willReadFrequently: true });
                 let isCleared = false, inactivityTimeout;
                 const brushRadius = 50;
 
-                const fadeOutAndRemove = () => {
+                const startApp = () => {
                     if (isCleared) return;
                     isCleared = true;
                     clearTimeout(inactivityTimeout);
                     scratchContainer.classList.add('cleared');
-                    document.body.classList.add('custom-cursor-active');
-                    setTimeout(() => scratchContainer.remove(), 800);
+                    setTimeout(() => {
+                        scratchContainer.remove();
+                        mainGrid.classList.add('visible');
+                        runTypingAnimations();
+                    }, 800);
                 };
                 
                 const initScratch = () => {
@@ -157,41 +212,16 @@
                     canvas.height = window.innerHeight;
                     ctx.fillStyle = '#000000';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    inactivityTimeout = setTimeout(fadeOutAndRemove, 10000);
+                    inactivityTimeout = setTimeout(startApp, 10000);
                 };
 
                 const getCoords = e => e.changedTouches ? {x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY} : {x:e.clientX,y:e.clientY};
+                const scratch = e => { if(isCleared)return; e.preventDefault(); const t=getCoords(e); ctx.globalCompositeOperation="destination-out"; ctx.beginPath(); ctx.arc(t.x,t.y,brushRadius,0,2*Math.PI); ctx.fill() };
+                const checkClearedArea = (()=>{let e;return()=>{clearTimeout(e),e=setTimeout(()=>{if(isCleared)return;const e=ctx.getImageData(0,0,canvas.width,canvas.height).data;let t=0;for(let o=3;o<e.length;o+=80)0===e[o]&&t++;t/(e.length/160)*100>35&&startApp()},200)}})();
                 
-                const scratch = e => {
-                    if(isCleared) return;
-                    e.preventDefault();
-                    const coords = getCoords(e);
-                    ctx.globalCompositeOperation = "destination-out";
-                    ctx.beginPath();
-                    ctx.arc(coords.x, coords.y, brushRadius, 0, 2 * Math.PI);
-                    ctx.fill();
-                };
-                
-                const checkClearedArea = (() => {
-                    let lastCheck = 0;
-                    return () => {
-                        const now = Date.now();
-                        if (now - lastCheck < 200) return; // Ograniczenie sprawdzania
-                        lastCheck = now;
-                        if (isCleared) return;
-                        const imageData = ctx.getImageData(0,0,canvas.width,canvas.height).data;
-                        let transparentPixels = 0;
-                        for (let i = 3; i < imageData.length; i += 4 * 20) { // Sprawdzanie co 20 piksela
-                            if (imageData[i] === 0) transparentPixels++;
-                        }
-                        const clearedPercentage = (transparentPixels / (imageData.length / 80)) * 100;
-                        if (clearedPercentage > 35) fadeOutAndRemove();
-                    };
-                })();
-
                 const moveHandler = e => {
                     if (inactivityTimeout) clearTimeout(inactivityTimeout);
-                    inactivityTimeout = null; // Anuluj licznik na stałe po pierwszej interakcji
+                    inactivityTimeout = null;
                     scratch(e);
                     checkClearedArea();
                 };
@@ -201,36 +231,34 @@
                 scratchContainer.addEventListener('touchmove', moveHandler);
                 window.addEventListener('resize', initScratch);
             } else {
-                document.body.classList.add('custom-cursor-active');
+                mainGrid.classList.add('visible');
+                runTypingAnimations();
             }
-
-            // --- SKRYPT MODALA E-MAIL ---
-            const emailModal = document.getElementById('email-modal'), openBtn = document.getElementById('open-modal-btn');
-            if (emailModal && openBtn) {
-                const closeBtn = document.getElementById('close-modal-btn'), copyBtn = document.getElementById('copy-email-btn');
-                const openModal = () => emailModal.style.cssText = 'opacity: 1; visibility: visible;', closeModal = () => emailModal.style.cssText = 'opacity: 0; visibility: hidden;';
-                openBtn.addEventListener('click', openModal); closeBtn.addEventListener('click', closeModal);
-                emailModal.addEventListener('click', e => { if (e.target === emailModal) closeModal(); });
-                copyBtn.addEventListener('click', () => { const e = 'biuro.sg.media.pl@gmail.com'; if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(e).then(() => { copyBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyBtn.textContent = 'Skopiuj adres' }, 2000); }); } else { let t = document.createElement("textarea"); t.value = e; t.style.position = "fixed"; t.style.left = "-9999px"; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); copyBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyBtn.textContent = 'Skopiuj adres' }, 2000); } catch (err) { alert('Nie udało się skopiować adresu.'); } document.body.removeChild(t); } });
-            }
-
-            // --- SKRYPT INTERAKTYWNEGO KURSORA ---
-            const cursorDot = document.getElementById('cursor-dot'), cursorCircle = document.getElementById('cursor-circle');
-            if(cursorDot && cursorCircle) {
-                gsap.set(cursorDot, { xPercent: -50, yPercent: -50 }); gsap.set(cursorCircle, { xPercent: -50, yPercent: -50 });
-                window.addEventListener('mousemove', e => { gsap.to(cursorDot, 0.1, { x: e.clientX, y: e.clientY }); gsap.to(cursorCircle, 0.5, { x: e.clientX, y: e.clientY, ease: "power1.out" }); });
-                document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => cursorCircle.classList.add('hovered')); el.addEventListener('mouseleave', () => cursorCircle.classList.remove('hovered')); });
-            }
-
-            // --- SKRYPT PRZEŁĄCZNIKA MOTYWU ---
-            const themeToggle = document.getElementById('theme-toggle');
-            if(themeToggle) {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches, savedTheme = localStorage.getItem('theme');
-                if (savedTheme) { document.body.setAttribute('data-theme', savedTheme); } else if (prefersDark) { document.body.setAttribute('data-theme', 'dark'); }
-                themeToggle.addEventListener('click', () => {
-                    const currentTheme = document.body.getAttribute('data-theme'), newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    document.body.setAttribute('data-theme', newTheme);
-                    localStorage.setItem('theme', newTheme);
+            
+            // --- SKRYPT ANIMACJI PISANIA ---
+            function runTypingAnimations() {
+                const elementsToType = document.querySelectorAll('.type-effect');
+                elementsToType.forEach((element, index) => {
+                    const text = element.dataset.text || element.textContent;
+                    element.textContent = ''; // Wyczyść
+                    
+                    setTimeout(() => {
+                        let i = 0;
+                        const typingInterval = setInterval(() => {
+                            if (i < text.length) {
+                                element.textContent += text.charAt(i);
+                                i++;
+                            } else {
+                                clearInterval(typingInterval);
+                                // Dodaj migający kursor na końcu ostatniego elementu
+                                if(index === elementsToType.length - 1) {
+                                    const cursorSpan = document.createElement('span');
+                                    cursorSpan.className = 'blinking-cursor';
+                                    element.appendChild(cursorSpan);
+                                }
+                            }
+                        }, 50); // Szybkość pisania
+                    }, index * 200); // Opóźnienie między kolejnymi elementami
                 });
             }
         });
