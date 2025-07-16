@@ -13,7 +13,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap');
 
-        /* === ZMIENNE KOLORYSTYCZNE DLA MOTYWÓW === */
         :root {
             --ease: cubic-bezier(0.25, 1, 0.5, 1);
             --duration: 0.5s;
@@ -24,7 +23,6 @@
             --color-surface: #F5F5F5;
         }
 
-        /* NOWOŚĆ: Definicja kolorów dla motywu ciemnego */
         body[data-theme="dark"] {
             --color-background: #121212;
             --color-text: #EAEAEA;
@@ -42,61 +40,29 @@
             margin: 0; padding: 0;
             transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease);
             -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-            cursor: none; /* Ukrycie domyślnego kursora */
+            cursor: none;
         }
         
-        /* NOWOŚĆ: Style dla interaktywnego kursora */
-        .cursor {
-            position: fixed;
-            top: 0; left: 0;
-            z-index: 99999;
-            pointer-events: none;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-        #cursor-dot {
-            width: 8px; height: 8px;
-            background-color: var(--color-text);
-            transition: background-color var(--duration) var(--ease);
-        }
-        #cursor-circle {
-            width: 40px; height: 40px;
-            border: 1px solid var(--color-text);
-            transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease, border-color var(--duration) var(--ease);
-        }
-        #cursor-circle.hovered {
-            transform: scale(1.5);
-        }
+        .cursor { position: fixed; top: 0; left: 0; z-index: 99999; pointer-events: none; border-radius: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s ease; }
+        body.cursor-visible .cursor { opacity: 1; }
+        #cursor-dot { width: 8px; height: 8px; background-color: var(--color-text); transition: background-color var(--duration) var(--ease); }
+        #cursor-circle { width: 40px; height: 40px; border: 1px solid var(--color-text); transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease, border-color var(--duration) var(--ease); }
+        #cursor-circle.hovered { transform: scale(1.5); }
 
-        .site-wrapper { display: grid; grid-template-columns: 320px 1fr; gap: 4vw; padding: 0 4vw; max-width: 1600px; margin: 0 auto; }
+        .site-wrapper { display: grid; grid-template-columns: 320px 1fr; gap: 4vw; padding: 0 4vw; max-width: 1600px; margin: 0 auto; opacity: 0; animation: fadeIn 1s 0.2s ease forwards; }
 
         .sticky-sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 40px 0; box-sizing: border-box; }
         .sidebar-content { margin: auto 0; }
         .logo { font-weight: 800; font-size: 32px; color: var(--color-text); margin-bottom: 24px; transition: color var(--duration) var(--ease); }
         .bio { font-size: 16px; line-height: 1.7; color: var(--color-text-secondary); margin-bottom: 32px; transition: color var(--duration) var(--ease); }
         .action-buttons { display: flex; gap: 12px; align-items: center; }
-        .contact-button {
-            font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 600; text-decoration: none;
-            color: var(--color-background); background-color: var(--color-text);
-            padding: 12px 24px; border-radius: 8px; border: 1px solid var(--color-text);
-            transition: all 0.3s ease; cursor: none;
-        }
+        .contact-button { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 600; text-decoration: none; color: var(--color-background); background-color: var(--color-text); padding: 12px 24px; border-radius: 8px; border: 1px solid var(--color-text); transition: all 0.3s ease; cursor: none; }
         .contact-button:hover { background-color: transparent; color: var(--color-text); }
-        .instagram-button {
-            display: flex; align-items: center; justify-content: center; width: 44px; height: 44px;
-            background-color: transparent; border: 1px solid var(--color-border);
-            border-radius: 8px; text-decoration: none; transition: all 0.3s ease; cursor: none;
-        }
+        .instagram-button { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background-color: transparent; border: 1px solid var(--color-border); border-radius: 8px; text-decoration: none; transition: all 0.3s ease; cursor: none; }
         .instagram-button:hover { border-color: var(--color-text); }
         .instagram-button svg { width: 20px; height: 20px; fill: var(--color-text-secondary); transition: fill 0.3s, fill var(--duration) var(--ease); }
         .instagram-button:hover svg { fill: var(--color-text); }
-
-        /* NOWOŚĆ: Przełącznik motywu */
-        .theme-toggle {
-            margin-top: auto; /* Wypycha na dół */
-            padding-top: 40px;
-            background: none; border: none; cursor: none;
-        }
+        .theme-toggle { margin-top: auto; padding-top: 40px; background: none; border: none; cursor: none; }
         .theme-toggle svg { width: 24px; height: 24px; fill: var(--color-text-secondary); transition: fill 0.3s, transform 0.5s ease, fill var(--duration) var(--ease); }
         .theme-toggle:hover svg { fill: var(--color-text); transform: rotate(180deg); }
 
@@ -105,30 +71,41 @@
             font-weight: 800; font-size: 48px; margin-bottom: 32px;
             border-left: 3px solid var(--color-text); padding-left: 20px;
             transition: color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+            overflow: hidden; /* Potrzebne dla animacji liter */
         }
+        /* Style dla animacji liter */
+        .animated-heading span { display: inline-block; transform: translateY(100%); opacity: 0; }
+
+        /* NOWOŚĆ: Sekcja "Usługi" */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+        .service-card {
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+        }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05); }
+        body[data-theme="dark"] .service-card:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); }
+        .service-card h3 { font-size: 18px; font-weight: 800; margin: 0 0 8px 0; }
+        .service-card p { font-size: 15px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; }
+
         .iframe-responsive-wrapper { position: relative; overflow: hidden; width: 100%; aspect-ratio: 1 / 1; border-radius: 12px; border: 1px solid var(--color-border); transition: border-color var(--duration) var(--ease); }
         .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         .content-footer { text-align: center; padding: 80px 0 40px 0; font-size: 14px; color: var(--color-text-secondary); transition: color var(--duration) var(--ease); }
 
-        /* NOWOŚĆ: Klasy do animacji "On-Scroll" */
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1s var(--ease), transform 1s var(--ease);
-        }
-        .reveal-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        @media (max-width: 900px) { .site-wrapper { grid-template-columns: 1fr; padding: 0; } .sticky-sidebar { position: static; height: auto; padding: 40px 24px; border-bottom: 1px solid var(--color-border); } .sidebar-content { margin: 0; } .action-buttons, .logo, .bio { text-align: center; justify-content: center; } .theme-toggle { display: none; } .main-content { padding: 40px 24px; } }
         
-        @media (max-width: 900px) { .site-wrapper { grid-template-columns: 1fr; padding: 0; } .sticky-sidebar { position: static; height: auto; padding: 40px 24px; border-bottom: 1px solid var(--color-border); } .sidebar-content { margin: 0; } .action-buttons, .logo, .bio { text-align: center; justify-content: center; } .theme-toggle { display: none; /* Można ukryć na mobilce dla prostoty */ } .main-content { padding: 40px 24px; } }
-        
-        /* Style zdrapki i modala bez zmian */
-        #scratch-off-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; cursor: none; transition: opacity 0.8s ease-in-out; opacity: 1; display: flex; align-items: center; justify-content: center; background-color:#000; }
+        #scratch-off-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; /* NAJWYŻSZY Z-INDEX */ cursor: default; transition: opacity 0.8s ease-in-out; opacity: 1; display: flex; align-items: center; justify-content: center; background-color:#000; }
         #scratch-off-container.cleared { opacity: 0; pointer-events: none; }
         #scratch-canvas { position: absolute; top: 0; left: 0; }
         .scratch-text { color: white; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 32px; text-align: center; pointer-events: none; text-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 1; }
-        #email-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,.1); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 0; visibility: hidden; transition: all .3s ease-in-out; }
+        #email-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,.1); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 99999; opacity: 0; visibility: hidden; transition: all .3s ease-in-out; }
         body[data-theme="dark"] #email-modal { background: rgba(0,0,0,.5); }
         #email-modal.visible { opacity: 1; visibility: visible; }
         .modal-content { background: var(--color-background); border-radius: 16px; border: 1px solid var(--color-border); box-shadow: 0 10px 30px rgba(0,0,0,.1); text-align: center; width: 90%; max-width: 400px; padding: 30px 40px; transform: translateY(20px); transition: all .3s ease-in-out; }
@@ -137,11 +114,12 @@
         .modal-email { background-color: var(--color-surface); padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 500; margin-bottom: 20px; word-wrap: break-word; color: var(--color-text-secondary); transition: all var(--duration) var(--ease); }
         .close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: none; color: #aaa; transition: color 0.2s ease; }
         .close-btn:hover { color: var(--color-text); }
-
+        .reveal-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+        .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body>
-    
+<body class="cursor-hidden">
+
     <div id="scratch-off-container">
         <div class="scratch-text">Odkryj kreatywność</div>
         <canvas id="scratch-canvas"></canvas>
@@ -154,9 +132,7 @@
         <aside class="sticky-sidebar">
             <div class="sidebar-content reveal-on-scroll">
                 <div class="logo">SG.media.pl</div>
-                <p class="bio">
-                    Nazywam się Szymon Grzeszczak. Jestem fotografem i twórcą wideo z Wrocławia. Opowiadam historie poprzez obrazy, specjalizując się w reportażach z wesel i eventów.
-                </p>
+                <p class="bio">Nazywam się Szymon Grzeszczak. Jestem fotografem i twórcą wideo z Wrocławia. Opowiadam historie poprzez obrazy, specjalizując się w reportażach z wesel i eventów.</p>
                 <div class="action-buttons">
                     <button id="open-modal-btn" class="contact-button">Napisz do mnie</button>
                     <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="instagram-button" aria-label="Przejdź na Instagram">
@@ -164,13 +140,18 @@
                     </a>
                 </div>
             </div>
-            <button class="theme-toggle" id="theme-toggle" aria-label="Zmień motyw">
-                <svg id="theme-icon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 110 18A9 9 0 0112 3m0-2a11 11 0 100 22A11 11 0 0012 1zM12 7a5 5 0 110 10A5 5 0 0112 7z"/></svg>
-            </button>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Zmień motyw"><svg id="theme-icon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 110 18A9 9 0 0112 3m0-2a11 11 0 100 22A11 11 0 0012 1zM12 7a5 5 0 110 10A5 5 0 0112 7z"/></svg></button>
         </aside>
 
         <main class="main-content">
-            <h1 class="reveal-on-scroll">Portfolio</h1>
+            <h1 class="reveal-on-scroll animated-heading">Portfolio</h1>
+            
+            <section class="services-grid reveal-on-scroll">
+                <div class="service-card"><h3>Reportaże Ślubne</h3><p>Uchwycenie autentycznych emocji i najważniejszych momentów w formie ponadczasowej opowieści.</p></div>
+                <div class="service-card"><h3>Fotografia Eventowa</h3><p>Dynamiczne i profesjonalne relacje z konferencji, koncertów i wydarzeń firmowych.</p></div>
+                <div class="service-card"><h3>Sesje Wizerunkowe</h3><p>Nowoczesne portrety dla marek osobistych i firm, które budują profesjonalny wizerunek.</p></div>
+            </section>
+            
             <div class="iframe-responsive-wrapper reveal-on-scroll">
                 <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
             </div>
@@ -188,53 +169,48 @@
                 const canvas = document.getElementById('scratch-canvas');
                 const ctx = canvas.getContext('2d', { willReadFrequently: true });
                 let isCleared = false, inactivityTimeout, brushRadius = 50;
-                const fadeOutAndRemove = () => { if(isCleared) return; isCleared = true; clearTimeout(inactivityTimeout); scratchContainer.classList.add('cleared'); setTimeout(() => scratchContainer.remove(), 800); };
+                const fadeOutAndRemove = () => { if(isCleared) return; isCleared = true; clearTimeout(inactivityTimeout); scratchContainer.classList.add('cleared'); document.body.classList.add('cursor-visible'); setTimeout(() => scratchContainer.remove(), 800); };
                 const initScratch = () => { clearTimeout(inactivityTimeout); canvas.width = window.innerWidth; canvas.height = window.innerHeight; ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, canvas.width, canvas.height); inactivityTimeout = setTimeout(fadeOutAndRemove, 10000); };
                 const getCoords = e => e.changedTouches ? {x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY} : {x:e.clientX,y:e.clientY};
                 const scratch = e => { if(isCleared)return;e.preventDefault();const t=getCoords(e);ctx.globalCompositeOperation="destination-out",ctx.beginPath(),ctx.arc(t.x,t.y,brushRadius,0,2*Math.PI),ctx.fill() };
                 const checkClearedArea = (()=>{let e;return()=>{clearTimeout(e),e=setTimeout(()=>{if(isCleared)return;const e=ctx.getImageData(0,0,canvas.width,canvas.height).data;let t=0;for(let o=3;o<e.length;o+=40)0===e[o]&&t++;t/(e.length/40)*100>35&&fadeOutAndRemove()},200)}})();
                 const moveHandler = e => { clearTimeout(inactivityTimeout); scratch(e); checkClearedArea(); };
                 initScratch(); canvas.addEventListener('mousemove', moveHandler); canvas.addEventListener('touchmove', moveHandler); window.addEventListener('resize', initScratch);
-            }
+            } else { document.body.classList.add('cursor-visible'); }
 
             // --- SKRYPT MODALA E-MAIL ---
-            const emailModal = document.getElementById('email-modal');
-            const openBtn = document.getElementById('open-modal-btn');
+            const emailModal = document.getElementById('email-modal'), openBtn = document.getElementById('open-modal-btn');
             if (emailModal && openBtn) {
                 const closeBtn = document.getElementById('close-modal-btn'), copyBtn = document.getElementById('copy-email-btn');
                 const openModal = () => emailModal.style.cssText = 'opacity: 1; visibility: visible;', closeModal = () => emailModal.style.cssText = 'opacity: 0; visibility: hidden;';
-                openBtn.addEventListener('click', openModal); closeBtn.addEventListener('click', closeModal);
-                emailModal.addEventListener('click', e => { if (e.target === emailModal) closeModal(); });
-                copyBtn.addEventListener('click', () => {
-                    const emailToCopy = 'biuro.sg.media.pl@gmail.com';
-                    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(emailToCopy).then(() => { copyBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyBtn.textContent = 'Skopiuj adres' }, 2000); }); }
-                    else { let t = document.createElement("textarea"); t.value = emailToCopy; t.style.position = "fixed"; t.style.left = "-9999px"; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); copyBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyBtn.textContent = 'Skopiuj adres' }, 2000); } catch (err) { alert('Nie udało się skopiować adresu.'); } document.body.removeChild(t); }
-                });
+                openBtn.addEventListener('click', openModal); closeBtn.addEventListener('click', closeModal); emailModal.addEventListener('click', e => { if (e.target === emailModal) closeModal(); });
+                copyBtn.addEventListener('click', () => { const e = 'biuro.sg.media.pl@gmail.com'; if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(e).then(() => { copyBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyBtn.textContent = 'Skopiuj adres' }, 2000); }); } else { let t = document.createElement("textarea"); t.value = e; t.style.position = "fixed"; t.style.left = "-9999px"; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); copyBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyBtn.textContent = 'Skopiuj adres' }, 2000); } catch (err) { alert('Nie udało się skopiować adresu.'); } document.body.removeChild(t); } });
             }
 
             // --- SKRYPT INTERAKTYWNEGO KURSORA ---
-            const cursorDot = document.getElementById('cursor-dot');
-            const cursorCircle = document.getElementById('cursor-circle');
+            const cursorDot = document.getElementById('cursor-dot'), cursorCircle = document.getElementById('cursor-circle');
             if(cursorDot && cursorCircle) {
-                gsap.set(cursorDot, { xPercent: -50, yPercent: -50 });
-                gsap.set(cursorCircle, { xPercent: -50, yPercent: -50 });
-                window.addEventListener('mousemove', e => {
-                    gsap.to(cursorDot, 0.1, { x: e.clientX, y: e.clientY });
-                    gsap.to(cursorCircle, 0.5, { x: e.clientX, y: e.clientY, ease: "power1.out" });
-                });
-                document.querySelectorAll('a, button, .iframe-responsive-wrapper').forEach(el => {
-                    el.addEventListener('mouseenter', () => cursorCircle.classList.add('hovered'));
-                    el.addEventListener('mouseleave', () => cursorCircle.classList.remove('hovered'));
-                });
+                gsap.set(cursorDot, { xPercent: -50, yPercent: -50 }); gsap.set(cursorCircle, { xPercent: -50, yPercent: -50 });
+                window.addEventListener('mousemove', e => { gsap.to(cursorDot, 0.1, { x: e.clientX, y: e.clientY }); gsap.to(cursorCircle, 0.5, { x: e.clientX, y: e.clientY, ease: "power1.out" }); });
+                document.querySelectorAll('a, button, .service-card, .iframe-responsive-wrapper').forEach(el => { el.addEventListener('mouseenter', () => cursorCircle.classList.add('hovered')); el.addEventListener('mouseleave', () => cursorCircle.classList.remove('hovered')); });
             }
 
             // --- SKRYPT ANIMACJI ON-SCROLL ---
             const revealElements = document.querySelectorAll('.reveal-on-scroll');
+            const animatedHeading = document.querySelector('.animated-heading');
             if(revealElements.length > 0) {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            entry.target.classList.add('is-visible');
+                            if(entry.target.classList.contains('animated-heading')) {
+                                const el = entry.target;
+                                const text = el.textContent;
+                                const letters = text.split('').map(l => `<span>${l === ' ' ? '&nbsp;' : l}</span>`).join('');
+                                el.innerHTML = letters;
+                                gsap.fromTo(el.querySelectorAll('span'), {y: '100%', opacity: 0}, {y: 0, opacity: 1, stagger: 0.05, duration: 1, ease: 'power3.out'});
+                            } else {
+                                entry.target.classList.add('is-visible');
+                            }
                             observer.unobserve(entry.target);
                         }
                     });
@@ -245,14 +221,10 @@
             // --- SKRYPT PRZEŁĄCZNIKA MOTYWU ---
             const themeToggle = document.getElementById('theme-toggle');
             if(themeToggle) {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const savedTheme = localStorage.getItem('theme');
-                if (savedTheme) { document.body.setAttribute('data-theme', savedTheme); }
-                else if (prefersDark) { document.body.setAttribute('data-theme', 'dark'); }
-                
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches, savedTheme = localStorage.getItem('theme');
+                if (savedTheme) { document.body.setAttribute('data-theme', savedTheme); } else if (prefersDark) { document.body.setAttribute('data-theme', 'dark'); }
                 themeToggle.addEventListener('click', () => {
-                    const currentTheme = document.body.getAttribute('data-theme');
-                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    const currentTheme = document.body.getAttribute('data-theme'), newTheme = currentTheme === 'dark' ? 'light' : 'dark';
                     document.body.setAttribute('data-theme', newTheme);
                     localStorage.setItem('theme', newTheme);
                 });
