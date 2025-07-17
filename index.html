@@ -15,7 +15,6 @@
             --font-mono: 'VT323', monospace;
             --color-green: #00FF41;
             --color-black: #000000;
-            --color-dark-gray: #111;
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -37,18 +36,18 @@
             pointer-events: none; z-index: 100;
         }
 
-        /* POPRAWKA: Dynamiczna szerokość kolumn */
         .hacker-grid {
             display: grid;
-            grid-template-columns: max-content 1fr; /* Lewa kolumna dopasowuje się do treści */
+            grid-template-columns: max-content 1fr;
             grid-template-rows: auto 1fr;
-            gap: 20px; /* Zwiększony odstęp */
+            gap: 20px;
             width: 100vw; height: 100vh;
             padding: 20px; box-sizing: border-box;
             opacity: 0;
+            transition: opacity 0.5s ease;
         }
         
-        .hacker-grid.visible { opacity: 1; transition: opacity 0.5s ease; }
+        .hacker-grid.visible { opacity: 1; }
 
         .panel {
             border: 2px solid var(--color-green);
@@ -68,10 +67,10 @@
         .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
 
         .user-info ul { list-style: none; padding: 0; margin: 0; }
-        .user-info li { margin-bottom: 10px; white-space: nowrap; /* Zapobiega łamaniu linii */ }
+        .user-info li { margin-bottom: 10px; white-space: nowrap; }
         .user-info li strong { color: white; }
-        .user-info a { color: var(--color-green); text-decoration: none; }
-        .user-info a:hover { background-color: var(--color-green); color: var(--color-black); }
+        .user-info a, .copiable { color: var(--color-green); text-decoration: none; cursor: pointer; }
+        .user-info a:hover, .copiable:hover { background-color: var(--color-green); color: var(--color-black); }
 
         .iframe-responsive-wrapper {
             flex-grow: 1; position: relative;
@@ -79,7 +78,6 @@
         }
         .iframe-responsive-wrapper iframe {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
-            /* POPRAWKA: Usunięty filtr */
         }
 
         .type-effect { display: inline; }
@@ -96,28 +94,9 @@
             .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
             .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; }
         }
-
-        #scratch-off-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 100000; cursor: cell;
-            transition: opacity 0.8s ease-in-out; opacity: 1;
-            display: flex; align-items: center; justify-content: center;
-            background-color:#000;
-        }
-        #scratch-off-container.cleared { opacity: 0; pointer-events: none; }
-        #scratch-canvas { position: absolute; top: 0; left: 0; }
-        .scratch-text {
-            color: var(--color-green); font-family: var(--font-mono); font-weight: 400;
-            font-size: 32px; text-align: center; pointer-events: none; z-index: 1;
-        }
     </style>
 </head>
 <body>
-
-    <div id="scratch-off-container">
-        <div class="scratch-text">Odkryj kreatywność<span class="blinking-cursor"></span></div>
-        <canvas id="scratch-canvas"></canvas>
-    </div>
 
     <div class="hacker-grid">
         <header class="panel header-panel">
@@ -131,8 +110,9 @@
                 <li><strong>UID:</strong> <span class="type-effect" data-text="1337"></span></li>
                 <li><strong>LOCATION:</strong> <span class="type-effect" data-text="Wrocław, PL"></span></li>
                 <li><strong>STATUS:</strong> <span class="type-effect" data-text="ONLINE"></span></li>
-                <li><strong>SERVICES:</strong> <span class="type-effect" data-text="[foto], [wideo], [eventy]"></span></li>
-                <li><strong>CONTACT:</strong> <a href="mailto:biuro.sg.media.pl@gmail.com" class="type-effect" data-text="biuro.sg.media.pl@gmail.com"></a></li>
+                <li><strong>EXPERIENCE:</strong> <span class="type-effect" data-text="7+ years"></span></li>
+                <li><strong>SKILLS:</strong> <span class="type-effect" data-text="[portraits], [events], [video_editing]"></span></li>
+                <li><strong>CONTACT:</strong> <span id="email-copy" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
                 <li><strong>SIGNAL:</strong> <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
             </ul>
         </section>
@@ -147,92 +127,16 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const scratchContainer = document.getElementById('scratch-off-container');
             const mainGrid = document.querySelector('.hacker-grid');
 
-            // --- POPRAWIONY SKRYPT ZDRAPKI ---
-            if (scratchContainer) {
-                const canvas = scratchContainer.querySelector('canvas');
-                const ctx = canvas.getContext('2d', { willReadFrequently: true });
-                let isScratchingActive = true;
-                let inactivityTimeout;
-                const brushRadius = 50;
-
-                const startApp = () => {
-                    if (!isScratchingActive) return;
-                    isScratchingActive = false;
-                    clearTimeout(inactivityTimeout);
-                    scratchContainer.classList.add('cleared');
-                    
-                    // Usuń listenery, żeby nie obciążać przeglądarki
-                    window.removeEventListener('mousemove', moveHandler);
-                    window.removeEventListener('touchmove', moveHandler);
-
-                    setTimeout(() => {
-                        scratchContainer.remove();
-                        mainGrid.classList.add('visible');
-                        runTypingAnimations();
-                    }, 800);
-                };
-                
-                const initScratch = () => {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    ctx.fillStyle = '#000000';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    clearTimeout(inactivityTimeout);
-                    inactivityTimeout = setTimeout(startApp, 10000);
-                };
-
-                const getCoords = e => e.changedTouches ? {x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY} : {x:e.clientX,y:e.clientY};
-                
-                const scratch = e => {
-                    const coords = getCoords(e);
-                    ctx.globalCompositeOperation = "destination-out";
-                    ctx.beginPath();
-                    ctx.arc(coords.x, coords.y, brushRadius, 0, 2 * Math.PI);
-                    ctx.fill();
-                };
-                
-                const checkClearedArea = (() => {
-                    let lastCheck = 0;
-                    return () => {
-                        const now = Date.now();
-                        if (now - lastCheck < 200) return;
-                        lastCheck = now;
-                        const imageData = ctx.getImageData(0,0,canvas.width,canvas.height).data;
-                        let transparentPixels = 0;
-                        for (let i = 3; i < imageData.length; i += 80) { // Sprawdzanie co 20 piksela (4 * 20)
-                            if (imageData[i] === 0) transparentPixels++;
-                        }
-                        const clearedPercentage = (transparentPixels / (imageData.length / 80)) * 100;
-                        if (clearedPercentage > 35) startApp();
-                    };
-                })();
-
-                const moveHandler = e => {
-                    if (!isScratchingActive) return;
-                    if (inactivityTimeout) clearTimeout(inactivityTimeout);
-                    inactivityTimeout = null;
-                    scratch(e);
-                    checkClearedArea();
-                };
-                
-                initScratch();
-                window.addEventListener('mousemove', moveHandler);
-                window.addEventListener('touchmove', moveHandler);
-                window.addEventListener('resize', initScratch);
-
-            } else {
-                mainGrid.classList.add('visible');
-                runTypingAnimations();
-            }
-            
             // --- SKRYPT ANIMACJI PISANIA ---
             function runTypingAnimations() {
                 const elementsToType = document.querySelectorAll('.type-effect');
+                let totalDelay = 0;
+
                 elementsToType.forEach((element, index) => {
                     const text = element.dataset.text || element.textContent;
+                    const originalText = text; // Zapisz oryginalny tekst
                     element.textContent = '';
                     
                     setTimeout(() => {
@@ -243,6 +147,10 @@
                                 i++;
                             } else {
                                 clearInterval(typingInterval);
+                                // Przywróć oryginalny tekst, jeśli to element do kopiowania
+                                if (element.id === 'email-copy') {
+                                    element.dataset.text = originalText;
+                                }
                                 if(index === elementsToType.length - 1) {
                                     const cursorSpan = document.createElement('span');
                                     cursorSpan.className = 'blinking-cursor';
@@ -250,9 +158,37 @@
                                 }
                             }
                         }, 50);
-                    }, index * 200);
+                    }, totalDelay);
+                    totalDelay += text.length * 50 + 100; // Czas pisania + mała pauza
                 });
             }
+            
+            // --- SKRYPT KOPIOWANIA E-MAILA ---
+            const emailElement = document.getElementById('email-copy');
+            if(emailElement) {
+                emailElement.addEventListener('click', () => {
+                    const emailToCopy = 'biuro.sg.media.pl@gmail.com';
+                    const originalText = emailElement.dataset.text;
+                    
+                    navigator.clipboard.writeText(emailToCopy).then(() => {
+                        emailElement.textContent = '[COPIED_TO_CLIPBOARD]';
+                        setTimeout(() => {
+                            emailElement.textContent = originalText;
+                        }, 2000); // Wróć do oryginalnego tekstu po 2 sekundach
+                    }).catch(err => {
+                        console.error('Błąd kopiowania:', err);
+                        emailElement.textContent = '[COPY_FAILED]';
+                        setTimeout(() => {
+                            emailElement.textContent = originalText;
+                        }, 2000);
+                    });
+                });
+            }
+
+            // --- URUCHOMIENIE STRONY ---
+            // Pokaż siatkę i uruchom animacje po załadowaniu
+            mainGrid.classList.add('visible');
+            runTypingAnimations();
         });
     </script>
 </body>
