@@ -19,23 +19,34 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        
+        /* NOWOŚĆ: Animacja efektu "gliczy" */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
 
         body {
             font-family: var(--font-mono);
             background-color: var(--color-black);
             color: var(--color-green);
             margin: 0; padding: 0;
-            overflow: hidden; /* Wyłączenie przewijania na desktopie */
+            overflow: hidden;
             font-size: 20px;
         }
         
-        body::after {
-            content: ""; position: absolute; top: 0; left: 0;
+        /* --- NOWOŚĆ: TŁO "MATRIX RAIN" --- */
+        #matrix-canvas {
+            position: fixed;
+            top: 0; left: 0;
             width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.2) 0px, rgba(0,0,0,0.2) 1px, transparent 1px, transparent 2px);
-            pointer-events: none; z-index: 100;
+            z-index: -1; /* Tło jest zawsze z tyłu */
         }
-
+        
         .hacker-grid {
             display: grid;
             grid-template-columns: max-content 1fr;
@@ -43,25 +54,19 @@
             gap: 20px;
             width: 100vw; height: 100vh;
             padding: 20px; box-sizing: border-box;
-            opacity: 0;
+            opacity: 0; /* Ukryte na starcie */
             transition: opacity 0.5s ease;
         }
-        
         .hacker-grid.visible { opacity: 1; }
 
         .panel {
             border: 2px solid var(--color-green);
-            background-color: rgba(0, 255, 65, 0.05);
+            background-color: rgba(0, 0, 0, 0.6); /* Lekko przezroczyste tło, by było widać Matrix Rain */
+            backdrop-filter: blur(2px); /* Rozmycie tła */
             padding: 15px;
             overflow: hidden;
         }
-        
-        .panel-title {
-            font-size: 22px; margin: 0 0 15px 0;
-            text-transform: uppercase; border-bottom: 2px solid var(--color-green);
-            padding-bottom: 5px;
-        }
-
+        .panel-title { font-size: 22px; margin: 0 0 15px 0; text-transform: uppercase; border-bottom: 2px solid var(--color-green); padding-bottom: 5px; }
         .header-panel { grid-column: 1 / 3; }
         .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
         .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
@@ -76,17 +81,28 @@
             flex-grow: 1; position: relative;
             border: 2px solid var(--color-green); border-top: none;
         }
-        .iframe-responsive-wrapper iframe {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        /* NOWOŚĆ: Efekt "gliczy" na hover */
+        .iframe-responsive-wrapper:hover iframe {
+            animation: glitch 0.2s cubic-bezier(.25,.46,.45,.94) both infinite;
         }
+        .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
         .type-effect { display: inline; }
-        .blinking-cursor {
-            animation: blink 1s step-end infinite;
-            background-color: var(--color-green);
-            display: inline-block; width: 12px; height: 20px;
-            vertical-align: bottom;
+        .blinking-cursor { animation: blink 1s step-end infinite; background-color: var(--color-green); display: inline-block; width: 12px; height: 20px; vertical-align: bottom; }
+        
+        /* --- NOWOŚĆ: SEKWENCJA STARTOWA --- */
+        #boot-sequence {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: var(--color-black);
+            z-index: 100000;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
         }
+        #boot-sequence.hidden { opacity: 0; pointer-events: none; }
+        #boot-log p { margin: 0; }
 
         @media (max-width: 900px) {
             body { overflow: auto; }
@@ -97,6 +113,12 @@
     </style>
 </head>
 <body>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <div id="boot-sequence">
+        <div id="boot-log"></div>
+    </div>
 
     <div class="hacker-grid">
         <header class="panel header-panel">
@@ -110,8 +132,7 @@
                 <li><strong>UID:</strong> <span class="type-effect" data-text="1337"></span></li>
                 <li><strong>LOCATION:</strong> <span class="type-effect" data-text="Wrocław, PL"></span></li>
                 <li><strong>STATUS:</strong> <span class="type-effect" data-text="ONLINE"></span></li>
-                <li><strong>EXPERIENCE:</strong> <span class="type-effect" data-text="7+ years"></span></li>
-                <li><strong>SKILLS:</strong> <span class="type-effect" data-text="[portraits], [events], [video_editing]"></span></li>
+                <li><strong>SERVICES:</strong> <span class="type-effect" data-text="[foto], [wideo], [eventy]"></span></li>
                 <li><strong>CONTACT:</strong> <span id="email-copy" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
                 <li><strong>SIGNAL:</strong> <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
             </ul>
@@ -129,37 +150,90 @@
         document.addEventListener('DOMContentLoaded', () => {
             const mainGrid = document.querySelector('.hacker-grid');
 
-            // --- SKRYPT ANIMACJI PISANIA ---
+            // --- SKRYPT SEKWENCJI STARTOWEJ ---
+            const bootLog = document.getElementById('boot-log');
+            const bootSequenceContainer = document.getElementById('boot-sequence');
+            const bootLines = [
+                { text: 'INITIALIZING SYSTEM...', delay: 100 },
+                { text: 'MEMORY CHECK........ OK', delay: 300 },
+                { text: 'CONNECTING TO SG.MEDIA.PL...', delay: 500 },
+                { text: 'BYPASSING FIREWALL...', delay: 200 },
+                { text: 'DECRYPTING VISUAL DATA STREAM...', delay: 400 },
+                { text: 'CONNECTION ESTABLISHED.', delay: 100 },
+                { text: 'WELCOME_  ', delay: 300 }
+            ];
+
+            let currentLine = 0;
+            function runBootSequence() {
+                if (currentLine < bootLines.length) {
+                    const p = document.createElement('p');
+                    p.innerHTML = bootLines[currentLine].text;
+                    if (currentLine === bootLines.length - 1) {
+                         p.innerHTML += '<span class="blinking-cursor"></span>';
+                    }
+                    bootLog.appendChild(p);
+                    setTimeout(runBootSequence, bootLines[currentLine].delay);
+                    currentLine++;
+                } else {
+                    setTimeout(() => {
+                        bootSequenceContainer.classList.add('hidden');
+                        mainGrid.classList.add('visible');
+                        runTypingAnimations();
+                    }, 800);
+                }
+            }
+
+            // --- SKRYPT TŁA "MATRIX RAIN" ---
+            const matrixCanvas = document.getElementById('matrix-canvas');
+            const matrixCtx = matrixCanvas.getContext('2d');
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+            const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+            const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const nums = '0123456789';
+            const alphabet = katakana + latin + nums;
+            const fontSize = 16;
+            const columns = matrixCanvas.width / fontSize;
+            const rainDrops = [];
+            for(let x = 0; x < columns; x++) { rainDrops[x] = 1; }
+
+            function drawMatrix() {
+                matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+                matrixCtx.fillStyle = 'rgba(0, 255, 65, 0.5)'; // Półprzezroczysty deszcz
+                matrixCtx.font = fontSize + 'px monospace';
+                for(let i = 0; i < rainDrops.length; i++) {
+                    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                    matrixCtx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                    if(rainDrops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975){
+                        rainDrops[i] = 0;
+                    }
+                    rainDrops[i]++;
+                }
+            }
+            setInterval(drawMatrix, 33);
+            
+            // --- SKRYPT ANIMACJI PISANIA W PANELACH ---
             function runTypingAnimations() {
                 const elementsToType = document.querySelectorAll('.type-effect');
                 let totalDelay = 0;
-
                 elementsToType.forEach((element, index) => {
                     const text = element.dataset.text || element.textContent;
-                    const originalText = text; // Zapisz oryginalny tekst
+                    const originalText = text;
                     element.textContent = '';
-                    
                     setTimeout(() => {
                         let i = 0;
                         const typingInterval = setInterval(() => {
                             if (i < text.length) {
-                                element.textContent += text.charAt(i);
-                                i++;
+                                element.textContent += text.charAt(i); i++;
                             } else {
                                 clearInterval(typingInterval);
-                                // Przywróć oryginalny tekst, jeśli to element do kopiowania
-                                if (element.id === 'email-copy') {
-                                    element.dataset.text = originalText;
-                                }
-                                if(index === elementsToType.length - 1) {
-                                    const cursorSpan = document.createElement('span');
-                                    cursorSpan.className = 'blinking-cursor';
-                                    element.appendChild(cursorSpan);
-                                }
+                                if (element.id === 'email-copy') { element.dataset.text = originalText; }
+                                if(index === elementsToType.length - 1) { const c=document.createElement('span'); c.className='blinking-cursor'; element.appendChild(c); }
                             }
                         }, 50);
                     }, totalDelay);
-                    totalDelay += text.length * 50 + 100; // Czas pisania + mała pauza
+                    totalDelay += text.length * 50 + 100;
                 });
             }
             
@@ -167,28 +241,19 @@
             const emailElement = document.getElementById('email-copy');
             if(emailElement) {
                 emailElement.addEventListener('click', () => {
-                    const emailToCopy = 'biuro.sg.media.pl@gmail.com';
-                    const originalText = emailElement.dataset.text;
-                    
+                    const emailToCopy = 'biuro.sg.media.pl@gmail.com'; const originalText = emailElement.dataset.text;
                     navigator.clipboard.writeText(emailToCopy).then(() => {
                         emailElement.textContent = '[COPIED_TO_CLIPBOARD]';
-                        setTimeout(() => {
-                            emailElement.textContent = originalText;
-                        }, 2000); // Wróć do oryginalnego tekstu po 2 sekundach
+                        setTimeout(() => { emailElement.textContent = originalText; }, 2000);
                     }).catch(err => {
-                        console.error('Błąd kopiowania:', err);
                         emailElement.textContent = '[COPY_FAILED]';
-                        setTimeout(() => {
-                            emailElement.textContent = originalText;
-                        }, 2000);
+                        setTimeout(() => { emailElement.textContent = originalText; }, 2000);
                     });
                 });
             }
 
-            // --- URUCHOMIENIE STRONY ---
-            // Pokaż siatkę i uruchom animacje po załadowaniu
-            mainGrid.classList.add('visible');
-            runTypingAnimations();
+            // --- URUCHOMIENIE APLIKACJI ---
+            runBootSequence(); // Start
         });
     </script>
 </body>
