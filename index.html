@@ -9,7 +9,6 @@
     <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, portfolio">
 
     <style>
-        /* NOWA TYPOGRAFIA: Czcionka maszynowa */
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
         :root {
@@ -20,133 +19,97 @@
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         body {
             font-family: var(--font-mono);
             background-color: var(--color-black);
             color: var(--color-green);
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             overflow: hidden; /* Wyłączenie przewijania na desktopie */
             font-size: 20px;
         }
         
-        /* Nakładka z efektem starych monitorów */
         body::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            content: ""; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
             background: repeating-linear-gradient(0deg, rgba(0,0,0,0.2) 0px, rgba(0,0,0,0.2) 1px, transparent 1px, transparent 2px);
-            pointer-events: none;
-            z-index: 100;
+            pointer-events: none; z-index: 100;
         }
 
-        /* --- NOWY UKŁAD W STYLU HAKERSKIM --- */
+        /* POPRAWKA: Dynamiczna szerokość kolumn */
         .hacker-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: max-content 1fr; /* Lewa kolumna dopasowuje się do treści */
             grid-template-rows: auto 1fr;
-            gap: 10px;
-            width: 100vw;
-            height: 100vh;
-            padding: 10px;
-            box-sizing: border-box;
+            gap: 20px; /* Zwiększony odstęp */
+            width: 100vw; height: 100vh;
+            padding: 20px; box-sizing: border-box;
             opacity: 0;
         }
         
-        .hacker-grid.visible {
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
+        .hacker-grid.visible { opacity: 1; transition: opacity 0.5s ease; }
 
         .panel {
             border: 2px solid var(--color-green);
             background-color: rgba(0, 255, 65, 0.05);
             padding: 15px;
-            overflow: hidden; /* Zapobiega wychodzeniu treści poza panel */
+            overflow: hidden;
         }
         
         .panel-title {
-            font-size: 22px;
-            margin: 0 0 15px 0;
-            text-transform: uppercase;
-            border-bottom: 2px solid var(--color-green);
+            font-size: 22px; margin: 0 0 15px 0;
+            text-transform: uppercase; border-bottom: 2px solid var(--color-green);
             padding-bottom: 5px;
         }
 
-        /* Poszczególne panele */
         .header-panel { grid-column: 1 / 3; }
         .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
         .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
 
-        .user-info ul {
-            list-style: none;
-            padding: 0; margin: 0;
-        }
-        .user-info li {
-            margin-bottom: 10px;
-        }
-        .user-info li strong {
-            color: white;
-        }
-        .user-info a {
-            color: var(--color-green);
-            text-decoration: none;
-        }
-        .user-info a:hover {
-            background-color: var(--color-green);
-            color: var(--color-black);
-        }
+        .user-info ul { list-style: none; padding: 0; margin: 0; }
+        .user-info li { margin-bottom: 10px; white-space: nowrap; /* Zapobiega łamaniu linii */ }
+        .user-info li strong { color: white; }
+        .user-info a { color: var(--color-green); text-decoration: none; }
+        .user-info a:hover { background-color: var(--color-green); color: var(--color-black); }
 
-        /* Galeria z Mirror */
         .iframe-responsive-wrapper {
-            flex-grow: 1; /* Wypełnia dostępną przestrzeń */
-            position: relative;
-            border: 2px solid var(--color-green);
-            border-top: none;
+            flex-grow: 1; position: relative;
+            border: 2px solid var(--color-green); border-top: none;
         }
         .iframe-responsive-wrapper iframe {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
-            filter: grayscale(1) contrast(1.5) brightness(0.8); /* Filtr monochromatyczny dla klimatu */
+            /* POPRAWKA: Usunięty filtr */
         }
 
-        /* Animacja pisania */
         .type-effect { display: inline; }
         .blinking-cursor {
             animation: blink 1s step-end infinite;
             background-color: var(--color-green);
-            display: inline-block;
-            width: 12px;
-            height: 20px;
+            display: inline-block; width: 12px; height: 20px;
             vertical-align: bottom;
         }
 
-        /* Responsywność dla telefonów */
         @media (max-width: 900px) {
-            body {
-                overflow: auto; /* Włączenie przewijania na mobilce */
-            }
-            .hacker-grid {
-                grid-template-columns: 1fr; /* Jeden panel pod drugim */
-                grid-template-rows: auto auto 50vh; /* Dostosowanie wysokości */
-                height: auto;
-            }
+            body { overflow: auto; }
+            .hacker-grid { grid-template-columns: 1fr; grid-template-rows: auto auto 50vh; height: auto; }
             .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
             .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; }
         }
 
-        /* --- ZDRAPKA --- */
-        #scratch-off-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: cell; transition: opacity 0.8s ease-in-out; opacity: 1; display: flex; align-items: center; justify-content: center; background-color:#000; }
+        #scratch-off-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 100000; cursor: cell;
+            transition: opacity 0.8s ease-in-out; opacity: 1;
+            display: flex; align-items: center; justify-content: center;
+            background-color:#000;
+        }
         #scratch-off-container.cleared { opacity: 0; pointer-events: none; }
         #scratch-canvas { position: absolute; top: 0; left: 0; }
-        .scratch-text { color: var(--color-green); font-family: var(--font-mono); font-weight: 400; font-size: 32px; text-align: center; pointer-events: none; z-index: 1; }
+        .scratch-text {
+            color: var(--color-green); font-family: var(--font-mono); font-weight: 400;
+            font-size: 32px; text-align: center; pointer-events: none; z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -184,21 +147,27 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- SKRYPT ZDRAPKI ---
             const scratchContainer = document.getElementById('scratch-off-container');
             const mainGrid = document.querySelector('.hacker-grid');
 
+            // --- POPRAWIONY SKRYPT ZDRAPKI ---
             if (scratchContainer) {
                 const canvas = scratchContainer.querySelector('canvas');
                 const ctx = canvas.getContext('2d', { willReadFrequently: true });
-                let isCleared = false, inactivityTimeout;
+                let isScratchingActive = true;
+                let inactivityTimeout;
                 const brushRadius = 50;
 
                 const startApp = () => {
-                    if (isCleared) return;
-                    isCleared = true;
+                    if (!isScratchingActive) return;
+                    isScratchingActive = false;
                     clearTimeout(inactivityTimeout);
                     scratchContainer.classList.add('cleared');
+                    
+                    // Usuń listenery, żeby nie obciążać przeglądarki
+                    window.removeEventListener('mousemove', moveHandler);
+                    window.removeEventListener('touchmove', moveHandler);
+
                     setTimeout(() => {
                         scratchContainer.remove();
                         mainGrid.classList.add('visible');
@@ -207,19 +176,42 @@
                 };
                 
                 const initScratch = () => {
-                    clearTimeout(inactivityTimeout);
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
                     ctx.fillStyle = '#000000';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    clearTimeout(inactivityTimeout);
                     inactivityTimeout = setTimeout(startApp, 10000);
                 };
 
                 const getCoords = e => e.changedTouches ? {x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY} : {x:e.clientX,y:e.clientY};
-                const scratch = e => { if(isCleared)return; e.preventDefault(); const t=getCoords(e); ctx.globalCompositeOperation="destination-out"; ctx.beginPath(); ctx.arc(t.x,t.y,brushRadius,0,2*Math.PI); ctx.fill() };
-                const checkClearedArea = (()=>{let e;return()=>{clearTimeout(e),e=setTimeout(()=>{if(isCleared)return;const e=ctx.getImageData(0,0,canvas.width,canvas.height).data;let t=0;for(let o=3;o<e.length;o+=80)0===e[o]&&t++;t/(e.length/160)*100>35&&startApp()},200)}})();
                 
+                const scratch = e => {
+                    const coords = getCoords(e);
+                    ctx.globalCompositeOperation = "destination-out";
+                    ctx.beginPath();
+                    ctx.arc(coords.x, coords.y, brushRadius, 0, 2 * Math.PI);
+                    ctx.fill();
+                };
+                
+                const checkClearedArea = (() => {
+                    let lastCheck = 0;
+                    return () => {
+                        const now = Date.now();
+                        if (now - lastCheck < 200) return;
+                        lastCheck = now;
+                        const imageData = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+                        let transparentPixels = 0;
+                        for (let i = 3; i < imageData.length; i += 80) { // Sprawdzanie co 20 piksela (4 * 20)
+                            if (imageData[i] === 0) transparentPixels++;
+                        }
+                        const clearedPercentage = (transparentPixels / (imageData.length / 80)) * 100;
+                        if (clearedPercentage > 35) startApp();
+                    };
+                })();
+
                 const moveHandler = e => {
+                    if (!isScratchingActive) return;
                     if (inactivityTimeout) clearTimeout(inactivityTimeout);
                     inactivityTimeout = null;
                     scratch(e);
@@ -227,9 +219,10 @@
                 };
                 
                 initScratch();
-                scratchContainer.addEventListener('mousemove', moveHandler);
-                scratchContainer.addEventListener('touchmove', moveHandler);
+                window.addEventListener('mousemove', moveHandler);
+                window.addEventListener('touchmove', moveHandler);
                 window.addEventListener('resize', initScratch);
+
             } else {
                 mainGrid.classList.add('visible');
                 runTypingAnimations();
@@ -240,7 +233,7 @@
                 const elementsToType = document.querySelectorAll('.type-effect');
                 elementsToType.forEach((element, index) => {
                     const text = element.dataset.text || element.textContent;
-                    element.textContent = ''; // Wyczyść
+                    element.textContent = '';
                     
                     setTimeout(() => {
                         let i = 0;
@@ -250,15 +243,14 @@
                                 i++;
                             } else {
                                 clearInterval(typingInterval);
-                                // Dodaj migający kursor na końcu ostatniego elementu
                                 if(index === elementsToType.length - 1) {
                                     const cursorSpan = document.createElement('span');
                                     cursorSpan.className = 'blinking-cursor';
                                     element.appendChild(cursorSpan);
                                 }
                             }
-                        }, 50); // Szybkość pisania
-                    }, index * 200); // Opóźnienie między kolejnymi elementami
+                        }, 50);
+                    }, index * 200);
                 });
             }
         });
