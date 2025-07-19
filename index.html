@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>SG.media.pl - [INITIALIZING SENSOR...]</title>
+    <title>SG.media.pl - [SESSION ESTABLISHED]</title>
     <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Connection established. Accessing visual data stream. Location: Wrocław, PL.">
-    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, Lumix S5II, Sony A7III, Sony FX6">
+    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, Lumix S5II, Sony FX6">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -16,10 +16,17 @@
             --color-accent: #FFB800; 
             --color-black: #080808;
             --color-white: #EAEAEA;
+            --color-blue-link: #00BFFF; /* NOWY KOLOR DLA LINKÓW */
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        /* NOWA ANIMACJA: Pulsowanie dla REC */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
 
         body {
             font-family: var(--font-mono);
@@ -37,11 +44,7 @@
             pointer-events: none; z-index: 100;
         }
         
-        #matrix-canvas {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-        }
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         
         .hacker-grid {
             display: grid;
@@ -50,48 +53,40 @@
             gap: 20px;
             width: 100vw; height: 100vh;
             padding: 20px; box-sizing: border-box;
-            opacity: 0; /* Ukryte na starcie */
-            transition: opacity 0.5s ease;
         }
-        .hacker-grid.visible { opacity: 1; }
-
-        .panel {
-            border: 2px solid var(--color-accent);
-            background-color: rgba(10, 10, 10, 0.6);
-            backdrop-filter: blur(2px);
-            padding: 15px;
-            overflow: hidden;
-        }
+        
+        .panel { border: 2px solid var(--color-accent); background-color: rgba(10, 10, 10, 0.6); backdrop-filter: blur(2px); padding: 15px; overflow: hidden; }
         .panel-title { font-size: 22px; margin: 0 0 15px 0; text-transform: uppercase; border-bottom: 2px solid var(--color-accent); padding-bottom: 5px; }
+
         .header-panel { grid-column: 1 / 3; }
         .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
         .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
+
         .user-info ul { list-style: none; padding: 0; margin: 0; }
         .user-info li { margin-bottom: 10px; white-space: nowrap; }
         .user-info li strong { color: var(--color-white); }
-        .user-info a, .copiable { color: var(--color-accent); text-decoration: none; cursor: pointer; }
-        .user-info a:hover, .copiable:hover { background-color: var(--color-accent); color: var(--color-black); }
+        /* NOWE STYLE DLA LINKÓW */
+        .user-info a, .copiable {
+            text-decoration: underline;
+            color: var(--color-blue-link);
+            cursor: pointer;
+        }
+        .user-info a:hover, .copiable:hover {
+            background-color: var(--color-blue-link);
+            color: var(--color-black);
+        }
+
         .iframe-responsive-wrapper { flex-grow: 1; position: relative; border: 2px solid var(--color-accent); border-top: none; }
         .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
         .type-effect { display: inline; }
         .blinking-cursor { animation: blink 1s step-end infinite; background-color: var(--color-accent); display: inline-block; width: 12px; height: 20px; vertical-align: bottom; }
-
-        /* NOWOŚĆ: EKRAN ŁADOWANIA */
-        #preloader {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: var(--color-black);
-            z-index: 100000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 1;
-            transition: opacity 0.8s ease-in-out;
+        
+        /* NOWY STYL DLA WSKAŹNIKA REC */
+        .rec-indicator {
+            color: red;
+            animation: pulse 1.5s infinite;
         }
-        #preloader.hidden { opacity: 0; pointer-events: none; }
-        #preloader-log { text-align: left; }
-        #preloader-log p { margin: 0 0 10px 0; }
-        #preloader-log .value { color: var(--color-white); }
 
         @media (max-width: 900px) {
             body { overflow: auto; }
@@ -99,6 +94,13 @@
             .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
             .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; }
         }
+
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--color-black); z-index: 100000; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.8s ease-in-out; }
+        #preloader.hidden { opacity: 0; pointer-events: none; }
+        #preloader-log { text-align: left; }
+        #preloader-log p { margin: 0 0 10px 0; }
+        #preloader-log .value { color: var(--color-white); }
+
     </style>
 </head>
 <body>
@@ -111,7 +113,9 @@
 
     <div class="hacker-grid">
         <header class="panel header-panel">
-            <h1 class="panel-title type-effect" data-text="> LIVE_VIEW [REC] ●"></h1>
+            <h1 class="panel-title type-effect" data-text="> LIVE_VIEW ">
+                <span class="type-effect" data-text="[REC] "></span><span class="rec-indicator type-effect" data-text="●"></span>
+            </h1>
         </header>
 
         <section class="panel user-info">
@@ -120,10 +124,10 @@
                 <li><strong>OPERATOR:</strong> <span class="type-effect" data-text="Szymon Grzeszczak"></span></li>
                 <li><strong>LOCATION:</strong> <span class="type-effect" data-text="Wrocław, PL"></span></li>
                 <li><strong>APERTURE:</strong> <span class="type-effect" data-text="f/1.2 - f/22"></span></li>
-                <li><strong>GEAR:</strong> <span class="type-effect" data-text="[LUMIX S5II], [SONY A7III], [...]"></span></li>
+                <li><strong>GEAR:</strong> <span class="type-effect" data-text="[LUMIX S5II], [SONY FX6], [...]"></span></li>
                 <li><strong>FOCUS_MODE:</strong> <span class="type-effect" data-text="[eye-af], [tracking], [manual]"></span></li>
-                <li><strong>UPLINK:</strong> <span id="email-copy" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
-                <li><strong>SOCIAL_FEED:</strong> <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
+                <li><strong>E-mail:</strong> <span id="email-copy" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
+                <li><strong>SOCIAL_FEED:</strong> <a id="instagram-link" href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
             </ul>
         </section>
 
@@ -162,83 +166,39 @@
                     rainDrops[i]++;
                 }
             }
-            const matrixInterval = setInterval(drawMatrix, 40);
+            setInterval(drawMatrix, 40);
 
-            // --- SKRYPT ANIMACJI PISANIA ---
-            function runTypingAnimations() { /* ... (bez zmian) ... */ }
-
-            // --- SKRYPT KOPIOWANIA E-MAILA ---
-            const emailElement = document.getElementById('email-copy');
-            if(emailElement) { /* ... (bez zmian) ... */ }
-            
-            // --- NOWY SKRYPT EKRANU ŁADOWANIA ---
-            const preloader = document.getElementById('preloader');
-            const preloaderLog = document.getElementById('preloader-log');
-            
+            // --- SKRYPT EKRANU ŁADOWANIA ---
+            const preloader = document.getElementById('preloader'), preloaderLog = document.getElementById('preloader-log');
             const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
             const animateSetting = async (element, values, finalValue, duration = 500) => {
                 const valueSpan = element.querySelector('.value');
                 const intervalTime = 50;
                 const intervals = duration / intervalTime;
-                for (let i = 0; i < intervals; i++) {
-                    valueSpan.textContent = `[ ${values[Math.floor(Math.random() * values.length)]} ]`;
-                    await sleep(intervalTime);
-                }
+                for (let i = 0; i < intervals; i++) { valueSpan.textContent = `[ ${values[Math.floor(Math.random() * values.length)]} ]`; await sleep(intervalTime); }
                 valueSpan.textContent = `[ ${finalValue} ]`;
             };
-
             const runPreloaderSequence = async () => {
-                // Linia 1
-                const line1 = document.createElement('p');
-                line1.textContent = '> INITIALIZING SENSOR...';
-                preloaderLog.appendChild(line1);
-                await sleep(500);
-
-                // Linia 2 (ISO)
-                const line2 = document.createElement('p');
-                line2.innerHTML = '> SETTING ISO... <span class="value">[ 1600 ]</span>';
-                preloaderLog.appendChild(line2);
-                await animateSetting(line2, ['200', '400', '800', '1600', '3200'], '100');
-                await sleep(300);
-
-                // Linia 3 (APERTURE)
-                const line3 = document.createElement('p');
-                line3.innerHTML = '> SETTING APERTURE... <span class="value">[ f/5.6 ]</span>';
-                preloaderLog.appendChild(line3);
-                await animateSetting(line3, ['f/1.2', 'f/2.8', 'f/4.0', 'f/8.0'], 'f/1.8');
-                await sleep(300);
-
-                // Linia 4 (SHUTTER)
-                const line4 = document.createElement('p');
-                line4.innerHTML = '> SETTING SHUTTER... <span class="value">[ 1/60s ]</span>';
-                preloaderLog.appendChild(line4);
-                await animateSetting(line4, ['1/50s', '1/125s', '1/500s', '1/1000s'], '1/250s');
-                await sleep(500);
-                
-                // Linia 5 (FINAŁ)
-                const line5 = document.createElement('p');
-                line5.innerHTML = '> CONFIGURATION LOCKED. LIVE VIEW ENABLED.<span class="blinking-cursor"></span>';
-                preloaderLog.appendChild(line5);
-                await sleep(1500);
-
-                // Ukryj preloader i pokaż główną treść
+                const line1 = document.createElement('p'); line1.textContent = '> INITIALIZING SENSOR...'; preloaderLog.appendChild(line1); await sleep(500);
+                const line2 = document.createElement('p'); line2.innerHTML = '> SETTING ISO... <span class="value">[ 1600 ]</span>'; preloaderLog.appendChild(line2); await animateSetting(line2, ['200', '400', '800', '1600', '3200'], '100'); await sleep(300);
+                const line3 = document.createElement('p'); line3.innerHTML = '> SETTING APERTURE... <span class="value">[ f/5.6 ]</span>'; preloaderLog.appendChild(line3); await animateSetting(line3, ['f/1.2', 'f/2.8', 'f/4.0', 'f/8.0'], 'f/1.8'); await sleep(300);
+                const line4 = document.createElement('p'); line4.innerHTML = '> SETTING SHUTTER... <span class="value">[ 1/60s ]</span>'; preloaderLog.appendChild(line4); await animateSetting(line4, ['1/50s', '1/125s', '1/500s', '1/1000s'], '1/250s'); await sleep(500);
+                const line5 = document.createElement('p'); line5.innerHTML = '> CONFIGURATION LOCKED. LIVE VIEW ENABLED.<span class="blinking-cursor"></span>'; preloaderLog.appendChild(line5); await sleep(1500);
                 preloader.classList.add('hidden');
-                setTimeout(() => {
-                    preloader.remove();
-                    mainGrid.classList.add('visible');
-                    runTypingAnimations(); // Uruchom pisanie na głównej stronie
-                }, 800);
+                setTimeout(() => { preloader.remove(); mainGrid.classList.add('visible'); runTypingAnimations(); }, 800);
             };
-
-            // Ponownie wklejone funkcje, które są potrzebne
+            
+            // --- SKRYPT ANIMACJI PISANIA ---
             function runTypingAnimations() {
                 const elementsToType = document.querySelectorAll('.type-effect');
                 let totalDelay = 500;
                 elementsToType.forEach((element, index) => {
                     const text = element.dataset.text || element.textContent;
-                    const originalText = text;
                     element.textContent = '';
+                    const parent = element.parentElement;
+                    if (parent && parent.id === 'email-copy') { parent.dataset.text = text; } 
+                    else if (parent && parent.id === 'instagram-link') { parent.dataset.text = text; }
+
                     setTimeout(() => {
                         let i = 0;
                         const typingInterval = setInterval(() => {
@@ -246,29 +206,43 @@
                                 element.textContent += text.charAt(i); i++;
                             } else {
                                 clearInterval(typingInterval);
-                                if (element.id === 'email-copy') { element.dataset.text = originalText; }
-                                if(index === elementsToType.length - 1) { const c=document.createElement('span'); c.className='blinking-cursor'; element.appendChild(c); }
+                                if(index === elementsToType.length - 1) {
+                                    const cursorSpan = document.createElement('span');
+                                    cursorSpan.className = 'blinking-cursor';
+                                    try { element.parentElement.appendChild(cursorSpan); } catch(e){}
+                                }
                             }
                         }, 50);
                     }, totalDelay);
                     totalDelay += text.length * 50 + 100;
                 });
             }
+            
+            // --- SKRYPTY INTERAKCJI Z LINKAMI ---
+            const emailElement = document.getElementById('email-copy');
             if(emailElement) {
                 emailElement.addEventListener('click', () => {
-                    const emailToCopy = 'biuro.sg.media.pl@gmail.com'; const originalText = emailElement.dataset.text;
+                    const emailToCopy = 'biuro.sg.media.pl@gmail.com';
                     navigator.clipboard.writeText(emailToCopy).then(() => {
-                        emailElement.textContent = '[COPIED_TO_CLIPBOARD]';
-                        setTimeout(() => { emailElement.textContent = originalText; }, 2000);
+                        alert('[ADRES E-MAIL SKOPIOWANY DO SCHOWKA]');
                     }).catch(err => {
-                        emailElement.textContent = '[COPY_FAILED]';
-                        setTimeout(() => { emailElement.textContent = originalText; }, 2000);
+                        alert('[BŁĄD Kopiowania]');
                     });
+                });
+            }
+            const instagramLink = document.getElementById('instagram-link');
+            if(instagramLink) {
+                instagramLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const confirmation = window.confirm('Zostaniesz przekierowany na zewnętrzną stronę Instagram. Kontynuować?');
+                    if (confirmation) {
+                        window.open(instagramLink.href, '_blank');
+                    }
                 });
             }
 
             // --- URUCHOMIENIE APLIKACJI ---
-            runPreloaderSequence(); // Start
+            runPreloaderSequence();
         });
     </script>
 </body>
