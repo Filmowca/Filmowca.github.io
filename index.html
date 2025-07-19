@@ -16,12 +16,11 @@
             --color-accent: #FFB800; 
             --color-black: #080808;
             --color-white: #EAEAEA;
-            --color-blue-link: #00BFFF; /* NOWY KOLOR DLA LINKÓW */
+            --color-blue-link: #00BFFF;
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        /* NOWA ANIMACJA: Pulsowanie dla REC */
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.4; }
@@ -56,8 +55,7 @@
         }
         
         .panel { border: 2px solid var(--color-accent); background-color: rgba(10, 10, 10, 0.6); backdrop-filter: blur(2px); padding: 15px; overflow: hidden; }
-        .panel-title { font-size: 22px; margin: 0 0 15px 0; text-transform: uppercase; border-bottom: 2px solid var(--color-accent); padding-bottom: 5px; }
-
+        .panel-title { font-size: 22px; margin: 0; text-transform: uppercase; border-bottom: 2px solid var(--color-accent); padding-bottom: 5px; display: flex; align-items: center; }
         .header-panel { grid-column: 1 / 3; }
         .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
         .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
@@ -65,7 +63,6 @@
         .user-info ul { list-style: none; padding: 0; margin: 0; }
         .user-info li { margin-bottom: 10px; white-space: nowrap; }
         .user-info li strong { color: var(--color-white); }
-        /* NOWE STYLE DLA LINKÓW */
         .user-info a, .copiable {
             text-decoration: underline;
             color: var(--color-blue-link);
@@ -79,13 +76,13 @@
         .iframe-responsive-wrapper { flex-grow: 1; position: relative; border: 2px solid var(--color-accent); border-top: none; }
         .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         
-        .type-effect { display: inline; }
+        .type-effect { display: inline-block; }
         .blinking-cursor { animation: blink 1s step-end infinite; background-color: var(--color-accent); display: inline-block; width: 12px; height: 20px; vertical-align: bottom; }
         
-        /* NOWY STYL DLA WSKAŹNIKA REC */
         .rec-indicator {
             color: red;
             animation: pulse 1.5s infinite;
+            margin-left: 10px;
         }
 
         @media (max-width: 900px) {
@@ -100,7 +97,6 @@
         #preloader-log { text-align: left; }
         #preloader-log p { margin: 0 0 10px 0; }
         #preloader-log .value { color: var(--color-white); }
-
     </style>
 </head>
 <body>
@@ -113,8 +109,9 @@
 
     <div class="hacker-grid">
         <header class="panel header-panel">
-            <h1 class="panel-title type-effect" data-text="> LIVE_VIEW ">
-                <span class="type-effect" data-text="[REC] "></span><span class="rec-indicator type-effect" data-text="●"></span>
+            <h1 class="panel-title">
+                <span class="type-effect" data-text="> LIVE_VIEW"></span>
+                <span class="rec-indicator">[REC] ●</span>
             </h1>
         </header>
 
@@ -123,11 +120,11 @@
             <ul>
                 <li><strong>OPERATOR:</strong> <span class="type-effect" data-text="Szymon Grzeszczak"></span></li>
                 <li><strong>LOCATION:</strong> <span class="type-effect" data-text="Wrocław, PL"></span></li>
-                <li><strong>APERTURE:</strong> <span class="type-effect" data-text="f/1.2 - f/22"></span></li>
-                <li><strong>GEAR:</strong> <span class="type-effect" data-text="[LUMIX S5II], [SONY FX6], [...]"></span></li>
-                <li><strong>FOCUS_MODE:</strong> <span class="type-effect" data-text="[eye-af], [tracking], [manual]"></span></li>
                 <li><strong>E-mail:</strong> <span id="email-copy" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
                 <li><strong>SOCIAL_FEED:</strong> <a id="instagram-link" href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
+                <li><strong>GEAR:</strong> <span class="type-effect" data-text="[LUMIX S5II], [SONY FX6], [...]"></span></li>
+                <li><strong>APERTURE:</strong> <span class="type-effect" data-text="f/1.2 - f/22"></span></li>
+                <li><strong>FOCUS_MODE:</strong> <span class="type-effect" data-text="[eye-af], [tracking], [manual]"></span></li>
             </ul>
         </section>
 
@@ -143,7 +140,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             const mainGrid = document.querySelector('.hacker-grid');
 
-            // --- SKRYPT TŁA "MATRIX RAIN" ---
             const matrixCanvas = document.getElementById('matrix-canvas');
             const matrixCtx = matrixCanvas.getContext('2d');
             matrixCanvas.width = window.innerWidth;
@@ -168,7 +164,6 @@
             }
             setInterval(drawMatrix, 40);
 
-            // --- SKRYPT EKRANU ŁADOWANIA ---
             const preloader = document.getElementById('preloader'), preloaderLog = document.getElementById('preloader-log');
             const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
             const animateSetting = async (element, values, finalValue, duration = 500) => {
@@ -185,10 +180,9 @@
                 const line4 = document.createElement('p'); line4.innerHTML = '> SETTING SHUTTER... <span class="value">[ 1/60s ]</span>'; preloaderLog.appendChild(line4); await animateSetting(line4, ['1/50s', '1/125s', '1/500s', '1/1000s'], '1/250s'); await sleep(500);
                 const line5 = document.createElement('p'); line5.innerHTML = '> CONFIGURATION LOCKED. LIVE VIEW ENABLED.<span class="blinking-cursor"></span>'; preloaderLog.appendChild(line5); await sleep(1500);
                 preloader.classList.add('hidden');
-                setTimeout(() => { preloader.remove(); mainGrid.classList.add('visible'); runTypingAnimations(); }, 800);
+                setTimeout(() => { preloader.remove(); mainGrid.style.opacity = '1'; runTypingAnimations(); }, 800);
             };
             
-            // --- SKRYPT ANIMACJI PISANIA ---
             function runTypingAnimations() {
                 const elementsToType = document.querySelectorAll('.type-effect');
                 let totalDelay = 500;
@@ -196,8 +190,7 @@
                     const text = element.dataset.text || element.textContent;
                     element.textContent = '';
                     const parent = element.parentElement;
-                    if (parent && parent.id === 'email-copy') { parent.dataset.text = text; } 
-                    else if (parent && parent.id === 'instagram-link') { parent.dataset.text = text; }
+                    if (parent && (parent.id === 'email-copy' || parent.id === 'instagram-link')) { parent.dataset.text = text; } 
 
                     setTimeout(() => {
                         let i = 0;
@@ -207,9 +200,10 @@
                             } else {
                                 clearInterval(typingInterval);
                                 if(index === elementsToType.length - 1) {
+                                    const lastLi = document.querySelector('.user-info li:last-child');
                                     const cursorSpan = document.createElement('span');
                                     cursorSpan.className = 'blinking-cursor';
-                                    try { element.parentElement.appendChild(cursorSpan); } catch(e){}
+                                    try { lastLi.appendChild(cursorSpan); } catch(e){}
                                 }
                             }
                         }, 50);
@@ -218,7 +212,6 @@
                 });
             }
             
-            // --- SKRYPTY INTERAKCJI Z LINKAMI ---
             const emailElement = document.getElementById('email-copy');
             if(emailElement) {
                 emailElement.addEventListener('click', () => {
@@ -241,7 +234,6 @@
                 });
             }
 
-            // --- URUCHOMIENIE APLIKACJI ---
             runPreloaderSequence();
         });
     </script>
