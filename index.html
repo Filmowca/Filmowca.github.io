@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>SG.media.pl - [SENSOR ONLINE]</title>
-    <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Visual data stream online. Location: Wrocław, PL.">
-    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, portfolio">
+    <title>SG.media.pl - [SESSION ESTABLISHED]</title>
+    <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Connection established. Accessing visual data stream. Location: Wrocław, PL.">
+    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, Lumix S5II, Sony A7III, Sony FX6">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
         :root {
             --font-mono: 'VT323', monospace;
-            /* NOWA KOLORYSTYKA: Ciepły, bursztynowy kolor */
             --color-accent: #FFB800; 
-            --color-black: #080808; /* Zmiękczona czerń */
+            --color-black: #080808;
             --color-white: #EAEAEA;
         }
 
@@ -113,9 +112,9 @@
             <h2 class="panel-title">> OPERATOR_DATA</h2>
             <ul>
                 <li><strong>OPERATOR:</strong> <span class="type-effect" data-text="Szymon Grzeszczak"></span></li>
-                <li><strong>ISO:</strong> <span class="type-effect" data-text="100-6400"></span></li>
                 <li><strong>LOCATION:</strong> <span class="type-effect" data-text="Wrocław, PL"></span></li>
                 <li><strong>APERTURE:</strong> <span class="type-effect" data-text="f/1.2 - f/22"></span></li>
+                <li><strong>GEAR:</strong> <span class="type-effect" data-text="[LUMIX S5II], [SONY A7III], [...]"></span></li>
                 <li><strong>FOCUS_MODE:</strong> <span class="type-effect" data-text="[eye-af], [tracking], [manual]"></span></li>
                 <li><strong>UPLINK:</strong> <span id="email-copy" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
                 <li><strong>SOCIAL_FEED:</strong> <a href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
@@ -134,14 +133,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             const mainGrid = document.querySelector('.hacker-grid');
 
-            // --- SKRYPT TŁA "MATRIX RAIN" Z NOWYMI ZNAKAMI ---
+            // --- SKRYPT TŁA "MATRIX RAIN" ---
             const matrixCanvas = document.getElementById('matrix-canvas');
             const matrixCtx = matrixCanvas.getContext('2d');
             matrixCanvas.width = window.innerWidth;
             matrixCanvas.height = window.innerHeight;
-            // NOWE ZNAKI
-            const photoTerms = 'SONY f/1.8 85MM ISO100 APERTURE SHUTTER REC 4K 24FPS CINE SLOG3 LUT COLORGRADE WROCŁAW EVENT WEDDING FASHION PORTRAIT DRONE GOPRO DAVINCI PREMIERE LIGHTROOM CAPTUREONE ';
-            const alphabet = photoTerms.replace(/ /g, ''); // Usuń spacje
+            // DODANE NOWE MODELE DO TŁA
+            const photoTerms = 'LUMIXS5II S5IIX SONYA7III SONYFX6 PXW-FS7 CANON1100D NIKOND300 f/1.8 85MM ISO100 APERTURE SHUTTER REC 4K 24FPS CINE SLOG3 LUT COLORGRADE WROCŁAW EVENT WEDDING FASHION PORTRAIT DRONE GOPRO DAVINCI PREMIERE LIGHTROOM CAPTUREONE ';
+            const alphabet = photoTerms.replace(/ /g, '');
             const fontSize = 16;
             const columns = matrixCanvas.width / fontSize;
             const rainDrops = [];
@@ -161,12 +160,12 @@
                     rainDrops[i]++;
                 }
             }
-            setInterval(drawMatrix, 40); // Lekko wolniej dla lepszego klimatu
+            setInterval(drawMatrix, 40);
 
             // --- SKRYPT ANIMACJI PISANIA ---
             function runTypingAnimations() {
                 const elementsToType = document.querySelectorAll('.type-effect');
-                let totalDelay = 500; // Start z opóźnieniem
+                let totalDelay = 500;
                 elementsToType.forEach((element, index) => {
                     const text = element.dataset.text || element.textContent;
                     const originalText = text;
@@ -203,7 +202,6 @@
             }
 
             // --- URUCHOMIENIE STRONY ---
-            // Używamy setTimeout, aby dać stronie chwilę na załadowanie wszystkiego
             setTimeout(() => {
                 mainGrid.style.opacity = '1';
                 runTypingAnimations();
