@@ -6,14 +6,12 @@
     
     <title>SG.media.pl - Fotografia & Wideo</title>
     <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Fotografia i wideo dla nowoczesnych marek, relacje z eventów i wesel. Wrocław.">
-    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, Lumix S5II, Sony FX6">
+    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, Panasonic, Sony, Canon, Nikon">
 
     <style>
-        /* NOWA TYPOGRAFIA: Plus Jakarta Sans */
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&family=VT323&display=swap');
 
         :root {
-            /* NOWA KOLORYSTYKA: Czysta i nowoczesna */
             --font-main: 'Plus Jakarta Sans', sans-serif;
             --font-mono: 'VT323', monospace;
             --color-background: #111111;
@@ -25,10 +23,20 @@
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* NOWA ANIMACJA: Płynne tło */
+        @keyframes subtle-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
         body {
             font-family: var(--font-main);
             background-color: var(--color-background);
+            /* NOWE TŁO */
+            background-image: linear-gradient(125deg, #111111, #1a1a1a, #111111);
+            background-size: 400% 400%;
+            animation: subtle-gradient 30s ease infinite;
             color: var(--color-text-primary);
             margin: 0; padding: 0;
             overflow: hidden;
@@ -47,7 +55,6 @@
             padding: 20px; box-sizing: border-box;
         }
         
-        /* NOWY WYGLĄD PANELI: Subtelne linie */
         .panel {
             border: 1px solid var(--color-border);
             background-color: transparent;
@@ -55,15 +62,7 @@
             padding: 24px;
             overflow: hidden;
         }
-        .panel-title {
-            font-size: 14px;
-            font-weight: 700;
-            margin: 0 0 24px 0;
-            text-transform: uppercase;
-            color: var(--color-text-secondary);
-            letter-spacing: 1px;
-        }
-
+        .panel-title { font-size: 14px; font-weight: 700; margin: 0 0 24px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
         .header-panel { grid-column: 1 / 3; padding: 16px 24px; }
         .user-info { grid-column: 1 / 2; grid-row: 2 / 3; display: flex; flex-direction: column; }
         .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
@@ -71,48 +70,28 @@
         .user-info ul { list-style: none; padding: 0; margin: 0; font-size: 15px; }
         .user-info li { margin-bottom: 12px; white-space: nowrap; }
         .user-info li strong { color: var(--color-text-secondary); font-weight: 700; margin-right: 8px; }
-        .user-info a, .copiable {
-            text-decoration: underline;
-            color: var(--color-link-blue);
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .user-info a:hover, .copiable:hover {
-            color: var(--color-text-primary);
-        }
-        
-        .iframe-responsive-wrapper {
-            flex-grow: 1; position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: var(--color-surface);
-        }
-        .iframe-responsive-wrapper iframe {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
-        }
-
+        .user-info a, .copiable { text-decoration: underline; color: var(--color-link-blue); cursor: pointer; transition: color 0.3s ease; }
+        .user-info a:hover, .copiable:hover { color: var(--color-text-primary); }
+        .iframe-responsive-wrapper { flex-grow: 1; position: relative; border-radius: 8px; overflow: hidden; background-color: var(--color-surface); }
+        .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         .type-effect { display: inline-block; }
         
-        #preloader {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: var(--color-background);
-            z-index: 100000;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 1; transition: opacity 0.8s ease-in-out;
+        /* NOWOŚĆ: Style dla rozwijanej listy */
+        .expander { cursor: pointer; display: inline-block; margin-left: 5px; }
+        .collapsible-content {
+            display: none;
+            padding-left: 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--color-text-secondary);
         }
+        
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--color-background); z-index: 100000; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.8s ease-in-out; }
         #preloader.hidden { opacity: 0; pointer-events: none; }
         #preloader-log { font-family: var(--font-mono); font-size: 20px; text-align: left; }
         #preloader-log p { margin: 0 0 10px 0; }
         #preloader-log .value { color: var(--color-text-primary); }
-
-        /* Mini-gra ze zmienioną czcionką */
-        #exposure-game {
-            margin-top: auto; padding-top: 15px;
-            border-top: 1px solid var(--color-border);
-            font-family: var(--font-mono);
-            font-size: 20px;
-        }
+        #exposure-game { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--color-border); font-family: var(--font-mono); font-size: 20px; }
         .game-title { font-size: 14px; font-weight: 700; margin: 0 0 15px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; font-family: var(--font-main); }
         .setting-control { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
         .setting-control strong { color: var(--color-text-secondary); font-family: var(--font-main); font-weight: 700; }
@@ -133,9 +112,7 @@
 </head>
 <body>
     
-    <div id="preloader">
-        <div id="preloader-log"></div>
-    </div>
+    <div id="preloader"><div id="preloader-log"></div></div>
 
     <div class="hacker-grid">
         <header class="panel header-panel">
@@ -149,29 +126,26 @@
                     <li><strong>LOKALIZACJA:</strong> <span class="type-effect" data-text="Wrocław, Polska"></span></li>
                     <li><strong>E-mail:</strong> <span id="email-copy" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
                     <li><strong>INSTAGRAM:</strong> <a id="instagram-link" href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
-                    <li><strong>SPRZĘT:</strong> <span class="type-effect" data-text="Lumix S5II, Sony FX6, [...]"></span></li>
-                    <li><strong>TERMIN REALIZACJI:</strong> <span class="type-effect" data-text="ok. 14 dni roboczych"></span></li>
-                    <li><strong>JAKOŚĆ:</strong> <span class="type-effect" data-text="4K Video, Hi-Res Photo"></span></li>
+                    <li id="gear-item">
+                        <strong>SPRZĘT:</strong>
+                        <span class="type-effect" data-text="Panasonic, Sony, Canon, Nikon"></span>
+                        <span class="expander" id="gear-expander">[+]</span>
+                        <div class="collapsible-content" id="gear-details">
+                            - Lumix S5II, S5IIX<br>
+                            - Sony A7III, FX6, PXW-FS7<br>
+                            - Canon 1100D<br>
+                            - Nikon D300
+                        </div>
+                    </li>
                 </ul>
             </div>
 
             <div id="exposure-game">
                 <h3 class="game-title">SYMULATOR EKSPOZYCJI</h3>
-                <div class="setting-control">
-                    <strong>ISO:</strong>
-                    <div class="buttons"><button data-setting="iso" data-direction="-1">[&lt;]</button><span id="iso-value">100</span><button data-setting="iso" data-direction="1">[&gt;]</button></div>
-                </div>
-                <div class="setting-control">
-                    <strong>PRZYSŁONA:</strong>
-                    <div class="buttons"><button data-setting="aperture" data-direction="-1">[&lt;]</button><span id="aperture-value">f/1.4</span><button data-setting="aperture" data-direction="1">[&gt;]</button></div>
-                </div>
-                <div class="setting-control">
-                    <strong>CZAS:</strong>
-                    <div class="buttons"><button data-setting="shutter" data-direction="-1">[&lt;]</button><span id="shutter-value">1/125s</span><button data-setting="shutter" data-direction="1">[&gt;]</button></div>
-                </div>
-                <div class="ev-display">
-                    TARGET EV: <span id="target-ev">0</span> | EKSPOZYCJA: <span id="current-ev">0</span>
-                </div>
+                <div class="setting-control"><strong>ISO:</strong><div class="buttons"><button data-setting="iso" data-direction="-1">[&lt;]</button><span id="iso-value">100</span><button data-setting="iso" data-direction="1">[&gt;]</button></div></div>
+                <div class="setting-control"><strong>PRZYSŁONA:</strong><div class="buttons"><button data-setting="aperture" data-direction="-1">[&lt;]</button><span id="aperture-value">f/1.4</span><button data-setting="aperture" data-direction="1">[&gt;]</button></div></div>
+                <div class="setting-control"><strong>CZAS:</strong><div class="buttons"><button data-setting="shutter" data-direction="-1">[&lt;]</button><span id="shutter-value">1/125s</span><button data-setting="shutter" data-direction="1">[&gt;]</button></div></div>
+                <div class="ev-display">TARGET EV: <span id="target-ev">0</span> | EKSPOZYCJA: <span id="current-ev">0</span></div>
                 <div id="success-message">[PRAWIDŁOWA EKSPOZYCJA]</div>
             </div>
         </section>
@@ -187,61 +161,30 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mainGrid = document.querySelector('.hacker-grid');
-
-            // --- SKRYPT EKRANU ŁADOWANIA (z nowym fontem) ---
-            const preloader = document.getElementById('preloader');
-            const preloaderLog = document.getElementById('preloader-log');
+            const preloader = document.getElementById('preloader'), preloaderLog = document.getElementById('preloader-log');
             const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-            const animateSetting = async (element, values, finalValue, duration = 500) => {
-                const valueSpan = element.querySelector('.value');
-                const intervalTime = 50;
-                const intervals = duration / intervalTime;
-                for (let i = 0; i < intervals; i++) { valueSpan.textContent = `[ ${values[Math.floor(Math.random() * values.length)]} ]`; await sleep(intervalTime); }
-                valueSpan.textContent = `[ ${finalValue} ]`;
-            };
-            const runPreloaderSequence = async () => {
-                const line1 = document.createElement('p'); line1.textContent = '> INITIALIZING SENSOR...'; preloaderLog.appendChild(line1); await sleep(500);
-                const line2 = document.createElement('p'); line2.innerHTML = '> SETTING ISO... <span class="value">[ 1600 ]</span>'; preloaderLog.appendChild(line2); await animateSetting(line2, ['200', '400', '800', '1600', '3200'], '100'); await sleep(300);
-                const line3 = document.createElement('p'); line3.innerHTML = '> SETTING APERTURE... <span class="value">[ f/5.6 ]</span>'; preloaderLog.appendChild(line3); await animateSetting(line3, ['f/1.2', 'f/2.8', 'f/4.0', 'f/8.0'], 'f/1.8'); await sleep(300);
-                const line4 = document.createElement('p'); line4.innerHTML = '> SETTING SHUTTER... <span class="value">[ 1/60s ]</span>'; preloaderLog.appendChild(line4); await animateSetting(line4, ['1/50s', '1/125s', '1/500s', '1/1000s'], '1/250s'); await sleep(500);
-                const line5 = document.createElement('p'); line5.innerHTML = '> CONFIGURATION LOCKED. LIVE VIEW ENABLED.'; preloaderLog.appendChild(line5); await sleep(1500);
-                preloader.classList.add('hidden');
-                setTimeout(() => { preloader.remove(); mainGrid.style.opacity = '1'; runTypingAnimations(); }, 800);
-            };
-            
-            // --- SKRYPT ANIMACJI PISANIA ---
-            function runTypingAnimations() {
-                const elementsToType = document.querySelectorAll('.type-effect');
-                let totalDelay = 500;
-                elementsToType.forEach((element) => {
-                    const text = element.dataset.text || element.textContent;
-                    element.textContent = '';
-                    setTimeout(() => {
-                        let i = 0;
-                        const typingInterval = setInterval(() => {
-                            if (i < text.length) {
-                                element.textContent += text.charAt(i); i++;
-                            } else {
-                                clearInterval(typingInterval);
-                            }
-                        }, 30); // Przyspieszone pisanie
-                    }, totalDelay);
-                    totalDelay += text.length * 30 + 100;
-                });
-            }
-            
-            // --- SKRYPTY INTERAKCJI (BEZ ZMIAN) ---
+            const animateSetting = async (element, values, finalValue, duration = 500) => { const valueSpan=element.querySelector('.value'); const intervalTime=50; const intervals=duration/intervalTime; for(let i=0; i<intervals; i++){valueSpan.textContent=`[ ${values[Math.floor(Math.random()*values.length)]} ]`;await sleep(intervalTime);} valueSpan.textContent=`[ ${finalValue} ]`; };
+            const runPreloaderSequence = async () => { const line1=document.createElement('p'); line1.textContent='> INITIALIZING SENSOR...'; preloaderLog.appendChild(line1); await sleep(500); const line2=document.createElement('p'); line2.innerHTML='> SETTING ISO... <span class="value">[ 1600 ]</span>'; preloaderLog.appendChild(line2); await animateSetting(line2, ['200','400','800','1600','3200'],'100'); await sleep(300); const line3=document.createElement('p'); line3.innerHTML='> SETTING APERTURE... <span class="value">[ f/5.6 ]</span>'; preloaderLog.appendChild(line3); await animateSetting(line3, ['f/1.2','f/2.8','f/4.0','f/8.0'],'f/1.8'); await sleep(300); const line4=document.createElement('p'); line4.innerHTML='> SETTING SHUTTER... <span class="value">[ 1/60s ]</span>'; preloaderLog.appendChild(line4); await animateSetting(line4, ['1/50s','1/125s','1/500s','1/1000s'],'1/250s'); await sleep(500); const line5=document.createElement('p'); line5.innerHTML='> CONFIGURATION LOCKED. LIVE VIEW ENABLED.'; preloaderLog.appendChild(line5); await sleep(1500); preloader.classList.add('hidden'); setTimeout(() => { preloader.remove(); mainGrid.style.opacity = '1'; runTypingAnimations(); }, 800); };
+            function runTypingAnimations() { const elementsToType=document.querySelectorAll('.type-effect'); let totalDelay=500; elementsToType.forEach((element) => { const text=element.dataset.text||element.textContent; element.textContent=''; setTimeout(() => { let i=0; const typingInterval=setInterval(() => { if (i<text.length) { element.textContent+=text.charAt(i); i++; } else { clearInterval(typingInterval); } }, 30); }, totalDelay); totalDelay+=text.length*30+100; }); }
             const emailElement=document.getElementById('email-copy'); if(emailElement){emailElement.addEventListener('click',()=>{const e='biuro.sg.media.pl@gmail.com';navigator.clipboard.writeText(e).then(()=>{alert('[ADRES E-MAIL SKOPIOWANY DO SCHOWKA]');}).catch(err=>{alert('[BŁĄD Kopiowania]');});});}
             const instagramLink=document.getElementById('instagram-link'); if(instagramLink){instagramLink.addEventListener('click',(e)=>{e.preventDefault();const c=window.confirm('Zostaniesz przekierowany na zewnętrzną stronę Instagram. Kontynuować?');if(c){window.open(instagramLink.href,'_blank');}});}
-
-            // --- SKRYPT MINI-GRY (BEZ ZMIAN) ---
             const settings={iso:[{val:'100',ev:0},{val:'200',ev:1},{val:'400',ev:2},{val:'800',ev:3},{val:'1600',ev:4}],aperture:[{val:'f/1.4',ev:0},{val:'f/2.0',ev:1},{val:'f/2.8',ev:2},{val:'f/4.0',ev:3},{val:'f/5.6',ev:4}],shutter:[{val:'1/15s',ev:0},{val:'1/30s',ev:-1},{val:'1/60s',ev:-2},{val:'1/125s',ev:-3},{val:'1/250s',ev:-4}]}; let currentIndices={iso:2,aperture:3,shutter:1}; const targetEV=0;
             const isoValueEl=document.getElementById('iso-value'),apertureValueEl=document.getElementById('aperture-value'),shutterValueEl=document.getElementById('shutter-value'),currentEvEl=document.getElementById('current-ev'),successMessageEl=document.getElementById('success-message'),controlButtons=document.querySelectorAll('#exposure-game button');
             function updateDisplay(){isoValueEl.textContent=settings.iso[currentIndices.iso].val;apertureValueEl.textContent=settings.aperture[currentIndices.aperture].val;shutterValueEl.textContent=settings.shutter[currentIndices.shutter].val;const currentEV=settings.iso[currentIndices.iso].ev+settings.aperture[currentIndices.aperture].ev+settings.shutter[currentIndices.shutter].ev;currentEvEl.textContent=currentEV;if(currentEV===targetEV){successMessageEl.classList.add('visible');}else{successMessageEl.classList.remove('visible');}}
             controlButtons.forEach(button=>{button.addEventListener('click',()=>{const setting=button.dataset.setting;const direction=parseInt(button.dataset.direction,10);currentIndices[setting]+=direction;if(currentIndices[setting]<0)currentIndices[setting]=0;if(currentIndices[setting]>=settings[setting].length)currentIndices[setting]=settings[setting].length-1;updateDisplay();});});
             updateDisplay();
 
-            // --- URUCHOMIENIE APLIKACJI ---
+            // NOWY SKRYPT DLA ROZWIJANEJ LISTY
+            const gearExpander = document.getElementById('gear-expander');
+            const gearDetails = document.getElementById('gear-details');
+            if (gearExpander && gearDetails) {
+                gearExpander.addEventListener('click', () => {
+                    const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === '';
+                    gearDetails.style.display = isHidden ? 'block' : 'none';
+                    gearExpander.textContent = isHidden ? '[-]' : '[+]';
+                });
+            }
+
             runPreloaderSequence();
         });
     </script>
