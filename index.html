@@ -21,11 +21,7 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         body {
             font-family: var(--font-mono);
@@ -34,13 +30,6 @@
             margin: 0; padding: 0;
             overflow: hidden;
             font-size: 20px;
-        }
-        
-        body::after {
-            content: ""; position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.2) 0px, rgba(0,0,0,0.2) 1px, transparent 1px, transparent 2px);
-            pointer-events: none; z-index: 100;
         }
         
         #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
@@ -79,11 +68,7 @@
         .type-effect { display: inline-block; }
         .blinking-cursor { animation: blink 1s step-end infinite; background-color: var(--color-accent); display: inline-block; width: 12px; height: 20px; vertical-align: bottom; }
         
-        .rec-indicator {
-            color: red;
-            animation: pulse 1.5s infinite;
-            margin-left: 10px;
-        }
+        .rec-indicator { color: red; animation: pulse 1.5s infinite; margin-left: 10px; }
 
         @media (max-width: 900px) {
             body { overflow: auto; }
@@ -123,8 +108,8 @@
                 <li><strong>E-mail:</strong> <span id="email-copy" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
                 <li><strong>SOCIAL_FEED:</strong> <a id="instagram-link" href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
                 <li><strong>GEAR:</strong> <span class="type-effect" data-text="[LUMIX S5II], [SONY FX6], [...]"></span></li>
-                <li><strong>APERTURE:</strong> <span class="type-effect" data-text="f/1.2 - f/22"></span></li>
-                <li><strong>FOCUS_MODE:</strong> <span class="type-effect" data-text="[eye-af], [tracking], [manual]"></span></li>
+                <li><strong>TURNAROUND:</strong> <span class="type-effect" data-text="[~14 dni roboczych]"></span></li>
+                <li><strong>RESOLUTION:</strong> <span class="type-effect" data-text="[4K VIDEO], [HI-RES PHOTO]"></span></li>
             </ul>
         </section>
 
