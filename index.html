@@ -43,7 +43,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-
+        
         .hacker-grid {
             display: grid;
             grid-template-columns: max-content 1fr;
@@ -143,9 +143,7 @@
 
         <section class="panel gallery-window">
             <h2 class="panel-title">PORTFOLIO / FEED</h2>
-            <div class="iframe-responsive-wrapper">
-                <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
-            </div>
+            <div class="iframe-responsive-wrapper"><iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe></div>
         </section>
     </div>
 
@@ -164,11 +162,16 @@
             const mainGrid = document.querySelector('.hacker-grid');
 
             // --- NOWY, NIEZAWODNY SKRYPT ZDRAPKI ---
-            const scratchContainer = document.getElementById('scratch-off-container');
-            if (scratchContainer) {
+            const initScratchOff = () => {
+                const container = document.getElementById('scratch-off-container');
+                if (!container) {
+                    mainGrid.classList.add('visible');
+                    runTypingAnimations();
+                    return;
+                }
+
                 const canvas = document.getElementById('scratch-canvas');
                 const ctx = canvas.getContext('2d', { willReadFrequently: true });
-                let isDrawing = false;
                 let isCleared = false;
                 let inactivityTimeout;
 
@@ -179,14 +182,26 @@
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                 };
 
+                const revealPage = () => {
+                    if (isCleared) return;
+                    isCleared = true;
+                    clearTimeout(inactivityTimeout);
+                    container.classList.add('cleared');
+                    setTimeout(() => {
+                        container.remove();
+                        mainGrid.classList.add('visible');
+                        runTypingAnimations();
+                    }, 800);
+                };
+
                 const getCoords = (e) => {
                     const rect = canvas.getBoundingClientRect();
                     const event = e.touches ? e.touches[0] : e;
                     return { x: event.clientX - rect.left, y: event.clientY - rect.top };
                 };
-
+                
                 const scratch = (e) => {
-                    if (!isDrawing) return;
+                    if (isCleared) return;
                     const { x, y } = getCoords(e);
                     ctx.globalCompositeOperation = 'destination-out';
                     ctx.beginPath();
@@ -194,90 +209,61 @@
                     ctx.fill();
                 };
 
-                const revealPage = () => {
-                    if (isCleared) return;
-                    isCleared = true;
-                    clearTimeout(inactivityTimeout);
-                    scratchContainer.classList.add('cleared');
-                    setTimeout(() => {
-                        scratchContainer.remove();
-                        mainGrid.classList.add('visible');
-                        runTypingAnimations();
-                    }, 800);
-                };
+                const checkArea = (() => {
+                    let lastCheck = 0;
+                    return () => {
+                        const now = Date.now();
+                        if (now - lastCheck < 200) return;
+                        lastCheck = now;
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+                        let transparentPixels = 0;
+                        for (let i = 3; i < imageData.length; i += 80) { // Sprawdź co 20ty piksel
+                            if (imageData[i] === 0) transparentPixels++;
+                        }
+                        if ((transparentPixels / (imageData.length / 80)) * 100 > 20) {
+                            revealPage();
+                        }
+                    };
+                })();
 
-                const checkArea = () => {
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const pixels = imageData.data;
-                    let transparentPixels = 0;
-                    for (let i = 3; i < pixels.length; i += 4 * 10) { // Sprawdź co 10ty piksel
-                        if (pixels[i] === 0) transparentPixels++;
-                    }
-                    const clearedPercentage = (transparentPixels / (pixels.length / 40)) * 100;
-                    if (clearedPercentage > 20) {
-                        revealPage();
-                    }
+                const moveHandler = (e) => {
+                    clearTimeout(inactivityTimeout);
+                    inactivityTimeout = null;
+                    e.preventDefault();
+                    scratch(e);
+                    checkArea();
                 };
-                
-                const startDrawing = (e) => { isDrawing = true; clearTimeout(inactivityTimeout); scratch(e); };
-                const stopDrawing = () => { if (isDrawing) { isDrawing = false; checkArea(); } };
 
                 setupCanvas();
                 inactivityTimeout = setTimeout(revealPage, 10000);
-
-                // Event Listeners
-                canvas.addEventListener('mousedown', startDrawing);
-                canvas.addEventListener('touchstart', startDrawing, { passive: true });
-                canvas.addEventListener('mousemove', scratch);
-                canvas.addEventListener('touchmove', scratch, { passive: true });
-                window.addEventListener('mouseup', stopDrawing);
-                window.addEventListener('touchend', stopDrawing);
+                container.addEventListener('mousemove', moveHandler);
+                container.addEventListener('touchmove', moveHandler, { passive: false });
                 window.addEventListener('resize', setupCanvas);
+            };
 
-            } else {
-                mainGrid.classList.add('visible');
-                runTypingAnimations();
-            }
-            
             // --- SKRYPT ANIMACJI PISANIA ---
             function runTypingAnimations() { const elementsToType=document.querySelectorAll('.type-effect'); let totalDelay=500; elementsToType.forEach((element) => { const text=element.dataset.text||element.textContent; element.textContent=''; setTimeout(() => { let i=0; const typingInterval=setInterval(() => { if (i<text.length) { element.textContent+=text.charAt(i); i++; } else { clearInterval(typingInterval); } }, 30); }, totalDelay); totalDelay+=text.length*30+100; }); }
-            
-            // --- SKRYPT MODALA E-MAIL ---
-            const emailModal = document.getElementById('email-modal');
-            const openEmailBtn = document.getElementById('open-email-modal');
-            const closeEmailBtn = document.getElementById('close-modal-btn');
-            const copyEmailBtn = document.getElementById('copy-email-btn');
-            if(emailModal && openEmailBtn && closeEmailBtn && copyEmailBtn) {
-                const openModal = () => emailModal.classList.add('visible');
-                const closeModal = () => emailModal.classList.remove('visible');
-                openEmailBtn.addEventListener('click', openModal);
-                closeEmailBtn.addEventListener('click', closeModal);
-                emailModal.addEventListener('click', (e) => { if(e.target === emailModal) closeModal(); });
-                copyEmailBtn.addEventListener('click', () => {
-                    const emailToCopy = 'biuro.sg.media.pl@gmail.com';
-                    navigator.clipboard.writeText(emailToCopy).then(() => {
-                        copyEmailBtn.textContent = 'Skopiowano!';
-                        setTimeout(() => { copyEmailBtn.textContent = 'Skopiuj adres' }, 2000);
-                    }).catch(err => { alert('Błąd kopiowania.'); });
-                });
-            }
 
-            // --- POZOSTAŁE SKRYPTY (LINKI, GRA) ---
+            // --- SKRYPTY INTERAKCJI (MODAL, LINKI, GRA, LISTA) ---
+            const emailModal = document.getElementById('email-modal'), openEmailBtn = document.getElementById('open-email-modal');
+            if (emailModal && openEmailBtn) {
+                const closeEmailBtn = document.getElementById('close-modal-btn'), copyEmailBtn = document.getElementById('copy-email-btn');
+                const openModal = () => emailModal.classList.add('visible'), closeModal = () => emailModal.classList.remove('visible');
+                openEmailBtn.addEventListener('click', openModal); closeEmailBtn.addEventListener('click', closeModal);
+                emailModal.addEventListener('click', (e) => { if(e.target === emailModal) closeModal(); });
+                copyEmailBtn.addEventListener('click', () => { navigator.clipboard.writeText('biuro.sg.media.pl@gmail.com').then(() => { copyEmailBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyEmailBtn.textContent = 'Skopiuj adres' }, 2000); }).catch(err => { alert('Błąd kopiowania.'); }); });
+            }
             const instagramLink=document.getElementById('instagram-link'); if(instagramLink){instagramLink.addEventListener('click',(e)=>{e.preventDefault();const c=window.confirm('Zostaniesz przekierowany na zewnętrzną stronę Instagram. Kontynuować?');if(c){window.open(instagramLink.href,'_blank');}});}
             const settings={iso:[{val:'100',ev:0},{val:'200',ev:1},{val:'400',ev:2},{val:'800',ev:3},{val:'1600',ev:4}],aperture:[{val:'f/1.4',ev:0},{val:'f/2.0',ev:1},{val:'f/2.8',ev:2},{val:'f/4.0',ev:3},{val:'f/5.6',ev:4}],shutter:[{val:'1/15s',ev:0},{val:'1/30s',ev:-1},{val:'1/60s',ev:-2},{val:'1/125s',ev:-3},{val:'1/250s',ev:-4}]}; let currentIndices={iso:2,aperture:3,shutter:1}; const targetEV=0;
             const isoValueEl=document.getElementById('iso-value'),apertureValueEl=document.getElementById('aperture-value'),shutterValueEl=document.getElementById('shutter-value'),currentEvEl=document.getElementById('current-ev'),successMessageEl=document.getElementById('success-message'),controlButtons=document.querySelectorAll('#exposure-game button');
             function updateDisplay(){isoValueEl.textContent=settings.iso[currentIndices.iso].val;apertureValueEl.textContent=settings.aperture[currentIndices.aperture].val;shutterValueEl.textContent=settings.shutter[currentIndices.shutter].val;const currentEV=settings.iso[currentIndices.iso].ev+settings.aperture[currentIndices.aperture].ev+settings.shutter[currentIndices.shutter].ev;currentEvEl.textContent=currentEV;if(currentEV===targetEV){successMessageEl.classList.add('visible');}else{successMessageEl.classList.remove('visible');}}
             controlButtons.forEach(button=>{button.addEventListener('click',()=>{const setting=button.dataset.setting;const direction=parseInt(button.dataset.direction,10);currentIndices[setting]+=direction;if(currentIndices[setting]<0)currentIndices[setting]=0;if(currentIndices[setting]>=settings[setting].length)currentIndices[setting]=settings[setting].length-1;updateDisplay();});});
             updateDisplay();
-            const gearExpander = document.getElementById('gear-expander');
-            const gearDetails = document.getElementById('gear-details');
-            if (gearExpander && gearDetails) {
-                gearExpander.addEventListener('click', () => {
-                    const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === '';
-                    gearDetails.style.display = isHidden ? 'block' : 'none';
-                    gearExpander.textContent = isHidden ? '[-]' : '[+]';
-                });
-            }
+            const gearExpander = document.getElementById('gear-expander'), gearDetails = document.getElementById('gear-details');
+            if (gearExpander && gearDetails) { gearExpander.addEventListener('click', () => { const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === ''; gearDetails.style.display = isHidden ? 'block' : 'none'; gearExpander.textContent = isHidden ? '[-]' : '[+]'; }); }
+
+            // --- URUCHOMIENIE APLIKACJI ---
+            initScratchOff();
         });
     </script>
 </body>
