@@ -3,214 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odkryj Kreatywność</title>
+    
+    <title>SG.media.pl - Fotografia & Wideo</title>
+    <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Fotografia i wideo dla nowoczesnych marek, relacje z eventów i wesel. Wrocław.">
+    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, Panasonic, Sony, Canon, Nikon">
 
     <style>
-        /* Import czcionki dla lepszego wyglądu */
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&family=VT323&display=swap');
 
-        body {
-            margin: 0;
-            padding: 0;
-            /* Ukrywa paski przewijania, gdy treść jest wyższa niż ekran */
-            overflow: hidden; 
+        :root {
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'VT323', monospace;
+            --color-background: #111111;
+            --color-text-primary: #FFFFFF;
+            --color-text-secondary: #888888;
+            --color-border: rgba(255, 255, 255, 0.1);
+            --color-surface: rgba(255, 255, 255, 0.05);
+            --color-link-blue: #3B99FC;
         }
 
-        /* --- Style dla efektu zdrapki --- */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes subtle-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-        #scratch-off-container {
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-background);
+            background-image: linear-gradient(125deg, #111111, #1a1a1a, #111111);
+            background-size: 400% 400%;
+            animation: fadeIn 1s ease, subtle-gradient 30s ease infinite;
+            color: var(--color-text-primary);
+            margin: 0; padding: 0;
+            /* overflow: hidden; usunięte, będzie zarządzane przez JS */
+            font-size: 16px;
+            font-weight: 400;
+        }
+        
+        /* === NOWE STYLE DLA ZDRAPKI === */
+        #scratch-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1000;
-            /* Kursor pozostaje standardowy */
-            cursor: default; 
-            transition: opacity 0.8s ease-in-out;
-            background-color: #000000;
-            /* Zapewnia, że tekst jest wyśrodkowany */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            cursor: crosshair;
+            opacity: 1;
+            transition: opacity 0.8s ease-out;
+            visibility: visible;
         }
-
-        /* Klasa dodawana przez JS, aby płynnie ukryć zdrapkę */
-        #scratch-off-container.cleared {
+        #scratch-overlay.hidden {
             opacity: 0;
-            pointer-events: none; /* Wyłącza interakcję po zniknięciu */
+            visibility: hidden;
+            pointer-events: none; /* Wyłącza interakcje po ukryciu */
         }
-
         #scratch-canvas {
             position: absolute;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
         }
+        /* Koniec stylów dla zdrapki */
 
-        .scratch-text {
-            color: #FFFFFF;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 3vw; /* Rozmiar dopasowujący się do ekranu */
-            text-align: center;
-            pointer-events: none; /* Tekst nie blokuje zdrapywania */
-            z-index: 1;
-            user-select: none; /* Uniemożliwia zaznaczanie tekstu */
+        .hacker-grid {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            width: 100vw; height: 100vh;
+            padding: 20px; box-sizing: border-box;
+            opacity: 0; /* Początkowo niewidoczne */
+            transition: opacity 0.5s ease;
         }
+        .hacker-grid.visible { opacity: 1; }
         
-        /* --- Style dla treści strony, która jest pod spodem --- */
-
-        #main-content {
-            font-family: Arial, Helvetica, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            background: #f0f0f0;
-            opacity: 0; /* Na starcie niewidoczna */
-            transition: opacity 0.8s ease;
-        }
+        .panel { border: 1px solid var(--color-border); background-color: transparent; border-radius: 12px; padding: 24px; overflow: hidden; }
+        .panel-title { font-size: 14px; font-weight: 700; margin: 0 0 24px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
+        .header-panel { grid-column: 1 / 3; padding: 16px 24px; }
+        .user-info { grid-column: 1 / 2; grid-row: 2 / 3; display: flex; flex-direction: column; }
+        .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
+        .user-info ul { list-style: none; padding: 0; margin: 0; font-size: 15px; }
+        .user-info li { margin-bottom: 12px; white-space: nowrap; }
+        .user-info li strong { color: var(--color-text-secondary); font-weight: 700; margin-right: 8px; }
+        .user-info a, .copiable { text-decoration: underline; color: var(--color-link-blue); cursor: pointer; transition: color 0.3s ease; }
+        .user-info a:hover, .copiable:hover { color: var(--color-text-primary); }
+        .iframe-responsive-wrapper { flex-grow: 1; position: relative; border-radius: 8px; overflow: hidden; background-color: var(--color-surface); }
+        .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .type-effect { display: inline-block; }
+        .expander { cursor: pointer; display: inline-block; margin-left: 5px; }
+        .collapsible-content { display: none; padding-left: 10px; margin-top: 8px; font-size: 14px; color: var(--color-text-secondary); }
         
-        #main-content.visible {
-            opacity: 1; /* Staje się widoczna po odkryciu */
+        #shutter-game { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--color-border); }
+        .game-title { font-size: 14px; font-weight: 700; margin: 0 0 15px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
+        #game-track {
+            position: relative;
+            width: 100%;
+            height: 20px;
+            background-color: var(--color-surface);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            overflow: hidden;
         }
+        #capture-zone {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15%; 
+            height: 100%;
+            border-left: 2px solid var(--color-text-secondary);
+            border-right: 2px solid var(--color-text-secondary);
+            box-sizing: border-box;
+        }
+        #game-object {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color-text-primary);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: moveObject 2s linear infinite;
+        }
+        @keyframes moveObject {
+            0% { left: -10px; }
+            100% { left: 100%; }
+        }
+        #capture-btn {
+            font-family: var(--font-mono); font-size: 20px;
+            background-color: transparent; border: 1px solid var(--color-text-secondary);
+            color: var(--color-text-secondary);
+            padding: 8px 12px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #capture-btn:hover { background-color: var(--color-text-primary); color: var(--color-background); border-color: var(--color-text-primary); }
+        #game-message { text-align: center; margin-top: 10px; font-family: var(--font-mono); font-size: 20px; height: 20px; }
 
-        #main-content h1 {
-            font-size: 48px;
-            color: #333;
+        @media (max-width: 900px) {
+            .hacker-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; height: auto; }
+            .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
+            .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; height: 60vh; }
+            #shutter-game { margin-top: 25px; }
         }
     </style>
 </head>
 <body>
-    
-    <div id="scratch-off-container">
-        <div class="scratch-text">Odkryj kreatywność</div>
+
+    <!-- === NOWA WARSTWA ZDRAPKI === -->
+    <div id="scratch-overlay">
         <canvas id="scratch-canvas"></canvas>
     </div>
+    
+    <div class="hacker-grid">
+        <header class="panel header-panel"><h1 class="panel-title type-effect" data-text="SG.MEDIA.PL / FOTOGRAFIA & WIDEO"></h1></header>
 
-    <main id="main-content">
-        <div>
-            <h1>Witaj na mojej stronie!</h1>
-            <p>Ta treść była ukryta pod zdrapką.</p>
+        <section class="panel user-info">
+            <div>
+                <h2 class="panel-title">INFO / SZYMON GRZESZCZAK</h2>
+                <ul>
+                    <li><strong>LOKALIZACJA:</strong> <span class="type-effect" data-text="Wrocław, Polska"></span></li>
+                    <li><strong>E-mail:</strong> <span id="open-email-modal" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
+                    <li><strong>INSTAGRAM:</strong> <a id="instagram-link" href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
+                    <li id="gear-item"><strong>SPRZĘT:</strong><span class="type-effect" data-text="Panasonic, Sony, Canon, Nikon"></span><span class="expander" id="gear-expander">[+]</span>
+                        <div class="collapsible-content" id="gear-details">- Lumix S5II, S5IIX<br>- Sony A7III, FX6, PXW-FS7<br>- Canon 1100D<br>- Nikon D300</div>
+                    </li>
+                </ul>
             </div>
-    </main>
+
+            <div id="shutter-game">
+                <h3 class="game-title">SHUTTER SPEED CHALLENGE</h3>
+                <div id="game-track">
+                    <div id="capture-zone"></div>
+                    <div id="game-object"></div>
+                </div>
+                <button id="capture-btn">[ CAPTURE ]</button>
+                <div id="game-message"></div>
+            </div>
+        </section>
+
+        <section class="panel gallery-window">
+            <h2 class="panel-title">PORTFOLIO / FEED</h2>
+            <div class="iframe-responsive-wrapper">
+                <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal jest poza głównym gridem, więc nie wymaga zmian -->
+    <div id="email-modal" style="display: none;"> <!-- Ukryty na starcie dla pewności -->
+        <!-- ... zawartość modala bez zmian ... -->
+    </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('scratch-off-container');
-            const mainContent = document.getElementById('main-content');
-            
-            // Sprawdzenie, czy element zdrapki istnieje
-            if (!container) {
-                if(mainContent) mainContent.classList.add('visible');
-                return;
+            const mainGrid = document.querySelector('.hacker-grid');
+            const scratchOverlay = document.getElementById('scratch-overlay');
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // --- FUNKCJA URUCHAMIAJĄCA GŁÓWNĄ ZAWARTOŚĆ ---
+            function revealContent() {
+                // Ukryj zdrapkę z efektem fade-out
+                scratchOverlay.classList.add('hidden');
+                
+                // Zezwól na przewijanie strony (ważne dla mobile)
+                document.body.style.overflow = 'auto';
+
+                // Uruchom animacje na stronie głównej
+                setTimeout(() => {
+                    mainGrid.classList.add('visible'); // Użyjemy klasy zamiast opacity
+                    runTypingAnimations();
+                }, 300); // Małe opóźnienie dla płynnego przejścia
             }
 
-            const canvas = document.getElementById('scratch-canvas');
-            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            // --- SKRYPT EFEKTU ZDRAPKI ---
+            function setupScratchCard() {
+                // Zablokuj przewijanie, gdy zdrapka jest aktywna
+                document.body.style.overflow = 'hidden';
 
-            let isCleared = false;
-            let inactivityTimeout;
-
-            // Ustawienie promienia "pędzla" na 30px (co daje średnicę 60px)
-            const BRUSH_RADIUS = 30; 
-            const REVEAL_THRESHOLD = 20; // 20%
-            const INACTIVITY_DELAY = 10000; // 10 sekund
-
-            // Funkcja, która odsłania stronę
-            const revealPage = () => {
-                if (isCleared) return;
-                isCleared = true;
-                
-                clearTimeout(inactivityTimeout); // Zawsze czyść licznik, gdy funkcja jest wywołana
-
-                // Usuń listenery, aby nie obciążać przeglądarki
-                container.removeEventListener('mousemove', moveHandler);
-                container.removeEventListener('touchmove', moveHandler);
-                window.removeEventListener('resize', setupCanvas);
-
-                container.classList.add('cleared'); // Uruchom animację znikania
-                mainContent.classList.add('visible'); // Pokaż treść strony
-
-                // Opcjonalnie: całkowicie usuń element zdrapki po animacji
-                setTimeout(() => {
-                    container.remove();
-                }, 1000);
-            };
-
-            // Funkcja do rysowania i ustawiania płótna (canvas)
-            const setupCanvas = () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                ctx.fillStyle = '#000000'; // Czarne tło zdrapki
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            };
-
-            // Funkcja pomocnicza do pobierania koordynatów myszki i dotyku
-            const getCoords = (e) => {
+                const dpr = window.devicePixelRatio || 1;
                 const rect = canvas.getBoundingClientRect();
-                const event = e.touches ? e.touches[0] : e;
-                return { x: event.clientX - rect.left, y: event.clientY - rect.top };
-            };
-            
-            // Funkcja sprawdzająca, ile procent zostało zdrapane
-            const checkArea = (() => {
-                let lastCheck = 0;
-                return () => {
-                    const now = Date.now();
-                    if (now - lastCheck < 200) return; // Ograniczenie, by nie sprawdzać zbyt często
-                    lastCheck = now;
-                    
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-                    const totalPixels = imageData.length / 4;
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+
+                // Tło zdrapki (warstwa do zdrapania)
+                ctx.fillStyle = '#1a1a1a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Tekst na zdrapce
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = `bold ${canvas.width > 600 ? '6vw' : '12vw'} ${getComputedStyle(document.body).getPropertyValue('--font-main')}`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('Odkryj kreatywność', canvas.width / (2*dpr), canvas.height / (2*dpr));
+
+                let isDrawing = false;
+
+                function getEventLocation(e) {
+                    if (e.touches && e.touches.length > 0) {
+                        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                    }
+                    return { x: e.clientX, y: e.clientY };
+                }
+
+                function scratch(e) {
+                    if (!isDrawing) return;
+                    e.preventDefault();
+                    const loc = getEventLocation(e);
+                    const canvasRect = canvas.getBoundingClientRect();
+                    const x = loc.x - canvasRect.left;
+                    const y = loc.y - canvasRect.top;
+
+                    ctx.globalCompositeOperation = 'destination-out';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 30, 0, Math.PI * 2, false); // Zwiększono promień dla łatwiejszego zdrapywania
+                    ctx.fill();
+                }
+
+                function checkScratchProgress() {
+                    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const data = pixels.data;
                     let transparentPixels = 0;
-                    
-                    // Sprawdzaj co 20-ty piksel, dla lepszej wydajności
-                    for (let i = 3; i < imageData.length; i += 80) {
-                        if (imageData[i] === 0) { // Kanał alfa = 0 oznacza przezroczystość
+                    // Sprawdzamy co 4 piksel (tylko kanał alfa)
+                    for (let i = 3; i < data.length; i += 4) {
+                        if (data[i] === 0) {
                             transparentPixels++;
                         }
                     }
-                    
-                    if ((transparentPixels / (totalPixels / 20)) * 100 > REVEAL_THRESHOLD) {
-                        revealPage();
+                    const totalPixels = data.length / 4;
+                    const scratchedPercentage = (transparentPixels / totalPixels) * 100;
+
+                    if (scratchedPercentage > 60) { // Próg 60%
+                        // Zdejmij listenery, aby uniknąć wielokrotnego wywołania
+                        canvas.removeEventListener('mousedown', startDrawing);
+                        canvas.removeEventListener('touchstart', startDrawing);
+                        canvas.removeEventListener('mouseup', stopDrawing);
+                        canvas.removeEventListener('touchend', stopDrawing);
+                        canvas.removeEventListener('mousemove', scratch);
+                        canvas.removeEventListener('touchmove', scratch);
+                        revealContent();
                     }
-                };
-            })();
-
-            // Główna funkcja obsługująca ruch
-            const moveHandler = (e) => {
-                if (isCleared) return;
-
-                // Anuluj licznik bezczynności przy pierwszej interakcji
-                if (inactivityTimeout) {
-                    clearTimeout(inactivityTimeout);
-                    inactivityTimeout = null;
                 }
+
+                function startDrawing(e) { isDrawing = true; scratch(e); }
+                function stopDrawing() { 
+                    if (isDrawing) {
+                        isDrawing = false; 
+                        checkScratchProgress();
+                    }
+                }
+
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('touchstart', startDrawing, { passive: false });
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('touchend', stopDrawing);
+                canvas.addEventListener('mousemove', scratch);
+                canvas.addEventListener('touchmove', scratch, { passive: false });
                 
-                // Zapobiegaj domyślnym akcjom, jak przewijanie na dotyku
-                e.preventDefault();
-                const { x, y } = getCoords(e);
-
-                // "Wymazuje" fragment płótna
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath();
-                ctx.arc(x, y, BRUSH_RADIUS, 0, 2 * Math.PI);
-                ctx.fill();
-
-                // Sprawdź, czy odsłonięto wystarczająco dużo
-                checkArea();
-            };
-
-            // --- Inicjalizacja ---
-            setupCanvas();
-            inactivityTimeout = setTimeout(revealPage, INACTIVITY_DELAY);
+                // Dostosuj canvas przy zmianie rozmiaru okna
+                window.addEventListener('resize', () => {
+                   if (!scratchOverlay.classList.contains('hidden')) {
+                       setupScratchCard();
+                   }
+                });
+            }
             
-            container.addEventListener('mousemove', moveHandler);
-            container.addEventListener('touchmove', moveHandler, { passive: false });
-            window.addEventListener('resize', setupCanvas);
+            // --- SKRYPT ANIMACJI PISANIA ---
+            function runTypingAnimations() { 
+                const elementsToType = document.querySelectorAll('.type-effect'); 
+                let totalDelay = 500; 
+                elementsToType.forEach((element) => { 
+                    const text = element.dataset.text || element.textContent; 
+                    element.textContent = ''; 
+                    setTimeout(() => { 
+                        let i = 0; 
+                        const typingInterval = setInterval(() => { 
+                            if (i < text.length) { 
+                                element.textContent += text.charAt(i); i++; 
+                            } else { 
+                                clearInterval(typingInterval); 
+                            } 
+                        }, 30); 
+                    }, totalDelay); 
+                    totalDelay += text.length * 30 + 100; 
+                }); 
+            }
+            
+            // --- SKRYPTY INTERAKCJI (MODAL, LINKI, LISTA) ---
+            // Ta sekcja pozostaje praktycznie bez zmian, ale upewniamy się, że modal jest ukryty
+            const emailModal = document.getElementById('email-modal');
+            emailModal.style.display = 'block'; // Ustawiamy na block, aby style CSS mogły nim zarządzać
+            emailModal.classList.remove('visible'); // Ale upewniamy się, że jest niewidoczny
+
+            const openEmailBtn = document.getElementById('open-email-modal');
+            if (emailModal && openEmailBtn) {
+                const closeEmailBtn = document.getElementById('close-modal-btn'), copyEmailBtn = document.getElementById('copy-email-btn');
+                const openModal = () => emailModal.classList.add('visible'), closeModal = () => emailModal.classList.remove('visible');
+                openEmailBtn.addEventListener('click', openModal); 
+                if(closeEmailBtn) closeEmailBtn.addEventListener('click', closeModal);
+                emailModal.addEventListener('click', (e) => { if(e.target === emailModal) closeModal(); });
+                if(copyEmailBtn) copyEmailBtn.addEventListener('click', () => { 
+                    // Używamy document.execCommand jako fallback dla iFrame
+                    const email = 'biuro.sg.media.pl@gmail.com';
+                    const textArea = document.createElement("textarea");
+                    textArea.value = email;
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        copyEmailBtn.textContent = 'Skopiowano!';
+                    } catch (err) {
+                        copyEmailBtn.textContent = 'Błąd!';
+                    }
+                    document.body.removeChild(textArea);
+                    setTimeout(() => { copyEmailBtn.textContent = 'Skopiuj adres' }, 2000);
+                });
+            }
+            
+            // Usunięto window.confirm z linku do Instagrama
+            const instagramLink = document.getElementById('instagram-link'); 
+            if(instagramLink) {
+                instagramLink.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    window.open(instagramLink.href, '_blank', 'noopener,noreferrer');
+                });
+            }
+
+            const gearExpander = document.getElementById('gear-expander'), gearDetails = document.getElementById('gear-details');
+            if (gearExpander && gearDetails) { 
+                gearExpander.addEventListener('click', () => { 
+                    const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === ''; 
+                    gearDetails.style.display = isHidden ? 'block' : 'none'; 
+                    gearExpander.textContent = isHidden ? '[-]' : '[+]'; 
+                }); 
+            }
+
+            // --- SKRYPT MINI-GRY ---
+            const captureBtn = document.getElementById('capture-btn');
+            const gameObject = document.getElementById('game-object');
+            const captureZone = document.getElementById('capture-zone');
+            const gameMessage = document.getElementById('game-message');
+
+            if (captureBtn && gameObject && captureZone && gameMessage) {
+                captureBtn.addEventListener('click', () => {
+                    const objectRect = gameObject.getBoundingClientRect();
+                    const zoneRect = captureZone.getBoundingClientRect();
+                    const objectCenter = objectRect.left + objectRect.width / 2;
+                    if (objectCenter >= zoneRect.left && objectCenter <= zoneRect.right) {
+                        gameMessage.textContent = '[PERFECT SHOT!]';
+                        gameMessage.style.color = '#00FF41';
+                    } else {
+                        gameMessage.textContent = '[BLURRED SHOT]';
+                        gameMessage.style.color = '#FF4136';
+                    }
+                    gameObject.style.animation = 'none';
+                    setTimeout(() => { 
+                        gameObject.style.animation = '';
+                        gameMessage.textContent = '';
+                    }, 500);
+                });
+            }
+
+            // --- URUCHOMIENIE STRONY ---
+            setupScratchCard();
         });
     </script>
 </body>
 </html>
+
