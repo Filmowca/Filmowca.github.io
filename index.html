@@ -86,7 +86,7 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            width: 15%; /* Szerokość pola do trafienia */
+            width: 15%;
             height: 100%;
             border-left: 2px solid var(--color-text-secondary);
             border-right: 2px solid var(--color-text-secondary);
@@ -119,16 +119,53 @@
         #capture-btn:hover { background-color: var(--color-text-primary); color: var(--color-background); border-color: var(--color-text-primary); }
         #game-message { text-align: center; margin-top: 10px; font-family: var(--font-mono); font-size: 20px; height: 20px; }
 
+        /* === STYLE DLA ZDRAPKI === */
+        #scratch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: none;
+        }
+        #scratch-text {
+            font-family: var(--font-main);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            user-select: none;
+        }
+        #scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
         @media (max-width: 900px) {
             body { overflow: auto; }
             .hacker-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; height: auto; }
             .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
             .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; height: 60vh; }
             #shutter-game { margin-top: 25px; }
+            #scratch-text { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
+    <div id="scratch-overlay">
+        <div id="scratch-text">Odkryj kreatywność</div>
+        <canvas id="scratch-canvas"></canvas>
+    </div>
     
     <div class="hacker-grid">
         <header class="panel header-panel"><h1 class="panel-title type-effect" data-text="SG.MEDIA.PL / FOTOGRAFIA & WIDEO"></h1></header>
@@ -167,7 +204,7 @@
 
     <div id="email-modal">
         <div class="modal-content">
-            <button id="close-modal-btn" class="close-btn">&times;</button>
+            <button id="close-modal-btn" class="close-btn">×</button>
             <h3>Napisz do mnie</h3>
             <p>Masz pomysł na projekt lub chcesz zapytać o ofertę? Skopiuj poniższy adres i zacznijmy rozmowę.</p>
             <div class="modal-email">biuro.sg.media.pl@gmail.com</div>
@@ -178,9 +215,114 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mainGrid = document.querySelector('.hacker-grid');
+            const scratchOverlay = document.getElementById('scratch-overlay');
+            const scratchCanvas = document.getElementById('scratch-canvas');
+            const ctx = scratchCanvas.getContext('2d');
+            let isScratching = false;
+            let lastActivityTime = Date.now();
+
+            // --- INICJALIZACJA ZDRAPKI ---
+            function initScratchCanvas() {
+                scratchCanvas.width = window.innerWidth;
+                scratchCanvas.height = window.innerHeight;
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.lineWidth = 60;
+                ctx.lineCap = 'round';
+            }
+
+            initScratchCanvas();
+
+            // --- OBSŁUGA RUCHU MYSZY ---
+            let lastX = 0, lastY = 0;
+            scratchCanvas.addEventListener('mousedown', (e) => {
+                isScratching = true;
+                [lastX, lastY] = [e.clientX, e.clientY];
+                lastActivityTime = Date.now();
+            });
+
+            scratchCanvas.addEventListener('mousemove', (e) => {
+                if (isScratching) {
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(e.clientX, e.clientY);
+                    ctx.stroke();
+                    [lastX, lastY] = [e.clientX, e.clientY];
+                    lastActivityTime = Date.now();
+                    checkScratchProgress();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isScratching = false;
+            });
+
+            // --- SPRAWDZANIE POSTĘPU ZDRAPYWANIA ---
+            function checkScratchProgress() {
+                const imageData = ctx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
+                const pixels = imageData.data;
+                let transparentPixels = 0;
+                const totalPixels = pixels.length / 4;
+
+                for (let i = 3; i < pixels.length; i += 4) {
+                    if (pixels[i] === 0) transparentPixels++;
+                }
+
+                const scratchPercentage = (transparentPixels / totalPixels) * 100;
+                if (scratchPercentage >= 20) {
+                    revealContent();
+                }
+            }
+
+            // --- AUTOMATYCZNE ODSŁONIĘCIE PO 10 SEKUNDACH ---
+            function checkInactivity() {
+                if (Date.now() - lastActivityTime >= 10000) {
+                    revealContent();
+                }
+            }
+
+            setInterval(checkInactivity, 1000);
+
+            // --- ODSŁONIĘCIE TREŚCI ---
+            function revealContent() {
+                scratchOverlay.style.transition = 'opacity 0.5s ease';
+                scratchOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    scratchOverlay.style.display = 'none';
+                    mainGrid.classList.add('visible');
+                    runTypingAnimations();
+                }, 500);
+            }
+
+            // --- OBSŁUGA ZMIANY ROZMIARU OKNA ---
+            window.addEventListener('resize', () => {
+                if (scratchOverlay.style.display !== 'none') {
+                    initScratchCanvas();
+                }
+            });
 
             // --- SKRYPT ANIMACJI PISANIA ---
-            function runTypingAnimations() { const elementsToType=document.querySelectorAll('.type-effect'); let totalDelay=500; elementsToType.forEach((element) => { const text=element.dataset.text||element.textContent; element.textContent=''; setTimeout(() => { let i=0; const typingInterval=setInterval(() => { if (i<text.length) { element.textContent+=text.charAt(i); i++; } else { clearInterval(typingInterval); } }, 30); }, totalDelay); totalDelay+=text.length*30+100; }); }
+            function runTypingAnimations() { 
+                const elementsToType = document.querySelectorAll('.type-effect'); 
+                let totalDelay = 500; 
+                elementsToType.forEach((element) => { 
+                    const text = element.dataset.text || element.textContent; 
+                    element.textContent = ''; 
+                    setTimeout(() => { 
+                        let i = 0; 
+                        const typingInterval = setInterval(() => { 
+                            if (i < text.length) { 
+                                element.textContent += text.charAt(i); 
+                                i++; 
+                            } else { 
+                                clearInterval(typingInterval); 
+                            } 
+                        }, 30); 
+                    }, totalDelay); 
+                    totalDelay += text.length * 30 + 100; 
+                }); 
+            }
             
             // --- SKRYPTY INTERAKCJI (MODAL, LINKI, LISTA) ---
             const emailModal = document.getElementById('email-modal'), openEmailBtn = document.getElementById('open-email-modal');
@@ -189,13 +331,33 @@
                 const openModal = () => emailModal.classList.add('visible'), closeModal = () => emailModal.classList.remove('visible');
                 openEmailBtn.addEventListener('click', openModal); closeEmailBtn.addEventListener('click', closeModal);
                 emailModal.addEventListener('click', (e) => { if(e.target === emailModal) closeModal(); });
-                copyEmailBtn.addEventListener('click', () => { navigator.clipboard.writeText('biuro.sg.media.pl@gmail.com').then(() => { copyEmailBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyEmailBtn.textContent = 'Skopiuj adres' }, 2000); }).catch(err => { alert('Błąd kopiowania.'); }); });
+                copyEmailBtn.addEventListener('click', () => { 
+                    navigator.clipboard.writeText('biuro.sg.media.pl@gmail.com').then(() => { 
+                        copyEmailBtn.textContent = 'Skopiowano!'; 
+                        setTimeout(() => { copyEmailBtn.textContent = 'Skopiuj adres' }, 2000); 
+                    }).catch(err => { alert('Błąd kopiowania.'); }); 
+                });
             }
-            const instagramLink=document.getElementById('instagram-link'); if(instagramLink){instagramLink.addEventListener('click',(e)=>{e.preventDefault();const c=window.confirm('Zostaniesz przekierowany na zewnętrzną stronę Instagram. Kontynuować?');if(c){window.open(instagramLink.href,'_blank');}});}
+            const instagramLink = document.getElementById('instagram-link'); 
+            if(instagramLink){
+                instagramLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const c = window.confirm('Zostaniesz przekierowany na zewnętrzną stronę Instagram. Kontynuować?');
+                    if(c){
+                        window.open(instagramLink.href, '_blank');
+                    }
+                });
+            }
             const gearExpander = document.getElementById('gear-expander'), gearDetails = document.getElementById('gear-details');
-            if (gearExpander && gearDetails) { gearExpander.addEventListener('click', () => { const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === ''; gearDetails.style.display = isHidden ? 'block' : 'none'; gearExpander.textContent = isHidden ? '[-]' : '[+]'; }); }
+            if (gearExpander && gearDetails) { 
+                gearExpander.addEventListener('click', () => { 
+                    const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === ''; 
+                    gearDetails.style.display = isHidden ? 'block' : 'none'; 
+                    gearExpander.textContent = isHidden ? '[-]' : '[+]'; 
+                }); 
+            }
 
-            // --- NOWY SKRYPT MINI-GRY ---
+            // --- SKRYPT MINI-GRY ---
             const captureBtn = document.getElementById('capture-btn');
             const gameObject = document.getElementById('game-object');
             const captureZone = document.getElementById('capture-zone');
@@ -203,23 +365,18 @@
 
             if (captureBtn && gameObject && captureZone && gameMessage) {
                 captureBtn.addEventListener('click', () => {
-                    // Pobierz aktualne pozycje i wymiary elementów
                     const objectRect = gameObject.getBoundingClientRect();
                     const zoneRect = captureZone.getBoundingClientRect();
-
-                    // Oblicz środek poruszającego się obiektu
                     const objectCenter = objectRect.left + objectRect.width / 2;
 
-                    // Sprawdź, czy środek obiektu jest wewnątrz strefy
                     if (objectCenter >= zoneRect.left && objectCenter <= zoneRect.right) {
                         gameMessage.textContent = '[PERFECT SHOT!]';
-                        gameMessage.style.color = '#00FF41'; // Zielony
+                        gameMessage.style.color = '#00FF41';
                     } else {
                         gameMessage.textContent = '[BLURRED SHOT]';
-                        gameMessage.style.color = '#FF4136'; // Czerwony
+                        gameMessage.style.color = '#FF4136';
                     }
 
-                    // Zresetuj animację i wiadomość
                     gameObject.style.animation = 'none';
                     setTimeout(() => { 
                         gameObject.style.animation = '';
@@ -227,12 +384,6 @@
                     }, 500);
                 });
             }
-
-            // --- URUCHOMIENIE STRONY ---
-            setTimeout(() => {
-                mainGrid.style.opacity = '1';
-                runTypingAnimations();
-            }, 300);
         });
     </script>
 </body>
