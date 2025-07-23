@@ -70,49 +70,66 @@
         .expander { cursor: pointer; display: inline-block; margin-left: 5px; }
         .collapsible-content { display: none; padding-left: 10px; margin-top: 8px; font-size: 14px; color: var(--color-text-secondary); }
         
-        #exposure-game { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--color-border); font-family: var(--font-mono); font-size: 20px; }
-        .game-title { font-size: 14px; font-weight: 700; margin: 0 0 15px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; font-family: var(--font-main); }
-        .setting-control { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
-        .setting-control strong { color: var(--color-text-secondary); font-family: var(--font-main); font-weight: 700; }
-        .setting-control button { background: none; border: none; color: var(--color-text-primary); font-family: var(--font-mono); font-size: 20px; cursor: pointer; padding: 0 5px; }
-        .setting-control button:hover { background-color: var(--color-text-primary); color: var(--color-background); }
-        .ev-display { margin-top: 10px; }
-        #success-message { color: var(--color-text-primary); text-align: center; margin-top: 10px; opacity: 0; transition: opacity 0.5s ease; }
-        #success-message.visible { opacity: 1; }
-        
-        #scratch-off-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; cursor: default; transition: opacity 0.8s ease-in-out, visibility 0.8s; opacity: 1; visibility: visible; background-color:#111; display: flex; align-items: center; justify-content: center; }
-        #scratch-off-container.cleared { opacity: 0; visibility: hidden; pointer-events: none; }
-        #scratch-canvas { position: absolute; top: 0; left: 0; }
-        .scratch-text { color: var(--color-text-primary); font-family: var(--font-main); font-weight: 800; font-size: 32px; text-align: center; pointer-events: none; z-index: 1; }
-        
-        #email-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.5); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 99999; opacity: 0; visibility: hidden; transition: all .3s ease-in-out; }
-        #email-modal.visible { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--color-background); border-radius: 16px; border: 1px solid var(--color-border); box-shadow: 0 10px 30px rgba(0,0,0,.1); text-align: center; width: 90%; max-width: 450px; padding: 30px 40px; transform: translateY(20px); transition: all .3s ease-in-out; }
-        #email-modal.visible .modal-content { transform: translateY(0); }
-        .modal-content h3 { font-weight: 800; margin: 0 0 8px 0; font-size: 22px; }
-        .modal-content p { color: var(--color-text-secondary); margin: 0 0 20px 0; font-size: 15px; line-height: 1.6; }
-        .modal-email { background-color: var(--color-surface); padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 700; margin-bottom: 20px; word-wrap: break-word; color: var(--color-text-primary); }
-        .modal-button { font-family: var(--font-main); font-size: 15px; font-weight: 600; text-decoration: none; color: var(--color-background); background-color: var(--color-text-primary); padding: 12px 24px; border-radius: 8px; border: 1px solid var(--color-text-primary); transition: all 0.3s ease; cursor: pointer; width: 100%; box-sizing: border-box; }
-        .modal-button:hover { background-color: transparent; color: var(--color-text-primary); }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #888; transition: color 0.2s ease; }
-        .close-btn:hover { color: var(--color-text-primary); }
+        /* === NOWOŚĆ: STYLE DLA MINI-GRY === */
+        #shutter-game { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--color-border); }
+        .game-title { font-size: 14px; font-weight: 700; margin: 0 0 15px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
+        #game-track {
+            position: relative;
+            width: 100%;
+            height: 20px;
+            background-color: var(--color-surface);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        #capture-zone {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15%; /* Szerokość pola do trafienia */
+            height: 100%;
+            border-left: 2px solid var(--color-text-secondary);
+            border-right: 2px solid var(--color-text-secondary);
+            box-sizing: border-box;
+        }
+        #game-object {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color-text-primary);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: moveObject 2s linear infinite;
+        }
+        @keyframes moveObject {
+            0% { left: -10px; }
+            100% { left: 100%; }
+        }
+        #capture-btn {
+            font-family: var(--font-mono); font-size: 20px;
+            background-color: transparent; border: 1px solid var(--color-text-secondary);
+            color: var(--color-text-secondary);
+            padding: 8px 12px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #capture-btn:hover { background-color: var(--color-text-primary); color: var(--color-background); border-color: var(--color-text-primary); }
+        #game-message { text-align: center; margin-top: 10px; font-family: var(--font-mono); font-size: 20px; height: 20px; }
 
         @media (max-width: 900px) {
             body { overflow: auto; }
             .hacker-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; height: auto; }
             .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
             .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; height: 60vh; }
-            #exposure-game { margin-top: 25px; }
+            #shutter-game { margin-top: 25px; }
         }
     </style>
 </head>
 <body>
     
-    <div id="scratch-off-container">
-        <div class="scratch-text">Odkryj Kreatywność</div>
-        <canvas id="scratch-canvas"></canvas>
-    </div>
-
     <div class="hacker-grid">
         <header class="panel header-panel"><h1 class="panel-title type-effect" data-text="SG.MEDIA.PL / FOTOGRAFIA & WIDEO"></h1></header>
 
@@ -129,13 +146,14 @@
                 </ul>
             </div>
 
-            <div id="exposure-game">
-                <h3 class="game-title">SYMULATOR EKSPOZYCJI</h3>
-                <div class="setting-control"><strong>ISO:</strong><div class="buttons"><button data-setting="iso" data-direction="-1">[&lt;]</button><span id="iso-value">100</span><button data-setting="iso" data-direction="1">[&gt;]</button></div></div>
-                <div class="setting-control"><strong>PRZYSŁONA:</strong><div class="buttons"><button data-setting="aperture" data-direction="-1">[&lt;]</button><span id="aperture-value">f/1.4</span><button data-setting="aperture" data-direction="1">[&gt;]</button></div></div>
-                <div class="setting-control"><strong>CZAS:</strong><div class="buttons"><button data-setting="shutter" data-direction="-1">[&lt;]</button><span id="shutter-value">1/125s</span><button data-setting="shutter" data-direction="1">[&gt;]</button></div></div>
-                <div class="ev-display">TARGET EV: <span id="target-ev">0</span> | EKSPOZYCJA: <span id="current-ev">0</span></div>
-                <div id="success-message">[PRAWIDŁOWA EKSPOZYCJA]</div>
+            <div id="shutter-game">
+                <h3 class="game-title">SHUTTER SPEED CHALLENGE</h3>
+                <div id="game-track">
+                    <div id="capture-zone"></div>
+                    <div id="game-object"></div>
+                </div>
+                <button id="capture-btn">[ CAPTURE ]</button>
+                <div id="game-message"></div>
             </div>
         </section>
 
@@ -161,97 +179,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             const mainGrid = document.querySelector('.hacker-grid');
 
-            // --- NOWY, NIEZAWODNY SKRYPT ZDRAPKI ---
-            const initScratchOff = () => {
-                const container = document.getElementById('scratch-off-container');
-                if (!container) {
-                    mainGrid.classList.add('visible');
-                    runTypingAnimations();
-                    return;
-                }
-
-                const canvas = document.getElementById('scratch-canvas');
-                const ctx = canvas.getContext('2d', { willReadFrequently: true });
-                let isCleared = false;
-                let inactivityTimeout;
-
-                const setupCanvas = () => {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    ctx.fillStyle = '#111111';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                };
-
-                const revealPage = () => {
-                    if (isCleared) return;
-                    isCleared = true;
-                    
-                    clearTimeout(inactivityTimeout);
-                    container.removeEventListener('mousemove', moveHandler);
-                    container.removeEventListener('touchmove', moveHandler);
-                    window.removeEventListener('resize', setupCanvas);
-
-                    container.classList.add('cleared');
-                    setTimeout(() => {
-                        container.remove();
-                        mainGrid.classList.add('visible');
-                        runTypingAnimations();
-                    }, 800);
-                };
-                
-                const getCoords = (e) => {
-                    const rect = canvas.getBoundingClientRect();
-                    const event = e.touches ? e.touches[0] : e;
-                    return { x: event.clientX - rect.left, y: event.clientY - rect.top };
-                };
-
-                const checkArea = (() => {
-                    let lastCheck = 0;
-                    return () => {
-                        const now = Date.now();
-                        if (now - lastCheck < 250) return;
-                        lastCheck = now;
-                        
-                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-                        const totalPixels = imageData.length / 4;
-                        let transparentPixels = 0;
-                        
-                        for (let i = 3; i < imageData.length; i += 80) { // Sprawdź co 20ty piksel
-                            if (imageData[i] === 0) transparentPixels++;
-                        }
-                        
-                        if ((transparentPixels / (totalPixels / 20)) * 100 > 20) {
-                            revealPage();
-                        }
-                    };
-                })();
-
-                const moveHandler = (e) => {
-                    if (isCleared) return;
-                    if (inactivityTimeout) {
-                        clearTimeout(inactivityTimeout);
-                        inactivityTimeout = null;
-                    }
-                    e.preventDefault();
-                    const { x, y } = getCoords(e);
-
-                    ctx.globalCompositeOperation = 'destination-out';
-                    ctx.beginPath();
-                    ctx.arc(x, y, 25, 0, 2 * Math.PI); // Okrąg 50px (promień 25px)
-                    ctx.fill();
-
-                    checkArea();
-                };
-
-                setupCanvas();
-                inactivityTimeout = setTimeout(revealPage, 10000);
-                container.addEventListener('mousemove', moveHandler);
-                container.addEventListener('touchmove', moveHandler, { passive: false });
-                window.addEventListener('resize', setupCanvas);
-            };
-
-            // --- POZOSTAŁE SKRYPTY ---
+            // --- SKRYPT ANIMACJI PISANIA ---
             function runTypingAnimations() { const elementsToType=document.querySelectorAll('.type-effect'); let totalDelay=500; elementsToType.forEach((element) => { const text=element.dataset.text||element.textContent; element.textContent=''; setTimeout(() => { let i=0; const typingInterval=setInterval(() => { if (i<text.length) { element.textContent+=text.charAt(i); i++; } else { clearInterval(typingInterval); } }, 30); }, totalDelay); totalDelay+=text.length*30+100; }); }
+            
+            // --- SKRYPTY INTERAKCJI (MODAL, LINKI, LISTA) ---
             const emailModal = document.getElementById('email-modal'), openEmailBtn = document.getElementById('open-email-modal');
             if (emailModal && openEmailBtn) {
                 const closeEmailBtn = document.getElementById('close-modal-btn'), copyEmailBtn = document.getElementById('copy-email-btn');
@@ -261,16 +192,47 @@
                 copyEmailBtn.addEventListener('click', () => { navigator.clipboard.writeText('biuro.sg.media.pl@gmail.com').then(() => { copyEmailBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyEmailBtn.textContent = 'Skopiuj adres' }, 2000); }).catch(err => { alert('Błąd kopiowania.'); }); });
             }
             const instagramLink=document.getElementById('instagram-link'); if(instagramLink){instagramLink.addEventListener('click',(e)=>{e.preventDefault();const c=window.confirm('Zostaniesz przekierowany na zewnętrzną stronę Instagram. Kontynuować?');if(c){window.open(instagramLink.href,'_blank');}});}
-            const settings={iso:[{val:'100',ev:0},{val:'200',ev:1},{val:'400',ev:2},{val:'800',ev:3},{val:'1600',ev:4}],aperture:[{val:'f/1.4',ev:0},{val:'f/2.0',ev:1},{val:'f/2.8',ev:2},{val:'f/4.0',ev:3},{val:'f/5.6',ev:4}],shutter:[{val:'1/15s',ev:0},{val:'1/30s',ev:-1},{val:'1/60s',ev:-2},{val:'1/125s',ev:-3},{val:'1/250s',ev:-4}]}; let currentIndices={iso:2,aperture:3,shutter:1}; const targetEV=0;
-            const isoValueEl=document.getElementById('iso-value'),apertureValueEl=document.getElementById('aperture-value'),shutterValueEl=document.getElementById('shutter-value'),currentEvEl=document.getElementById('current-ev'),successMessageEl=document.getElementById('success-message'),controlButtons=document.querySelectorAll('#exposure-game button');
-            function updateDisplay(){isoValueEl.textContent=settings.iso[currentIndices.iso].val;apertureValueEl.textContent=settings.aperture[currentIndices.aperture].val;shutterValueEl.textContent=settings.shutter[currentIndices.shutter].val;const currentEV=settings.iso[currentIndices.iso].ev+settings.aperture[currentIndices.aperture].ev+settings.shutter[currentIndices.shutter].ev;currentEvEl.textContent=currentEV;if(currentEV===targetEV){successMessageEl.classList.add('visible');}else{successMessageEl.classList.remove('visible');}}
-            controlButtons.forEach(button=>{button.addEventListener('click',()=>{const setting=button.dataset.setting;const direction=parseInt(button.dataset.direction,10);currentIndices[setting]+=direction;if(currentIndices[setting]<0)currentIndices[setting]=0;if(currentIndices[setting]>=settings[setting].length)currentIndices[setting]=settings[setting].length-1;updateDisplay();});});
-            updateDisplay();
             const gearExpander = document.getElementById('gear-expander'), gearDetails = document.getElementById('gear-details');
             if (gearExpander && gearDetails) { gearExpander.addEventListener('click', () => { const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === ''; gearDetails.style.display = isHidden ? 'block' : 'none'; gearExpander.textContent = isHidden ? '[-]' : '[+]'; }); }
 
-            // --- URUCHOMIENIE APLIKACJI ---
-            initScratchOff();
+            // --- NOWY SKRYPT MINI-GRY ---
+            const captureBtn = document.getElementById('capture-btn');
+            const gameObject = document.getElementById('game-object');
+            const captureZone = document.getElementById('capture-zone');
+            const gameMessage = document.getElementById('game-message');
+
+            if (captureBtn && gameObject && captureZone && gameMessage) {
+                captureBtn.addEventListener('click', () => {
+                    // Pobierz aktualne pozycje i wymiary elementów
+                    const objectRect = gameObject.getBoundingClientRect();
+                    const zoneRect = captureZone.getBoundingClientRect();
+
+                    // Oblicz środek poruszającego się obiektu
+                    const objectCenter = objectRect.left + objectRect.width / 2;
+
+                    // Sprawdź, czy środek obiektu jest wewnątrz strefy
+                    if (objectCenter >= zoneRect.left && objectCenter <= zoneRect.right) {
+                        gameMessage.textContent = '[PERFECT SHOT!]';
+                        gameMessage.style.color = '#00FF41'; // Zielony
+                    } else {
+                        gameMessage.textContent = '[BLURRED SHOT]';
+                        gameMessage.style.color = '#FF4136'; // Czerwony
+                    }
+
+                    // Zresetuj animację i wiadomość
+                    gameObject.style.animation = 'none';
+                    setTimeout(() => { 
+                        gameObject.style.animation = '';
+                        gameMessage.textContent = '';
+                    }, 500);
+                });
+            }
+
+            // --- URUCHOMIENIE STRONY ---
+            setTimeout(() => {
+                mainGrid.style.opacity = '1';
+                runTypingAnimations();
+            }, 300);
         });
     </script>
 </body>
