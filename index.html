@@ -1,422 +1,477 @@
 <!DOCTYPE html>
+
 <html lang="pl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>SG.media.pl - Fotografia & Wideo</title>
-    <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Fotografia i wideo dla nowoczesnych marek, relacje z eventów i wesel. Wrocław.">
-    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, Panasonic, Sony, Canon, Nikon">
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&family=VT323&display=swap');
+    <meta charset="UTF-8">
 
-        :root {
-            --font-main: 'Plus Jakarta Sans', sans-serif;
-            --font-mono: 'VT323', monospace;
-            --color-background: #111111;
-            --color-text-primary: #FFFFFF;
-            --color-text-secondary: #888888;
-            --color-border: rgba(255, 255, 255, 0.1);
-            --color-surface: rgba(255, 255, 255, 0.05);
-            --color-link-blue: #3B99FC;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-        @keyframes subtle-gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    
 
-        body {
-            font-family: var(--font-main);
-            background-color: var(--color-background);
-            background-image: linear-gradient(125deg, #111111, #1a1a1a, #111111);
-            background-size: 400% 400%;
-            animation: fadeIn 1s ease, subtle-gradient 30s ease infinite;
-            color: var(--color-text-primary);
-            margin: 0; padding: 0;
-            /* overflow: hidden; usunięte, będzie zarządzane przez JS */
-            font-size: 16px;
-            font-weight: 400;
-        }
-        
-        /* === NOWE STYLE DLA ZDRAPKI === */
-        #scratch-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            cursor: crosshair;
-            opacity: 1;
-            transition: opacity 0.8s ease-out;
-            visibility: visible;
-        }
-        #scratch-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none; /* Wyłącza interakcje po ukryciu */
-        }
-        #scratch-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        /* Koniec stylów dla zdrapki */
+    <title>SG.media.pl - Fotografia & Wideo</title>
 
-        .hacker-grid {
-            display: grid;
-            grid-template-columns: max-content 1fr;
-            grid-template-rows: auto 1fr;
-            gap: 20px;
-            width: 100vw; height: 100vh;
-            padding: 20px; box-sizing: border-box;
-            opacity: 0; /* Początkowo niewidoczne */
-            transition: opacity 0.5s ease;
-        }
-        .hacker-grid.visible { opacity: 1; }
-        
-        .panel { border: 1px solid var(--color-border); background-color: transparent; border-radius: 12px; padding: 24px; overflow: hidden; }
-        .panel-title { font-size: 14px; font-weight: 700; margin: 0 0 24px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
-        .header-panel { grid-column: 1 / 3; padding: 16px 24px; }
-        .user-info { grid-column: 1 / 2; grid-row: 2 / 3; display: flex; flex-direction: column; }
-        .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
-        .user-info ul { list-style: none; padding: 0; margin: 0; font-size: 15px; }
-        .user-info li { margin-bottom: 12px; white-space: nowrap; }
-        .user-info li strong { color: var(--color-text-secondary); font-weight: 700; margin-right: 8px; }
-        .user-info a, .copiable { text-decoration: underline; color: var(--color-link-blue); cursor: pointer; transition: color 0.3s ease; }
-        .user-info a:hover, .copiable:hover { color: var(--color-text-primary); }
-        .iframe-responsive-wrapper { flex-grow: 1; position: relative; border-radius: 8px; overflow: hidden; background-color: var(--color-surface); }
-        .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .type-effect { display: inline-block; }
-        .expander { cursor: pointer; display: inline-block; margin-left: 5px; }
-        .collapsible-content { display: none; padding-left: 10px; margin-top: 8px; font-size: 14px; color: var(--color-text-secondary); }
-        
-        #shutter-game { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--color-border); }
-        .game-title { font-size: 14px; font-weight: 700; margin: 0 0 15px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
-        #game-track {
-            position: relative;
-            width: 100%;
-            height: 20px;
-            background-color: var(--color-surface);
-            border-radius: 4px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-        #capture-zone {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 15%; 
-            height: 100%;
-            border-left: 2px solid var(--color-text-secondary);
-            border-right: 2px solid var(--color-text-secondary);
-            box-sizing: border-box;
-        }
-        #game-object {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: var(--color-text-primary);
-            border-radius: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-            animation: moveObject 2s linear infinite;
-        }
-        @keyframes moveObject {
-            0% { left: -10px; }
-            100% { left: 100%; }
-        }
-        #capture-btn {
-            font-family: var(--font-mono); font-size: 20px;
-            background-color: transparent; border: 1px solid var(--color-text-secondary);
-            color: var(--color-text-secondary);
-            padding: 8px 12px;
-            width: 100%;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        #capture-btn:hover { background-color: var(--color-text-primary); color: var(--color-background); border-color: var(--color-text-primary); }
-        #game-message { text-align: center; margin-top: 10px; font-family: var(--font-mono); font-size: 20px; height: 20px; }
+    <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Fotografia i wideo dla nowoczesnych marek, relacje z eventów i wesel. Wrocław.">
 
-        @media (max-width: 900px) {
-            .hacker-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; height: auto; }
-            .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
-            .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; height: 60vh; }
-            #shutter-game { margin-top: 25px; }
-        }
-    </style>
+    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, Panasonic, Sony, Canon, Nikon">
+
+
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&family=VT323&display=swap');
+
+
+
+        :root {
+
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+
+            --font-mono: 'VT323', monospace;
+
+            --color-background: #111111;
+
+            --color-text-primary: #FFFFFF;
+
+            --color-text-secondary: #888888;
+
+            --color-border: rgba(255, 255, 255, 0.1);
+
+            --color-surface: rgba(255, 255, 255, 0.05);
+
+            --color-link-blue: #3B99FC;
+
+        }
+
+
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @keyframes subtle-gradient {
+
+            0% { background-position: 0% 50%; }
+
+            50% { background-position: 100% 50%; }
+
+            100% { background-position: 0% 50%; }
+
+        }
+
+
+
+        body {
+
+            font-family: var(--font-main);
+
+            background-color: var(--color-background);
+
+            background-image: linear-gradient(125deg, #111111, #1a1a1a, #111111);
+
+            background-size: 400% 400%;
+
+            animation: fadeIn 1s ease, subtle-gradient 30s ease infinite;
+
+            color: var(--color-text-primary);
+
+            margin: 0; padding: 0;
+
+            overflow: hidden;
+
+            font-size: 16px;
+
+            font-weight: 400;
+
+        }
+
+        
+
+        .hacker-grid {
+
+            display: grid;
+
+            grid-template-columns: max-content 1fr;
+
+            grid-template-rows: auto 1fr;
+
+            gap: 20px;
+
+            width: 100vw; height: 100vh;
+
+            padding: 20px; box-sizing: border-box;
+
+            opacity: 0;
+
+            transition: opacity 0.5s ease;
+
+        }
+
+        .hacker-grid.visible { opacity: 1; }
+
+        
+
+        .panel { border: 1px solid var(--color-border); background-color: transparent; border-radius: 12px; padding: 24px; overflow: hidden; }
+
+        .panel-title { font-size: 14px; font-weight: 700; margin: 0 0 24px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
+
+        .header-panel { grid-column: 1 / 3; padding: 16px 24px; }
+
+        .user-info { grid-column: 1 / 2; grid-row: 2 / 3; display: flex; flex-direction: column; }
+
+        .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
+
+        .user-info ul { list-style: none; padding: 0; margin: 0; font-size: 15px; }
+
+        .user-info li { margin-bottom: 12px; white-space: nowrap; }
+
+        .user-info li strong { color: var(--color-text-secondary); font-weight: 700; margin-right: 8px; }
+
+        .user-info a, .copiable { text-decoration: underline; color: var(--color-link-blue); cursor: pointer; transition: color 0.3s ease; }
+
+        .user-info a:hover, .copiable:hover { color: var(--color-text-primary); }
+
+        .iframe-responsive-wrapper { flex-grow: 1; position: relative; border-radius: 8px; overflow: hidden; background-color: var(--color-surface); }
+
+        .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        .type-effect { display: inline-block; }
+
+        .expander { cursor: pointer; display: inline-block; margin-left: 5px; }
+
+        .collapsible-content { display: none; padding-left: 10px; margin-top: 8px; font-size: 14px; color: var(--color-text-secondary); }
+
+        
+
+        /* === NOWOŚĆ: STYLE DLA MINI-GRY === */
+
+        #shutter-game { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--color-border); }
+
+        .game-title { font-size: 14px; font-weight: 700; margin: 0 0 15px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
+
+        #game-track {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 20px;
+
+            background-color: var(--color-surface);
+
+            border-radius: 4px;
+
+            margin-bottom: 15px;
+
+            overflow: hidden;
+
+        }
+
+        #capture-zone {
+
+            position: absolute;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: 15%; /* Szerokość pola do trafienia */
+
+            height: 100%;
+
+            border-left: 2px solid var(--color-text-secondary);
+
+            border-right: 2px solid var(--color-text-secondary);
+
+            box-sizing: border-box;
+
+        }
+
+        #game-object {
+
+            position: absolute;
+
+            width: 10px;
+
+            height: 10px;
+
+            background-color: var(--color-text-primary);
+
+            border-radius: 50%;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            animation: moveObject 2s linear infinite;
+
+        }
+
+        @keyframes moveObject {
+
+            0% { left: -10px; }
+
+            100% { left: 100%; }
+
+        }
+
+        #capture-btn {
+
+            font-family: var(--font-mono); font-size: 20px;
+
+            background-color: transparent; border: 1px solid var(--color-text-secondary);
+
+            color: var(--color-text-secondary);
+
+            padding: 8px 12px;
+
+            width: 100%;
+
+            border-radius: 4px;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+
+        }
+
+        #capture-btn:hover { background-color: var(--color-text-primary); color: var(--color-background); border-color: var(--color-text-primary); }
+
+        #game-message { text-align: center; margin-top: 10px; font-family: var(--font-mono); font-size: 20px; height: 20px; }
+
+
+
+        @media (max-width: 900px) {
+
+            body { overflow: auto; }
+
+            .hacker-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; height: auto; }
+
+            .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
+
+            .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; height: 60vh; }
+
+            #shutter-game { margin-top: 25px; }
+
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-    <!-- === NOWA WARSTWA ZDRAPKI === -->
-    <div id="scratch-overlay">
-        <canvas id="scratch-canvas"></canvas>
-    </div>
-    
-    <div class="hacker-grid">
-        <header class="panel header-panel"><h1 class="panel-title type-effect" data-text="SG.MEDIA.PL / FOTOGRAFIA & WIDEO"></h1></header>
+    
 
-        <section class="panel user-info">
-            <div>
-                <h2 class="panel-title">INFO / SZYMON GRZESZCZAK</h2>
-                <ul>
-                    <li><strong>LOKALIZACJA:</strong> <span class="type-effect" data-text="Wrocław, Polska"></span></li>
-                    <li><strong>E-mail:</strong> <span id="open-email-modal" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
-                    <li><strong>INSTAGRAM:</strong> <a id="instagram-link" href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
-                    <li id="gear-item"><strong>SPRZĘT:</strong><span class="type-effect" data-text="Panasonic, Sony, Canon, Nikon"></span><span class="expander" id="gear-expander">[+]</span>
-                        <div class="collapsible-content" id="gear-details">- Lumix S5II, S5IIX<br>- Sony A7III, FX6, PXW-FS7<br>- Canon 1100D<br>- Nikon D300</div>
-                    </li>
-                </ul>
-            </div>
+    <div class="hacker-grid">
 
-            <div id="shutter-game">
-                <h3 class="game-title">SHUTTER SPEED CHALLENGE</h3>
-                <div id="game-track">
-                    <div id="capture-zone"></div>
-                    <div id="game-object"></div>
-                </div>
-                <button id="capture-btn">[ CAPTURE ]</button>
-                <div id="game-message"></div>
-            </div>
-        </section>
+        <header class="panel header-panel"><h1 class="panel-title type-effect" data-text="SG.MEDIA.PL / FOTOGRAFIA & WIDEO"></h1></header>
 
-        <section class="panel gallery-window">
-            <h2 class="panel-title">PORTFOLIO / FEED</h2>
-            <div class="iframe-responsive-wrapper">
-                <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
-            </div>
-        </section>
-    </div>
 
-    <!-- Modal jest poza głównym gridem, więc nie wymaga zmian -->
-    <div id="email-modal" style="display: none;"> <!-- Ukryty na starcie dla pewności -->
-        <!-- ... zawartość modala bez zmian ... -->
-    </div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const mainGrid = document.querySelector('.hacker-grid');
-            const scratchOverlay = document.getElementById('scratch-overlay');
-            const canvas = document.getElementById('scratch-canvas');
-            const ctx = canvas.getContext('2d');
 
-            // --- FUNKCJA URUCHAMIAJĄCA GŁÓWNĄ ZAWARTOŚĆ ---
-            function revealContent() {
-                // Ukryj zdrapkę z efektem fade-out
-                scratchOverlay.classList.add('hidden');
-                
-                // Zezwól na przewijanie strony (ważne dla mobile)
-                document.body.style.overflow = 'auto';
+        <section class="panel user-info">
 
-                // Uruchom animacje na stronie głównej
-                setTimeout(() => {
-                    mainGrid.classList.add('visible'); // Użyjemy klasy zamiast opacity
-                    runTypingAnimations();
-                }, 300); // Małe opóźnienie dla płynnego przejścia
-            }
+            <div>
 
-            // --- SKRYPT EFEKTU ZDRAPKI ---
-            function setupScratchCard() {
-                // Zablokuj przewijanie, gdy zdrapka jest aktywna
-                document.body.style.overflow = 'hidden';
+                <h2 class="panel-title">INFO / SZYMON GRZESZCZAK</h2>
 
-                const dpr = window.devicePixelRatio || 1;
-                const rect = canvas.getBoundingClientRect();
-                canvas.width = rect.width * dpr;
-                canvas.height = rect.height * dpr;
-                ctx.scale(dpr, dpr);
+                <ul>
 
-                // Tło zdrapki (warstwa do zdrapania)
-                ctx.fillStyle = '#1a1a1a';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    <li><strong>LOKALIZACJA:</strong> <span class="type-effect" data-text="Wrocław, Polska"></span></li>
 
-                // Tekst na zdrapce
-                ctx.fillStyle = '#FFFFFF';
-                ctx.font = `bold ${canvas.width > 600 ? '6vw' : '12vw'} ${getComputedStyle(document.body).getPropertyValue('--font-main')}`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('Odkryj kreatywność', canvas.width / (2*dpr), canvas.height / (2*dpr));
+                    <li><strong>E-mail:</strong> <span id="open-email-modal" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
 
-                let isDrawing = false;
+                    <li><strong>INSTAGRAM:</strong> <a id="instagram-link" href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
 
-                function getEventLocation(e) {
-                    if (e.touches && e.touches.length > 0) {
-                        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-                    }
-                    return { x: e.clientX, y: e.clientY };
-                }
+                    <li id="gear-item"><strong>SPRZĘT:</strong><span class="type-effect" data-text="Panasonic, Sony, Canon, Nikon"></span><span class="expander" id="gear-expander">[+]</span>
 
-                function scratch(e) {
-                    if (!isDrawing) return;
-                    e.preventDefault();
-                    const loc = getEventLocation(e);
-                    const canvasRect = canvas.getBoundingClientRect();
-                    const x = loc.x - canvasRect.left;
-                    const y = loc.y - canvasRect.top;
+                        <div class="collapsible-content" id="gear-details">- Lumix S5II, S5IIX<br>- Sony A7III, FX6, PXW-FS7<br>- Canon 1100D<br>- Nikon D300</div>
 
-                    ctx.globalCompositeOperation = 'destination-out';
-                    ctx.beginPath();
-                    ctx.arc(x, y, 30, 0, Math.PI * 2, false); // Zwiększono promień dla łatwiejszego zdrapywania
-                    ctx.fill();
-                }
+                    </li>
 
-                function checkScratchProgress() {
-                    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const data = pixels.data;
-                    let transparentPixels = 0;
-                    // Sprawdzamy co 4 piksel (tylko kanał alfa)
-                    for (let i = 3; i < data.length; i += 4) {
-                        if (data[i] === 0) {
-                            transparentPixels++;
-                        }
-                    }
-                    const totalPixels = data.length / 4;
-                    const scratchedPercentage = (transparentPixels / totalPixels) * 100;
+                </ul>
 
-                    if (scratchedPercentage > 60) { // Próg 60%
-                        // Zdejmij listenery, aby uniknąć wielokrotnego wywołania
-                        canvas.removeEventListener('mousedown', startDrawing);
-                        canvas.removeEventListener('touchstart', startDrawing);
-                        canvas.removeEventListener('mouseup', stopDrawing);
-                        canvas.removeEventListener('touchend', stopDrawing);
-                        canvas.removeEventListener('mousemove', scratch);
-                        canvas.removeEventListener('touchmove', scratch);
-                        revealContent();
-                    }
-                }
+            </div>
 
-                function startDrawing(e) { isDrawing = true; scratch(e); }
-                function stopDrawing() { 
-                    if (isDrawing) {
-                        isDrawing = false; 
-                        checkScratchProgress();
-                    }
-                }
 
-                canvas.addEventListener('mousedown', startDrawing);
-                canvas.addEventListener('touchstart', startDrawing, { passive: false });
-                canvas.addEventListener('mouseup', stopDrawing);
-                canvas.addEventListener('touchend', stopDrawing);
-                canvas.addEventListener('mousemove', scratch);
-                canvas.addEventListener('touchmove', scratch, { passive: false });
-                
-                // Dostosuj canvas przy zmianie rozmiaru okna
-                window.addEventListener('resize', () => {
-                   if (!scratchOverlay.classList.contains('hidden')) {
-                       setupScratchCard();
-                   }
-                });
-            }
-            
-            // --- SKRYPT ANIMACJI PISANIA ---
-            function runTypingAnimations() { 
-                const elementsToType = document.querySelectorAll('.type-effect'); 
-                let totalDelay = 500; 
-                elementsToType.forEach((element) => { 
-                    const text = element.dataset.text || element.textContent; 
-                    element.textContent = ''; 
-                    setTimeout(() => { 
-                        let i = 0; 
-                        const typingInterval = setInterval(() => { 
-                            if (i < text.length) { 
-                                element.textContent += text.charAt(i); i++; 
-                            } else { 
-                                clearInterval(typingInterval); 
-                            } 
-                        }, 30); 
-                    }, totalDelay); 
-                    totalDelay += text.length * 30 + 100; 
-                }); 
-            }
-            
-            // --- SKRYPTY INTERAKCJI (MODAL, LINKI, LISTA) ---
-            // Ta sekcja pozostaje praktycznie bez zmian, ale upewniamy się, że modal jest ukryty
-            const emailModal = document.getElementById('email-modal');
-            emailModal.style.display = 'block'; // Ustawiamy na block, aby style CSS mogły nim zarządzać
-            emailModal.classList.remove('visible'); // Ale upewniamy się, że jest niewidoczny
 
-            const openEmailBtn = document.getElementById('open-email-modal');
-            if (emailModal && openEmailBtn) {
-                const closeEmailBtn = document.getElementById('close-modal-btn'), copyEmailBtn = document.getElementById('copy-email-btn');
-                const openModal = () => emailModal.classList.add('visible'), closeModal = () => emailModal.classList.remove('visible');
-                openEmailBtn.addEventListener('click', openModal); 
-                if(closeEmailBtn) closeEmailBtn.addEventListener('click', closeModal);
-                emailModal.addEventListener('click', (e) => { if(e.target === emailModal) closeModal(); });
-                if(copyEmailBtn) copyEmailBtn.addEventListener('click', () => { 
-                    // Używamy document.execCommand jako fallback dla iFrame
-                    const email = 'biuro.sg.media.pl@gmail.com';
-                    const textArea = document.createElement("textarea");
-                    textArea.value = email;
-                    document.body.appendChild(textArea);
-                    textArea.focus();
-                    textArea.select();
-                    try {
-                        document.execCommand('copy');
-                        copyEmailBtn.textContent = 'Skopiowano!';
-                    } catch (err) {
-                        copyEmailBtn.textContent = 'Błąd!';
-                    }
-                    document.body.removeChild(textArea);
-                    setTimeout(() => { copyEmailBtn.textContent = 'Skopiuj adres' }, 2000);
-                });
-            }
-            
-            // Usunięto window.confirm z linku do Instagrama
-            const instagramLink = document.getElementById('instagram-link'); 
-            if(instagramLink) {
-                instagramLink.addEventListener('click', (e) => {
-                    e.preventDefault(); 
-                    window.open(instagramLink.href, '_blank', 'noopener,noreferrer');
-                });
-            }
+            <div id="shutter-game">
 
-            const gearExpander = document.getElementById('gear-expander'), gearDetails = document.getElementById('gear-details');
-            if (gearExpander && gearDetails) { 
-                gearExpander.addEventListener('click', () => { 
-                    const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === ''; 
-                    gearDetails.style.display = isHidden ? 'block' : 'none'; 
-                    gearExpander.textContent = isHidden ? '[-]' : '[+]'; 
-                }); 
-            }
+                <h3 class="game-title">SHUTTER SPEED CHALLENGE</h3>
 
-            // --- SKRYPT MINI-GRY ---
-            const captureBtn = document.getElementById('capture-btn');
-            const gameObject = document.getElementById('game-object');
-            const captureZone = document.getElementById('capture-zone');
-            const gameMessage = document.getElementById('game-message');
+                <div id="game-track">
 
-            if (captureBtn && gameObject && captureZone && gameMessage) {
-                captureBtn.addEventListener('click', () => {
-                    const objectRect = gameObject.getBoundingClientRect();
-                    const zoneRect = captureZone.getBoundingClientRect();
-                    const objectCenter = objectRect.left + objectRect.width / 2;
-                    if (objectCenter >= zoneRect.left && objectCenter <= zoneRect.right) {
-                        gameMessage.textContent = '[PERFECT SHOT!]';
-                        gameMessage.style.color = '#00FF41';
-                    } else {
-                        gameMessage.textContent = '[BLURRED SHOT]';
-                        gameMessage.style.color = '#FF4136';
-                    }
-                    gameObject.style.animation = 'none';
-                    setTimeout(() => { 
-                        gameObject.style.animation = '';
-                        gameMessage.textContent = '';
-                    }, 500);
-                });
-            }
+                    <div id="capture-zone"></div>
 
-            // --- URUCHOMIENIE STRONY ---
-            setupScratchCard();
-        });
-    </script>
+                    <div id="game-object"></div>
+
+                </div>
+
+                <button id="capture-btn">[ CAPTURE ]</button>
+
+                <div id="game-message"></div>
+
+            </div>
+
+        </section>
+
+
+
+        <section class="panel gallery-window">
+
+            <h2 class="panel-title">PORTFOLIO / FEED</h2>
+
+            <div class="iframe-responsive-wrapper">
+
+                <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+
+    <div id="email-modal">
+
+        <div class="modal-content">
+
+            <button id="close-modal-btn" class="close-btn">&times;</button>
+
+            <h3>Napisz do mnie</h3>
+
+            <p>Masz pomysł na projekt lub chcesz zapytać o ofertę? Skopiuj poniższy adres i zacznijmy rozmowę.</p>
+
+            <div class="modal-email">biuro.sg.media.pl@gmail.com</div>
+
+            <button id="copy-email-btn" class="modal-button">Skopiuj adres</button>
+
+        </div>
+
+    </div>
+
+    
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const mainGrid = document.querySelector('.hacker-grid');
+
+
+
+            // --- SKRYPT ANIMACJI PISANIA ---
+
+            function runTypingAnimations() { const elementsToType=document.querySelectorAll('.type-effect'); let totalDelay=500; elementsToType.forEach((element) => { const text=element.dataset.text||element.textContent; element.textContent=''; setTimeout(() => { let i=0; const typingInterval=setInterval(() => { if (i<text.length) { element.textContent+=text.charAt(i); i++; } else { clearInterval(typingInterval); } }, 30); }, totalDelay); totalDelay+=text.length*30+100; }); }
+
+            
+
+            // --- SKRYPTY INTERAKCJI (MODAL, LINKI, LISTA) ---
+
+            const emailModal = document.getElementById('email-modal'), openEmailBtn = document.getElementById('open-email-modal');
+
+            if (emailModal && openEmailBtn) {
+
+                const closeEmailBtn = document.getElementById('close-modal-btn'), copyEmailBtn = document.getElementById('copy-email-btn');
+
+                const openModal = () => emailModal.classList.add('visible'), closeModal = () => emailModal.classList.remove('visible');
+
+                openEmailBtn.addEventListener('click', openModal); closeEmailBtn.addEventListener('click', closeModal);
+
+                emailModal.addEventListener('click', (e) => { if(e.target === emailModal) closeModal(); });
+
+                copyEmailBtn.addEventListener('click', () => { navigator.clipboard.writeText('biuro.sg.media.pl@gmail.com').then(() => { copyEmailBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyEmailBtn.textContent = 'Skopiuj adres' }, 2000); }).catch(err => { alert('Błąd kopiowania.'); }); });
+
+            }
+
+            const instagramLink=document.getElementById('instagram-link'); if(instagramLink){instagramLink.addEventListener('click',(e)=>{e.preventDefault();const c=window.confirm('Zostaniesz przekierowany na zewnętrzną stronę Instagram. Kontynuować?');if(c){window.open(instagramLink.href,'_blank');}});}
+
+            const gearExpander = document.getElementById('gear-expander'), gearDetails = document.getElementById('gear-details');
+
+            if (gearExpander && gearDetails) { gearExpander.addEventListener('click', () => { const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === ''; gearDetails.style.display = isHidden ? 'block' : 'none'; gearExpander.textContent = isHidden ? '[-]' : '[+]'; }); }
+
+
+
+            // --- NOWY SKRYPT MINI-GRY ---
+
+            const captureBtn = document.getElementById('capture-btn');
+
+            const gameObject = document.getElementById('game-object');
+
+            const captureZone = document.getElementById('capture-zone');
+
+            const gameMessage = document.getElementById('game-message');
+
+
+
+            if (captureBtn && gameObject && captureZone && gameMessage) {
+
+                captureBtn.addEventListener('click', () => {
+
+                    // Pobierz aktualne pozycje i wymiary elementów
+
+                    const objectRect = gameObject.getBoundingClientRect();
+
+                    const zoneRect = captureZone.getBoundingClientRect();
+
+
+
+                    // Oblicz środek poruszającego się obiektu
+
+                    const objectCenter = objectRect.left + objectRect.width / 2;
+
+
+
+                    // Sprawdź, czy środek obiektu jest wewnątrz strefy
+
+                    if (objectCenter >= zoneRect.left && objectCenter <= zoneRect.right) {
+
+                        gameMessage.textContent = '[PERFECT SHOT!]';
+
+                        gameMessage.style.color = '#00FF41'; // Zielony
+
+                    } else {
+
+                        gameMessage.textContent = '[BLURRED SHOT]';
+
+                        gameMessage.style.color = '#FF4136'; // Czerwony
+
+                    }
+
+
+
+                    // Zresetuj animację i wiadomość
+
+                    gameObject.style.animation = 'none';
+
+                    setTimeout(() => { 
+
+                        gameObject.style.animation = '';
+
+                        gameMessage.textContent = '';
+
+                    }, 500);
+
+                });
+
+            }
+
+
+
+            // --- URUCHOMIENIE STRONY ---
+
+            setTimeout(() => {
+
+                mainGrid.style.opacity = '1';
+
+                runTypingAnimations();
+
+            }, 300);
+
+        });
+
+    </script>
+
 </body>
-</html>
 
+</html>
