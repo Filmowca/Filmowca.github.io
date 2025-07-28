@@ -6,8 +6,8 @@
     
     <!-- ================== SEO Meta Tagi ================== -->
     <title>SG.media.pl - Szymon Grzeszczak | Fotograf i Filmowiec | Wrocław</title>
-    <meta name="description" content="Profesjonalne sesje zdjęciowe i produkcje wideo we Wrocławiu. Szymon Grzeszczak (SG.media.pl) oferuje fotografię portretową, eventową, produktową oraz kreatywne filmy. Odkryj portfolio i skontaktuj się po wycenę. Wypróbuj nasz kreator konceptów sesji AI!">
-    <meta name="keywords" content="fotograf Wrocław, filmowiec Wrocław, fotografia ślubna, fotografia portretowa, fotografia eventowa, produkcja wideo, sesje zdjęciowe, SG.media.pl, Szymon Grzeszczak, fotografia komercyjna, fotografia premium, pomysły na sesję, kreator sesji AI">
+    <meta name="description" content="Profesjonalne sesje zdjęciowe i produkcje wideo we Wrocławiu. Szymon Grzeszczak (SG.media.pl) oferuje fotografię portretową, eventową, produktową oraz kreatywne filmy. Odkryj portfolio i skontaktuj się po wycenę.">
+    <meta name="keywords" content="fotograf Wrocław, filmowiec Wrocław, fotografia ślubna, fotografia portretowa, fotografia eventowa, produkcja wideo, sesje zdjęciowe, SG.media.pl, Szymon Grzeszczak, fotografia komercyjna, fotografia premium">
     <meta name="author" content="Szymon Grzeszczak, SG.media.pl">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sg.media.pl">
@@ -15,15 +15,15 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sg.media.pl">
-    <meta property="og:title" content="SG.media.pl - Szymon Grzeszczak | Fotograf i Filmowiec z Kreatorem AI">
-    <meta property="og:description" content="Profesjonalne sesje zdjęciowe i produkcje wideo. Odkryj moje portfolio i wygeneruj unikalny koncept na swoją sesję z pomocą AI.">
+    <meta property="og:title" content="SG.media.pl - Szymon Grzeszczak | Fotograf i Filmowiec | Wrocław">
+    <meta property="og:description" content="Profesjonalne sesje zdjęciowe i produkcje wideo. Odkryj moje portfolio i zobacz, jak mogę uwiecznić Twoje najważniejsze chwile.">
     <meta property="og:image" content="https://placehold.co/1200x630/1a1a1a/ffffff?text=SG.media.pl">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://sg.media.pl">
-    <meta property="twitter:title" content="SG.media.pl - Szymon Grzeszczak | Fotograf i Filmowiec z Kreatorem AI">
-    <meta property="twitter:description" content="Profesjonalne sesje zdjęciowe i produkcje wideo. Odkryj moje portfolio i wygeneruj unikalny koncept na swoją sesję z pomocą AI.">
+    <meta property="twitter:title" content="SG.media.pl - Szymon Grzeszczak | Fotograf i Filmowiec | Wrocław">
+    <meta property="twitter:description" content="Profesjonalne sesje zdjęciowe i produkcje wideo. Odkryj moje portfolio i zobacz, jak mogę uwiecznić Twoje najważniejsze chwile.">
     <meta property="twitter:image" content="https://placehold.co/1200x630/1a1a1a/ffffff?text=SG.media.pl">
 
     <!-- ================== Stylowanie i Fonty ================== -->
@@ -31,8 +31,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
 
     <style>
         body {
@@ -55,6 +53,7 @@
             height: 2500px;
             border: none;
         }
+        /* Kontener zdrapki - teraz jest nakładką */
         #scratch-container {
             position: fixed;
             top: 0;
@@ -63,25 +62,25 @@
             height: 100%;
             z-index: 100;
             cursor: crosshair;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #111;
-            transition: opacity 0.8s ease-in-out;
+            /* Usunięto tło, ponieważ canvas będzie warstwą zdrapki */
         }
         #scratch-canvas {
             position: absolute;
             top: 0;
             left: 0;
         }
-        #scratch-container h2 {
+        /* Tekst na zdrapce - wyśrodkowany */
+        #scratch-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             color: white;
             font-size: 2rem;
             font-weight: bold;
             text-align: center;
-            z-index: 101;
-            pointer-events: none;
+            z-index: 101; /* Tekst nad canvasem */
+            pointer-events: none; /* Pozwala na zdrapywanie "przez" tekst */
             text-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
         #toast-notification {
@@ -91,24 +90,6 @@
             transform: translate(-50%, 100px);
             opacity: 0;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-        /* Style dla Kreatora AI */
-        #ai-generator-result h3 {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #fff;
-        }
-        #ai-generator-result ul {
-            list-style-position: inside;
-            padding-left: 1rem;
-        }
-        #ai-generator-result li {
-            margin-bottom: 0.25rem;
-        }
-        #ai-generator-result p {
-            margin-bottom: 1rem;
         }
     </style>
     
@@ -127,7 +108,7 @@
         "addressLocality": "Wrocław",
         "addressCountry": "PL"
       },
-      "description": "Fotograf i filmowiec we Wrocławiu specjalizujący się w fotografii portretowej, eventowej i komercyjnej. Strona zawiera kreator konceptów sesji AI.",
+      "description": "Fotograf i filmowiec we Wrocławiu specjalizujący się w fotografii portretowej, eventowej i komercyjnej.",
       "founder": {
         "@type": "Person",
         "name": "Szymon Grzeszczak"
@@ -144,14 +125,8 @@
 </head>
 <body class="antialiased">
 
-    <!-- ================== Efekt Zdrapki ================== -->
-    <div id="scratch-container">
-        <canvas id="scratch-canvas"></canvas>
-        <h2>Odkryj Kreatywność</h2>
-    </div>
-
-    <!-- Główna zawartość strony (początkowo ukryta) -->
-    <div id="main-content" class="opacity-0 transition-opacity duration-1000">
+    <!-- Główna zawartość strony (widoczna od początku pod zdrapką) -->
+    <div id="main-content">
 
         <!-- Nagłówek i sekcja "O mnie" -->
         <header class="container mx-auto px-6 py-12 md:py-20 text-center">
@@ -183,30 +158,6 @@
             </div>
         </header>
 
-        <!-- ================== Kreator Konceptów AI by Gemini ================== -->
-        <section id="ai-generator" class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="fade-in-up bg-gray-800/50 p-8 rounded-xl shadow-2xl text-center" style="transition-delay: 400ms;">
-                <h2 class="text-3xl font-bold text-white mb-3">✨ Kreator Konceptów Sesji</h2>
-                <p class="text-gray-400 mb-6 max-w-2xl mx-auto">Masz pomysł na sesję, ale brakuje Ci szczegółów? Opisz swoją wizję, a ja, z pomocą AI, przygotuję dla Ciebie unikalny koncept, nastrój i propozycje miejsc.</p>
-                
-                <div class="flex flex-col space-y-4">
-                    <textarea id="ai-prompt-input" rows="3" class="w-full bg-gray-900/70 border border-gray-700 rounded-lg p-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="np. 'Sesja narzeczeńska w industrialnym stylu' lub 'Mroczna, baśniowa sesja w lesie'"></textarea>
-                    <button id="generate-ai-idea-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center">
-                        <span id="btn-text">Generuj Pomysł</span>
-                        <svg id="btn-loader" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <div id="ai-generator-result" class="mt-8 text-left bg-gray-900/50 p-6 rounded-lg border border-gray-700 hidden">
-                    <!-- Wyniki z Gemini pojawią się tutaj -->
-                </div>
-            </div>
-        </section>
-
-
         <!-- Główna sekcja z galerią -->
         <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="fade-in-up" style="transition-delay: 500ms;">
@@ -227,6 +178,12 @@
         </footer>
 
     </div>
+    
+    <!-- ================== Efekt Zdrapki (Nakładka) ================== -->
+    <div id="scratch-container">
+        <h2 id="scratch-text">Odkryj Kreatywność</h2>
+        <canvas id="scratch-canvas"></canvas>
+    </div>
 
     <!-- Powiadomienie o skopiowaniu do schowka -->
     <div id="toast-notification" class="bg-green-600 text-white py-3 px-6 rounded-lg shadow-xl">
@@ -235,11 +192,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // ================== Logika zdrapki (Ulepszona) ==================
+            // ================== Logika zdrapki (Przebudowana) ==================
             const scratchContainer = document.getElementById('scratch-container');
             const canvas = document.getElementById('scratch-canvas');
             const ctx = canvas.getContext('2d');
-            const mainContent = document.getElementById('main-content');
 
             let isDrawing = false;
             let isRevealed = false;
@@ -249,6 +205,7 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 
+                // Wypełnienie canvasu gradientem, który będzie zdrapywany
                 const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
                 gradient.addColorStop(0, '#333');
                 gradient.addColorStop(1, '#1a1a1a');
@@ -279,11 +236,16 @@
             function revealPage() {
                 if (isRevealed) return;
                 isRevealed = true;
+
+                // Płynne zanikanie warstwy zdrapki
+                scratchContainer.style.transition = 'opacity 0.8s ease-out';
                 scratchContainer.style.opacity = '0';
-                mainContent.style.opacity = '1';
+                
+                // Usunięcie elementu po zakończeniu animacji, aby nie blokował interakcji
                 setTimeout(() => {
-                    scratchContainer.style.display = 'none';
-                    initAnimations();
+                    scratchContainer.remove();
+                    // Inicjalizacja animacji "fade-in-up" dla elementów strony
+                    initAnimations(); 
                 }, 800);
             }
             
@@ -324,6 +286,9 @@
                 return { x: e.clientX, y: e.clientY };
             }
 
+            // Inicjalizacja zdrapki
+            setupCanvas();
+            // Dodanie event listenerów
             canvas.addEventListener('mousedown', handleStart);
             canvas.addEventListener('mousemove', handleMove);
             window.addEventListener('mouseup', handleEnd);
@@ -331,7 +296,19 @@
             canvas.addEventListener('touchmove', handleMove, { passive: false });
             window.addEventListener('touchend', handleEnd);
             window.addEventListener('resize', setupCanvas);
-            setupCanvas();
+            
+            // ================== Logika animacji "fade-in" po odkryciu ==================
+            function initAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+            }
 
             // ================== Logika kopiowania emaila ==================
             const emailLink = document.getElementById('email-link');
@@ -367,80 +344,6 @@
                 }, 3000);
             }
 
-            // ================== Logika animacji "fade-in" ==================
-            function initAnimations() {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                        }
-                    });
-                }, { threshold: 0.1 });
-
-                document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-            }
-
-            // ================== Logika Kreatora AI (Gemini) ==================
-            const generateBtn = document.getElementById('generate-ai-idea-btn');
-            const promptInput = document.getElementById('ai-prompt-input');
-            const resultContainer = document.getElementById('ai-generator-result');
-            const btnText = document.getElementById('btn-text');
-            const btnLoader = document.getElementById('btn-loader');
-
-            generateBtn.addEventListener('click', async () => {
-                const userInput = promptInput.value;
-                if (!userInput.trim()) {
-                    resultContainer.innerHTML = '<p class="text-yellow-400">Proszę, opisz swój pomysł na sesję.</p>';
-                    resultContainer.style.display = 'block';
-                    return;
-                }
-
-                btnText.classList.add('hidden');
-                btnLoader.classList.remove('hidden');
-                generateBtn.disabled = true;
-                resultContainer.style.display = 'block';
-                resultContainer.innerHTML = '<p class="text-gray-400">Generowanie konceptu... To może zająć chwilę.</p>';
-
-                const prompt = `Jesteś światowej klasy dyrektorem kreatywnym dla polskiego studia fotograficznego. Potencjalny klient opisał swoją wymarzoną sesję. Twoim zadaniem jest wygenerowanie dla niego inspirującego konceptu w języku polskim. Pomysł klienta: '${userInput}'. Stwórz koncept zawierający następujące sekcje: ### Tytuł Konceptu, ### Klimat i Nastrój, ### Propozycje Miejsc (związane z Polską, np. Wrocławiem), ### Stylizacje i Ubiór, ### Przykładowe Ujęcia. Użyj formatowania Markdown.`;
-                
-                try {
-                    let chatHistory = [];
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = "";
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`Błąd API: ${response.statusText}`);
-                    }
-
-                    const result = await response.json();
-                    
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        resultContainer.innerHTML = marked.parse(text);
-                    } else {
-                        throw new Error('Otrzymano nieprawidłową odpowiedź od AI.');
-                    }
-
-                } catch (error) {
-                    console.error("Błąd podczas generowania pomysłu:", error);
-                    resultContainer.innerHTML = '<p class="text-red-500">Wystąpił błąd podczas generowania pomysłu. Spróbuj ponownie później.</p>';
-                } finally {
-                    btnText.classList.remove('hidden');
-                    btnLoader.classList.add('hidden');
-                    generateBtn.disabled = false;
-                }
-            });
-
             // ================== Ustawienie aktualnego roku w stopce ==================
             document.getElementById('current-year').textContent = new Date().getFullYear();
         });
@@ -448,4 +351,5 @@
 
 </body>
 </html>
+
 
