@@ -4,236 +4,448 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>SG.media.pl - Fotografia & Wideo</title>
-    <meta name="description" content="SG.media.pl - Szymon Grzeszczak. Fotografia i wideo dla nowoczesnych marek, relacje z eventów i wesel. Wrocław.">
-    <meta name="keywords" content="fotograf Wrocław, wideo Wrocław, fotografia, filmowanie, wesela, eventy, SG.media.pl, Szymon Grzeszczak, Panasonic, Sony, Canon, Nikon">
+    <!-- ================== SEO Meta Tagi ================== -->
+    <title>SG.media.pl - Szymon Grzeszczak | Fotograf i Filmowiec | Wrocław</title>
+    <meta name="description" content="Profesjonalne sesje zdjęciowe i produkcje wideo we Wrocławiu. Szymon Grzeszczak (SG.media.pl) oferuje fotografię portretową, eventową, produktową oraz kreatywne filmy. Odkryj portfolio i skontaktuj się po wycenę. Wypróbuj nasz kreator konceptów sesji AI!">
+    <meta name="keywords" content="fotograf Wrocław, filmowiec Wrocław, fotografia ślubna, fotografia portretowa, fotografia eventowa, produkcja wideo, sesje zdjęciowe, SG.media.pl, Szymon Grzeszczak, fotografia komercyjna, fotografia premium, pomysły na sesję, kreator sesji AI">
+    <meta name="author" content="Szymon Grzeszczak, SG.media.pl">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sg.media.pl">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sg.media.pl">
+    <meta property="og:title" content="SG.media.pl - Szymon Grzeszczak | Fotograf i Filmowiec z Kreatorem AI">
+    <meta property="og:description" content="Profesjonalne sesje zdjęciowe i produkcje wideo. Odkryj moje portfolio i wygeneruj unikalny koncept na swoją sesję z pomocą AI.">
+    <meta property="og:image" content="https://placehold.co/1200x630/1a1a1a/ffffff?text=SG.media.pl">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://sg.media.pl">
+    <meta property="twitter:title" content="SG.media.pl - Szymon Grzeszczak | Fotograf i Filmowiec z Kreatorem AI">
+    <meta property="twitter:description" content="Profesjonalne sesje zdjęciowe i produkcje wideo. Odkryj moje portfolio i wygeneruj unikalny koncept na swoją sesję z pomocą AI.">
+    <meta property="twitter:image" content="https://placehold.co/1200x630/1a1a1a/ffffff?text=SG.media.pl">
+
+    <!-- ================== Stylowanie i Fonty ================== -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&family=VT323&display=swap');
-
-        :root {
-            --font-main: 'Plus Jakarta Sans', sans-serif;
-            --font-mono: 'VT323', monospace;
-            --color-background: #111111;
-            --color-text-primary: #FFFFFF;
-            --color-text-secondary: #888888;
-            --color-border: rgba(255, 255, 255, 0.1);
-            --color-surface: rgba(255, 255, 255, 0.05);
-            --color-link-blue: #3B99FC;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes subtle-gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
         body {
-            font-family: var(--font-main);
-            background-color: var(--color-background);
-            background-image: linear-gradient(125deg, #111111, #1a1a1a, #111111);
-            background-size: 400% 400%;
-            animation: fadeIn 1s ease, subtle-gradient 30s ease infinite;
-            color: var(--color-text-primary);
-            margin: 0; padding: 0;
-            overflow: hidden;
-            font-size: 16px;
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            background-color: #111111;
+            color: #f0f0f0;
+            overflow-x: hidden;
         }
-        
-        .hacker-grid {
-            display: grid;
-            grid-template-columns: max-content 1fr;
-            grid-template-rows: auto 1fr;
-            gap: 20px;
-            width: 100vw; height: 100vh;
-            padding: 20px; box-sizing: border-box;
+        .fade-in-up {
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .hacker-grid.visible { opacity: 1; }
-        
-        .panel { border: 1px solid var(--color-border); background-color: transparent; border-radius: 12px; padding: 24px; overflow: hidden; }
-        .panel-title { font-size: 14px; font-weight: 700; margin: 0 0 24px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
-        .header-panel { grid-column: 1 / 3; padding: 16px 24px; }
-        .user-info { grid-column: 1 / 2; grid-row: 2 / 3; display: flex; flex-direction: column; }
-        .gallery-window { grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; }
-        .user-info ul { list-style: none; padding: 0; margin: 0; font-size: 15px; }
-        .user-info li { margin-bottom: 12px; white-space: nowrap; }
-        .user-info li strong { color: var(--color-text-secondary); font-weight: 700; margin-right: 8px; }
-        .user-info a, .copiable { text-decoration: underline; color: var(--color-link-blue); cursor: pointer; transition: color 0.3s ease; }
-        .user-info a:hover, .copiable:hover { color: var(--color-text-primary); }
-        .iframe-responsive-wrapper { flex-grow: 1; position: relative; border-radius: 8px; overflow: hidden; background-color: var(--color-surface); }
-        .iframe-responsive-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .type-effect { display: inline-block; }
-        .expander { cursor: pointer; display: inline-block; margin-left: 5px; }
-        .collapsible-content { display: none; padding-left: 10px; margin-top: 8px; font-size: 14px; color: var(--color-text-secondary); }
-        
-        /* === NOWOŚĆ: STYLE DLA MINI-GRY === */
-        #shutter-game { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--color-border); }
-        .game-title { font-size: 14px; font-weight: 700; margin: 0 0 15px 0; text-transform: uppercase; color: var(--color-text-secondary); letter-spacing: 1px; }
-        #game-track {
-            position: relative;
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .mirror-iframe {
             width: 100%;
-            height: 20px;
-            background-color: var(--color-surface);
-            border-radius: 4px;
-            margin-bottom: 15px;
-            overflow: hidden;
+            height: 2500px;
+            border: none;
         }
-        #capture-zone {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 15%; /* Szerokość pola do trafienia */
+        #scratch-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            border-left: 2px solid var(--color-text-secondary);
-            border-right: 2px solid var(--color-text-secondary);
-            box-sizing: border-box;
+            z-index: 100;
+            cursor: crosshair;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #111;
+            transition: opacity 0.8s ease-in-out;
         }
-        #game-object {
+        #scratch-canvas {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: var(--color-text-primary);
-            border-radius: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-            animation: moveObject 2s linear infinite;
+            top: 0;
+            left: 0;
         }
-        @keyframes moveObject {
-            0% { left: -10px; }
-            100% { left: 100%; }
+        #scratch-container h2 {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            z-index: 101;
+            pointer-events: none;
+            text-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
-        #capture-btn {
-            font-family: var(--font-mono); font-size: 20px;
-            background-color: transparent; border: 1px solid var(--color-text-secondary);
-            color: var(--color-text-secondary);
-            padding: 8px 12px;
-            width: 100%;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        #toast-notification {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translate(-50%, 100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
-        #capture-btn:hover { background-color: var(--color-text-primary); color: var(--color-background); border-color: var(--color-text-primary); }
-        #game-message { text-align: center; margin-top: 10px; font-family: var(--font-mono); font-size: 20px; height: 20px; }
-
-        @media (max-width: 900px) {
-            body { overflow: auto; }
-            .hacker-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; height: auto; }
-            .user-info { grid-column: 1 / 2; grid-row: 2 / 3; }
-            .gallery-window { grid-column: 1 / 2; grid-row: 3 / 4; height: 60vh; }
-            #shutter-game { margin-top: 25px; }
+        /* Style dla Kreatora AI */
+        #ai-generator-result h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        #ai-generator-result ul {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+        #ai-generator-result li {
+            margin-bottom: 0.25rem;
+        }
+        #ai-generator-result p {
+            margin-bottom: 1rem;
         }
     </style>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "SG.media.pl - Szymon Grzeszczak",
+      "image": "https://sg.media.pl/Toja.jpeg",
+      "@id": "https://sg.media.pl",
+      "url": "https://sg.media.pl",
+      "telephone": "",
+      "email": "biuro.sg.media.pl@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Wrocław",
+        "addressCountry": "PL"
+      },
+      "description": "Fotograf i filmowiec we Wrocławiu specjalizujący się w fotografii portretowej, eventowej i komercyjnej. Strona zawiera kreator konceptów sesji AI.",
+      "founder": {
+        "@type": "Person",
+        "name": "Szymon Grzeszczak"
+      },
+      "makesOffer": {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Fotografia i Produkcja Wideo"
+        }
+      }
+    }
+    </script>
 </head>
-<body>
-    
-    <div class="hacker-grid">
-        <header class="panel header-panel"><h1 class="panel-title type-effect" data-text="SG.MEDIA.PL / FOTOGRAFIA & WIDEO"></h1></header>
+<body class="antialiased">
 
-        <section class="panel user-info">
-            <div>
-                <h2 class="panel-title">INFO / SZYMON GRZESZCZAK</h2>
-                <ul>
-                    <li><strong>LOKALIZACJA:</strong> <span class="type-effect" data-text="Wrocław, Polska"></span></li>
-                    <li><strong>E-mail:</strong> <span id="open-email-modal" class="copiable type-effect" data-text="biuro.sg.media.pl@gmail.com"></span></li>
-                    <li><strong>INSTAGRAM:</strong> <a id="instagram-link" href="https://www.instagram.com/szymon_grzeszczak_photo/" target="_blank" rel="noopener noreferrer" class="type-effect" data-text="@szymon_grzeszczak_photo"></a></li>
-                    <li id="gear-item"><strong>SPRZĘT:</strong><span class="type-effect" data-text="Panasonic, Sony, Canon, Nikon"></span><span class="expander" id="gear-expander">[+]</span>
-                        <div class="collapsible-content" id="gear-details">- Lumix S5II, S5IIX<br>- Sony A7III, FX6, PXW-FS7<br>- Canon 1100D<br>- Nikon D300</div>
-                    </li>
-                </ul>
-            </div>
+    <!-- ================== Efekt Zdrapki ================== -->
+    <div id="scratch-container">
+        <canvas id="scratch-canvas"></canvas>
+        <h2>Odkryj Kreatywność</h2>
+    </div>
 
-            <div id="shutter-game">
-                <h3 class="game-title">SHUTTER SPEED CHALLENGE</h3>
-                <div id="game-track">
-                    <div id="capture-zone"></div>
-                    <div id="game-object"></div>
+    <!-- Główna zawartość strony (początkowo ukryta) -->
+    <div id="main-content" class="opacity-0 transition-opacity duration-1000">
+
+        <!-- Nagłówek i sekcja "O mnie" -->
+        <header class="container mx-auto px-6 py-12 md:py-20 text-center">
+            <div class="flex flex-col items-center space-y-6">
+                <div class="fade-in-up">
+                    <img src="Toja.jpeg" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/160x160/cccccc/111111?text=SG';"
+                         alt="Zdjęcie Szymona Grzeszczaka, właściciela SG.media.pl" 
+                         class="w-40 h-40 rounded-full object-cover border-4 border-gray-700 shadow-lg">
                 </div>
-                <button id="capture-btn">[ CAPTURE ]</button>
-                <div id="game-message"></div>
+                <div class="fade-in-up" style="transition-delay: 100ms;">
+                    <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white">Szymon Grzeszczak</h1>
+                    <p class="text-xl md:text-2xl text-gray-400 mt-2">Fotograf & Filmowiec</p>
+                </div>
+                <div class="fade-in-up" style="transition-delay: 200ms;">
+                    <p class="text-gray-500">Wrocław, Polska</p>
+                    <div class="mt-4 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                        <a id="email-link" href="mailto:biuro.sg.media.pl@gmail.com" class="flex items-center space-x-2 text-lg text-gray-300 hover:text-white transition duration-300 group">
+                            <svg class="w-6 h-6 text-gray-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <span>biuro.sg.media.pl@gmail.com</span>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition duration-300 group">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.884 2 12.315 2zm-1.04 2.546a4.97 4.97 0 00-4.832 4.832 4.97 4.97 0 004.832 4.832 4.97 4.97 0 004.832-4.832A4.97 4.97 0 0011.275 4.546zm0 8.092a3.12 3.12 0 110-6.24 3.12 3.12 0 010 6.24zM16.63 5.82a1.437 1.437 0 100 2.874 1.437 1.437 0 000-2.874z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ================== Kreator Konceptów AI by Gemini ================== -->
+        <section id="ai-generator" class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="fade-in-up bg-gray-800/50 p-8 rounded-xl shadow-2xl text-center" style="transition-delay: 400ms;">
+                <h2 class="text-3xl font-bold text-white mb-3">✨ Kreator Konceptów Sesji</h2>
+                <p class="text-gray-400 mb-6 max-w-2xl mx-auto">Masz pomysł na sesję, ale brakuje Ci szczegółów? Opisz swoją wizję, a ja, z pomocą AI, przygotuję dla Ciebie unikalny koncept, nastrój i propozycje miejsc.</p>
+                
+                <div class="flex flex-col space-y-4">
+                    <textarea id="ai-prompt-input" rows="3" class="w-full bg-gray-900/70 border border-gray-700 rounded-lg p-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="np. 'Sesja narzeczeńska w industrialnym stylu' lub 'Mroczna, baśniowa sesja w lesie'"></textarea>
+                    <button id="generate-ai-idea-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center">
+                        <span id="btn-text">Generuj Pomysł</span>
+                        <svg id="btn-loader" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div id="ai-generator-result" class="mt-8 text-left bg-gray-900/50 p-6 rounded-lg border border-gray-700 hidden">
+                    <!-- Wyniki z Gemini pojawią się tutaj -->
+                </div>
             </div>
         </section>
 
-        <section class="panel gallery-window">
-            <h2 class="panel-title">PORTFOLIO / FEED</h2>
-            <div class="iframe-responsive-wrapper">
-                <iframe src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview"></iframe>
+
+        <!-- Główna sekcja z galerią -->
+        <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="fade-in-up" style="transition-delay: 500ms;">
+                <h2 class="text-3xl font-bold text-center mb-10 text-white">Portfolio</h2>
+                <div class="bg-gray-800/50 rounded-xl shadow-2xl overflow-hidden">
+                    <iframe 
+                        src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview" 
+                        class="mirror-iframe"
+                        title="Galeria Instagram SG.media.pl">
+                    </iframe>
+                </div>
             </div>
-        </section>
+        </main>
+
+        <!-- Stopka -->
+        <footer class="text-center py-10 mt-16 border-t border-gray-800">
+            <p class="text-gray-500">&copy; <span id="current-year"></span> SG.media.pl - Szymon Grzeszczak. Wszelkie prawa zastrzeżone.</p>
+        </footer>
+
     </div>
 
-    <div id="email-modal">
-        <div class="modal-content">
-            <button id="close-modal-btn" class="close-btn">&times;</button>
-            <h3>Napisz do mnie</h3>
-            <p>Masz pomysł na projekt lub chcesz zapytać o ofertę? Skopiuj poniższy adres i zacznijmy rozmowę.</p>
-            <div class="modal-email">biuro.sg.media.pl@gmail.com</div>
-            <button id="copy-email-btn" class="modal-button">Skopiuj adres</button>
-        </div>
+    <!-- Powiadomienie o skopiowaniu do schowka -->
+    <div id="toast-notification" class="bg-green-600 text-white py-3 px-6 rounded-lg shadow-xl">
+        <p>Email skopiowany! Zapraszam do kontaktu w celu wyceny.</p>
     </div>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const mainGrid = document.querySelector('.hacker-grid');
+            // ================== Logika zdrapki (Ulepszona) ==================
+            const scratchContainer = document.getElementById('scratch-container');
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d');
+            const mainContent = document.getElementById('main-content');
 
-            // --- SKRYPT ANIMACJI PISANIA ---
-            function runTypingAnimations() { const elementsToType=document.querySelectorAll('.type-effect'); let totalDelay=500; elementsToType.forEach((element) => { const text=element.dataset.text||element.textContent; element.textContent=''; setTimeout(() => { let i=0; const typingInterval=setInterval(() => { if (i<text.length) { element.textContent+=text.charAt(i); i++; } else { clearInterval(typingInterval); } }, 30); }, totalDelay); totalDelay+=text.length*30+100; }); }
-            
-            // --- SKRYPTY INTERAKCJI (MODAL, LINKI, LISTA) ---
-            const emailModal = document.getElementById('email-modal'), openEmailBtn = document.getElementById('open-email-modal');
-            if (emailModal && openEmailBtn) {
-                const closeEmailBtn = document.getElementById('close-modal-btn'), copyEmailBtn = document.getElementById('copy-email-btn');
-                const openModal = () => emailModal.classList.add('visible'), closeModal = () => emailModal.classList.remove('visible');
-                openEmailBtn.addEventListener('click', openModal); closeEmailBtn.addEventListener('click', closeModal);
-                emailModal.addEventListener('click', (e) => { if(e.target === emailModal) closeModal(); });
-                copyEmailBtn.addEventListener('click', () => { navigator.clipboard.writeText('biuro.sg.media.pl@gmail.com').then(() => { copyEmailBtn.textContent = 'Skopiowano!'; setTimeout(() => { copyEmailBtn.textContent = 'Skopiuj adres' }, 2000); }).catch(err => { alert('Błąd kopiowania.'); }); });
+            let isDrawing = false;
+            let isRevealed = false;
+            let lastPos = null;
+
+            function setupCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                gradient.addColorStop(0, '#333');
+                gradient.addColorStop(1, '#1a1a1a');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Ustawienie "pędzla" do wymazywania
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.lineWidth = 80; // Grubość linii zdrapującej
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
             }
-            const instagramLink=document.getElementById('instagram-link'); if(instagramLink){instagramLink.addEventListener('click',(e)=>{e.preventDefault();const c=window.confirm('Zostaniesz przekierowany na zewnętrzną stronę Instagram. Kontynuować?');if(c){window.open(instagramLink.href,'_blank');}});}
-            const gearExpander = document.getElementById('gear-expander'), gearDetails = document.getElementById('gear-details');
-            if (gearExpander && gearDetails) { gearExpander.addEventListener('click', () => { const isHidden = gearDetails.style.display === 'none' || gearDetails.style.display === ''; gearDetails.style.display = isHidden ? 'block' : 'none'; gearExpander.textContent = isHidden ? '[-]' : '[+]'; }); }
 
-            // --- NOWY SKRYPT MINI-GRY ---
-            const captureBtn = document.getElementById('capture-btn');
-            const gameObject = document.getElementById('game-object');
-            const captureZone = document.getElementById('capture-zone');
-            const gameMessage = document.getElementById('game-message');
+            function getScratchedPercentage() {
+                if (isRevealed) return 100;
+                const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = pixels.data;
+                let transparentPixels = 0;
+                // Sprawdzamy co 40 piksel dla lepszej wydajności (4 kanały * 10)
+                for (let i = 3, n = data.length; i < n; i += 40) {
+                    if (data[i] === 0) {
+                        transparentPixels++;
+                    }
+                }
+                return (transparentPixels / (canvas.width * canvas.height / 10)) * 100;
+            }
 
-            if (captureBtn && gameObject && captureZone && gameMessage) {
-                captureBtn.addEventListener('click', () => {
-                    // Pobierz aktualne pozycje i wymiary elementów
-                    const objectRect = gameObject.getBoundingClientRect();
-                    const zoneRect = captureZone.getBoundingClientRect();
+            function revealPage() {
+                if (isRevealed) return;
+                isRevealed = true;
+                scratchContainer.style.opacity = '0';
+                mainContent.style.opacity = '1';
+                setTimeout(() => {
+                    scratchContainer.style.display = 'none';
+                    initAnimations();
+                }, 800);
+            }
+            
+            function drawLine(from, to) {
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.lineTo(to.x, to.y);
+                ctx.stroke();
+            }
 
-                    // Oblicz środek poruszającego się obiektu
-                    const objectCenter = objectRect.left + objectRect.width / 2;
+            function handleStart(e) {
+                isDrawing = true;
+                lastPos = getEventPosition(e);
+            }
 
-                    // Sprawdź, czy środek obiektu jest wewnątrz strefy
-                    if (objectCenter >= zoneRect.left && objectCenter <= zoneRect.right) {
-                        gameMessage.textContent = '[PERFECT SHOT!]';
-                        gameMessage.style.color = '#00FF41'; // Zielony
-                    } else {
-                        gameMessage.textContent = '[BLURRED SHOT]';
-                        gameMessage.style.color = '#FF4136'; // Czerwony
+            function handleMove(e) {
+                if (!isDrawing) return;
+                e.preventDefault();
+                const currentPos = getEventPosition(e);
+                drawLine(lastPos, currentPos);
+                lastPos = currentPos;
+            }
+            
+            function handleEnd() {
+                if (!isDrawing) return;
+                isDrawing = false;
+                lastPos = null;
+                // Sprawdź procent po zakończeniu rysowania
+                if (getScratchedPercentage() > 20) {
+                    revealPage();
+                }
+            }
+
+            function getEventPosition(e) {
+                if (e.touches && e.touches[0]) {
+                    return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+                return { x: e.clientX, y: e.clientY };
+            }
+
+            canvas.addEventListener('mousedown', handleStart);
+            canvas.addEventListener('mousemove', handleMove);
+            window.addEventListener('mouseup', handleEnd);
+            canvas.addEventListener('touchstart', handleStart, { passive: false });
+            canvas.addEventListener('touchmove', handleMove, { passive: false });
+            window.addEventListener('touchend', handleEnd);
+            window.addEventListener('resize', setupCanvas);
+            setupCanvas();
+
+            // ================== Logika kopiowania emaila ==================
+            const emailLink = document.getElementById('email-link');
+            const toast = document.getElementById('toast-notification');
+
+            emailLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const email = 'biuro.sg.media.pl@gmail.com';
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(email).then(() => showToast());
+                } else {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = email;
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        showToast();
+                    } catch (err) {
+                        console.error('Nie udało się skopiować emaila: ', err);
+                    }
+                    document.body.removeChild(textArea);
+                }
+            });
+
+            function showToast() {
+                toast.style.transform = 'translate(-50%, 0)';
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.transform = 'translate(-50%, 100px)';
+                    toast.style.opacity = '0';
+                }, 3000);
+            }
+
+            // ================== Logika animacji "fade-in" ==================
+            function initAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+            }
+
+            // ================== Logika Kreatora AI (Gemini) ==================
+            const generateBtn = document.getElementById('generate-ai-idea-btn');
+            const promptInput = document.getElementById('ai-prompt-input');
+            const resultContainer = document.getElementById('ai-generator-result');
+            const btnText = document.getElementById('btn-text');
+            const btnLoader = document.getElementById('btn-loader');
+
+            generateBtn.addEventListener('click', async () => {
+                const userInput = promptInput.value;
+                if (!userInput.trim()) {
+                    resultContainer.innerHTML = '<p class="text-yellow-400">Proszę, opisz swój pomysł na sesję.</p>';
+                    resultContainer.style.display = 'block';
+                    return;
+                }
+
+                btnText.classList.add('hidden');
+                btnLoader.classList.remove('hidden');
+                generateBtn.disabled = true;
+                resultContainer.style.display = 'block';
+                resultContainer.innerHTML = '<p class="text-gray-400">Generowanie konceptu... To może zająć chwilę.</p>';
+
+                const prompt = `Jesteś światowej klasy dyrektorem kreatywnym dla polskiego studia fotograficznego. Potencjalny klient opisał swoją wymarzoną sesję. Twoim zadaniem jest wygenerowanie dla niego inspirującego konceptu w języku polskim. Pomysł klienta: '${userInput}'. Stwórz koncept zawierający następujące sekcje: ### Tytuł Konceptu, ### Klimat i Nastrój, ### Propozycje Miejsc (związane z Polską, np. Wrocławiem), ### Stylizacje i Ubiór, ### Przykładowe Ujęcia. Użyj formatowania Markdown.`;
+                
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Błąd API: ${response.statusText}`);
                     }
 
-                    // Zresetuj animację i wiadomość
-                    gameObject.style.animation = 'none';
-                    setTimeout(() => { 
-                        gameObject.style.animation = '';
-                        gameMessage.textContent = '';
-                    }, 500);
-                });
-            }
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        resultContainer.innerHTML = marked.parse(text);
+                    } else {
+                        throw new Error('Otrzymano nieprawidłową odpowiedź od AI.');
+                    }
 
-            // --- URUCHOMIENIE STRONY ---
-            setTimeout(() => {
-                mainGrid.style.opacity = '1';
-                runTypingAnimations();
-            }, 300);
+                } catch (error) {
+                    console.error("Błąd podczas generowania pomysłu:", error);
+                    resultContainer.innerHTML = '<p class="text-red-500">Wystąpił błąd podczas generowania pomysłu. Spróbuj ponownie później.</p>';
+                } finally {
+                    btnText.classList.remove('hidden');
+                    btnLoader.classList.add('hidden');
+                    generateBtn.disabled = false;
+                }
+            });
+
+            // ================== Ustawienie aktualnego roku w stopce ==================
+            document.getElementById('current-year').textContent = new Date().getFullYear();
         });
     </script>
+
 </body>
 </html>
+
