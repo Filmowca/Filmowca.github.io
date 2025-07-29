@@ -22,7 +22,7 @@
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://sg.media.pl">
-    <meta property="twitter:title" content="SG.media.pl - Szymon Grzeszczak | Fotograf i Filmowiec | Wrocław">
+    <meta property="twitter:title" content="SG.media.pl - Szymon Grzeszczak | Fotograf & Filmowiec | Wrocław">
     <meta property="twitter:description" content="Nowoczesne portfolio profesjonalnego fotografa i filmowca. Zobacz moje prace i zainspiruj się.">
     <meta property="twitter:image" content="https://placehold.co/1200x630/0a0a0a/ffffff?text=SG.media.pl">
 
@@ -46,6 +46,7 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            position: relative; /* Potrzebne dla pozycjonowania blobów */
         }
 
         h1, h2, h3 {
@@ -95,7 +96,7 @@
         }
         
         /* Styl dla iframa galerii */
-        .gallery-container {
+        .gallery-iframe-container {
             position: relative;
             padding-top: 100%; /* Proporcje 1:1, można dostosować */
         }
@@ -144,6 +145,48 @@
             opacity: 0;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
+
+        /* ================== Liquid Glass Effect ================== */
+        .blob {
+            position: fixed; /* Pozycja stała względem okna przeglądarki */
+            border-radius: 50%;
+            filter: blur(100px); /* Mocne rozmycie tworzy efekt szkła */
+            opacity: 0.3;
+            z-index: -1; /* Tło jest pod treścią */
+        }
+        .blob1 {
+            width: 50vw;
+            height: 50vw;
+            max-width: 600px;
+            max-height: 600px;
+            background: rgba(212, 175, 55, 0.5); /* Złoty */
+            top: 10vh;
+            left: -10vw;
+            animation: move 30s infinite alternate;
+        }
+        .blob2 {
+            width: 60vw;
+            height: 60vw;
+            max-width: 800px;
+            max-height: 800px;
+            background: rgba(70, 70, 90, 0.5); /* Ciemny fiolet/niebieski */
+            bottom: 5vh;
+            right: -15vw;
+            animation: move 35s infinite alternate-reverse;
+        }
+        @keyframes move {
+            from {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            to {
+                transform: translate(10vw, -10vh) rotate(180deg) scale(1.2);
+            }
+        }
+        /* Zapewnienie, że treść jest nad tłem */
+        #main-content {
+            position: relative;
+            z-index: 1;
+        }
     </style>
     
     <script type="application/ld+json">
@@ -169,6 +212,9 @@
     </script>
 </head>
 <body class="antialiased">
+    <!-- Tło Liquid Glass -->
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
 
     <!-- Animacja wejściowa -->
     <div id="loader">
@@ -201,7 +247,7 @@
         </section>
 
         <!-- Sekcja O Mnie -->
-        <section class="py-20 md:py-32 bg-black/20">
+        <section class="py-20 md:py-32 bg-transparent">
             <div class="container mx-auto px-6 max-w-4xl text-center">
                 <h2 class="text-4xl md:text-5xl font-bold text-white reveal">Wizja. Emocje. Perfekcja.</h2>
                 <p class="text-lg text-gray-400 mt-6 max-w-2xl mx-auto reveal" style="transition-delay: 100ms;">
@@ -212,14 +258,14 @@
 
         <!-- Sekcja Portfolio -->
         <section id="portfolio" class="py-20 md:py-32">
-            <div class="container mx-auto px-6">
+            <div class="container mx-auto px-6 relative z-10">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl md:text-5xl font-bold text-white reveal">Portfolio</h2>
-                    <p class="text-lg text-gray-500 mt-4 reveal" style="transition-delay: 100ms;">Moje najnowsze prace z Instagrama</p>
+                    <p class="text-lg text-gray-400 mt-4 reveal" style="transition-delay: 100ms;">Moje najnowsze prace z Instagrama</p>
                 </div>
                 <div class="reveal" style="transition-delay: 200ms;">
-                    <div class="max-w-6xl mx-auto bg-[#141414] p-4 rounded-2xl shadow-2xl">
-                         <div class="gallery-container">
+                    <div class="max-w-full mx-auto p-2 md:p-4 bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10">
+                         <div class="gallery-iframe-container">
                             <iframe 
                                 src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview" 
                                 class="mirror-iframe"
@@ -232,7 +278,7 @@
         </section>
 
         <!-- Sekcja Kontakt -->
-        <section class="py-20 md:py-32 bg-black/20 text-center">
+        <section class="py-20 md:py-32 bg-transparent text-center">
             <div class="container mx-auto px-6">
                 <h2 class="text-4xl md:text-5xl font-bold text-white reveal">Stwórzmy coś wyjątkowego</h2>
                 <p class="text-lg text-gray-400 mt-6 max-w-2xl mx-auto reveal" style="transition-delay: 100ms;">
@@ -323,3 +369,4 @@
 
 </body>
 </html>
+
