@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- ================== SEO Meta Tagi ================== -->
-    <title>SG.media.pl - Szymon Grzeszczak | Artystyczna Fotografia & Film | Wrocław</title>
-    <meta name="description" content="Odkryj artystyczne portfolio Szymona Grzeszczaka. Nowoczesna fotografia i film we Wrocławiu. Dynamiczne animacje, unikalny design i niezapomniane wrażenia wizualne.">
-    <meta name="keywords" content="fotograf Wrocław, filmowiec Wrocław, fotografia artystyczna, fotografia kreatywna, produkcja wideo, sesje zdjęciowe, SG.media.pl, Szymon Grzeszczak, fotografia komercyjna, fotografia premium, nowoczesne portfolio, animacje webowe">
+    <!-- ================== UKRYTE SEO ================== -->
+    <title>Szymon Grzeszczak | Fotograf & Filmowiec Wrocław | SG.media.pl</title>
+    <meta name="description" content="Artystyczne portfolio Szymona Grzeszczaka. Profesjonalny fotograf i filmowiec we Wrocławiu, specjalizujący się w kreatywnych sesjach, reportażach ślubnych i filmach eventowych.">
+    <meta name="keywords" content="fotograf wrocław, filmowiec wrocław, fotografia artystyczna, fotografia ślubna, film ślubny, sesje zdjęciowe, wideo eventowe, szymon grzeszczak, sg.media.pl">
     <meta name="author" content="Szymon Grzeszczak, SG.media.pl">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sg.media.pl">
@@ -15,14 +15,14 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sg.media.pl">
-    <meta property="og:title" content="SG.media.pl - Szymon Grzeszczak | Artystyczna Fotografia & Film">
+    <meta property="og:title" content="Szymon Grzeszczak | Fotograf & Filmowiec Wrocław | SG.media.pl">
     <meta property="og:description" content="Odkryj artystyczne portfolio Szymona Grzeszczaka. Nowoczesna fotografia i film we Wrocławiu.">
     <meta property="og:image" content="https://placehold.co/1200x630/0a0a0a/ffffff?text=SG.media.pl">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://sg.media.pl">
-    <meta property="twitter:title" content="SG.media.pl - Szymon Grzeszczak | Artystyczna Fotografia & Film">
+    <meta property="twitter:title" content="Szymon Grzeszczak | Fotograf & Filmowiec Wrocław | SG.media.pl">
     <meta property="twitter:description" content="Odkryj artystyczne portfolio Szymona Grzeszczaka. Nowoczesna fotografia i film we Wrocławiu.">
     <meta property="twitter:image" content="https://placehold.co/1200x630/0a0a0a/ffffff?text=SG.media.pl">
 
@@ -38,12 +38,14 @@
             --text-color: #EAEAEA;
             --primary-color: #D4AF37; /* Złoty */
             --secondary-color: #4A90E2; /* Szafirowy niebieski */
+            --tertiary-color: #904AE2; /* Głęboki fiolet/magenta */
+            --blob4-color: #009688; /* Turkus */
+            --blob5-color: #FF5722; /* Głęboka pomarańcza */
+            --blob6-color: #4CAF50; /* Szmaragdowy zielony */
+            --blob7-color: #E91E63; /* Rubinowy/Różowy */
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
+        html { scroll-behavior: smooth; }
         body {
             background-color: var(--background-color);
             color: var(--text-color);
@@ -53,179 +55,186 @@
             -moz-osx-font-smoothing: grayscale;
             position: relative;
         }
-
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* Animacja wejściowa */
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
         #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--background-color);
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--background-color); z-index: 100;
+            display: flex; justify-content: center; align-items: center;
             transition: opacity 0.8s ease-in-out, visibility 0.8s;
         }
-        #loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+        #loader.hidden { opacity: 0; visibility: hidden; }
         .loader-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            font-weight: 900;
-            color: var(--text-color);
-            animation: pulse 2s infinite ease-in-out;
+            font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900;
+            color: var(--text-color); animation: pulse 2s infinite ease-in-out;
         }
-
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.05); opacity: 0.7; }
             100% { transform: scale(1); opacity: 1; }
         }
-
-        /* Animacje na scroll */
         .reveal {
-            opacity: 0;
-            transform: translateY(60px);
+            opacity: 0; transform: translateY(60px);
             transition: opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Styl dla iframa galerii (większy) */
-        .gallery-iframe-container {
-            position: relative;
-            /* Proporcje 3:4 - lepsze dla contentu z telefonu */
-            padding-top: 133.33%; 
-        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .gallery-iframe-container { position: relative; padding-top: 133.33%; }
         .mirror-iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 1rem;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border: none; border-radius: 1rem;
         }
-
-        /* Przycisk z efektem */
         .cta-button {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            z-index: 1;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative; overflow: hidden; transition: all 0.4s ease;
+            z-index: 1; border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
         }
         .cta-button .shine {
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 20px;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(45deg);
+            position: absolute; top: -50%; left: -50%; width: 20px; height: 200%;
+            background: rgba(255, 255, 255, 0.2); transform: rotate(45deg);
             transition: left 0.8s ease;
         }
-        .cta-button:hover .shine {
-            left: 150%;
-        }
-        .cta-button:hover {
-            transform: scale(1.05);
-            border-color: var(--primary-color);
-        }
-
+        .cta-button:hover .shine { left: 150%; }
+        .cta-button:hover { transform: scale(1.05); border-color: var(--primary-color); }
         #toast-notification {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translate(-50%, 150px);
-            background-color: var(--primary-color);
-            color: var(--background-color);
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            position: fixed; bottom: 2rem; left: 50%; transform: translate(-50%, 150px);
+            background-color: var(--primary-color); color: var(--background-color);
+            opacity: 0; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
-
-        /* ================== Liquid Glass Effect (ulepszony) ================== */
         .blob-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: -1;
         }
         .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.4;
-            transition: transform 0.5s ease-out;
+            position: absolute; border-radius: 50%; filter: blur(120px);
+            opacity: 0.35;
         }
         .blob1 {
-            width: 45vw; height: 45vw; max-width: 500px; max-height: 500px;
-            background: rgba(212, 175, 55, 0.6); /* Złoty */
-            top: 5vh; left: 5vw;
+            width: 40vw; height: 40vw; max-width: 450px; max-height: 450px;
+            background: rgba(212, 175, 55, 0.5);
             animation: move1 30s infinite alternate;
         }
         .blob2 {
-            width: 55vw; height: 55vw; max-width: 700px; max-height: 700px;
-            background: rgba(74, 144, 226, 0.5); /* Szafirowy */
-            bottom: 5vh; right: 5vw;
+            width: 50vw; height: 50vw; max-width: 650px; max-height: 650px;
+            background: rgba(74, 144, 226, 0.4);
             animation: move2 35s infinite alternate-reverse;
         }
+        .blob3 {
+            width: 35vw; height: 35vw; max-width: 400px; max-height: 400px;
+            background: rgba(144, 74, 226, 0.4);
+            animation: move3 40s infinite alternate;
+        }
+        .blob4 {
+            width: 30vw; height: 30vw; max-width: 350px; max-height: 350px;
+            background: var(--blob4-color);
+            animation: move4 28s infinite alternate;
+        }
+        .blob5 {
+            width: 25vw; height: 25vw; max-width: 300px; max-height: 300px;
+            background: var(--blob5-color);
+            animation: move5 32s infinite alternate-reverse;
+        }
+        .blob6 {
+            width: 38vw; height: 38vw; max-width: 420px; max-height: 420px;
+            background: var(--blob6-color);
+            animation: move6 38s infinite alternate;
+        }
+        .blob7 {
+            width: 28vw; height: 28vw; max-width: 320px; max-height: 320px;
+            background: var(--blob7-color);
+            animation: move7 25s infinite alternate-reverse;
+        }
         @keyframes move1 {
-            from { transform: translate(0, 0) rotate(0deg) scale(1); }
-            to { transform: translate(20vw, 15vh) rotate(120deg) scale(1.3); }
+            from { transform: translate(5vw, 10vh) rotate(0deg) scale(1.2); }
+            to { transform: translate(40vw, 70vh) rotate(180deg) scale(0.8); }
         }
         @keyframes move2 {
-            from { transform: translate(0, 0) rotate(0deg) scale(1); }
-            to { transform: translate(-15vw, -10vh) rotate(-150deg) scale(1.1); }
+            from { transform: translate(80vw, 20vh) rotate(0deg) scale(1); }
+            to { transform: translate(10vw, 80vh) rotate(-180deg) scale(1.3); }
         }
-        
-        #main-content {
-            position: relative;
-            z-index: 1;
+        @keyframes move3 {
+            from { transform: translate(50vw, 50vh) rotate(0deg) scale(1); }
+            to { transform: translate(20vw, 10vh) rotate(200deg) scale(1.4); }
         }
+        @keyframes move4 {
+            from { transform: translate(10vw, 70vh) rotate(0deg) scale(0.8); }
+            to { transform: translate(60vw, 20vh) rotate(-100deg) scale(1.2); }
+        }
+        @keyframes move5 {
+            from { transform: translate(70vw, 30vh) rotate(0deg) scale(1); }
+            to { transform: translate(30vw, 75vh) rotate(140deg) scale(1.3); }
+        }
+        @keyframes move6 {
+            from { transform: translate(20vw, 80vh) rotate(0deg) scale(1.1); }
+            to { transform: translate(70vw, 10vh) rotate(-160deg) scale(0.9); }
+        }
+        @keyframes move7 {
+            from { transform: translate(60vw, 60vh) rotate(0deg) scale(1); }
+            to { transform: translate(90vw, 90vh) rotate(160deg) scale(1.2); }
+        }
+        #main-content { position: relative; z-index: 1; }
     </style>
     
+    <!-- ================== ROZBUDOWANE DANE STRUKTURALNE (SCHEMA) ================== -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "SG.media.pl - Szymon Grzeszczak",
+      "@type": "Photographer",
+      "name": "Szymon Grzeszczak - SG.media.pl",
       "image": "https://sg.media.pl/Toja.jpeg",
-      "@id": "https://sg.media.pl",
       "url": "https://sg.media.pl",
+      "telephone": "",
       "email": "biuro.sg.media.pl@gmail.com",
       "address": {
         "@type": "PostalAddress",
+        "streetAddress": "",
         "addressLocality": "Wrocław",
+        "postalCode": "",
         "addressCountry": "PL"
       },
-      "description": "Artystyczna fotografia i film we Wrocławiu. Odkryj nowoczesne portfolio Szymona Grzeszczaka.",
-      "founder": {
-        "@type": "Person",
-        "name": "Szymon Grzeszczak"
-      }
+      "areaServed": {
+        "@type": "City",
+        "name": "Wrocław"
+      },
+      "priceRange": "$$",
+      "description": "Profesjonalny fotograf i filmowiec specjalizujący się w reportażach ślubnych i eventowych we Wrocławiu i na terenie całej Polski. Uwieczniam emocje, tworząc niezapomniane filmy i zdjęcia.",
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Fotograf na wesele Wrocław",
+            "description": "Kompleksowy reportaż ślubny, od przygotowań po oczepiny. Sesje plenerowe i narzeczeńskie. Naturalne kadry pełne emocji."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Filmowiec na wesele Wrocław",
+            "description": "Nowoczesne i dynamiczne filmy ślubne, teledyski i dłuższe formy. Ujęcia z drona. Profesjonalny montaż i dźwięk."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Fotograf na event Wrocław",
+            "description": "Obsługa fotograficzna eventów firmowych, konferencji, bankietów i imprez okolicznościowych. Dyskrecja i profesjonalizm."
+          }
+        }
+      ]
     }
     </script>
 </head>
 <body class="antialiased">
     <!-- Tło Liquid Glass -->
     <div class="blob-container">
-        <div id="blob1" class="blob blob1"></div>
-        <div id="blob2" class="blob blob2"></div>
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+        <div class="blob blob4"></div>
+        <div class="blob blob5"></div>
+        <div class="blob blob6"></div>
+        <div class="blob blob7"></div>
     </div>
 
     <!-- Animacja wejściowa -->
@@ -247,7 +256,7 @@
                 <div class="reveal">
                     <img src="Toja.jpeg" 
                          onerror="this.onerror=null;this.src='https://placehold.co/150x150/1a1a1a/ffffff?text=SG';"
-                         alt="[Zdjęcie Szymona Grzeszczaka]" 
+                         alt="Szymon Grzeszczak - fotograf i filmowiec z Wrocławia" 
                          class="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover border-4 border-white/20 shadow-2xl mb-8 transition-transform duration-500 hover:scale-110">
                 </div>
                 <h1 class="text-5xl md:text-8xl font-black text-white reveal" style="transition-delay: 100ms;">Szymon Grzeszczak</h1>
@@ -282,7 +291,7 @@
                             <iframe 
                                 src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview" 
                                 class="mirror-iframe"
-                                title="Galeria Instagram SG.media.pl">
+                                title="Portfolio Instagram - fotografia ślubna i eventowa">
                             </iframe>
                          </div>
                     </div>
@@ -304,7 +313,7 @@
                         <span class="shine"></span>
                     </button>
                     <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-transform duration-300 hover:scale-110">
-                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.884 2 12.315 2zm-1.04 2.546a4.97 4.97 0 00-4.832 4.832 4.97 4.97 0 004.832 4.832 4.97 4.97 0 004.832-4.832A4.97 4.97 0 0011.275 4.546zm0 8.092a3.12 3.12 0 110-6.24 3.12 3.12 0 010 6.24zM16.63 5.82a1.437 1.437 0 100 2.874 1.437 1.437 0 000-2.874z" clip-rule="evenodd" /></svg>
+                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791-.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.884 2 12.315 2zm-1.04 2.546a4.97 4.97 0 00-4.832 4.832 4.97 4.97 0 004.832 4.832 4.97 4.97 0 004.832-4.832A4.97 4.97 0 0011.275 4.546zm0 8.092a3.12 3.12 0 110-6.24 3.12 3.12 0 010 6.24zM16.63 5.82a1.437 1.437 0 100 2.874 1.437 1.437 0 000-2.874z" clip-rule="evenodd" /></svg>
                     </a>
                 </div>
             </div>
@@ -327,17 +336,13 @@
             const loader = document.getElementById('loader');
             const mainContent = document.getElementById('main-content');
             const heroVideo = document.getElementById('hero-video');
-            const blob1 = document.getElementById('blob1');
-            const blob2 = document.getElementById('blob2');
 
-            // Ukrycie loadera i pokazanie strony
             window.addEventListener('load', () => {
                 loader.classList.add('hidden');
                 mainContent.style.opacity = '1';
                 initRevealAnimations();
             });
 
-            // Logika animacji na scroll
             function initRevealAnimations() {
                 const revealElements = document.querySelectorAll('.reveal');
                 const observer = new IntersectionObserver((entries) => {
@@ -354,30 +359,13 @@
                 revealElements.forEach(el => observer.observe(el));
             }
 
-            // Efekt Parallax i interaktywne tło
             window.addEventListener('scroll', () => {
                 const scrollY = window.scrollY;
-                // Parallax dla wideo w sekcji Hero
                 if (heroVideo) {
                     heroVideo.style.transform = `translateY(${scrollY * 0.3}px)`;
                 }
             });
             
-            window.addEventListener('mousemove', (e) => {
-                const { clientX, clientY } = e;
-                const x = (clientX / window.innerWidth - 0.5) * 2;
-                const y = (clientY / window.innerHeight - 0.5) * 2;
-
-                if (blob1) {
-                    blob1.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
-                }
-                if (blob2) {
-                    blob2.style.transform = `translate(${x * 50}px, ${y * 50}px)`;
-                }
-            });
-
-
-            // Logika kopiowania emaila
             const emailLink = document.getElementById('email-link');
             const toast = document.getElementById('toast-notification');
 
@@ -397,12 +385,9 @@
                 });
             });
 
-            // Ustawienie aktualnego roku w stopce
             document.getElementById('current-year').textContent = new Date().getFullYear();
         });
     </script>
 
 </body>
 </html>
-
-
