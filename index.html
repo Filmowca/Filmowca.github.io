@@ -1,393 +1,608 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" class="scroll-smooth overflow-x-hidden" data-vibe="cyber">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- ================== UKRYTE SEO ================== -->
-    <title>Szymon Grzeszczak | Fotograf & Filmowiec Wrocław | SG.media.pl</title>
-    <meta name="description" content="Artystyczne portfolio Szymona Grzeszczaka. Profesjonalny fotograf i filmowiec we Wrocławiu, specjalizujący się w kreatywnych sesjach, reportażach ślubnych i filmach eventowych.">
-    <meta name="keywords" content="fotograf wrocław, filmowiec wrocław, fotografia artystyczna, fotografia ślubna, film ślubny, sesje zdjęciowe, wideo eventowe, szymon grzeszczak, sg.media.pl">
-    <meta name="author" content="Szymon Grzeszczak, SG.media.pl">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://sg.media.pl">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
+    <title>Szymon Grzeszczak | Visual Director | SG.MEDIA.PL</title>
+    <meta name="description" content="Szymon Grzeszczak – reżyseria wideo, fotografia, kreatywne kampanie. Portfolio twórcy.">
+    <meta name="author" content="Szymon Grzeszczak">
+    <meta name="theme-color" content="#ffffff">
+    
+    <meta property="og:title" content="Szymon Grzeszczak | Visual Director">
+    <meta property="og:description" content="Światło, ruch, kompozycja. Zajmuję się kompleksową realizacją form wizualnych.">
+    <meta property="og:image" content="https://sg.media.pl/assets/images/og-image.webp">
     <meta property="og:url" content="https://sg.media.pl">
-    <meta property="og:title" content="Szymon Grzeszczak | Fotograf & Filmowiec Wrocław | SG.media.pl">
-    <meta property="og:description" content="Odkryj artystyczne portfolio Szymona Grzeszczaka. Nowoczesna fotografia i film we Wrocławiu.">
-    <meta property="og:image" content="https://placehold.co/1200x630/0a0a0a/ffffff?text=SG.media.pl">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://sg.media.pl">
-    <meta property="twitter:title" content="Szymon Grzeszczak | Fotograf & Filmowiec Wrocław | SG.media.pl">
-    <meta property="twitter:description" content="Odkryj artystyczne portfolio Szymona Grzeszczaka. Nowoczesna fotografia i film we Wrocławiu.">
-    <meta property="twitter:image" content="https://placehold.co/1200x630/0a0a0a/ffffff?text=SG.media.pl">
-
-    <!-- ================== Stylowanie i Fonty ================== -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;400;700;900&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="assets/images/avatar.webp">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+                    colors: { 
+                        neonPrimary: 'rgb(var(--neon-primary) / <alpha-value>)', 
+                        neonSecondary: 'rgb(var(--neon-secondary) / <alpha-value>)', 
+                        neonAccent: 'rgb(var(--neon-accent) / <alpha-value>)', 
+                        darkBase: '#000000' 
+                    },
+                    animation: {
+                        'spin-slow': 'spin 15s linear infinite',
+                        'marquee-bg': 'marqueeBg 60s linear infinite',
+                        'dust': 'dust 10s ease-in-out infinite alternate',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        marqueeBg: { '0%': { transform: 'translateX(0%)' }, '100%': { transform: 'translateX(-50%)' } },
+                        dust: { '0%': { transform: 'translateY(0) scale(1)', opacity: 0.2 }, '100%': { transform: 'translateY(-50px) scale(1.5)', opacity: 0.6 } }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        :root {
-            --background-color: #0A0A0A;
-            --text-color: #EAEAEA;
-            --primary-color: #D4AF37; /* Złoty */
-            --secondary-color: #4A90E2; /* Szafirowy niebieski */
-            --tertiary-color: #904AE2; /* Głęboki fiolet/magenta */
-            --blob4-color: #009688; /* Turkus */
-            --blob5-color: #FF5722; /* Głęboka pomarańcza */
-            --blob6-color: #4CAF50; /* Szmaragdowy zielony */
-            --blob7-color: #E91E63; /* Rubinowy/Różowy */
+        /* DYNAMICZNE ZMIENNE KOLORÓW (VIBE SWITCHER) */
+        :root[data-vibe="cyber"] {
+            --neon-primary: 59 130 246;   /* Blue */
+            --neon-secondary: 139 92 246; /* Purple */
+            --neon-accent: 236 72 153;    /* Pink */
+        }
+        :root[data-vibe="matrix"] {
+            --neon-primary: 16 185 129;   /* Emerald */
+            --neon-secondary: 5 150 105;  /* Deep Green */
+            --neon-accent: 52 211 153;    /* Light Green */
+        }
+        :root[data-vibe="dune"] {
+            --neon-primary: 249 115 22;   /* Orange */
+            --neon-secondary: 234 179 8;  /* Yellow */
+            --neon-accent: 239 68 68;     /* Red */
         }
 
-        html { scroll-behavior: smooth; }
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            position: relative;
+        @media (pointer: fine) { *, body, a, button, .glightbox, .interactive-element { cursor: none !important; } }
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        /* Cursor 360 - Reaguje na zmienne Vibe */
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+            background-color: rgb(var(--neon-secondary)); border-radius: 50%; pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%); transition: opacity 0.3s, transform 0.1s, background-color 0.5s;
+            box-shadow: 0 0 10px rgba(var(--neon-secondary) / 0.8);
         }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
-        #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--background-color); z-index: 100;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        .cursor-ring {
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px; pointer-events: none; z-index: 9998;
+            transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.4s ease; opacity: 0;
+            border-radius: 50%;
         }
-        #loader.hidden { opacity: 0; visibility: hidden; }
-        .loader-logo {
-            font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900;
-            color: var(--text-color); animation: pulse 2s infinite ease-in-out;
+        .cursor-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); border-radius: 50%; }
+        .cursor-ring circle { fill: none; stroke-width: 1.5; transition: stroke-dashoffset 0.1s linear, stroke 0.5s; }
+        .cursor-ring .progress { stroke: rgba(255,255,255, 0.1); }
+        .cursor-scrolled .cursor-ring .progress { stroke: rgb(var(--neon-secondary)); }
+        .dark .cursor-ring circle.bg { stroke: rgba(255,255,255,0.1); }
+        .light .cursor-ring circle.bg { stroke: rgba(0,0,0,0.1); }
+        
+        .cursor-hover .cursor-ring { 
+            width: 60px; height: 60px; 
+            background: radial-gradient(circle, rgba(var(--neon-secondary) / 0.2) 0%, rgba(var(--neon-secondary) / 0) 70%);
+            box-shadow: 0 0 15px rgba(var(--neon-secondary) / 0.15);
         }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
+        .cursor-hover .cursor-ring circle { stroke-width: 0.5; stroke: rgb(var(--neon-secondary)) !important; }
+        .cursor-hover .cursor-dot { transform: translate(-50%, -50%) scale(0); }
+
+        /* Preloader */
+        .preloader-wrap { position: fixed; inset: 0; z-index: 10000; pointer-events: none; display: flex; flex-direction: column; }
+        .preloader-panel { flex: 1; background-color: #000; transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1); }
+        .preloader-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10001; transition: opacity 0.5s ease; color: white; }
+        .preloader-hidden .preloader-panel.top { transform: translateY(-100%); }
+        .preloader-hidden .preloader-panel.bottom { transform: translateY(100%); }
+        .preloader-hidden .preloader-content { opacity: 0; }
+
+        /* Control Dock Apple Style */
+        .glass-panel-apple {
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+            border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255,255,255,0.3); border-radius: 9999px;
         }
-        .reveal {
-            opacity: 0; transform: translateY(60px);
-            transition: opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        .dark .glass-panel-apple {
+            background: rgba(25, 25, 30, 0.35); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
         }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .gallery-iframe-container { position: relative; padding-top: 133.33%; }
-        .mirror-iframe {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            border: none; border-radius: 1rem;
+        .apple-slider { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); background: rgba(255, 255, 255, 0.6); box-shadow: 0 2px 10px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5); }
+        .dark .apple-slider { background: rgba(255, 255, 255, 0.15); box-shadow: 0 2px 10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1); }
+        .tooltip { position: absolute; right: calc(100% + 12px); top: 50%; transform: translateY(-50%); padding: 6px 12px; background: rgba(0,0,0,0.8); color: white; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s; white-space: nowrap; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .group:hover .tooltip { opacity: 1; }
+
+        /* Liquid Glass Hero Card */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1), inset 0 1px 1px rgba(255,255,255,0.7);
+            border-radius: 3rem; position: relative; overflow: hidden;
+            transform-style: preserve-3d; border: 1px solid rgba(255,255,255,0.2);
         }
-        .cta-button {
-            position: relative; overflow: hidden; transition: all 0.4s ease;
-            z-index: 1; border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
+        .dark .glass-panel {
+            background: rgba(15, 15, 15, 0.25); box-shadow: 0 30px 80px -10px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 2px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
         }
-        .cta-button .shine {
-            position: absolute; top: -50%; left: -50%; width: 20px; height: 200%;
-            background: rgba(255, 255, 255, 0.2); transform: rotate(45deg);
-            transition: left 0.8s ease;
+        .glass-backlight {
+            position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgb(var(--neon-secondary) / 0.3) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%; pointer-events: none; z-index: -1; filter: blur(40px); transition: left 0.2s ease-out, top 0.2s ease-out, background 0.5s; opacity: 0;
         }
-        .cta-button:hover .shine { left: 150%; }
-        .cta-button:hover { transform: scale(1.05); border-color: var(--primary-color); }
-        #toast-notification {
-            position: fixed; bottom: 2rem; left: 50%; transform: translate(-50%, 150px);
-            background-color: var(--primary-color); color: var(--background-color);
-            opacity: 0; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        .dark .glass-backlight { background: radial-gradient(circle, rgb(var(--neon-secondary) / 0.4) 0%, rgba(0,0,0,0) 70%); }
+        .glass-panel:hover .glass-backlight { opacity: 1; }
+        .glass-content > * { transform: translateZ(50px); }
+
+        /* Liquid SVG */
+        .liquid-image-container { overflow: hidden; border-radius: 50%; position: relative; }
+        .liquid-image { transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s; }
+        .liquid-image-container:hover .liquid-image { transform: scale(1.15); filter: url(#liquid-filter); }
+
+        /* Cinematic Letterbox */
+        .cinematic-crop::before, .cinematic-crop::after {
+            content: ''; position: absolute; left: 0; width: 100%; height: 0%; background: #000;
+            z-index: 20; transition: height 0.5s cubic-bezier(0.77, 0, 0.175, 1); pointer-events: none;
         }
-        .blob-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden; z-index: -1;
+        .cinematic-crop::before { top: 0; }
+        .cinematic-crop::after { bottom: 0; }
+        .cinematic-crop:hover::before, .cinematic-crop:hover::after, .cinematic-crop.mobile-hover-active::before, .cinematic-crop.mobile-hover-active::after { height: 12%; }
+        .mobile-hover-active img { filter: grayscale(0) !important; transform: scale(1.1) !important; opacity: 1 !important; }
+        .mobile-hover-active .mobile-reveal { opacity: 1 !important; transform: translateY(-8px) !important; }
+        
+        .kinetic-bg {
+            position: fixed; top: 45%; left: 0; width: 200%; transform: translateY(-50%); z-index: -3; pointer-events: none;
+            font-size: 25vw; line-height: 0.8; font-weight: 900; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.05); text-transform: uppercase;
         }
-        .blob {
-            position: absolute; border-radius: 50%; filter: blur(120px);
-            opacity: 0.35;
+        .dark .kinetic-bg { -webkit-text-stroke: 1px rgba(255,255,255,0.04); }
+
+        /* Continuous Glare Button */
+        .btn-sweep { position: relative; overflow: hidden; }
+        .btn-sweep::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg); animation: sweep 3s infinite linear; pointer-events: none;
         }
-        .blob1 {
-            width: 40vw; height: 40vw; max-width: 450px; max-height: 450px;
-            background: rgba(212, 175, 55, 0.5);
-            animation: move1 30s infinite alternate;
+        @keyframes sweep { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+
+        /* Smooth letter reveal */
+        .char { display: inline-block; opacity: 0; transform: translateY(20px) scale(0.9); transition: opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .char.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* Pro Shortcuts UI Toast */
+        .shortcut-toast {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: rgba(0,0,0,0.8); color: white; padding: 10px 20px; border-radius: 999px;
+            font-size: 11px; font-weight: 600; letter-spacing: 1px; z-index: 9999; backdrop-filter: blur(10px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; border: 1px solid rgba(255,255,255,0.1);
         }
-        .blob2 {
-            width: 50vw; height: 50vw; max-width: 650px; max-height: 650px;
-            background: rgba(74, 144, 226, 0.4);
-            animation: move2 35s infinite alternate-reverse;
+        .shortcut-toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* Reduced Motion Fallback */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+            .kinetic-bg, .animate-dust, .noise-bg, .glass-backlight { display: none !important; }
+            .liquid-image-container:hover .liquid-image { filter: none !important; transform: none !important; }
+            .cinematic-crop:hover::before, .cinematic-crop:hover::after { height: 0 !important; }
         }
-        .blob3 {
-            width: 35vw; height: 35vw; max-width: 400px; max-height: 400px;
-            background: rgba(144, 74, 226, 0.4);
-            animation: move3 40s infinite alternate;
-        }
-        .blob4 {
-            width: 30vw; height: 30vw; max-width: 350px; max-height: 350px;
-            background: var(--blob4-color);
-            animation: move4 28s infinite alternate;
-        }
-        .blob5 {
-            width: 25vw; height: 25vw; max-width: 300px; max-height: 300px;
-            background: var(--blob5-color);
-            animation: move5 32s infinite alternate-reverse;
-        }
-        .blob6 {
-            width: 38vw; height: 38vw; max-width: 420px; max-height: 420px;
-            background: var(--blob6-color);
-            animation: move6 38s infinite alternate;
-        }
-        .blob7 {
-            width: 28vw; height: 28vw; max-width: 320px; max-height: 320px;
-            background: var(--blob7-color);
-            animation: move7 25s infinite alternate-reverse;
-        }
-        @keyframes move1 {
-            from { transform: translate(5vw, 10vh) rotate(0deg) scale(1.2); }
-            to { transform: translate(40vw, 70vh) rotate(180deg) scale(0.8); }
-        }
-        @keyframes move2 {
-            from { transform: translate(80vw, 20vh) rotate(0deg) scale(1); }
-            to { transform: translate(10vw, 80vh) rotate(-180deg) scale(1.3); }
-        }
-        @keyframes move3 {
-            from { transform: translate(50vw, 50vh) rotate(0deg) scale(1); }
-            to { transform: translate(20vw, 10vh) rotate(200deg) scale(1.4); }
-        }
-        @keyframes move4 {
-            from { transform: translate(10vw, 70vh) rotate(0deg) scale(0.8); }
-            to { transform: translate(60vw, 20vh) rotate(-100deg) scale(1.2); }
-        }
-        @keyframes move5 {
-            from { transform: translate(70vw, 30vh) rotate(0deg) scale(1); }
-            to { transform: translate(30vw, 75vh) rotate(140deg) scale(1.3); }
-        }
-        @keyframes move6 {
-            from { transform: translate(20vw, 80vh) rotate(0deg) scale(1.1); }
-            to { transform: translate(70vw, 10vh) rotate(-160deg) scale(0.9); }
-        }
-        @keyframes move7 {
-            from { transform: translate(60vw, 60vh) rotate(0deg) scale(1); }
-            to { transform: translate(90vw, 90vh) rotate(160deg) scale(1.2); }
-        }
-        #main-content { position: relative; z-index: 1; }
     </style>
-    
-    <!-- ================== ROZBUDOWANE DANE STRUKTURALNE (SCHEMA) ================== -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Photographer",
-      "name": "Szymon Grzeszczak - SG.media.pl",
-      "image": "https://sg.media.pl/Toja.jpeg",
-      "url": "https://sg.media.pl",
-      "telephone": "",
-      "email": "biuro.sg.media.pl@gmail.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "",
-        "addressLocality": "Wrocław",
-        "postalCode": "",
-        "addressCountry": "PL"
-      },
-      "areaServed": {
-        "@type": "City",
-        "name": "Wrocław"
-      },
-      "priceRange": "$$",
-      "description": "Profesjonalny fotograf i filmowiec specjalizujący się w reportażach ślubnych i eventowych we Wrocławiu i na terenie całej Polski. Uwieczniam emocje, tworząc niezapomniane filmy i zdjęcia.",
-      "makesOffer": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Fotograf na wesele Wrocław",
-            "description": "Kompleksowy reportaż ślubny, od przygotowań po oczepiny. Sesje plenerowe i narzeczeńskie. Naturalne kadry pełne emocji."
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Filmowiec na wesele Wrocław",
-            "description": "Nowoczesne i dynamiczne filmy ślubne, teledyski i dłuższe formy. Ujęcia z drona. Profesjonalny montaż i dźwięk."
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Fotograf na event Wrocław",
-            "description": "Obsługa fotograficzna eventów firmowych, konferencji, bankietów i imprez okolicznościowych. Dyskrecja i profesjonalizm."
-          }
-        }
-      ]
-    }
+
+    <svg style="width:0;height:0;position:absolute;">
+        <defs>
+            <filter id="liquid-filter">
+                <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark') document.documentElement.classList.add('dark');
+        else { document.documentElement.classList.remove('dark'); localStorage.setItem('color-theme', 'light'); }
+        
+        let savedVibe = localStorage.getItem('site-vibe');
+        if(savedVibe) document.documentElement.setAttribute('data-vibe', savedVibe);
     </script>
 </head>
-<body class="antialiased">
-    <!-- Tło Liquid Glass -->
-    <div class="blob-container">
-        <div class="blob blob1"></div>
-        <div class="blob blob2"></div>
-        <div class="blob blob3"></div>
-        <div class="blob blob4"></div>
-        <div class="blob blob5"></div>
-        <div class="blob blob6"></div>
-        <div class="blob blob7"></div>
+<body class="bg-[#f2f4f7] text-slate-950 dark:bg-darkBase dark:text-white font-sans antialiased overflow-x-hidden transition-colors duration-700 relative">
+
+    <div class="preloader-wrap" id="preloader">
+        <div class="preloader-panel top"></div>
+        <div class="preloader-panel bottom"></div>
+        <div class="preloader-content" id="preloader-content">
+            <h2 class="font-display text-xs tracking-[0.5em] uppercase text-gray-500 mb-6 animate-pulse">Inicjalizacja systemu</h2>
+            <div class="text-[clamp(3rem,12vw,8rem)] font-black font-display tracking-tighter leading-none" id="loader-counter">0%</div>
+            <div class="w-48 h-[2px] bg-gray-800 mx-auto mt-6 rounded-full overflow-hidden">
+                <div id="loader-bar" class="h-full bg-white w-0 transition-all duration-75"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- Animacja wejściowa -->
-    <div id="loader">
-        <div class="loader-logo">SG</div>
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-ring hidden md:block">
+        <svg viewBox="0 0 100 100">
+            <circle class="bg" cx="50" cy="50" r="48"></circle>
+            <circle class="progress" cx="50" cy="50" r="48" stroke-dasharray="301.59" stroke-dashoffset="301.59"></circle>
+        </svg>
+    </div>
+    
+    <div id="shortcut-toast" class="shortcut-toast hidden md:block uppercase font-display text-[10px]">
+        Motyw Zmieniony (D)
     </div>
 
-    <!-- Główna zawartość strony -->
-    <div id="main-content" class="opacity-0 transition-opacity duration-500">
+    <div class="fixed top-6 right-6 z-50 flex flex-col gap-3 items-center">
+        <div class="glass-panel-apple p-1 flex items-center relative interactive-element group shadow-lg" onclick="hapticPulse()">
+            <div id="theme-slider" class="apple-slider absolute left-1 top-1 bottom-1 w-9 rounded-full pointer-events-none"></div>
+            <button id="theme-light-btn" class="relative z-10 w-9 h-9 flex items-center justify-center text-slate-900 focus:outline-none transition-colors duration-300">
+                <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </button>
+            <button id="theme-dark-btn" class="relative z-10 w-9 h-9 flex items-center justify-center text-slate-400 focus:outline-none transition-colors duration-300">
+                <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+            <span class="tooltip">Tryb Jasny/Ciemny [D]</span>
+        </div>
+
+        <button id="vibe-btn" class="glass-panel-apple w-[44px] h-[44px] flex items-center justify-center text-slate-700 dark:text-slate-300 transition-transform hover:scale-105 hover:text-neonSecondary focus:outline-none interactive-element group shadow-lg" onclick="hapticPulse()">
+            <svg class="w-5 h-5 transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4c0-1.473 1.333-2.618 3-3.667.64-.4 1.294-.8 1.947-1.258A9.957 9.957 0 009 9c0-2.76 2.24-5 5-5s5 2.24 5 5-5 2.24-5 5v1.5a2.5 2.5 0 01-2.5 2.5h-1.5z"></path></svg>
+            <span class="tooltip">Zmiana Kolorów [V]</span>
+        </button>
+    </div>
+
+    <div class="kinetic-bg font-display flex animate-marquee-bg">
+        <span class="mr-8">CREATIVE</span><span class="mr-8">DIRECTOR</span><span class="mr-8">CREATIVE</span><span class="mr-8">DIRECTOR</span>
+    </div>
+    <div id="particles-container" class="fixed inset-0 pointer-events-none z-[-2]"></div>
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute top-[10%] left-[20%] w-[40vw] h-[40vw] bg-neonPrimary/10 rounded-full filter blur-[150px] transition-colors duration-1000"></div>
+        <div class="absolute bottom-[10%] right-[10%] w-[50vw] h-[50vw] bg-neonSecondary/10 rounded-full filter blur-[150px] transition-colors duration-1000"></div>
+    </div>
+
+    <header class="relative min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 text-center z-10" data-aos="zoom-out" data-aos-duration="2000" data-aos-delay="500">
         
-        <!-- Sekcja Hero -->
-        <section id="hero" class="min-h-screen flex items-center justify-center text-center overflow-hidden relative px-6">
-            <div class="absolute inset-0 bg-black/60 z-10"></div>
-            <video id="hero-video" autoplay loop muted playsinline class="absolute z-0 w-auto min-w-full min-h-full max-w-none transition-transform duration-500 ease-out">
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-man-in-a-suit-walking-on-a-dark-street-46486-large.mp4" type="video/mp4">
-                [Tło wideo z postacią idącą ciemną ulicą]
-            </video>
-            <div class="relative z-20 flex flex-col items-center">
-                <div class="reveal">
-                    <img src="Toja.jpeg" 
-                         onerror="this.onerror=null;this.src='https://placehold.co/150x150/1a1a1a/ffffff?text=SG';"
-                         alt="Szymon Grzeszczak - fotograf i filmowiec z Wrocławia" 
-                         class="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover border-4 border-white/20 shadow-2xl mb-8 transition-transform duration-500 hover:scale-110">
-                </div>
-                <h1 class="text-5xl md:text-8xl font-black text-white reveal" style="transition-delay: 100ms;">Szymon Grzeszczak</h1>
-                <p class="text-xl md:text-2xl text-gray-300 mt-4 tracking-wider reveal" style="transition-delay: 200ms;">Fotograf & Filmowiec</p>
-                <a href="#portfolio" class="cta-button mt-12 bg-white/10 text-white font-semibold py-4 px-10 rounded-full text-lg reveal" style="transition-delay: 300ms;">
-                    Zobacz portfolio
-                    <span class="shine"></span>
-                </a>
-            </div>
-        </section>
+        <div class="glass-panel tilt-card p-10 md:p-20 max-w-4xl w-full mx-auto flex flex-col items-center group" data-tilt-max="3" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.15">
+            <div class="glass-backlight" id="hero-backlight"></div>
 
-        <!-- Sekcja O Mnie -->
-        <section class="py-24 md:py-40 bg-transparent">
-            <div class="container mx-auto px-6 max-w-4xl text-center">
-                <h2 class="text-4xl md:text-6xl font-bold text-white reveal">Wizja. Emocje. Perfekcja.</h2>
-                <p class="text-lg md:text-xl text-gray-400 mt-8 max-w-3xl mx-auto reveal" style="transition-delay: 100ms;">
-                    Nazywam się Szymon Grzeszczak i tworzę historie zamknięte w kadrach. Moja praca to pasja do uchwycenia autentycznych emocji i niepowtarzalnej atmosfery. Działam we Wrocławiu, ale realizuję projekty w całej Polsce, łącząc artystyczną wizję z techniczną precyzją.
-                </p>
-            </div>
-        </section>
-
-        <!-- Sekcja Portfolio -->
-        <section id="portfolio" class="py-24 md:py-40">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="text-center mb-20">
-                    <h2 class="text-4xl md:text-6xl font-bold text-white reveal">Portfolio</h2>
-                    <p class="text-lg text-gray-400 mt-4 reveal" style="transition-delay: 100ms;">Moje najnowsze prace z Instagrama</p>
-                </div>
-                <div class="reveal" style="transition-delay: 200ms;">
-                    <div class="max-w-full mx-auto p-2 md:p-4 bg-white/5 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/10">
-                         <div class="gallery-iframe-container">
-                            <iframe 
-                                src="https://app.mirror-app.com/feed-instagram/6dc42b11-ae2d-4b79-9cde-4c43ecde01f4/preview" 
-                                class="mirror-iframe"
-                                title="Portfolio Instagram - fotografia ślubna i eventowa">
-                            </iframe>
-                         </div>
+            <div class="glass-content w-full flex flex-col items-center">
+                <div class="relative mb-8 interactive-element group/avatar">
+                    <div class="absolute -inset-6 bg-gradient-to-tr from-neonPrimary via-neonSecondary to-neonAccent rounded-full blur-2xl opacity-10 group-hover/avatar:opacity-40 transition-all duration-1000 pointer-events-none"></div>
+                    <div class="liquid-image-container w-36 h-36 md:w-48 md:h-48 rounded-full border border-white/20 dark:border-white/10 shadow-2xl z-10 bg-black">
+                        <img src="assets/images/avatar.webp" alt="Szymon Grzeszczak" class="liquid-image w-full h-full object-cover">
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Sekcja Kontakt -->
-        <section class="py-24 md:py-40 bg-transparent text-center">
-            <div class="container mx-auto px-6">
-                <h2 class="text-4xl md:text-6xl font-bold text-white reveal">Stwórzmy coś wyjątkowego</h2>
-                <p class="text-lg md:text-xl text-gray-400 mt-8 max-w-3xl mx-auto reveal" style="transition-delay: 100ms;">
-                    Masz pomysł na sesję lub projekt wideo? Skontaktuj się ze mną. Porozmawiajmy o Twojej wizji i o tym, jak możemy ją zrealizować.
+                
+                <h1 class="font-display text-[clamp(1.1rem,4.5vw,5rem)] lg:text-6xl font-black tracking-tight leading-[1] mb-4 text-slate-950 dark:text-white whitespace-nowrap px-6 md:px-8 w-full" id="stagger-title">
+                    SZYMON GRZESZCZAK
+                </h1>
+                
+                <div class="font-display text-xl md:text-3xl text-slate-600 dark:text-gray-300 font-light mb-8 h-10 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-neonPrimary to-neonSecondary transition-colors duration-1000">
+                    <span id="typed-text"></span>
+                </div>
+                
+                <p class="text-sm md:text-base text-slate-500 dark:text-gray-400 mb-12 max-w-lg mx-auto leading-relaxed font-light">
+                    Kierownictwo wizualne, produkcja wideo i precyzyjna fotografia. Tworzę cyfrowe doświadczenia, które łączą emocje z najwyższą estetyką.
                 </p>
-                <div class="mt-16 flex flex-col sm:flex-row items-center justify-center gap-8 reveal" style="transition-delay: 200ms;">
-                    <button id="email-link" class="cta-button bg-white/10 text-white font-semibold py-4 px-10 rounded-full text-lg flex items-center gap-3">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        <span>biuro.sg.media.pl@gmail.com</span>
-                        <span class="shine"></span>
-                    </button>
-                    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-transform duration-300 hover:scale-110">
-                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791-.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.884 2 12.315 2zm-1.04 2.546a4.97 4.97 0 00-4.832 4.832 4.97 4.97 0 004.832 4.832 4.97 4.97 0 004.832-4.832A4.97 4.97 0 0011.275 4.546zm0 8.092a3.12 3.12 0 110-6.24 3.12 3.12 0 010 6.24zM16.63 5.82a1.437 1.437 0 100 2.874 1.437 1.437 0 000-2.874z" clip-rule="evenodd" /></svg>
+                
+                <div class="magnetic-wrap inline-block p-4 pointer-events-auto">
+                    <a href="https://ig.me/m/szymon.grzeszczak.media" target="_blank" rel="noopener noreferrer" onclick="hapticPulse()"
+                       class="interactive-element magnetic-btn btn-sweep relative inline-flex items-center justify-center px-14 py-6 font-bold text-white transition-all duration-300 bg-slate-950 dark:bg-white/10 backdrop-blur-md border border-white/10 rounded-full focus:outline-none hover:scale-105 hover:shadow-[0_0_50px_rgba(var(--neon-secondary)/0.4)]">
+                        <span class="relative z-10 mr-4 tracking-wider uppercase text-sm">Napisz Wiadomość</span>
+                        <svg class="relative z-10 w-5 h-5 transition-transform group-hover:translate-x-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
                 </div>
             </div>
-        </section>
+        </div>
+    </header>
 
-        <!-- Stopka -->
-        <footer class="text-center py-10">
-            <p class="text-gray-600">&copy; <span id="current-year"></span> SG.media.pl - Szymon Grzeszczak. Wszelkie prawa zastrzeżone.</p>
-        </footer>
+    <div class="w-full py-6 flex justify-center z-10 relative opacity-50 pointer-events-none">
+        <div class="w-[1px] h-24 bg-gradient-to-b from-transparent via-slate-400 dark:via-white to-transparent"></div>
+    </div>
 
-    </div>
-    
-    <!-- Powiadomienie o skopiowaniu do schowka -->
-    <div id="toast-notification" class="py-3 px-6 rounded-lg shadow-xl font-semibold">
-        <p>Email skopiowany do schowka!</p>
-    </div>
+    <main class="py-16 px-4 sm:px-8 max-w-7xl mx-auto z-10 relative">
+        <div class="grid grid-cols-1 md:grid-cols-12 auto-rows-[300px] gap-6" id="gallery-grid">
+            
+            <a href="https://vimeo.com/115041822" id="video-card" class="glightbox cinematic-crop scroll-trigger interactive-element col-span-1 md:col-span-8 row-span-2 relative block overflow-hidden rounded-[2rem] border border-slate-300 dark:border-white/10 group bg-black tilt-card transition-shadow duration-700" data-tilt-max="2" data-aos="fade-up" onclick="hapticPulse()">
+                <video id="hover-video" class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-0 grayscale group-hover:grayscale-0" src="assets/videos/showreel-preview.mp4" muted loop playsinline></video>
+                <img src="assets/images/video1-thumb.webp" alt="Video" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] grayscale group-hover:grayscale-0 group-hover:scale-110 opacity-70 group-hover:opacity-0 z-0">
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity z-10"></div>
+                
+                <div class="absolute inset-0 flex items-center justify-center z-10">
+                    <div class="w-24 h-24 bg-white/5 backdrop-blur-lg rounded-full flex items-center justify-center border border-white/20 group-hover:bg-neonSecondary group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-8 h-8 text-white ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                </div>
+                <div class="absolute bottom-12 left-12 text-white z-10 transform group-hover:-translate-y-2 transition-transform duration-500 mobile-reveal">
+                    <h3 class="font-display font-black text-5xl mb-2 drop-shadow-lg">SG.media.pl</h3>
+                    <p class="text-sm font-medium tracking-widest text-neonSecondary uppercase drop-shadow-md transition-colors duration-1000">Wideo Produkcja</p>
+                </div>
+            </a>
+
+            <a href="assets/images/foto1.webp" class="glightbox cinematic-crop scroll-trigger interactive-element col-span-1 md:col-span-4 row-span-2 relative block overflow-hidden rounded-[2rem] border border-slate-300 dark:border-white/10 group bg-black tilt-card" data-tilt-max="4" data-aos="fade-up" data-aos-delay="100" onclick="hapticPulse()">
+                <img src="assets/images/foto1-thumb.webp" alt="Foto" class="w-full h-full object-cover grayscale transition-transform duration-[1.5s] group-hover:grayscale-0 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+            </a>
+
+            <a href="assets/images/foto2.webp" class="glightbox cinematic-crop scroll-trigger interactive-element col-span-1 md:col-span-6 row-span-1 relative block overflow-hidden rounded-[2rem] border border-slate-300 dark:border-white/10 group bg-black tilt-card" data-tilt-max="3" data-aos="fade-up" data-aos-delay="200" onclick="hapticPulse()">
+                <img src="assets/images/foto2-thumb.webp" alt="Foto" class="w-full h-full object-cover grayscale transition-transform duration-[1.5s] group-hover:grayscale-0 group-hover:scale-110 opacity-80 group-hover:opacity-100 2xl:top-[calc(50%_-_(var(--width)_/_2))]">
+            </a>
+
+            <a href="assets/images/foto3.webp" class="glightbox cinematic-crop scroll-trigger interactive-element col-span-1 md:col-span-6 row-span-1 relative block overflow-hidden rounded-[2rem] border border-slate-300 dark:border-white/10 group bg-black tilt-card" data-tilt-max="3" data-aos="fade-up" data-aos-delay="300" onclick="hapticPulse()">
+                <img src="assets/images/foto3-thumb.webp" alt="Foto" class="w-full h-full object-cover grayscale transition-transform duration-[1.5s] group-hover:grayscale-0 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+            </a>
+
+        </div>
+    </main>
+
+    <footer class="pt-24 pb-12 text-center relative z-10 overflow-hidden flex flex-col items-center">
+        <div class="container mx-auto px-6 relative" data-aos="fade-up">
+            <h3 class="font-display text-5xl md:text-8xl font-black mb-12 text-slate-950 dark:text-white uppercase tracking-tighter leading-[1.1]">
+                Zacznijmy <br/>
+                <a href="https://ig.me/m/szymon.grzeszczak.media" target="_blank" rel="noopener noreferrer" onclick="hapticPulse()" class="interactive-element text-transparent bg-clip-text bg-gradient-to-r from-neonPrimary to-neonSecondary hover:from-neonSecondary hover:to-neonAccent transition-all duration-700 relative group inline-block py-2">
+                    Współpracę.
+                    <span class="absolute bottom-0 left-0 w-full h-[6px] bg-neonSecondary transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></span>
+                </a>
+            </h3>
+            
+            <div class="mt-16 flex items-center justify-center font-display text-[11px] md:text-xs font-semibold tracking-[0.25em] text-slate-500 dark:text-gray-500 uppercase border border-slate-300 dark:border-white/10 rounded-full px-6 py-3 bg-white/40 dark:bg-white/5 backdrop-blur-md interactive-element" title="Naciśnij I by otworzyć Instagram">
+                WROCŁAW, PL — <span id="local-time" class="mx-2 text-slate-900 dark:text-white font-bold">00:00</span>
+                <span class="relative flex h-2.5 w-2.5 ml-3 mr-2">
+                  <span class="animate-pulse-fast absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                </span>
+                OTWARTY NA PROJEKTY
+            </div>
+
+            <p class="text-[10px] text-slate-400 dark:text-gray-600 font-medium tracking-[0.3em] uppercase mt-10 opacity-50">
+                &copy; <script>document.write(new Date().getFullYear())</script> SG.MEDIA.PL | Klawiatura: [D] Tryb, [V] Kolor, [I] IG
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 
     <script>
+        // Haptic Feedback Funkcja
+        function hapticPulse() { if (navigator.vibrate) navigator.vibrate(40); }
+
+        // Zegar Lokalny Wrocław
+        function updateLocalTime() {
+            const timeEl = document.getElementById('local-time');
+            if(!timeEl) return;
+            const now = new Date();
+            const options = { timeZone: 'Europe/Warsaw', hour: '2-digit', minute: '2-digit' };
+            timeEl.innerText = now.toLocaleTimeString('pl-PL', options);
+        }
+        setInterval(updateLocalTime, 1000);
+        updateLocalTime();
+
+        function showToast(msg) {
+            const toast = document.getElementById('shortcut-toast');
+            if(!toast) return;
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // PRELOADER & INIT
         document.addEventListener('DOMContentLoaded', () => {
-            const loader = document.getElementById('loader');
-            const mainContent = document.getElementById('main-content');
-            const heroVideo = document.getElementById('hero-video');
-
-            window.addEventListener('load', () => {
-                loader.classList.add('hidden');
-                mainContent.style.opacity = '1';
-                initRevealAnimations();
-            });
-
-            function initRevealAnimations() {
-                const revealElements = document.querySelectorAll('.reveal');
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                        }
-                    });
-                }, {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                });
-
-                revealElements.forEach(el => observer.observe(el));
+            
+            // Inicjalizacja Pyłków (tylko z ruchem)
+            if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const container = document.getElementById('particles-container');
+                for(let i=0; i<25; i++) {
+                    let p = document.createElement('div');
+                    p.className = 'dust-particle animate-dust';
+                    p.style.width = Math.random() * 4 + 1 + 'px';
+                    p.style.height = p.style.width;
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.top = Math.random() * 100 + 'vh';
+                    p.style.animationDelay = Math.random() * 5 + 's';
+                    p.style.animationDuration = Math.random() * 10 + 10 + 's';
+                    container.appendChild(p);
+                }
             }
 
-            window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY;
-                if (heroVideo) {
-                    heroVideo.style.transform = `translateY(${scrollY * 0.3}px)`;
+            // Preloader Animation
+            let counter = 0;
+            const loaderCounter = document.getElementById('loader-counter');
+            const loaderBar = document.getElementById('loader-bar');
+            const preloader = document.getElementById('preloader');
+            const preloaderContent = document.getElementById('preloader-content');
+            
+            const interval = setInterval(() => {
+                counter += Math.floor(Math.random() * 10) + 1;
+                if(counter >= 100) {
+                    counter = 100;
+                    clearInterval(interval);
+                    
+                    preloaderContent.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.classList.add('preloader-hidden');
+                        setTimeout(() => preloader.style.display = 'none', 1200);
+                        initRest(); 
+                    }, 400);
+                }
+                loaderCounter.innerText = counter + '%';
+                loaderBar.style.width = counter + '%';
+            }, 30);
+        });
+
+        function initRest() {
+            // THEME TOGGLE LOGIC
+            const slider = document.getElementById('theme-slider');
+            const lightBtn = document.getElementById('theme-light-btn');
+            const darkBtn = document.getElementById('theme-dark-btn');
+
+            function updateThemeUI() {
+                if (document.documentElement.classList.contains('dark')) {
+                    slider.style.transform = 'translateX(36px)';
+                    darkBtn.classList.replace('text-slate-400', 'text-white');
+                    darkBtn.classList.replace('text-slate-900', 'text-white');
+                    lightBtn.classList.replace('text-slate-900', 'text-slate-400');
+                    lightBtn.classList.replace('text-white', 'text-slate-400');
+                } else {
+                    slider.style.transform = 'translateX(0)';
+                    lightBtn.classList.replace('text-slate-400', 'text-slate-900');
+                    lightBtn.classList.replace('text-white', 'text-slate-900');
+                    darkBtn.classList.replace('text-slate-900', 'text-slate-400');
+                    darkBtn.classList.replace('text-white', 'text-slate-400');
+                }
+            }
+            updateThemeUI(); 
+
+            lightBtn.addEventListener('click', () => {
+                document.documentElement.classList.remove('dark'); localStorage.setItem('color-theme', 'light'); updateThemeUI();
+            });
+
+            darkBtn.addEventListener('click', () => {
+                document.documentElement.classList.add('dark'); localStorage.setItem('color-theme', 'dark'); updateThemeUI();
+            });
+
+            // VIBE SWITCHER LOGIC
+            const vibes = ['cyber', 'matrix', 'dune'];
+            const vibeBtn = document.getElementById('vibe-btn');
+            vibeBtn.addEventListener('click', () => {
+                let currentVibe = document.documentElement.getAttribute('data-vibe') || 'cyber';
+                let nextIdx = (vibes.indexOf(currentVibe) + 1) % vibes.length;
+                let nextVibe = vibes[nextIdx];
+                document.documentElement.setAttribute('data-vibe', nextVibe);
+                localStorage.setItem('site-vibe', nextVibe);
+                showToast("KOLORYSTYKA: " + nextVibe.toUpperCase());
+            });
+
+            // KLAWISZOWE SKRÓTY (PRO SHORTCUTS)
+            document.addEventListener('keydown', (e) => {
+                if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                
+                if(e.key.toLowerCase() === 'd') { // Theme
+                    hapticPulse();
+                    if(document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark'); localStorage.setItem('color-theme', 'light'); showToast("Jasny Motyw");
+                    } else {
+                        document.documentElement.classList.add('dark'); localStorage.setItem('color-theme', 'dark'); showToast("Ciemny Motyw");
+                    }
+                    updateThemeUI();
+                }
+                
+                if(e.key.toLowerCase() === 'i') { // IG
+                    showToast("Otwieram Instagram...");
+                    setTimeout(()=> window.open('https://ig.me/m/szymon.grzeszczak.media', '_blank'), 500);
+                }
+
+                if(e.key.toLowerCase() === 'v') { // Vibe
+                    hapticPulse(); vibeBtn.click();
                 }
             });
-            
-            const emailLink = document.getElementById('email-link');
-            const toast = document.getElementById('toast-notification');
 
-            emailLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                const email = 'biuro.sg.media.pl@gmail.com';
-                
-                navigator.clipboard.writeText(email).then(() => {
-                    toast.style.transform = 'translate(-50%, 0)';
-                    toast.style.opacity = '1';
-                    setTimeout(() => {
-                        toast.style.transform = 'translate(-50%, 150px)';
-                        toast.style.opacity = '0';
-                    }, 2500);
-                }).catch(err => {
-                    console.error('Nie udało się skopiować emaila: ', err);
-                });
+            // VIDEO HOVER LOGIC
+            const videoCard = document.getElementById('video-card');
+            const hoverVideo = document.getElementById('hover-video');
+            if(videoCard && hoverVideo) {
+                videoCard.addEventListener('mouseenter', () => hoverVideo.play().catch(e => console.log('Wgraj plik showreel-preview.mp4')));
+                videoCard.addEventListener('mouseleave', () => { hoverVideo.pause(); hoverVideo.currentTime = 0; });
+            }
+
+            // Typed.js
+            new Typed('#typed-text', {
+                strings: ['Opowiadam obrazem.', 'Kształtuję światło.', 'Zatrzymuję moment.', 'Definiuję styl.'],
+                typeSpeed: 40, backSpeed: 20, backDelay: 2000, startDelay: 500, loop: true, showCursor: true, cursorChar: '|'
             });
 
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-        });
-    </script>
+            // Text Stagger Animation
+            const title = document.getElementById('stagger-title');
+            const text = title.innerText;
+            title.innerHTML = '';
+            text.split('').forEach((char, i) => {
+                let span = document.createElement('span');
+                span.className = 'char';
+                span.innerHTML = char === ' ' ? '&nbsp;' : char;
+                title.appendChild(span);
+                setTimeout(() => span.classList.add('visible'), i * 50 + 200); 
+            });
 
+            // AOS & GLightbox
+            AOS.init({ once: true, offset: 50, duration: 1200, easing: 'ease-out-cubic' });
+            GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true, zoomable: false });
+
+            // Zoptymalizowane wykrywanie najechania dla kursora
+            if(window.matchMedia("(pointer: fine)").matches) {
+                const body = document.body;
+                const cursorDot = document.querySelector('.cursor-dot');
+                const cursorRing = document.querySelector('.cursor-ring');
+                const progressCircle = document.querySelector('.cursor-ring .progress');
+                const backlight = document.getElementById('hero-backlight');
+                const glassPanel = document.querySelector('.glass-panel');
+                const circumference = 48 * 2 * Math.PI; 
+
+                window.addEventListener('mousemove', (e) => {
+                    const posX = e.clientX, posY = e.clientY;
+                    cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
+                    cursorRing.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 250, fill: "forwards" });
+                    
+                    if(glassPanel && backlight) {
+                        const rect = glassPanel.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        backlight.style.left = `${x - 200}px`; 
+                        backlight.style.top = `${y - 200}px`;
+                    }
+                });
+
+                document.addEventListener('mouseover', (e) => {
+                    if(e.target.closest('a, button, .interactive-element')) body.classList.add('cursor-hover');
+                });
+                document.addEventListener('mouseout', (e) => {
+                    if(e.target.closest('a, button, .interactive-element')) body.classList.remove('cursor-hover');
+                });
+
+                window.addEventListener('scroll', () => {
+                    const scrollTotal = document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrollPercent = scrollTotal / height;
+                    progressCircle.style.strokeDashoffset = circumference - (scrollPercent * circumference);
+                    
+                    if (scrollPercent > 0.02) { body.classList.add('cursor-scrolled'); cursorRing.style.opacity = '1'; } 
+                    else { body.classList.remove('cursor-scrolled'); cursorRing.style.opacity = '0'; }
+                });
+
+                // Magnetic Button
+                document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
+                    const btn = wrap.querySelector('.magnetic-btn');
+                    wrap.addEventListener('mousemove', (e) => {
+                        const pos = wrap.getBoundingClientRect();
+                        const x = (e.clientX - pos.left - pos.width / 2) * 0.3;
+                        const y = (e.clientY - pos.top - pos.height / 2) * 0.3;
+                        btn.style.transform = `translate(${x}px, ${y}px)`;
+                    });
+                    wrap.addEventListener('mouseleave', () => btn.style.transform = `translate(0px, 0px)`);
+                });
+            } else {
+                // Mobile Scroll Triggers
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('mobile-hover-active');
+                        else entry.target.classList.remove('mobile-hover-active');
+                    });
+                }, { threshold: 0.6 });
+                document.querySelectorAll('.scroll-trigger').forEach(el => observer.observe(el));
+            }
+
+            // Vanilla Tilt (Smartphone Gyroscope)
+            if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                VanillaTilt.init(document.querySelectorAll(".tilt-card"), { 
+                    max: 3, speed: 600, glare: true, "max-glare": 0.1,
+                    gyroscope: true, gyroscopeMinAngleX: -20, gyroscopeMaxAngleX: 20, gyroscopeMinAngleY: -20, gyroscopeMaxAngleY: 20   
+                });
+            }
+        }
+    </script>
 </body>
 </html>
