@@ -1,51 +1,40 @@
 <!DOCTYPE html>
-<html lang="pl" class="scroll-smooth overflow-x-hidden" data-vibe="cyber">
+<html lang="pl" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szymon Grzeszczak | Nagrywanie Rolek Wrocław | SG Media | Portfolio</title>
     
-    <title>Szymon Grzeszczak | Visual Director | SG.MEDIA.PL</title>
-    <meta name="description" content="Szymon Grzeszczak – reżyseria wideo, fotografia, kreatywne kampanie. Portfolio twórcy.">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Szymon Grzeszczak - SG Media. Profesjonalne nagrywanie rolek (Reels), fotografia i produkcja wideo we Wrocławiu i całej Polsce. Dojeżdżam tam, gdzie trzeba!">
+    <meta name="keywords" content="Szymon Grzeszczak, SG Media, nagrywanie rolek Wrocław, kamerzysta Wrocław, reels Wrocław, fotografia Wrocław, produkcja wideo, dojazd do klienta, sg.media.pl">
     <meta name="author" content="Szymon Grzeszczak">
-    <meta name="theme-color" content="#ffffff">
-    
-    <meta property="og:title" content="Szymon Grzeszczak | Visual Director">
-    <meta property="og:description" content="Światło, ruch, kompozycja. Zajmuję się kompleksową realizacją form wizualnych.">
-    <meta property="og:image" content="https://sg.media.pl/assets/images/og-image.webp">
-    <meta property="og:url" content="https://sg.media.pl">
+    <meta property="og:title" content="Szymon Grzeszczak | Nagrywanie Rolek Wrocław | SG Media">
+    <meta property="og:description" content="Wysokiej jakości rolki i fotografia. Działam we Wrocławiu i z dojazdem do klienta. Zobacz moje portfolio.">
+    <meta property="og:url" content="https://SG.media.pl">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://SG.media.pl">
 
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;400;700;900&display=swap" rel="stylesheet">
-    <link rel="preload" as="image" href="assets/images/avatar.webp">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
-                    colors: { 
-                        neonPrimary: 'rgb(var(--neon-primary) / <alpha-value>)', 
-                        neonSecondary: 'rgb(var(--neon-secondary) / <alpha-value>)', 
-                        neonAccent: 'rgb(var(--neon-accent) / <alpha-value>)', 
-                        darkBase: '#000000' 
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
                     },
-                    animation: {
-                        'spin-slow': 'spin 15s linear infinite',
-                        'marquee-bg': 'marqueeBg 60s linear infinite',
-                        'dust': 'dust 10s ease-in-out infinite alternate',
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        marqueeBg: { '0%': { transform: 'translateX(0%)' }, '100%': { transform: 'translateX(-50%)' } },
-                        dust: { '0%': { transform: 'translateY(0) scale(1)', opacity: 0.2 }, '100%': { transform: 'translateY(-50px) scale(1.5)', opacity: 0.6 } }
+                    colors: {
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                        'glass-border': 'rgba(255, 255, 255, 0.1)',
                     }
                 }
             }
@@ -53,556 +42,1098 @@
     </script>
 
     <style>
-        /* DYNAMICZNE ZMIENNE KOLORÓW (VIBE SWITCHER) */
-        :root[data-vibe="cyber"] {
-            --neon-primary: 59 130 246;   /* Blue */
-            --neon-secondary: 139 92 246; /* Purple */
-            --neon-accent: 236 72 153;    /* Pink */
+        /* Preloader & Aperture Styles */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            overflow: hidden;
+            background: #000;
+            transition: background 0.8s ease;
         }
-        :root[data-vibe="matrix"] {
-            --neon-primary: 16 185 129;   /* Emerald */
-            --neon-secondary: 5 150 105;  /* Deep Green */
-            --neon-accent: 52 211 153;    /* Light Green */
+        #preloader.loaded {
+            background: transparent;
         }
-        :root[data-vibe="dune"] {
-            --neon-primary: 249 115 22;   /* Orange */
-            --neon-secondary: 234 179 8;  /* Yellow */
-            --neon-accent: 239 68 68;     /* Red */
+        .aperture-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            transition: transform 2s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+        #preloader.loaded .aperture-container {
+            transform: rotate(15deg);
+        }
+        .blade {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200vmax;
+            height: 200vmax;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.03);
+            transform-origin: 0% 0%;
+            transition: transform 1.8s cubic-bezier(0.8, 0, 0.2, 1);
+            will-change: transform;
+        }
+        /* Closed state: meeting at the center */
+        .blade-1 { transform: rotate(0deg) translate(0, -50%); }
+        .blade-2 { transform: rotate(60deg) translate(0, -50%); }
+        .blade-3 { transform: rotate(120deg) translate(0, -50%); }
+        .blade-4 { transform: rotate(180deg) translate(0, -50%); }
+        .blade-5 { transform: rotate(240deg) translate(0, -50%); }
+        .blade-6 { transform: rotate(300deg) translate(0, -50%); }
+
+        /* Open state: sliding and rotating outwards */
+        #preloader.loaded .blade-1 { transform: rotate(0deg) translate(100%, -50%) rotate(45deg); }
+        #preloader.loaded .blade-2 { transform: rotate(60deg) translate(100%, -50%) rotate(45deg); }
+        #preloader.loaded .blade-3 { transform: rotate(120deg) translate(100%, -50%) rotate(45deg); }
+        #preloader.loaded .blade-4 { transform: rotate(180deg) translate(100%, -50%) rotate(45deg); }
+        #preloader.loaded .blade-5 { transform: rotate(240deg) translate(100%, -50%) rotate(45deg); }
+        #preloader.loaded .blade-6 { transform: rotate(300deg) translate(100%, -50%) rotate(45deg); }
+
+        #preloader-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            text-align: center;
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            width: 100%;
+            max-width: 300px;
+        }
+        #preloader.loaded #preloader-content {
+            opacity: 0;
+            transform: translate(-50%, -60%) scale(0.9);
+            filter: blur(10px);
         }
 
-        @media (pointer: fine) { *, body, a, button, .glightbox, .interactive-element { cursor: none !important; } }
-        ::-webkit-scrollbar { width: 0px; background: transparent; }
-
-        /* Cursor 360 - Reaguje na zmienne Vibe */
-        .cursor-dot {
-            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
-            background-color: rgb(var(--neon-secondary)); border-radius: 50%; pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%); transition: opacity 0.3s, transform 0.1s, background-color 0.5s;
-            box-shadow: 0 0 10px rgba(var(--neon-secondary) / 0.8);
+        /* Lens Animation */
+        .lens-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .cursor-ring {
-            position: fixed; top: 0; left: 0; width: 40px; height: 40px; pointer-events: none; z-index: 9998;
-            transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.4s ease; opacity: 0;
+        .lens-outer {
+            position: absolute;
+            inset: 0;
+            border: 2px solid rgba(255,255,255,0.1);
             border-radius: 50%;
+            animation: lens-spin 10s linear infinite;
         }
-        .cursor-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); border-radius: 50%; }
-        .cursor-ring circle { fill: none; stroke-width: 1.5; transition: stroke-dashoffset 0.1s linear, stroke 0.5s; }
-        .cursor-ring .progress { stroke: rgba(255,255,255, 0.1); }
-        .cursor-scrolled .cursor-ring .progress { stroke: rgb(var(--neon-secondary)); }
-        .dark .cursor-ring circle.bg { stroke: rgba(255,255,255,0.1); }
-        .light .cursor-ring circle.bg { stroke: rgba(0,0,0,0.1); }
+        .lens-outer::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #fff;
+        }
+        .lens-inner {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent),
+                        radial-gradient(circle at center, #111, #000);
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            animation: lens-pulse 2s ease-in-out infinite;
+        }
+        .lens-reflection {
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 30%;
+            height: 30%;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+        @keyframes lens-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes lens-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(255,255,255,0); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.1); }
+        }
+
+        /* Text Reveal */
+        .loader-text-container {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            font-size: 14px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .loader-letter {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            animation: letter-reveal 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        @keyframes letter-reveal {
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .loader-letter:nth-child(1) { animation-delay: 0.1s; }
+        .loader-letter:nth-child(2) { animation-delay: 0.15s; }
+        .loader-letter:nth-child(3) { animation-delay: 0.2s; }
+        .loader-letter:nth-child(4) { animation-delay: 0.25s; }
+        .loader-letter:nth-child(5) { animation-delay: 0.3s; }
+        .loader-letter:nth-child(6) { animation-delay: 0.35s; }
+        .loader-letter:nth-child(7) { animation-delay: 0.4s; }
+        .loader-letter:nth-child(8) { animation-delay: 0.45s; }
+
+        /* Progress Bar */
+        .loader-progress-container {
+            width: 120px;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            margin: 0 auto;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+        .loader-progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, transparent, #fff, transparent);
+            background-size: 200% 100%;
+            animation: progress-shine 2s linear infinite;
+            transition: width 0.3s ease;
+        }
+        @keyframes progress-shine {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
         
-        .cursor-hover .cursor-ring { 
-            width: 60px; height: 60px; 
-            background: radial-gradient(circle, rgba(var(--neon-secondary) / 0.2) 0%, rgba(var(--neon-secondary) / 0) 70%);
-            box-shadow: 0 0 15px rgba(var(--neon-secondary) / 0.15);
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        .cursor-hover .cursor-ring circle { stroke-width: 0.5; stroke: rgb(var(--neon-secondary)) !important; }
-        .cursor-hover .cursor-dot { transform: translate(-50%, -50%) scale(0); }
-
-        /* Preloader */
-        .preloader-wrap { position: fixed; inset: 0; z-index: 10000; pointer-events: none; display: flex; flex-direction: column; }
-        .preloader-panel { flex: 1; background-color: #000; transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1); }
-        .preloader-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10001; transition: opacity 0.5s ease; color: white; }
-        .preloader-hidden .preloader-panel.top { transform: translateY(-100%); }
-        .preloader-hidden .preloader-panel.bottom { transform: translateY(100%); }
-        .preloader-hidden .preloader-content { opacity: 0; }
-
-        /* Control Dock Apple Style */
-        .glass-panel-apple {
-            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
-            border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255,255,255,0.3); border-radius: 9999px;
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .dark .glass-panel-apple {
-            background: rgba(25, 25, 30, 0.35); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
-        }
-        .apple-slider { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); background: rgba(255, 255, 255, 0.6); box-shadow: 0 2px 10px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5); }
-        .dark .apple-slider { background: rgba(255, 255, 255, 0.15); box-shadow: 0 2px 10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1); }
-        .tooltip { position: absolute; right: calc(100% + 12px); top: 50%; transform: translateY(-50%); padding: 6px 12px; background: rgba(0,0,0,0.8); color: white; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s; white-space: nowrap; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
-        .group:hover .tooltip { opacity: 1; }
-
-        /* Liquid Glass Hero Card */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1), inset 0 1px 1px rgba(255,255,255,0.7);
-            border-radius: 3rem; position: relative; overflow: hidden;
-            transform-style: preserve-3d; border: 1px solid rgba(255,255,255,0.2);
-        }
-        .dark .glass-panel {
-            background: rgba(15, 15, 15, 0.25); box-shadow: 0 30px 80px -10px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 2px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
-        }
-        .glass-backlight {
-            position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgb(var(--neon-secondary) / 0.3) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%; pointer-events: none; z-index: -1; filter: blur(40px); transition: left 0.2s ease-out, top 0.2s ease-out, background 0.5s; opacity: 0;
-        }
-        .dark .glass-backlight { background: radial-gradient(circle, rgb(var(--neon-secondary) / 0.4) 0%, rgba(0,0,0,0) 70%); }
-        .glass-panel:hover .glass-backlight { opacity: 1; }
-        .glass-content > * { transform: translateZ(50px); }
-
-        /* Liquid SVG */
-        .liquid-image-container { overflow: hidden; border-radius: 50%; position: relative; }
-        .liquid-image { transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s; }
-        .liquid-image-container:hover .liquid-image { transform: scale(1.15); filter: url(#liquid-filter); }
-
-        /* Cinematic Letterbox */
-        .cinematic-crop::before, .cinematic-crop::after {
-            content: ''; position: absolute; left: 0; width: 100%; height: 0%; background: #000;
-            z-index: 20; transition: height 0.5s cubic-bezier(0.77, 0, 0.175, 1); pointer-events: none;
-        }
-        .cinematic-crop::before { top: 0; }
-        .cinematic-crop::after { bottom: 0; }
-        .cinematic-crop:hover::before, .cinematic-crop:hover::after, .cinematic-crop.mobile-hover-active::before, .cinematic-crop.mobile-hover-active::after { height: 12%; }
-        .mobile-hover-active img { filter: grayscale(0) !important; transform: scale(1.1) !important; opacity: 1 !important; }
-        .mobile-hover-active .mobile-reveal { opacity: 1 !important; transform: translateY(-8px) !important; }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
         
-        .kinetic-bg {
-            position: fixed; top: 45%; left: 0; width: 200%; transform: translateY(-50%); z-index: -3; pointer-events: none;
-            font-size: 25vw; line-height: 0.8; font-weight: 900; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.05); text-transform: uppercase;
+        .scale-reveal {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        .dark .kinetic-bg { -webkit-text-stroke: 1px rgba(255,255,255,0.04); }
-
-        /* Continuous Glare Button */
-        .btn-sweep { position: relative; overflow: hidden; }
-        .btn-sweep::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg); animation: sweep 3s infinite linear; pointer-events: none;
+        .scale-reveal.active {
+            opacity: 1;
+            transform: scale(1);
         }
-        @keyframes sweep { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
 
-        /* Smooth letter reveal */
-        .char { display: inline-block; opacity: 0; transform: translateY(20px) scale(0.9); transition: opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .char.visible { opacity: 1; transform: translateY(0) scale(1); }
-
-        /* Pro Shortcuts UI Toast */
-        .shortcut-toast {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: rgba(0,0,0,0.8); color: white; padding: 10px 20px; border-radius: 999px;
-            font-size: 11px; font-weight: 600; letter-spacing: 1px; z-index: 9999; backdrop-filter: blur(10px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; border: 1px solid rgba(255,255,255,0.1);
+        @layer base {
+            body {
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+            .dark body {
+                background-color: #000000;
+                color: white;
+            }
+            html:not(.dark) body {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            body {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                overflow-x: hidden;
+            }
         }
-        .shortcut-toast.show { transform: translateX(-50%) translateY(0); }
+        @layer components {
+            .glass {
+                background-color: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .dark .glass {
+                background-color: rgba(255, 255, 255, 0.05);
+            }
+            html:not(.dark) .glass {
+                background-color: rgba(0, 0, 0, 0.03);
+                border: 1px solid rgba(0, 0, 0, 0.05);
+            }
+            .glass-dark {
+                background-color: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(32px);
+                -webkit-backdrop-filter: blur(32px);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(to bottom right, white, white, rgba(255, 255, 255, 0.4));
+                padding-bottom: 0.2em; /* Prevent descender clipping */
+                margin-bottom: -0.2em;
+            }
+            .dark .text-gradient {
+                background-image: linear-gradient(to bottom right, white, white, rgba(255, 255, 255, 0.4));
+            }
+            html:not(.dark) .text-gradient {
+                background-image: linear-gradient(to bottom right, #000, #333, #666);
+            }
+            .nav-link {
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: rgba(255, 255, 255, 0.6);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 0;
+                height: 1px;
+                background: currentColor;
+                transition: width 0.3s ease;
+            }
+            .nav-link:hover::after {
+                width: 100%;
+            }
+            .dark .nav-link { color: rgba(255, 255, 255, 0.6); }
+            html:not(.dark) .nav-link { color: rgba(0, 0, 0, 0.6); }
+            .nav-link:hover {
+                color: white;
+                transform: translateY(-1px);
+            }
+            html:not(.dark) .nav-link:hover { color: black; }
+            
+            .instagram-gradient {
+                background: linear-gradient(45deg, #405de6, #833ab4, #d6249f);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                font-weight: 700;
+                padding-bottom: 0.1em;
+                margin-bottom: -0.1em;
+            }
+            /* Button & Hover Animations */
+            .btn-slide {
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+            }
+            .btn-slide::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.05);
+                transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: -1;
+            }
+            .dark .btn-slide::after {
+                background: rgba(255,255,255,0.1);
+            }
+            .btn-slide:hover::after {
+                left: 0;
+            }
+            
+            .instagram-hover {
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .instagram-hover::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, #405de6, #833ab4, #d6249f, #f9ce34);
+                transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: -1;
+            }
+            .instagram-hover:hover::before {
+                left: 0;
+            }
+            .instagram-hover:hover {
+                color: white !important;
+                border-color: transparent;
+                transform: scale(1.05);
+            }
+        }
+        
+        /* Carousel Styles */
+        .carousel-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            perspective: 2000px;
+            padding: 2rem 0;
+        }
+        .carousel-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .carousel-item {
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #000; /* Ensure no background leak */
+        }
+        .carousel-item:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            z-index: 20;
+        }
+        @media (max-width: 640px) {
+            .carousel-item {
+                flex: 0 0 85%;
+                margin-right: 1rem;
+            }
+        }
+        @media (min-width: 768px) {
+            .carousel-item {
+                flex: 0 0 45%;
+                margin-right: 1.5rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .carousel-item {
+                flex: 0 0 30%;
+                margin-right: 1.5rem;
+            }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background-color: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background-color: rgba(128, 128, 128, 0.2); 
+            border-radius: 9999px;
+        }
+        
+        /* Background Effects */
+        .global-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -10;
+            overflow: hidden;
+            pointer-events: none;
+            background: #ffffff;
+        }
+        .dark .global-bg {
+            background: #000000;
+        }
+        .global-bg-inner {
+            position: absolute;
+            inset: -50%;
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.25), transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(168, 85, 247, 0.25), transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.2), transparent 55%),
+                radial-gradient(circle at 10% 90%, rgba(34, 211, 238, 0.2), transparent 40%),
+                radial-gradient(circle at 90% 10%, rgba(251, 146, 60, 0.15), transparent 40%);
+            filter: blur(120px);
+            animation: bg-float 25s ease-in-out infinite alternate;
+        }
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5%, 5%) scale(1.1); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes drift-reverse {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-5%, -5%) scale(1.1); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        .animate-drift { animation: drift 20s ease-in-out infinite; }
+        .animate-drift-reverse { animation: drift-reverse 25s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .animate-float-slow { animation: float 15s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
 
-        /* Reduced Motion Fallback */
-        @media (prefers-reduced-motion: reduce) {
-            *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-            .kinetic-bg, .animate-dust, .noise-bg, .glass-backlight { display: none !important; }
-            .liquid-image-container:hover .liquid-image { filter: none !important; transform: none !important; }
-            .cinematic-crop:hover::before, .cinematic-crop:hover::after { height: 0 !important; }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .carousel-reveal {
+            opacity: 0;
+            transform: translateX(100px) rotateY(-15deg) scale(0.9);
+            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .carousel-reveal.active {
+            opacity: 1;
+            transform: translateX(0) rotateY(0) scale(1);
+        }
+
+        .parallax-img {
+            transform: translateX(var(--parallax-x, 0)) scale(var(--img-scale, 1.25));
+            transition: transform 0.05s linear; /* Faster response */
+            will-change: transform;
+        }
+        .carousel-item:hover .parallax-img {
+            --img-scale: 1.35;
+        }
+        
+        /* Background Blobs Fix */
+        .bg-blob {
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+        
+        .scale-reveal {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .scale-reveal.active {
+            opacity: 1;
+            transform: scale(1);
         }
     </style>
-
-    <svg style="width:0;height:0;position:absolute;">
-        <defs>
-            <filter id="liquid-filter">
-                <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-        </defs>
-    </svg>
-
-    <script>
-        if (localStorage.getItem('color-theme') === 'dark') document.documentElement.classList.add('dark');
-        else { document.documentElement.classList.remove('dark'); localStorage.setItem('color-theme', 'light'); }
-        
-        let savedVibe = localStorage.getItem('site-vibe');
-        if(savedVibe) document.documentElement.setAttribute('data-vibe', savedVibe);
-    </script>
 </head>
-<body class="bg-[#f2f4f7] text-slate-950 dark:bg-darkBase dark:text-white font-sans antialiased overflow-x-hidden transition-colors duration-700 relative">
+<body class="overflow-hidden">
 
-    <div class="preloader-wrap" id="preloader">
-        <div class="preloader-panel top"></div>
-        <div class="preloader-panel bottom"></div>
-        <div class="preloader-content" id="preloader-content">
-            <h2 class="font-display text-xs tracking-[0.5em] uppercase text-gray-500 mb-6 animate-pulse">Inicjalizacja systemu</h2>
-            <div class="text-[clamp(3rem,12vw,8rem)] font-black font-display tracking-tighter leading-none" id="loader-counter">0%</div>
-            <div class="w-48 h-[2px] bg-gray-800 mx-auto mt-6 rounded-full overflow-hidden">
-                <div id="loader-bar" class="h-full bg-white w-0 transition-all duration-75"></div>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="aperture-container">
+            <div class="blade blade-1"></div>
+            <div class="blade blade-2"></div>
+            <div class="blade blade-3"></div>
+            <div class="blade blade-4"></div>
+            <div class="blade blade-5"></div>
+            <div class="blade blade-6"></div>
+        </div>
+        <div class="loader-content" id="preloader-content">
+            <div class="lens-container mb-8">
+                <div class="lens-outer"></div>
+                <div class="lens-inner">
+                    <div class="lens-reflection"></div>
+                </div>
+            </div>
+            <div class="loader-text-container">
+                <span class="loader-letter">S</span>
+                <span class="loader-letter">G</span>
+                <span class="loader-letter">&nbsp;</span>
+                <span class="loader-letter">M</span>
+                <span class="loader-letter">E</span>
+                <span class="loader-letter">D</span>
+                <span class="loader-letter">I</span>
+                <span class="loader-letter">A</span>
+            </div>
+            <div class="loader-progress-container mt-8">
+                <div id="loader-progress-bar" class="loader-progress-bar"></div>
+            </div>
+            <div id="loader-percent" class="text-white/40 text-[10px] mt-3 tracking-widest font-bold">0%</div>
+        </div>
+    </div>
+
+    <!-- Global Background -->
+    <div class="global-bg">
+        <div class="global-bg-inner"></div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="instagram-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center px-6">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative glass-dark p-8 rounded-[2.5rem] max-w-sm w-full text-center space-y-6">
+            <div class="w-16 h-16 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg">
+                <i data-lucide="instagram" class="w-8 h-8"></i>
+            </div>
+            <div class="space-y-2">
+                <h3 class="text-2xl font-display font-bold text-white">Otworzyć Instagram?</h3>
+                <p class="text-white/60 text-sm">Zostaniesz przekierowany do posta na profilu Szymona.</p>
+            </div>
+            <div class="flex flex-col gap-3">
+                <a id="modal-confirm-link" href="#" target="_blank" onclick="closeModal()" class="w-full py-4 bg-white text-black rounded-full font-bold transition-all hover:scale-105 active:scale-95">
+                    Tak, otwórz
+                </a>
+                <button onclick="closeModal()" class="w-full py-4 glass text-white rounded-full font-medium hover:bg-white/10 transition-all">
+                    Anuluj
+                </button>
             </div>
         </div>
     </div>
 
-    <div class="cursor-dot hidden md:block"></div>
-    <div class="cursor-ring hidden md:block">
-        <svg viewBox="0 0 100 100">
-            <circle class="bg" cx="50" cy="50" r="48"></circle>
-            <circle class="progress" cx="50" cy="50" r="48" stroke-dasharray="301.59" stroke-dashoffset="301.59"></circle>
-        </svg>
-    </div>
-    
-    <div id="shortcut-toast" class="shortcut-toast hidden md:block uppercase font-display text-[10px]">
-        Motyw Zmieniony (D)
-    </div>
+    <!-- Progress Bar -->
+    <div id="progress" class="fixed top-0 left-0 h-[2px] bg-black dark:bg-white z-[100] transition-all duration-150" style="width: 0%"></div>
 
-    <div class="fixed top-6 right-6 z-50 flex flex-col gap-3 items-center">
-        <div class="glass-panel-apple p-1 flex items-center relative interactive-element group shadow-lg" onclick="hapticPulse()">
-            <div id="theme-slider" class="apple-slider absolute left-1 top-1 bottom-1 w-9 rounded-full pointer-events-none"></div>
-            <button id="theme-light-btn" class="relative z-10 w-9 h-9 flex items-center justify-center text-slate-900 focus:outline-none transition-colors duration-300">
-                <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-            </button>
-            <button id="theme-dark-btn" class="relative z-10 w-9 h-9 flex items-center justify-center text-slate-400 focus:outline-none transition-colors duration-300">
-                <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-            </button>
-            <span class="tooltip">Tryb Jasny/Ciemny [D]</span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 px-4 md:px-6 py-4 md:py-8 flex justify-between items-center max-w-7xl mx-auto pointer-events-auto">
+        <div class="glass px-5 py-3 rounded-full pointer-events-auto flex items-center shadow-xl shadow-black/5 dark:shadow-white/5 border-white/20 dark:border-white/10">
+            <div class="text-lg md:text-xl font-display font-bold tracking-tight flex items-center leading-none">
+                SG<span class="text-black/40 dark:text-white/40">.MEDIA.PL</span>
+            </div>
         </div>
+        <div class="flex items-center gap-3 md:gap-4 pointer-events-auto">
+            <div class="glass px-5 py-3 rounded-full flex items-center gap-6 shadow-xl shadow-black/5 dark:shadow-white/5 border-white/20 dark:border-white/10">
+                <a href="#galeria" class="nav-link hidden sm:block">Portfolio</a>
+                
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="p-1 transition-all active:scale-90 hover:opacity-70">
+                    <i data-lucide="sun" class="w-4 h-4 md:w-5 md:h-5 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-4 h-4 md:w-5 md:h-5 block dark:hidden"></i>
+                </button>
 
-        <button id="vibe-btn" class="glass-panel-apple w-[44px] h-[44px] flex items-center justify-center text-slate-700 dark:text-slate-300 transition-transform hover:scale-105 hover:text-neonSecondary focus:outline-none interactive-element group shadow-lg" onclick="hapticPulse()">
-            <svg class="w-5 h-5 transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4c0-1.473 1.333-2.618 3-3.667.64-.4 1.294-.8 1.947-1.258A9.957 9.957 0 009 9c0-2.76 2.24-5 5-5s5 2.24 5 5-5 2.24-5 5v1.5a2.5 2.5 0 01-2.5 2.5h-1.5z"></path></svg>
-            <span class="tooltip">Zmiana Kolorów [V]</span>
-        </button>
-    </div>
+                <a href="https://ig.me/m/szymon.grzeszczak.media" target="_blank" class="px-4 md:px-5 py-1.5 md:py-2 glass rounded-full text-xs md:text-sm font-semibold hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95 btn-slide">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </nav>
 
-    <div class="kinetic-bg font-display flex animate-marquee-bg">
-        <span class="mr-8">CREATIVE</span><span class="mr-8">DIRECTOR</span><span class="mr-8">CREATIVE</span><span class="mr-8">DIRECTOR</span>
-    </div>
-    <div id="particles-container" class="fixed inset-0 pointer-events-none z-[-2]"></div>
-    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-        <div class="absolute top-[10%] left-[20%] w-[40vw] h-[40vw] bg-neonPrimary/10 rounded-full filter blur-[150px] transition-colors duration-1000"></div>
-        <div class="absolute bottom-[10%] right-[10%] w-[50vw] h-[50vw] bg-neonSecondary/10 rounded-full filter blur-[150px] transition-colors duration-1000"></div>
-    </div>
-
-    <header class="relative min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 text-center z-10" data-aos="zoom-out" data-aos-duration="2000" data-aos-delay="500">
-        
-        <div class="glass-panel tilt-card p-10 md:p-20 max-w-4xl w-full mx-auto flex flex-col items-center group" data-tilt-max="3" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.15">
-            <div class="glass-backlight" id="hero-backlight"></div>
-
-            <div class="glass-content w-full flex flex-col items-center">
-                <div class="relative mb-8 interactive-element group/avatar">
-                    <div class="absolute -inset-6 bg-gradient-to-tr from-neonPrimary via-neonSecondary to-neonAccent rounded-full blur-2xl opacity-10 group-hover/avatar:opacity-40 transition-all duration-1000 pointer-events-none"></div>
-                    <div class="liquid-image-container w-36 h-36 md:w-48 md:h-48 rounded-full border border-white/20 dark:border-white/10 shadow-2xl z-10 bg-black">
-                        <img src="assets/images/avatar.webp" alt="Szymon Grzeszczak" class="liquid-image w-full h-full object-cover">
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 md:pt-20">
+        <div class="max-w-4xl w-full text-center space-y-8">
+            <!-- Profile Section -->
+            <div class="flex flex-col items-center space-y-4 mb-4 reveal reveal-delay-1">
+                <div class="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-black/10 dark:border-white/20 p-1 glass scale-reveal">
+                    <img src="Toja.jpeg" alt="Szymon Grzeszczak" class="w-full h-full object-cover rounded-full">
+                </div>
+                <div class="space-y-1">
+                    <h2 class="text-2xl md:text-3xl font-display font-bold tracking-tight">Szymon Grzeszczak</h2>
+                    <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full glass border-black/10 dark:border-white/20 text-xs font-medium tracking-tight text-black/60 dark:text-white/80">
+                        <span class="relative flex h-1 w-1">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-1 w-1 bg-green-500"></span>
+                        </span>
+                        SG.MEDIA.PL
                     </div>
                 </div>
-                
-                <h1 class="font-display text-[clamp(1.1rem,4.5vw,5rem)] lg:text-6xl font-black tracking-tight leading-[1] mb-4 text-slate-950 dark:text-white whitespace-nowrap px-6 md:px-8 w-full" id="stagger-title">
-                    SZYMON GRZESZCZAK
-                </h1>
-                
-                <div class="font-display text-xl md:text-3xl text-slate-600 dark:text-gray-300 font-light mb-8 h-10 tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-neonPrimary to-neonSecondary transition-colors duration-1000">
-                    <span id="typed-text"></span>
+            </div>
+
+            <h1 class="text-4xl md:text-8xl font-display font-bold tracking-tight text-gradient leading-[1.2] py-4 reveal reveal-delay-2">
+                Tworzę wizualne <br class="hidden md:block"> historie, które <br class="hidden md:block"> zostają w pamięci.
+            </h1>
+
+            <p class="text-base md:text-xl text-black/60 dark:text-white/60 max-w-2xl mx-auto font-light leading-relaxed px-2 reveal reveal-delay-3">
+                Specjalizuję się w produkcji wysokiej jakości rolek (Reels), fotografii lifestyle oraz nowoczesnych formatach wideo. <strong>Działam we Wrocławiu, ale dojadę wszędzie tam, gdzie czeka ciekawy projekt.</strong>
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 reveal reveal-delay-4">
+                <a href="https://ig.me/m/szymon.grzeszczak.media" target="_blank" class="w-full sm:w-auto px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-semibold transition-all flex items-center justify-center gap-2 instagram-hover">
+                    <span class="text-center">Napisz na Instagramie</span> <i data-lucide="instagram" class="w-5 h-5"></i>
+                </a>
+                <a href="#galeria" class="w-full sm:w-auto px-8 py-4 glass rounded-full font-medium transition-all hover:bg-black/5 dark:hover:bg-white/10 flex items-center justify-center gap-2 btn-slide">
+                    <span class="text-center">Zobacz portfolio</span> <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-8 md:gap-x-20 pt-16 max-w-4xl mx-auto opacity-60">
+                <div class="flex flex-col items-center text-center space-y-3">
+                    <div class="flex items-center justify-center gap-2 text-black/40 dark:text-white/40">
+                        <i data-lucide="play" class="w-4 h-4"></i>
+                        <span class="text-[10px] uppercase tracking-[0.2em] font-bold">Wideo</span>
+                    </div>
+                    <p class="text-xl font-display font-medium leading-tight">High-End Reels</p>
+                </div>
+                <div class="flex flex-col items-center text-center space-y-3">
+                    <div class="flex items-center justify-center gap-2 text-black/40 dark:text-white/40">
+                        <i data-lucide="camera" class="w-4 h-4"></i>
+                        <span class="text-[10px] uppercase tracking-[0.2em] font-bold">Foto</span>
+                    </div>
+                    <p class="text-xl font-display font-medium leading-tight">Pro Photography</p>
+                </div>
+                <div class="flex flex-col items-center text-center space-y-3">
+                    <div class="flex items-center justify-center gap-2 text-black/40 dark:text-white/40">
+                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                        <span class="text-[10px] uppercase tracking-[0.2em] font-bold">Social</span>
+                    </div>
+                    <p class="text-xl font-display font-medium leading-tight">Content Strategy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galeria" class="relative py-20 md:py-32 bg-transparent">
+        <div class="absolute inset-0 -z-10 bg-blob">
+            <!-- Full-width Colorful Blobs -->
+            <div class="absolute top-[10%] right-[-10%] w-[60%] h-[60%] bg-blue-600/25 dark:bg-blue-500/30 rounded-full blur-[120px] animate-drift bg-blob"></div>
+            <div class="absolute bottom-[10%] left-[-5%] w-[50%] h-[50%] bg-purple-500/25 dark:bg-purple-400/30 rounded-full blur-[100px] animate-drift-reverse bg-blob"></div>
+            <div class="absolute top-[40%] left-[20%] w-[30%] h-[30%] bg-cyan-500/20 dark:bg-cyan-400/25 rounded-full blur-[80px] animate-pulse-slow bg-blob"></div>
+            <div class="absolute bottom-[-10%] right-[10%] w-[40%] h-[40%] bg-pink-500/15 dark:bg-pink-400/20 rounded-full blur-[100px] animate-float-slow bg-blob"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6 reveal">
+                <div class="space-y-2">
+                    <h2 class="text-4xl md:text-6xl font-display font-bold tracking-tight">Portfolio</h2>
+                    <p class="text-black/40 dark:text-white/40 text-base md:text-lg font-light">Najnowsze realizacje wideo i foto.</p>
+                </div>
+                <a href="https://www.instagram.com/szymon.grzeszczak.media" target="_blank" class="inline-flex items-center gap-2 transition-opacity hover:opacity-80 group w-fit">
+                    <span class="instagram-gradient text-sm md:text-base leading-none">Więcej na Instagramie</span> <i data-lucide="external-link" class="w-4 h-4 text-[#d6249f] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                </a>
+            </div>
+
+            <div class="relative group/carousel">
+                <!-- Navigation Buttons -->
+                <button id="prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-4 rounded-full glass-dark text-white opacity-0 group-hover/carousel:opacity-100 transition-opacity hidden md:flex items-center justify-center hover:bg-white/20 active:scale-90">
+                    <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                </button>
+                <button id="next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-4 rounded-full glass-dark text-white opacity-0 group-hover/carousel:opacity-100 transition-opacity hidden md:flex items-center justify-center hover:bg-white/20 active:scale-90">
+                    <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                </button>
+
+                <div class="carousel-container pb-8" id="carousel">
+                <!-- Item 1 -->
+                <a href="https://www.instagram.com/p/DUOf1QYjqZ_/?img_index=1" onclick="openInstagramModal(event, this.href)" target="_blank" class="carousel-item carousel-reveal group relative aspect-[3/4] overflow-hidden rounded-[2.5rem] glass border-black/5 dark:border-white/5">
+                <img src="Fot1.jpg" alt="Fotografia" class="parallax-img absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 md:p-10">
+                    <div class="flex items-center gap-2 mb-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <i data-lucide="camera" class="w-4 h-4 text-white/80"></i>
+                        <span class="text-[10px] uppercase tracking-widest font-bold text-white/80">Foto</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-display font-medium text-white leading-tight mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[50ms]">Creative Shot</h3>
+                    <p class="text-xs md:text-sm text-white/60 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[100ms]">Zobacz na Instagramie</p>
+                </div>
+                <div class="absolute top-8 right-8 p-3 rounded-full glass-dark opacity-100 group-hover:opacity-0 transition-opacity duration-300 text-white">
+                    <i data-lucide="camera" class="w-5 h-5"></i>
+                </div>
+            </a>
+
+            <!-- Item 2 -->
+            <a href="https://www.instagram.com/p/DMQMIqcoN_t/" onclick="openInstagramModal(event, this.href)" target="_blank" class="carousel-item carousel-reveal group relative aspect-[3/4] overflow-hidden rounded-[2.5rem] glass border-black/5 dark:border-white/5" style="transition-delay: 100ms">
+                <img src="Fot2.JPG" alt="Fotografia" class="parallax-img absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 md:p-10">
+                    <div class="flex items-center gap-2 mb-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <i data-lucide="camera" class="w-4 h-4 text-white/80"></i>
+                        <span class="text-[10px] uppercase tracking-widest font-bold text-white/80">Foto</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-display font-medium text-white leading-tight mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[50ms]">Lifestyle Session</h3>
+                    <p class="text-xs md:text-sm text-white/60 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[100ms]">Zobacz na Instagramie</p>
+                </div>
+                <div class="absolute top-8 right-8 p-3 rounded-full glass-dark opacity-100 group-hover:opacity-0 transition-opacity duration-300 text-white">
+                    <i data-lucide="camera" class="w-5 h-5"></i>
+                </div>
+            </a>
+
+            <!-- Item 3 -->
+            <a href="https://www.instagram.com/p/DSnzTG1jDUN/" onclick="openInstagramModal(event, this.href)" target="_blank" class="carousel-item carousel-reveal group relative aspect-[3/4] overflow-hidden rounded-[2.5rem] glass border-black/5 dark:border-white/5" style="transition-delay: 200ms">
+                <img src="Fot3.jpg" alt="Wideo Reel" class="parallax-img absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 md:p-10">
+                    <div class="flex items-center gap-2 mb-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <i data-lucide="play" class="w-4 h-4 text-white/80"></i>
+                        <span class="text-[10px] uppercase tracking-widest font-bold text-white/80">Wideo</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-display font-medium text-white leading-tight mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[50ms]">Nagranie Wideo</h3>
+                    <p class="text-xs md:text-sm text-white/60 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[100ms]">Zobacz na Instagramie</p>
+                </div>
+                <div class="absolute top-8 right-8 p-3 rounded-full glass-dark opacity-100 group-hover:opacity-0 transition-opacity duration-300 text-white">
+                    <i data-lucide="play" class="w-5 h-5"></i>
+                </div>
+            </a>
+
+            <!-- Item 4 -->
+            <a href="https://www.instagram.com/p/DMDY8vlIYNf/" onclick="openInstagramModal(event, this.href)" target="_blank" class="carousel-item carousel-reveal group relative aspect-[3/4] overflow-hidden rounded-[2.5rem] glass border-black/5 dark:border-white/5" style="transition-delay: 300ms">
+                <img src="Fot4.JPG" alt="Fotografia" class="parallax-img absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 md:p-10">
+                    <div class="flex items-center gap-2 mb-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <i data-lucide="camera" class="w-4 h-4 text-white/80"></i>
+                        <span class="text-[10px] uppercase tracking-widest font-bold text-white/80">Foto</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-display font-medium text-white leading-tight mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[50ms]">Portrait Session</h3>
+                    <p class="text-xs md:text-sm text-white/60 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[100ms]">Zobacz na Instagramie</p>
+                </div>
+                <div class="absolute top-8 right-8 p-3 rounded-full glass-dark opacity-100 group-hover:opacity-0 transition-opacity duration-300 text-white">
+                    <i data-lucide="camera" class="w-5 h-5"></i>
+                </div>
+            </a>
+
+            <!-- Item 5 -->
+            <a href="https://www.instagram.com/p/DWKLcicjgB1/?img_index=1" onclick="openInstagramModal(event, this.href)" target="_blank" class="carousel-item carousel-reveal group relative aspect-[3/4] overflow-hidden rounded-[2.5rem] glass border-black/5 dark:border-white/5" style="transition-delay: 400ms">
+                <img src="Fot5.jpg" alt="Fotografia" class="parallax-img absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 md:p-10">
+                    <div class="flex items-center gap-2 mb-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <i data-lucide="camera" class="w-4 h-4 text-white/80"></i>
+                        <span class="text-[10px] uppercase tracking-widest font-bold text-white/80">Foto</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-display font-medium text-white leading-tight mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[50ms]">Professional Shot</h3>
+                    <p class="text-xs md:text-sm text-white/60 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[100ms]">Zobacz na Instagramie</p>
+                </div>
+                <div class="absolute top-8 right-8 p-3 rounded-full glass-dark opacity-100 group-hover:opacity-0 transition-opacity duration-300 text-white">
+                    <i data-lucide="camera" class="w-5 h-5"></i>
+                </div>
+            </a>
+
+            <!-- Item 6 -->
+            <a href="https://www.instagram.com/p/DMDX9MVIOGx/" onclick="openInstagramModal(event, this.href)" target="_blank" class="carousel-item carousel-reveal group relative aspect-[3/4] overflow-hidden rounded-[2.5rem] glass border-black/5 dark:border-white/5" style="transition-delay: 500ms">
+                <img src="Fot6.JPEG" alt="Fotografia" class="parallax-img absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 md:p-10">
+                    <div class="flex items-center gap-2 mb-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <i data-lucide="camera" class="w-4 h-4 text-white/80"></i>
+                        <span class="text-[10px] uppercase tracking-widest font-bold text-white/80">Foto</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-display font-medium text-white leading-tight mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[50ms]">Architecture Shot</h3>
+                    <p class="text-xs md:text-sm text-white/60 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-[100ms]">Zobacz na Instagramie</p>
+                </div>
+                <div class="absolute top-8 right-8 p-3 rounded-full glass-dark opacity-100 group-hover:opacity-0 transition-opacity duration-300 text-white">
+                    <i data-lucide="camera" class="w-5 h-5"></i>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer class="relative py-20 md:py-32 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20">
+            <div class="space-y-10 md:space-y-12 reveal">
+                <div class="space-y-4 md:space-y-6">
+                    <h2 class="text-4xl md:text-7xl font-display font-bold tracking-tight text-gradient leading-tight">Gotowy na <br> współpracę?</h2>
+                    <p class="text-black/40 dark:text-white/40 text-lg md:text-xl font-light max-w-md leading-relaxed">
+                        Jeśli szukasz profesjonalnej produkcji wideo lub sesji zdjęciowej, która wyróżni Twoją markę - napisz do mnie.
+                    </p>
                 </div>
                 
-                <p class="text-sm md:text-base text-slate-500 dark:text-gray-400 mb-12 max-w-lg mx-auto leading-relaxed font-light">
-                    Kierownictwo wizualne, produkcja wideo i precyzyjna fotografia. Tworzę cyfrowe doświadczenia, które łączą emocje z najwyższą estetyką.
-                </p>
-                
-                <div class="magnetic-wrap inline-block p-4 pointer-events-auto">
-                    <a href="https://ig.me/m/szymon.grzeszczak.media" target="_blank" rel="noopener noreferrer" onclick="hapticPulse()"
-                       class="interactive-element magnetic-btn btn-sweep relative inline-flex items-center justify-center px-14 py-6 font-bold text-white transition-all duration-300 bg-slate-950 dark:bg-white/10 backdrop-blur-md border border-white/10 rounded-full focus:outline-none hover:scale-105 hover:shadow-[0_0_50px_rgba(var(--neon-secondary)/0.4)]">
-                        <span class="relative z-10 mr-4 tracking-wider uppercase text-sm">Napisz Wiadomość</span>
-                        <svg class="relative z-10 w-5 h-5 transition-transform group-hover:translate-x-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                <div class="flex flex-col gap-4">
+                    <a href="https://ig.me/m/szymon.grzeszczak.media" target="_blank" class="group flex flex-col sm:flex-row sm:items-center justify-between p-6 md:p-8 glass rounded-[2rem] hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-500 gap-6 instagram-hover">
+                        <div class="flex items-center gap-4 md:gap-6">
+                            <div class="relative">
+                                <div class="p-3 md:p-4 rounded-full bg-black dark:bg-white text-white dark:text-black shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-colors group-hover:bg-white group-hover:text-black">
+                                    <i data-lucide="instagram" class="w-5 h-5 md:w-6 md:h-6"></i>
+                                </div>
+                                <span class="absolute -top-0.5 -right-0.5 flex h-1.5 w-1.5">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF3040] opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF3040]"></span>
+                                </span>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-widest font-bold mb-0.5 md:mb-1 group-hover:text-white/70">Instagram DM</p>
+                                <p class="text-xl md:text-2xl font-display font-semibold group-hover:text-white">@szymon.grzeszczak.media</p>
+                            </div>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="w-6 h-6 text-black/20 dark:text-white/20 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-all hidden sm:block"></i>
                     </a>
                 </div>
             </div>
-        </div>
-    </header>
 
-    <div class="w-full py-6 flex justify-center z-10 relative opacity-50 pointer-events-none">
-        <div class="w-[1px] h-24 bg-gradient-to-b from-transparent via-slate-400 dark:via-white to-transparent"></div>
-    </div>
-
-    <main class="py-16 px-4 sm:px-8 max-w-7xl mx-auto z-10 relative">
-        <div class="grid grid-cols-1 md:grid-cols-12 auto-rows-[300px] gap-6" id="gallery-grid">
-            
-            <a href="https://vimeo.com/115041822" id="video-card" class="glightbox cinematic-crop scroll-trigger interactive-element col-span-1 md:col-span-8 row-span-2 relative block overflow-hidden rounded-[2rem] border border-slate-300 dark:border-white/10 group bg-black tilt-card transition-shadow duration-700" data-tilt-max="2" data-aos="fade-up" onclick="hapticPulse()">
-                <video id="hover-video" class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-0 grayscale group-hover:grayscale-0" src="assets/videos/showreel-preview.mp4" muted loop playsinline></video>
-                <img src="assets/images/video1-thumb.webp" alt="Video" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] grayscale group-hover:grayscale-0 group-hover:scale-110 opacity-70 group-hover:opacity-0 z-0">
+            <div class="flex flex-col justify-between items-start md:items-end text-left md:text-right reveal gap-12 md:gap-8">
+                <div class="space-y-2 md:space-y-4">
+                    <p class="text-[10px] uppercase tracking-[0.4em] font-bold text-black/20 dark:text-white/20">Domena</p>
+                    <p class="text-2xl md:text-3xl font-display font-medium tracking-tight hover:scale-105 transition-transform cursor-default origin-left md:origin-right leading-none">SG.MEDIA.PL</p>
+                </div>
                 
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity z-10"></div>
-                
-                <div class="absolute inset-0 flex items-center justify-center z-10">
-                    <div class="w-24 h-24 bg-white/5 backdrop-blur-lg rounded-full flex items-center justify-center border border-white/20 group-hover:bg-neonSecondary group-hover:scale-110 transition-all duration-500">
-                        <svg class="w-8 h-8 text-white ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <div class="space-y-8 w-full md:w-auto">
+                    <nav class="flex flex-col gap-4 text-black/40 dark:text-white/40 font-medium text-base md:text-lg">
+                        <a href="#" class="hover:text-black dark:hover:text-white transition-colors">Strona główna</a>
+                        <a href="#galeria" class="hover:text-black dark:hover:text-white transition-colors">Portfolio</a>
+                        <a href="https://www.instagram.com/szymon.grzeszczak.media" target="_blank" class="hover:text-black dark:hover:text-white transition-colors">Instagram</a>
+                    </nav>
+                    <div class="pt-8 md:pt-12 border-t border-black/5 dark:border-white/5">
+                        <p class="text-[10px] md:text-xs text-black/20 dark:text-white/20 font-medium tracking-wider">
+                            &copy; <span id="year"></span> Szymon Grzeszczak | SG Media.
+                        </p>
                     </div>
                 </div>
-                <div class="absolute bottom-12 left-12 text-white z-10 transform group-hover:-translate-y-2 transition-transform duration-500 mobile-reveal">
-                    <h3 class="font-display font-black text-5xl mb-2 drop-shadow-lg">SG.media.pl</h3>
-                    <p class="text-sm font-medium tracking-widest text-neonSecondary uppercase drop-shadow-md transition-colors duration-1000">Wideo Produkcja</p>
-                </div>
-            </a>
-
-            <a href="assets/images/foto1.webp" class="glightbox cinematic-crop scroll-trigger interactive-element col-span-1 md:col-span-4 row-span-2 relative block overflow-hidden rounded-[2rem] border border-slate-300 dark:border-white/10 group bg-black tilt-card" data-tilt-max="4" data-aos="fade-up" data-aos-delay="100" onclick="hapticPulse()">
-                <img src="assets/images/foto1-thumb.webp" alt="Foto" class="w-full h-full object-cover grayscale transition-transform duration-[1.5s] group-hover:grayscale-0 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
-            </a>
-
-            <a href="assets/images/foto2.webp" class="glightbox cinematic-crop scroll-trigger interactive-element col-span-1 md:col-span-6 row-span-1 relative block overflow-hidden rounded-[2rem] border border-slate-300 dark:border-white/10 group bg-black tilt-card" data-tilt-max="3" data-aos="fade-up" data-aos-delay="200" onclick="hapticPulse()">
-                <img src="assets/images/foto2-thumb.webp" alt="Foto" class="w-full h-full object-cover grayscale transition-transform duration-[1.5s] group-hover:grayscale-0 group-hover:scale-110 opacity-80 group-hover:opacity-100 2xl:top-[calc(50%_-_(var(--width)_/_2))]">
-            </a>
-
-            <a href="assets/images/foto3.webp" class="glightbox cinematic-crop scroll-trigger interactive-element col-span-1 md:col-span-6 row-span-1 relative block overflow-hidden rounded-[2rem] border border-slate-300 dark:border-white/10 group bg-black tilt-card" data-tilt-max="3" data-aos="fade-up" data-aos-delay="300" onclick="hapticPulse()">
-                <img src="assets/images/foto3-thumb.webp" alt="Foto" class="w-full h-full object-cover grayscale transition-transform duration-[1.5s] group-hover:grayscale-0 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-            </a>
-
-        </div>
-    </main>
-
-    <footer class="pt-24 pb-12 text-center relative z-10 overflow-hidden flex flex-col items-center">
-        <div class="container mx-auto px-6 relative" data-aos="fade-up">
-            <h3 class="font-display text-5xl md:text-8xl font-black mb-12 text-slate-950 dark:text-white uppercase tracking-tighter leading-[1.1]">
-                Zacznijmy <br/>
-                <a href="https://ig.me/m/szymon.grzeszczak.media" target="_blank" rel="noopener noreferrer" onclick="hapticPulse()" class="interactive-element text-transparent bg-clip-text bg-gradient-to-r from-neonPrimary to-neonSecondary hover:from-neonSecondary hover:to-neonAccent transition-all duration-700 relative group inline-block py-2">
-                    Współpracę.
-                    <span class="absolute bottom-0 left-0 w-full h-[6px] bg-neonSecondary transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></span>
-                </a>
-            </h3>
-            
-            <div class="mt-16 flex items-center justify-center font-display text-[11px] md:text-xs font-semibold tracking-[0.25em] text-slate-500 dark:text-gray-500 uppercase border border-slate-300 dark:border-white/10 rounded-full px-6 py-3 bg-white/40 dark:bg-white/5 backdrop-blur-md interactive-element" title="Naciśnij I by otworzyć Instagram">
-                WROCŁAW, PL — <span id="local-time" class="mx-2 text-slate-900 dark:text-white font-bold">00:00</span>
-                <span class="relative flex h-2.5 w-2.5 ml-3 mr-2">
-                  <span class="animate-pulse-fast absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
-                </span>
-                OTWARTY NA PROJEKTY
             </div>
-
-            <p class="text-[10px] text-slate-400 dark:text-gray-600 font-medium tracking-[0.3em] uppercase mt-10 opacity-50">
-                &copy; <script>document.write(new Date().getFullYear())</script> SG.MEDIA.PL | Klawiatura: [D] Tryb, [V] Kolor, [I] IG
-            </p>
         </div>
     </footer>
 
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <!-- Grain Overlay -->
+    <div class="fixed inset-0 pointer-events-none z-[100] opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
     <script>
-        // Haptic Feedback Funkcja
-        function hapticPulse() { if (navigator.vibrate) navigator.vibrate(40); }
+        // Initialize Icons
+        lucide.createIcons();
 
-        // Zegar Lokalny Wrocław
-        function updateLocalTime() {
-            const timeEl = document.getElementById('local-time');
-            if(!timeEl) return;
-            const now = new Date();
-            const options = { timeZone: 'Europe/Warsaw', hour: '2-digit', minute: '2-digit' };
-            timeEl.innerText = now.toLocaleTimeString('pl-PL', options);
-        }
-        setInterval(updateLocalTime, 1000);
-        updateLocalTime();
+        // Current Year
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-        function showToast(msg) {
-            const toast = document.getElementById('shortcut-toast');
-            if(!toast) return;
-            toast.innerText = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        // Check for saved theme or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
         }
 
-        // PRELOADER & INIT
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // Inicjalizacja Pyłków (tylko z ruchem)
-            if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                const container = document.getElementById('particles-container');
-                for(let i=0; i<25; i++) {
-                    let p = document.createElement('div');
-                    p.className = 'dust-particle animate-dust';
-                    p.style.width = Math.random() * 4 + 1 + 'px';
-                    p.style.height = p.style.width;
-                    p.style.left = Math.random() * 100 + 'vw';
-                    p.style.top = Math.random() * 100 + 'vh';
-                    p.style.animationDelay = Math.random() * 5 + 's';
-                    p.style.animationDuration = Math.random() * 10 + 10 + 's';
-                    container.appendChild(p);
-                }
-            }
-
-            // Preloader Animation
-            let counter = 0;
-            const loaderCounter = document.getElementById('loader-counter');
-            const loaderBar = document.getElementById('loader-bar');
-            const preloader = document.getElementById('preloader');
-            const preloaderContent = document.getElementById('preloader-content');
-            
-            const interval = setInterval(() => {
-                counter += Math.floor(Math.random() * 10) + 1;
-                if(counter >= 100) {
-                    counter = 100;
-                    clearInterval(interval);
-                    
-                    preloaderContent.style.opacity = '0';
-                    setTimeout(() => {
-                        preloader.classList.add('preloader-hidden');
-                        setTimeout(() => preloader.style.display = 'none', 1200);
-                        initRest(); 
-                    }, 400);
-                }
-                loaderCounter.innerText = counter + '%';
-                loaderBar.style.width = counter + '%';
-            }, 30);
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', currentTheme);
+            lucide.createIcons(); // Re-render icons for visibility
         });
 
-        function initRest() {
-            // THEME TOGGLE LOGIC
-            const slider = document.getElementById('theme-slider');
-            const lightBtn = document.getElementById('theme-light-btn');
-            const darkBtn = document.getElementById('theme-dark-btn');
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress").style.width = scrolled + "%";
+        });
 
-            function updateThemeUI() {
-                if (document.documentElement.classList.contains('dark')) {
-                    slider.style.transform = 'translateX(36px)';
-                    darkBtn.classList.replace('text-slate-400', 'text-white');
-                    darkBtn.classList.replace('text-slate-900', 'text-white');
-                    lightBtn.classList.replace('text-slate-900', 'text-slate-400');
-                    lightBtn.classList.replace('text-white', 'text-slate-400');
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+                
+                try {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                } catch (err) {
+                    // Ignore invalid selectors
+                }
+            });
+        });
+
+        // Carousel Navigation & Auto-scroll
+        const carousel = document.getElementById('carousel');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        if (carousel) {
+            const scrollAmount = 400;
+            if (prevBtn) prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+            if (nextBtn) nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+
+            // Auto-scroll logic
+            let scrollDirection = 1; // 1 for forward, -1 for backward
+            const scrollSpeed = 0.3; // pixels per frame
+            let currentScrollPos = carousel.scrollLeft;
+            let isAutoScrolling = true;
+            let interactionTimeout;
+
+            function autoScroll() {
+                if (isAutoScrolling) {
+                    const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+                    if (maxScrollLeft > 0) {
+                        currentScrollPos += scrollDirection * scrollSpeed;
+
+                        if (scrollDirection === 1 && currentScrollPos >= maxScrollLeft - 1) {
+                            scrollDirection = -1;
+                            currentScrollPos = maxScrollLeft;
+                        } else if (scrollDirection === -1 && currentScrollPos <= 1) {
+                            scrollDirection = 1;
+                            currentScrollPos = 0;
+                        }
+                        
+                        carousel.scrollLeft = currentScrollPos;
+                    }
                 } else {
-                    slider.style.transform = 'translateX(0)';
-                    lightBtn.classList.replace('text-slate-400', 'text-slate-900');
-                    lightBtn.classList.replace('text-white', 'text-slate-900');
-                    darkBtn.classList.replace('text-slate-900', 'text-slate-400');
-                    darkBtn.classList.replace('text-white', 'text-slate-400');
+                    // Keep currentScrollPos in sync with manual scrolling
+                    currentScrollPos = carousel.scrollLeft;
                 }
-            }
-            updateThemeUI(); 
-
-            lightBtn.addEventListener('click', () => {
-                document.documentElement.classList.remove('dark'); localStorage.setItem('color-theme', 'light'); updateThemeUI();
-            });
-
-            darkBtn.addEventListener('click', () => {
-                document.documentElement.classList.add('dark'); localStorage.setItem('color-theme', 'dark'); updateThemeUI();
-            });
-
-            // VIBE SWITCHER LOGIC
-            const vibes = ['cyber', 'matrix', 'dune'];
-            const vibeBtn = document.getElementById('vibe-btn');
-            vibeBtn.addEventListener('click', () => {
-                let currentVibe = document.documentElement.getAttribute('data-vibe') || 'cyber';
-                let nextIdx = (vibes.indexOf(currentVibe) + 1) % vibes.length;
-                let nextVibe = vibes[nextIdx];
-                document.documentElement.setAttribute('data-vibe', nextVibe);
-                localStorage.setItem('site-vibe', nextVibe);
-                showToast("KOLORYSTYKA: " + nextVibe.toUpperCase());
-            });
-
-            // KLAWISZOWE SKRÓTY (PRO SHORTCUTS)
-            document.addEventListener('keydown', (e) => {
-                if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-                
-                if(e.key.toLowerCase() === 'd') { // Theme
-                    hapticPulse();
-                    if(document.documentElement.classList.contains('dark')) {
-                        document.documentElement.classList.remove('dark'); localStorage.setItem('color-theme', 'light'); showToast("Jasny Motyw");
-                    } else {
-                        document.documentElement.classList.add('dark'); localStorage.setItem('color-theme', 'dark'); showToast("Ciemny Motyw");
-                    }
-                    updateThemeUI();
-                }
-                
-                if(e.key.toLowerCase() === 'i') { // IG
-                    showToast("Otwieram Instagram...");
-                    setTimeout(()=> window.open('https://ig.me/m/szymon.grzeszczak.media', '_blank'), 500);
-                }
-
-                if(e.key.toLowerCase() === 'v') { // Vibe
-                    hapticPulse(); vibeBtn.click();
-                }
-            });
-
-            // VIDEO HOVER LOGIC
-            const videoCard = document.getElementById('video-card');
-            const hoverVideo = document.getElementById('hover-video');
-            if(videoCard && hoverVideo) {
-                videoCard.addEventListener('mouseenter', () => hoverVideo.play().catch(e => console.log('Wgraj plik showreel-preview.mp4')));
-                videoCard.addEventListener('mouseleave', () => { hoverVideo.pause(); hoverVideo.currentTime = 0; });
+                requestAnimationFrame(autoScroll);
             }
 
-            // Typed.js
-            new Typed('#typed-text', {
-                strings: ['Opowiadam obrazem.', 'Kształtuję światło.', 'Zatrzymuję moment.', 'Definiuję styl.'],
-                typeSpeed: 40, backSpeed: 20, backDelay: 2000, startDelay: 500, loop: true, showCursor: true, cursorChar: '|'
-            });
+            // Keep currentScrollPos in sync with manual scrolling
+            carousel.addEventListener('scroll', () => {
+                if (!isAutoScrolling) {
+                    currentScrollPos = carousel.scrollLeft;
+                }
+            }, { passive: true });
 
-            // Text Stagger Animation
-            const title = document.getElementById('stagger-title');
-            const text = title.innerText;
-            title.innerHTML = '';
-            text.split('').forEach((char, i) => {
-                let span = document.createElement('span');
-                span.className = 'char';
-                span.innerHTML = char === ' ' ? '&nbsp;' : char;
-                title.appendChild(span);
-                setTimeout(() => span.classList.add('visible'), i * 50 + 200); 
-            });
+            // Start auto-scroll
+            autoScroll();
 
-            // AOS & GLightbox
-            AOS.init({ once: true, offset: 50, duration: 1200, easing: 'ease-out-cubic' });
-            GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true, zoomable: false });
+            // Pause on interaction
+            const pauseAutoScroll = () => {
+                isAutoScrolling = false;
+                carousel.style.scrollSnapType = 'x proximity';
+                clearTimeout(interactionTimeout);
+            };
+            
+            const resumeAutoScroll = () => {
+                clearTimeout(interactionTimeout);
+                interactionTimeout = setTimeout(() => {
+                    carousel.style.scrollSnapType = 'none';
+                    isAutoScrolling = true;
+                }, 1500); // Resume after 1.5s of inactivity
+            };
 
-            // Zoptymalizowane wykrywanie najechania dla kursora
-            if(window.matchMedia("(pointer: fine)").matches) {
-                const body = document.body;
-                const cursorDot = document.querySelector('.cursor-dot');
-                const cursorRing = document.querySelector('.cursor-ring');
-                const progressCircle = document.querySelector('.cursor-ring .progress');
-                const backlight = document.getElementById('hero-backlight');
-                const glassPanel = document.querySelector('.glass-panel');
-                const circumference = 48 * 2 * Math.PI; 
+            // Initial state
+            carousel.style.scrollSnapType = 'none';
+            
+            carousel.addEventListener('mouseenter', pauseAutoScroll);
+            carousel.addEventListener('mouseleave', resumeAutoScroll);
+            carousel.addEventListener('touchstart', pauseAutoScroll, { passive: true });
+            carousel.addEventListener('touchend', resumeAutoScroll);
+            
+            // Pause when manual buttons are used and resume after timeout
+            const handleButtonClick = () => {
+                pauseAutoScroll();
+                resumeAutoScroll();
+            };
 
-                window.addEventListener('mousemove', (e) => {
-                    const posX = e.clientX, posY = e.clientY;
-                    cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
-                    cursorRing.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 250, fill: "forwards" });
+            if (prevBtn) prevBtn.addEventListener('click', handleButtonClick);
+            if (nextBtn) nextBtn.addEventListener('click', handleButtonClick);
+        }
+
+        // Entrance Animation & Reveal Logic
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            const loaderPercent = document.getElementById('loader-percent');
+            const progressBar = document.getElementById('loader-progress-bar');
+            let percent = 0;
+            
+            // Simulate loading progress
+            const interval = setInterval(() => {
+                percent += Math.floor(Math.random() * 15) + 5;
+                if (percent >= 100) {
+                    percent = 100;
+                    clearInterval(interval);
                     
-                    if(glassPanel && backlight) {
-                        const rect = glassPanel.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        backlight.style.left = `${x - 200}px`; 
-                        backlight.style.top = `${y - 200}px`;
+                    setTimeout(() => {
+                        preloader.classList.add('loaded');
+                        document.body.classList.remove('overflow-hidden');
+                        
+                        // Trigger reveal animations for hero section
+                        setTimeout(() => {
+                            document.querySelectorAll('.reveal, .scale-reveal').forEach(el => {
+                                if (el.closest('section:first-of-type') || el.closest('nav')) {
+                                    el.classList.add('active');
+                                }
+                            });
+                        }, 600);
+
+                        // Remove preloader from DOM after animation
+                        setTimeout(() => {
+                            preloader.style.display = 'none';
+                        }, 2000);
+                    }, 300);
+                }
+                if (loaderPercent) loaderPercent.textContent = `${percent}%`;
+                if (progressBar) progressBar.style.width = `${percent}%`;
+            }, 80);
+        });
+
+        // Intersection Observer for scroll animations
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal, .scale-reveal, .carousel-reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Parallax effect for carousel items
+        const carouselEl = document.getElementById('carousel');
+        if (carouselEl) {
+            const updateParallax = () => {
+                const items = carouselEl.querySelectorAll('.carousel-item');
+                const carouselRect = carouselEl.getBoundingClientRect();
+                const carouselCenter = carouselRect.left + carouselRect.width / 2;
+
+                items.forEach(item => {
+                    const itemRect = item.getBoundingClientRect();
+                    const itemCenter = itemRect.left + itemRect.width / 2;
+                    const distanceFromCenter = itemCenter - carouselCenter;
+                    const parallaxImg = item.querySelector('.parallax-img');
+                    
+                    if (parallaxImg) {
+                        // Move image slightly based on distance from center
+                        const moveX = distanceFromCenter * 0.05; // Reduced from 0.08 to prevent background reveal
+                        parallaxImg.style.setProperty('--parallax-x', `${moveX}px`);
                     }
                 });
+            };
 
-                document.addEventListener('mouseover', (e) => {
-                    if(e.target.closest('a, button, .interactive-element')) body.classList.add('cursor-hover');
-                });
-                document.addEventListener('mouseout', (e) => {
-                    if(e.target.closest('a, button, .interactive-element')) body.classList.remove('cursor-hover');
-                });
+            carouselEl.addEventListener('scroll', updateParallax, { passive: true });
+            
+            // Initial update
+            updateParallax();
 
-                window.addEventListener('scroll', () => {
-                    const scrollTotal = document.documentElement.scrollTop;
-                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                    const scrollPercent = scrollTotal / height;
-                    progressCircle.style.strokeDashoffset = circumference - (scrollPercent * circumference);
+            // 3D Tilt Effect on Hover
+            carouselEl.querySelectorAll('.carousel-item').forEach(item => {
+                item.addEventListener('mousemove', (e) => {
+                    const rect = item.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
                     
-                    if (scrollPercent > 0.02) { body.classList.add('cursor-scrolled'); cursorRing.style.opacity = '1'; } 
-                    else { body.classList.remove('cursor-scrolled'); cursorRing.style.opacity = '0'; }
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 15;
+                    const rotateY = (centerX - x) / 15;
+                    
+                    item.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
                 });
+                
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = '';
+                });
+            });
+        }
 
-                // Magnetic Button
-                document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
-                    const btn = wrap.querySelector('.magnetic-btn');
-                    wrap.addEventListener('mousemove', (e) => {
-                        const pos = wrap.getBoundingClientRect();
-                        const x = (e.clientX - pos.left - pos.width / 2) * 0.3;
-                        const y = (e.clientY - pos.top - pos.height / 2) * 0.3;
-                        btn.style.transform = `translate(${x}px, ${y}px)`;
-                    });
-                    wrap.addEventListener('mouseleave', () => btn.style.transform = `translate(0px, 0px)`);
-                });
-            } else {
-                // Mobile Scroll Triggers
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) entry.target.classList.add('mobile-hover-active');
-                        else entry.target.classList.remove('mobile-hover-active');
-                    });
-                }, { threshold: 0.6 });
-                document.querySelectorAll('.scroll-trigger').forEach(el => observer.observe(el));
-            }
+        // Instagram Modal Logic
+        function openInstagramModal(event, url) {
+            event.preventDefault();
+            const modal = document.getElementById('instagram-modal');
+            const confirmLink = document.getElementById('modal-confirm-link');
+            confirmLink.href = url;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
 
-            // Vanilla Tilt (Smartphone Gyroscope)
-            if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                VanillaTilt.init(document.querySelectorAll(".tilt-card"), { 
-                    max: 3, speed: 600, glare: true, "max-glare": 0.1,
-                    gyroscope: true, gyroscopeMinAngleX: -20, gyroscopeMaxAngleX: 20, gyroscopeMinAngleY: -20, gyroscopeMaxAngleY: 20   
-                });
-            }
+        function closeModal() {
+            const modal = document.getElementById('instagram-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
     </script>
 </body>
 </html>
+
